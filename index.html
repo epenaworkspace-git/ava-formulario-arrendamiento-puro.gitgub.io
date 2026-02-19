@@ -157,7 +157,15 @@
   .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
   .declaration-firma { color: var(--blue); font-weight: 500; }
 
-  .grecaptcha-badge { visibility: hidden !important; }
+  .grecaptcha-badge {
+    visibility: visible !important;
+    opacity: 1 !important;
+    bottom: 100px !important;
+    right: 16px !important;
+    box-shadow: 0 4px 18px rgba(10,31,68,0.18) !important;
+    border-radius: 8px !important;
+    z-index: 9999 !important;
+  }
   .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.6; }
   .recaptcha-notice a { color: var(--blue); text-decoration: none; }
 
@@ -579,7 +587,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong>privacidad@finbeabc.com.mx</strong>
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e797958e9186848e838683a7818e898582868584c984888ac98a9f">[email&#160;protected]</a></strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
@@ -623,7 +631,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // =============================================================
 // reCAPTCHA v3 — PATRON CORRECTO
 // El script fue cargado SINCRONAMENTE en el <head> (sin async/defer).
@@ -936,8 +944,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <!-- reCAPTCHA v3: cargado async con onload callback.
-     El script llama initRecaptcha() cuando el API esta lista.
-     initRecaptcha() ya esta definida en el JS inline de arriba. -->
-<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
-</body>
-</html>
+     El script llama initRecaptcha() cuando el API esta
