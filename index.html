@@ -93,6 +93,8 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .mini-table td{padding:7px 10px;border-bottom:1px solid var(--gray-200);}
 .mini-table td input,.mini-table td select{background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dark);width:100%;}
 .mini-table td input:focus{border-bottom:1.5px solid var(--blue);}
+.mini-table td input.input-error{border-bottom:2px solid var(--error)!important;background:rgba(255,71,87,0.06)!important;color:var(--error);}
+body.dark-mode .mini-table td input.input-error{background:rgba(255,71,87,0.12)!important;}
 .mini-table tr:last-child td{border-bottom:none;}
 .add-row-btn{margin-top:10px;background:transparent;border:1.5px dashed var(--gray-400);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-500);cursor:pointer;transition:all 0.2s;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
 .add-row-btn:hover{border-color:var(--blue);color:var(--blue);}
@@ -375,26 +377,26 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
         <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com" required></div>
       </div>
 
-      <div class="sub-section-label">Principales Clientes</div>
-      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
+      <div class="sub-section-label">Principales Clientes <span class="req">*</span></div>
+      <table class="mini-table"><thead><tr><th>Nombre *</th><th>Teléfono *</th><th>% Ventas *</th><th>Contacto *</th></tr></thead>
       <tbody id="tblClientesPF">
-        <tr><td><input type="text" name="C1_nombre"></td><td><input type="tel" name="C1_tel"></td><td><input type="number" name="C1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C1_contacto"></td></tr>
-        <tr><td><input type="text" name="C2_nombre"></td><td><input type="tel" name="C2_tel"></td><td><input type="number" name="C2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C2_contacto"></td></tr>
+        <tr><td><input type="text" name="C1_nombre" class="tbl-req" required></td><td><input type="tel" name="C1_tel" class="tbl-req" required></td><td><input type="number" name="C1_pct" class="tbl-req" placeholder="%" min="0" max="100" required></td><td><input type="text" name="C1_contacto" class="tbl-req" required></td></tr>
+        <tr><td><input type="text" name="C2_nombre" class="tbl-req" required></td><td><input type="tel" name="C2_tel" class="tbl-req" required></td><td><input type="number" name="C2_pct" class="tbl-req" placeholder="%" min="0" max="100" required></td><td><input type="text" name="C2_contacto" class="tbl-req" required></td></tr>
       </tbody></table>
       <button type="button" class="add-row-btn" onclick="addRow('tblClientesPF')">+ Agregar cliente</button>
 
-      <div class="sub-section-label">Principales Proveedores</div>
-      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
-      <tbody>
-        <tr><td><input type="text" name="P1_nombre"></td><td><input type="tel" name="P1_tel"></td><td><input type="number" name="P1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P1_contacto"></td></tr>
-        <tr><td><input type="text" name="P2_nombre"></td><td><input type="tel" name="P2_tel"></td><td><input type="number" name="P2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P2_contacto"></td></tr>
+      <div class="sub-section-label">Principales Proveedores <span class="req">*</span></div>
+      <table class="mini-table"><thead><tr><th>Nombre *</th><th>Teléfono *</th><th>% Compras *</th><th>Contacto *</th></tr></thead>
+      <tbody id="tblProveedoresPF">
+        <tr><td><input type="text" name="P1_nombre" class="tbl-req" required></td><td><input type="tel" name="P1_tel" class="tbl-req" required></td><td><input type="number" name="P1_pct" class="tbl-req" placeholder="%" min="0" max="100" required></td><td><input type="text" name="P1_contacto" class="tbl-req" required></td></tr>
+        <tr><td><input type="text" name="P2_nombre" class="tbl-req" required></td><td><input type="tel" name="P2_tel" class="tbl-req" required></td><td><input type="number" name="P2_pct" class="tbl-req" placeholder="%" min="0" max="100" required></td><td><input type="text" name="P2_contacto" class="tbl-req" required></td></tr>
       </tbody></table>
 
-      <div class="sub-section-label">Primer Cuadro Directivo</div>
-      <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años exp.</th></tr></thead>
-      <tbody>
-        <tr><td><input type="text" name="D1_nombre"></td><td><input type="text" name="D1_cargo"></td><td><input type="number" name="D1_exp" min="0"></td></tr>
-        <tr><td><input type="text" name="D2_nombre"></td><td><input type="text" name="D2_cargo"></td><td><input type="number" name="D2_exp" min="0"></td></tr>
+      <div class="sub-section-label">Primer Cuadro Directivo <span class="req">*</span></div>
+      <table class="mini-table"><thead><tr><th>Nombre completo *</th><th>Cargo *</th><th>Años exp. *</th></tr></thead>
+      <tbody id="tblDirectivosPF">
+        <tr><td><input type="text" name="D1_nombre" class="tbl-req" required></td><td><input type="text" name="D1_cargo" class="tbl-req" required></td><td><input type="number" name="D1_exp" class="tbl-req" min="0" required></td></tr>
+        <tr><td><input type="text" name="D2_nombre" class="tbl-req" required></td><td><input type="text" name="D2_cargo" class="tbl-req" required></td><td><input type="number" name="D2_exp" class="tbl-req" min="0" required></td></tr>
       </tbody></table>
     </div>
 
@@ -727,9 +729,9 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
         <div class="success-info-text">
           <strong>Contacto directo</strong>
           <div class="success-contact-list">
-            <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
+            <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 5525374608</a></div>
             <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
-            <div class="success-contact-item">💬 <a href="https://wa.me/5215525374608" target="_blank">WhatsApp disponible</a></div>
+            <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
       </div>
