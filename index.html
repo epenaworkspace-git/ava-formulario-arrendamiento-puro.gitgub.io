@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<!-- reCAPTCHA v3: cargado async con callback onload correcto -->
 <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 <style>
   :root {
@@ -79,6 +78,14 @@
   .field-input::placeholder { color: var(--gray-400); }
   select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
   textarea.field-input { resize: vertical; min-height: 80px; }
+
+  /* Validation error state */
+  .field-input.input-error { border-color: var(--error) !important; background: rgba(255,71,87,0.04) !important; box-shadow: 0 0 0 3px rgba(255,71,87,0.12) !important; animation: shakeField 0.35s ease; }
+  @keyframes shakeField { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 80%{transform:translateX(-3px)} }
+  .tel-combo.input-error { border-color: var(--error) !important; background: rgba(255,71,87,0.04) !important; box-shadow: 0 0 0 3px rgba(255,71,87,0.12) !important; animation: shakeField 0.35s ease; }
+  .check-group.input-error, .radio-group.input-error { padding: 8px; border-radius: 10px; border: 1.5px solid var(--error); background: rgba(255,71,87,0.04); animation: shakeField 0.35s ease; }
+  .error-msg { font-size: 11px; color: var(--error); margin-top: 3px; display: none; }
+  .error-msg.show { display: block; }
 
   /* TEL COMBO */
   .tel-combo { display: flex; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gray-200); background: var(--gray-100); transition: border-color 0.22s, box-shadow 0.22s, background 0.22s; }
@@ -158,157 +165,34 @@
   .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
   .declaration-firma { color: var(--blue); font-weight: 500; }
 
-  /* reCAPTCHA badge visible y bien posicionado */
-  .grecaptcha-badge {
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: block !important;
-  }
+  .grecaptcha-badge { visibility: visible !important; opacity: 1 !important; display: block !important; }
 
   .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.6; }
   .recaptcha-notice a { color: var(--blue); text-decoration: none; }
 
   /* ===================== SUCCESS MODAL ===================== */
-  .success-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(8,18,42,0.75);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 9000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
+  .success-overlay { display: none; position: fixed; inset: 0; background: rgba(8,18,42,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 9000; align-items: center; justify-content: center; padding: 20px; }
   .success-overlay.show { display: flex; }
-
-  .success-card {
-    background: #ffffff;
-    border-radius: 28px;
-    padding: 0;
-    text-align: center;
-    width: 100%;
-    max-width: 440px;
-    box-shadow: 0 32px 80px rgba(10,31,68,0.28), 0 8px 24px rgba(10,31,68,0.12);
-    animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
-    overflow: hidden;
-  }
+  .success-card { background: #ffffff; border-radius: 28px; padding: 0; text-align: center; width: 100%; max-width: 440px; box-shadow: 0 32px 80px rgba(10,31,68,0.28), 0 8px 24px rgba(10,31,68,0.12); animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1); overflow: hidden; }
   @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
-  .success-header {
-    background: linear-gradient(135deg, #0A1F44 0%, #0e2a60 100%);
-    padding: 40px 40px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-  .success-header::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(22,93,255,0.35) 0%, transparent 70%);
-  }
-  .success-header::after {
-    content: '';
-    position: absolute;
-    bottom: -30px; left: -30px;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(22,93,255,0.2) 0%, transparent 70%);
-  }
-
-  .success-checkmark {
-    width: 72px; height: 72px;
-    background: linear-gradient(135deg, #165DFF, #0FC373);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 8px 24px rgba(15,195,115,0.4);
-    animation: checkPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-  }
+  .success-header { background: linear-gradient(135deg, #0A1F44 0%, #0e2a60 100%); padding: 40px 40px 36px; position: relative; overflow: hidden; }
+  .success-header::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.35) 0%, transparent 70%); }
+  .success-header::after { content: ''; position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.2) 0%, transparent 70%); }
+  .success-checkmark { width: 72px; height: 72px; background: linear-gradient(135deg, #165DFF, #0FC373); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; position: relative; z-index: 1; box-shadow: 0 8px 24px rgba(15,195,115,0.4); animation: checkPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
   @keyframes checkPop { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0deg); } }
   .success-checkmark svg { width: 36px; height: 36px; }
-
-  .success-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 1;
-  }
-  .success-subtitle {
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 600;
-    position: relative;
-    z-index: 1;
-  }
-
-  .success-body {
-    padding: 32px 36px;
-  }
-
-  .success-info-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #F4F6FB;
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 12px;
-    text-align: left;
-  }
-  .success-info-icon {
-    width: 36px; height: 36px;
-    background: rgba(22,93,255,0.1);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
+  .success-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #ffffff; margin-bottom: 8px; position: relative; z-index: 1; }
+  .success-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; position: relative; z-index: 1; }
+  .success-body { padding: 32px 36px; }
+  .success-info-row { display: flex; align-items: center; gap: 12px; background: #F4F6FB; border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; text-align: left; }
+  .success-info-icon { width: 36px; height: 36px; background: rgba(22,93,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .success-info-icon svg { width: 18px; height: 18px; }
   .success-info-text { font-size: 13px; color: #6B7A99; line-height: 1.5; }
   .success-info-text strong { display: block; color: #333; font-size: 14px; font-weight: 600; margin-bottom: 1px; }
-
   .success-divider { height: 1px; background: #E8ECF4; margin: 20px 0; }
-
-  .success-close-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #165DFF, #0e46cc);
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 16px 28px;
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.25s;
-    letter-spacing: 0.3px;
-    box-shadow: 0 6px 20px rgba(22,93,255,0.35);
-  }
-  .success-close-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(22,93,255,0.5);
-  }
+  .success-close-btn { width: 100%; background: linear-gradient(135deg, #165DFF, #0e46cc); color: #fff; border: none; border-radius: 14px; padding: 16px 28px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; letter-spacing: 0.3px; box-shadow: 0 6px 20px rgba(22,93,255,0.35); }
+  .success-close-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.5); }
   .success-close-btn:active { transform: scale(0.98); }
-
-  /* Dark mode modal */
-  body.dark-mode .success-card { background: #111c33; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
-  body.dark-mode .success-header { background: linear-gradient(135deg, #061022 0%, #0d1f45 100%); }
-  body.dark-mode .success-info-row { background: #162040; }
-  body.dark-mode .success-info-text { color: #7a8fb0; }
-  body.dark-mode .success-info-text strong { color: #d0d8ec; }
-  body.dark-mode .success-divider { background: #243660; }
 
   @keyframes pulseError { 0%,100% { border-color: var(--gray-200); } 50% { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); } }
   .pulse-error { animation: pulseError 0.5s ease 2; }
@@ -317,166 +201,57 @@
   .whatsapp-float:hover { transform: scale(1.12) translateY(-3px); box-shadow: 0 16px 36px rgba(37,211,102,0.55); }
   .whatsapp-icon { width: 30px; height: 30px; }
 
-  /* Section icon SVG container */
   .section-icon-svg { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; }
 
   /* ===================== THEME TOGGLE BUTTON ===================== */
-  .theme-toggle-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 2000;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #e8ecf4, #d0d6e8);
-    box-shadow:
-      0 6px 20px rgba(0,0,0,0.18),
-      inset 0 -2px 4px rgba(0,0,0,0.15),
-      inset 0 2px 4px rgba(255,255,255,0.9);
-    cursor: pointer;
-    border: none;
-    outline: none;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    animation: subtlePulse 3s infinite ease-in-out;
-  }
-  .theme-toggle-btn::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
+  .theme-toggle-btn { position: fixed; top: 20px; right: 20px; z-index: 2000; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(145deg, #e8ecf4, #d0d6e8); box-shadow: 0 6px 20px rgba(0,0,0,0.18), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.9); cursor: pointer; border: none; outline: none; overflow: hidden; transition: all 0.3s ease; animation: subtlePulse 3s infinite ease-in-out; }
+  .theme-toggle-btn::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
   .theme-toggle-btn:hover::before { opacity: 1; }
-  .theme-toggle-btn:hover {
-    animation: none;
-    transform: scale(1.08);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,1);
-  }
+  .theme-toggle-btn:hover { animation: none; transform: scale(1.08); box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,1); }
   .theme-toggle-btn:active { transform: scale(0.94); }
   @keyframes subtlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
-  .toggle-icon-wrap {
-    position: relative;
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-  }
+  .toggle-icon-wrap { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1); }
   .theme-toggle-btn:hover .toggle-icon-wrap { transform: rotate(20deg); }
-  .icon-sun, .icon-moon {
-    position: absolute;
-    width: 28px; height: 28px;
-    transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);
-  }
+  .icon-sun, .icon-moon { position: absolute; width: 28px; height: 28px; transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55); }
   .icon-sun  { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.6)); }
   .icon-moon { opacity: 0; transform: scale(0.4) rotate(-80deg); filter: drop-shadow(0 0 4px rgba(100,120,255,0.6)); }
   body.dark-mode .icon-sun  { opacity: 0; transform: scale(0.4) rotate(80deg); }
   body.dark-mode .icon-moon { opacity: 1; transform: scale(1) rotate(0deg); }
-  body.dark-mode .theme-toggle-btn {
-    background: linear-gradient(145deg, #1e2d50, #0f1d38);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 15px rgba(65,105,225,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
-  }
+  body.dark-mode .theme-toggle-btn { background: linear-gradient(145deg, #1e2d50, #0f1d38); box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 15px rgba(65,105,225,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06); }
 
-  /* ===================== DARK MODE VARIABLES ===================== */
-  body.dark-mode {
-    --navy: #1a2d56;
-    --blue: #4d8aff;
-    --blue-light: #6ba3ff;
-    --white: #e8edf8;
-    --dark: #d0d8ec;
-    --gray-100: #111827;
-    --gray-200: #1e2d45;
-    --gray-400: #4a5878;
-    --gray-500: #7a8fb0;
-    --card-bg: rgba(17,28,50,0.97);
-    --shadow: 0 8px 40px rgba(0,0,0,0.35);
-    --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
-    background: #0c1525;
-  }
-
-  /* Dark mode: header stays deep navy */
+  /* ===================== DARK MODE ===================== */
+  body.dark-mode { --navy: #1a2d56; --blue: #4d8aff; --blue-light: #6ba3ff; --white: #e8edf8; --dark: #d0d8ec; --gray-100: #111827; --gray-200: #1e2d45; --gray-400: #4a5878; --gray-500: #7a8fb0; --card-bg: rgba(17,28,50,0.97); --shadow: 0 8px 40px rgba(0,0,0,0.35); --shadow-lg: 0 20px 60px rgba(0,0,0,0.5); background: #0c1525; }
   body.dark-mode .header { background: #061022; }
-
-  /* Dark mode: form cards */
-  body.dark-mode .form-card,
-  body.dark-mode .submit-area {
-    background: #111c33;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-  }
-
-  /* Dark mode: section headers */
+  body.dark-mode .form-card, body.dark-mode .submit-area { background: #111c33; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
   body.dark-mode .section-header { background: #0d1d3a; border-bottom: 1px solid #1e3060; }
-
-  /* Dark mode: section body bg */
   body.dark-mode .section-body { background: #111c33; }
-
-  /* Dark mode: inputs */
-  body.dark-mode .field-input {
-    background: #162040;
-    border-color: #243660;
-    color: #d0d8ec;
-  }
-  body.dark-mode .field-input:focus {
-    background: #1a2850;
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(77,138,255,0.15);
-  }
+  body.dark-mode .field-input { background: #162040; border-color: #243660; color: #d0d8ec; }
+  body.dark-mode .field-input:focus { background: #1a2850; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(77,138,255,0.15); }
   body.dark-mode .field-input::placeholder { color: #4a5878; }
-
-  /* Dark mode: select dropdown arrow color */
-  body.dark-mode select.field-input {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  }
-
-  /* Dark mode: tel combo */
+  body.dark-mode select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
   body.dark-mode .tel-combo { background: #162040; border-color: #243660; }
   body.dark-mode .tel-combo:focus-within { background: #1a2850; border-color: var(--blue); }
   body.dark-mode .lada-select { background-color: rgba(10,20,50,0.5); color: #a0b0d0; border-right-color: #243660; }
   body.dark-mode .lada-select:focus { background-color: rgba(77,138,255,0.1); }
   body.dark-mode .tel-number { color: #d0d8ec; }
-
-  /* Dark mode: radio / check pills */
-  body.dark-mode .radio-pill,
-  body.dark-mode .check-pill {
-    background: #162040;
-    border-color: #243660;
-    color: #7a8fb0;
-  }
-  body.dark-mode .radio-pill:hover,
-  body.dark-mode .check-pill:hover { border-color: var(--blue); color: var(--blue); }
-  body.dark-mode .radio-pill.selected,
-  body.dark-mode .check-pill.selected { background: rgba(77,138,255,0.12); border-color: var(--blue); color: var(--blue); }
-
-  /* Dark mode: type selector cards */
+  body.dark-mode .radio-pill, body.dark-mode .check-pill { background: #162040; border-color: #243660; color: #7a8fb0; }
+  body.dark-mode .radio-pill:hover, body.dark-mode .check-pill:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark-mode .radio-pill.selected, body.dark-mode .check-pill.selected { background: rgba(77,138,255,0.12); border-color: var(--blue); color: var(--blue); }
   body.dark-mode .type-btn { background: #111c33; border-color: #1e2d45; }
   body.dark-mode .type-btn:hover { border-color: var(--blue-light); box-shadow: 0 12px 40px rgba(77,138,255,0.18); }
   body.dark-mode .type-btn.active { background: #0d1d3a; border-color: var(--blue); }
   body.dark-mode .type-label { color: #d0d8ec; }
   body.dark-mode .type-desc { color: #7a8fb0; }
-
-  /* Dark mode: req banner */
   body.dark-mode .req-banner { background: linear-gradient(135deg, #0d1d3a 0%, #091630 100%); }
-
-  /* Dark mode: mini table */
   body.dark-mode .mini-table th { background: #162040; color: #7a8fb0; border-bottom-color: #243660; }
   body.dark-mode .mini-table td { border-bottom-color: #243660; }
-  body.dark-mode .mini-table td input,
-  body.dark-mode .mini-table td select { color: #d0d8ec; }
+  body.dark-mode .mini-table td input, body.dark-mode .mini-table td select { color: #d0d8ec; }
   body.dark-mode .mini-table td input:focus { border-bottom-color: var(--blue); }
-
-  /* Dark mode: add-row button */
   body.dark-mode .add-row-btn { border-color: #4a5878; color: #7a8fb0; }
   body.dark-mode .add-row-btn:hover { border-color: var(--blue); color: var(--blue); }
-
-  /* Dark mode: inmueble toggle */
   body.dark-mode .inmueble-toggle { border-color: #243660; }
   body.dark-mode .inmueble-opt { background: #162040; color: #7a8fb0; }
   body.dark-mode .inmueble-opt.active { background: #0d1d3a; color: #d0d8ec; }
-
-  /* Dark mode: declaration box */
   body.dark-mode .declaration-wrap { border-color: #243660; }
   body.dark-mode .declaration-box { background: #162040; }
   body.dark-mode .declaration-wrap.checked { border-color: var(--blue); }
@@ -484,38 +259,20 @@
   body.dark-mode .declaration-check-icon { background: #1e2d45; border-color: #4a5878; }
   body.dark-mode .declaration-text { color: #7a8fb0; }
   body.dark-mode .declaration-text strong { color: #d0d8ec; }
-
-  /* Dark mode: legal text */
   body.dark-mode .legal-text { background: #162040; border-left-color: var(--blue); color: #7a8fb0; }
-
-  /* Dark mode: divider */
   body.dark-mode .divider { background: #243660; }
-
-  /* Dark mode: sub-section label */
   body.dark-mode .sub-section-label { color: var(--blue); border-left-color: var(--blue); }
-
-  /* Dark mode: field label */
   body.dark-mode .field-label { color: #7a8fb0; }
-
-  /* Dark mode: cp autofilled */
   body.dark-mode .cp-autofilled { background: rgba(77,138,255,0.08) !important; color: var(--blue) !important; }
   body.dark-mode .cp-input.cp-loading { background: rgba(77,138,255,0.06) !important; }
-
-  /* Dark mode: recaptcha notice */
   body.dark-mode .recaptcha-notice { color: #4a5878; }
   body.dark-mode .recaptcha-notice a { color: var(--blue); }
-
-  /* Dark mode: success card */
   body.dark-mode .success-card { background: #111c33; }
-  body.dark-mode .success-title { color: #d0d8ec; }
-  body.dark-mode .success-sub { color: #7a8fb0; }
+  body.dark-mode .success-info-row { background: #162040; }
+  body.dark-mode .success-info-text { color: #7a8fb0; }
+  body.dark-mode .success-info-text strong { color: #d0d8ec; }
+  body.dark-mode .success-divider { background: #243660; }
 
-  /* Dark mode: section icon SVGs — make them brighter */
-  body.dark-mode .section-icon-svg svg rect,
-  body.dark-mode .section-icon-svg svg circle { fill: rgba(77,138,255,0.25); stroke: #4d8aff; }
-  body.dark-mode .section-icon-svg svg path { stroke: #4d8aff; }
-
-  /* Smooth transition for all theme changes */
   body, .form-card, .section-header, .section-body, .field-input, .type-btn,
   .radio-pill, .check-pill, .mini-table th, .mini-table td,
   .declaration-box, .legal-text, .submit-area, .req-banner {
@@ -523,87 +280,16 @@
   }
 
   /* ===================== FLOATING PROGRESS BAR ===================== */
-  .form-progress-wrap {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1500;
-    display: none; /* shown when form is selected */
-    width: calc(100% - 200px);
-    max-width: 720px;
-    min-width: 280px;
-    pointer-events: none;
-  }
+  .form-progress-wrap { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 1500; display: none; width: calc(100% - 200px); max-width: 720px; min-width: 280px; pointer-events: none; }
   .form-progress-wrap.visible { display: block; }
-
-  .form-progress-pill {
-    background: #ffffff;
-    border-radius: 60px;
-    padding: 10px 20px 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 4px 24px rgba(10,31,68,0.14), 0 1px 4px rgba(10,31,68,0.08);
-    border: 1px solid rgba(10,31,68,0.07);
-  }
-
-  .form-progress-bar-track {
-    flex: 1;
-    height: 8px;
-    background: #E8ECF4;
-    border-radius: 99px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .form-progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #165DFF 0%, #3a7fff 100%);
-    border-radius: 99px;
-    width: 0%;
-    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-  }
-
-  /* Glimmer shine animation */
-  .form-progress-bar-fill::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -60px;
-    width: 50px; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
-    animation: barShine 2.2s ease-in-out infinite;
-  }
-  @keyframes barShine {
-    0%   { left: -60px; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { left: calc(100% + 20px); opacity: 0; }
-  }
-
-  .form-progress-text {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: #6B7A99;
-    white-space: nowrap;
-    flex-shrink: 0;
-    letter-spacing: 0.1px;
-    min-width: 130px;
-    text-align: right;
-  }
-  .form-progress-text strong {
-    color: #165DFF;
-    font-weight: 700;
-  }
-
-  /* Dark mode */
-  body.dark-mode .form-progress-pill {
-    background: #1a2645;
-    border-color: rgba(255,255,255,0.12);
-    box-shadow: 0 4px 28px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.35);
-  }
+  .form-progress-pill { background: #ffffff; border-radius: 60px; padding: 10px 20px 10px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 24px rgba(10,31,68,0.14), 0 1px 4px rgba(10,31,68,0.08); border: 1px solid rgba(10,31,68,0.07); }
+  .form-progress-bar-track { flex: 1; height: 8px; background: #E8ECF4; border-radius: 99px; overflow: hidden; position: relative; }
+  .form-progress-bar-fill { height: 100%; background: linear-gradient(90deg, #165DFF 0%, #3a7fff 100%); border-radius: 99px; width: 0%; transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+  .form-progress-bar-fill::after { content: ''; position: absolute; top: 0; left: -60px; width: 50px; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); animation: barShine 2.2s ease-in-out infinite; }
+  @keyframes barShine { 0%{left:-60px;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:calc(100% + 20px);opacity:0} }
+  .form-progress-text { font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: #6B7A99; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.1px; min-width: 130px; text-align: right; }
+  .form-progress-text strong { color: #165DFF; font-weight: 700; }
+  body.dark-mode .form-progress-pill { background: #1a2645; border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 28px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.35); }
   body.dark-mode .form-progress-bar-track { background: #263558; }
   body.dark-mode .form-progress-bar-fill { background: linear-gradient(90deg, #4d8aff 0%, #78b0ff 100%); }
   body.dark-mode .form-progress-text { color: #c8d6f0; font-weight: 600; }
@@ -627,29 +313,26 @@
 </head>
 <body>
 
-<!-- ===== TEMA CLARO / OSCURO ===== -->
 <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
   <div class="toggle-icon-wrap">
-    <!-- Sol (modo claro) -->
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="4.5" fill="#FFD700" stroke="#FFA500" stroke-width="1.4"/>
       <g stroke="#FFD700" stroke-width="2" stroke-linecap="round">
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"></line>
       </g>
     </svg>
-    <!-- Luna (modo oscuro) -->
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/>
-      <circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="4s" repeatCount="indefinite"/></circle>
-      <circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/></circle>
-      <circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="5s" repeatCount="indefinite"/></circle>
+      <circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"></circle>
+      <circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"></circle>
+      <circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"></circle>
     </svg>
   </div>
 </button>
@@ -723,39 +406,47 @@
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Nombre del cliente<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_cliente" placeholder="Nombre completo" required></div>
         <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required></div>
-        <div class="field-group"><label class="field-label">Actividad principal</label><input class="field-input" type="text" name="Actividad_principal" placeholder="Descripción de actividad"></div>
+        <div class="field-group"><label class="field-label">Actividad principal<span class="req">*</span></label><input class="field-input" type="text" name="Actividad_principal" placeholder="Descripción de actividad" required></div>
         <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_fiscal" placeholder="Transcribir de la Constancia de Situación Fiscal" required></div>
-        <div class="field-group"><label class="field-label">Nombre comercial</label><input class="field-input" type="text" name="Nombre_comercial" placeholder="Nombre del negocio"></div>
-        <div class="field-group"><label class="field-label">Fundador del negocio</label><input class="field-input" type="text" name="Fundador" placeholder="Nombre del fundador"></div>
-        <div class="field-group"><label class="field-label">Fecha inicio del negocio</label><input class="field-input" type="date" name="Fecha_inicio_negocio"></div>
-        <div class="field-group"><label class="field-label">Número de empleados</label><input class="field-input" type="number" name="Num_empleados" placeholder="0" min="0"></div>
+        <div class="field-group"><label class="field-label">Nombre comercial<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_comercial" placeholder="Nombre del negocio" required></div>
+        <div class="field-group"><label class="field-label">Fundador del negocio<span class="req">*</span></label><input class="field-input" type="text" name="Fundador" placeholder="Nombre del fundador" required></div>
+        <div class="field-group"><label class="field-label">Fecha inicio del negocio<span class="req">*</span></label><input class="field-input" type="date" name="Fecha_inicio_negocio" required></div>
+        <div class="field-group"><label class="field-label">Número de empleados<span class="req">*</span></label><input class="field-input" type="number" name="Num_empleados" placeholder="0" min="0" required></div>
         <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_Facebook" placeholder="https://"></div>
       </div>
-      <div class="sub-section-label">Sector</div>
-      <div class="check-group">
-        <label class="check-pill"><input type="checkbox" name="Sector_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill"><input type="checkbox" name="Sector_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill"><input type="checkbox" name="Sector_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill"><input type="checkbox" name="Sector_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill"><input type="checkbox" name="Sector_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
+      <div class="sub-section-label">Sector <span class="req">*</span></div>
+      <!-- FIX: check-group uses JS-driven onclick; actual checkbox inputs handled properly -->
+      <div class="check-group" id="sectorPF" data-required-group="sectorPF" data-min="1">
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
       </div>
+      <div class="error-msg" id="err-sectorPF">Selecciona al menos un sector.</div>
       <div class="field-grid" style="margin-top:18px">
-        <div class="field-group"><label class="field-label">Persona que dirige el negocio</label><input class="field-input" type="text" name="Director_negocio" placeholder="Nombre completo"></div>
-        <div class="field-group"><label class="field-label">Relación con el aval</label><input class="field-input" type="text" name="Relacion_aval" placeholder="Ej. Socio, cónyuge..."></div>
+        <div class="field-group"><label class="field-label">Persona que dirige el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Director_negocio" placeholder="Nombre completo" required></div>
+        <div class="field-group"><label class="field-label">Relación con el aval<span class="req">*</span></label><input class="field-input" type="text" name="Relacion_aval" placeholder="Ej. Socio, cónyuge..." required></div>
         <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE" placeholder="18 dígitos" maxlength="18" required></div>
-        <div class="field-group"><label class="field-label">Banco</label><input class="field-input" type="text" name="Banco" placeholder="Nombre del banco"></div>
-        <div class="field-group"><label class="field-label">Contacto de pagos</label><input class="field-input" type="text" name="Contacto_pagos" placeholder="Nombre"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Telefono_negocio" id="tel1_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">Banco<span class="req">*</span></label><input class="field-input" type="text" name="Banco" placeholder="Nombre del banco" required></div>
+        <div class="field-group"><label class="field-label">Contacto de pagos<span class="req">*</span></label><input class="field-input" type="text" name="Contacto_pagos" placeholder="Nombre" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Telefono_negocio" id="tel1_combined">
+          <div class="tel-combo" id="tel1_combo">
             <select class="lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel1')" onblur="updateTelCombined('tel1')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Celular_negocio" id="tel2_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel1');clearTelError('tel1_combo')" onblur="updateTelCombined('tel1')">
+          </div>
+          <div class="error-msg" id="err-tel1">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Celular_negocio" id="tel2_combined">
+          <div class="tel-combo" id="tel2_combo">
             <select class="lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel2')" onblur="updateTelCombined('tel2')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Correo electrónico</label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com"></div>
+            <input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel2');clearTelError('tel2_combo')" onblur="updateTelCombined('tel2')">
+          </div>
+          <div class="error-msg" id="err-tel2">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com" required></div>
       </div>
       <div class="sub-section-label">Principales Clientes</div>
       <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
@@ -781,13 +472,13 @@
     <div class="section-body">
       <div class="field-grid thirds">
         <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_calle" required></div>
-        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="Fiscal_noext"></div>
+        <div class="field-group"><label class="field-label">No. Ext.<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_noext" required></div>
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="Fiscal_noint"></div>
-        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="Fiscal_colonia" placeholder="Colonia"></div>
-        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp1" name="Fiscal_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_colonia" placeholder="Colonia" required></div>
+        <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp1" name="Fiscal_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
         <div class="field-group cp-colonia-group" id="colonias-cp1-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp1"></span></div>
-        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="Fiscal_ciudad" placeholder="Ciudad"></div>
-        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="Fiscal_estado" placeholder="Estado"></div>
+        <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_ciudad" placeholder="Ciudad" required></div>
+        <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_estado" placeholder="Estado" required></div>
       </div>
       <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
       <div class="inmueble-toggle" id="inmuebleFiscalPF">
@@ -795,20 +486,23 @@
         <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalRentadoDetails','fiscalPropioDetails')">Rentado</button>
       </div>
       <div class="field-grid" id="fiscalPropioDetails">
-        <div class="field-group col-full"><label class="field-label">A nombre de quién está registrado</label><input class="field-input" type="text" name="FiscalPropio_titular" placeholder="Titular"></div>
-        <div class="field-group"><label class="field-label">Tipo</label><input class="field-input" type="text" name="FiscalPropio_tipo" placeholder="Planta, oficina..."></div>
-        <div class="field-group"><label class="field-label">Tamaño (m2)</label><input class="field-input" type="number" name="FiscalPropio_m2" placeholder="0"></div>
-        <div class="field-group"><label class="field-label">Presenta gravamen</label><select class="field-input" name="FiscalPropio_gravamen"><option value="">Seleccionar</option><option>No presenta gravamen</option><option>Hipoteca</option><option>Embargo</option><option>Otro</option></select></div>
+        <div class="field-group col-full"><label class="field-label">A nombre de quién está registrado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_titular" placeholder="Titular" data-inmueble-group="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Tipo<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_tipo" placeholder="Planta, oficina..." data-inmueble-group="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Tamaño (m2)<span class="req">*</span></label><input class="field-input" type="number" name="FiscalPropio_m2" placeholder="0" data-inmueble-group="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Presenta gravamen<span class="req">*</span></label><select class="field-input" name="FiscalPropio_gravamen" data-inmueble-group="propioPF" required><option value="">Seleccionar</option><option>No presenta gravamen</option><option>Hipoteca</option><option>Embargo</option><option>Otro</option></select></div>
       </div>
       <div class="field-grid" id="fiscalRentadoDetails" style="display:none">
-        <div class="field-group col-full"><label class="field-label">Nombre del arrendador</label><input class="field-input" type="text" name="FiscalRentado_arrendador"></div>
-        <div class="field-group"><label class="field-label">Teléfono arrendador</label><input type="hidden" name="FiscalRentado_tel" id="tel3_combined">
-          <div class="tel-combo">
+        <div class="field-group col-full"><label class="field-label">Nombre del arrendador<span class="req">*</span></label><input class="field-input" type="text" name="FiscalRentado_arrendador" data-inmueble-group="rentadoPF"></div>
+        <div class="field-group"><label class="field-label">Teléfono arrendador<span class="req">*</span></label>
+          <input type="hidden" name="FiscalRentado_tel" id="tel3_combined">
+          <div class="tel-combo" id="tel3_combo">
             <select class="lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel3')" onblur="updateTelCombined('tel3')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Inicio contrato</label><input class="field-input" type="date" name="FiscalRentado_inicio"></div>
-        <div class="field-group"><label class="field-label">Término contrato</label><input class="field-input" type="date" name="FiscalRentado_termino"></div>
+            <input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" data-inmueble-group="rentadoPF" oninput="updateTelCombined('tel3');clearTelError('tel3_combo')" onblur="updateTelCombined('tel3')">
+          </div>
+          <div class="error-msg" id="err-tel3">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Inicio contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_inicio" data-inmueble-group="rentadoPF"></div>
+        <div class="field-group"><label class="field-label">Término contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_termino" data-inmueble-group="rentadoPF"></div>
       </div>
     </div>
 
@@ -816,23 +510,27 @@
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group"><label class="field-label">Lugar y fecha de nacimiento<span class="req">*</span></label><input class="field-input" type="text" name="Nacimiento_PF" placeholder="Ciudad, DD/MM/AAAA" required></div>
-        <div class="field-group"><label class="field-label">Profesión</label><input class="field-input" type="text" name="Profesion_PF"></div>
-        <div class="field-group"><label class="field-label">Puesto en el negocio</label><input class="field-input" type="text" name="Puesto_PF" placeholder="Director, Propietario..."></div>
-        <div class="field-group"><label class="field-label">Antigüedad en el negocio</label><input class="field-input" type="text" name="Antiguedad_PF" placeholder="Ej. 5 años"></div>
+        <div class="field-group"><label class="field-label">Profesión<span class="req">*</span></label><input class="field-input" type="text" name="Profesion_PF" required></div>
+        <div class="field-group"><label class="field-label">Puesto en el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Puesto_PF" placeholder="Director, Propietario..." required></div>
+        <div class="field-group"><label class="field-label">Antigüedad en el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Antiguedad_PF" placeholder="Ej. 5 años" required></div>
         <div class="field-group"><label class="field-label">Email<span class="req">*</span></label><input class="field-input" type="email" name="Email_PF" required></div>
-        <div class="field-group"><label class="field-label">Teléfono particular</label><input type="hidden" name="Tel_particular_PF" id="tel4_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">Teléfono particular<span class="req">*</span></label>
+          <input type="hidden" name="Tel_particular_PF" id="tel4_combined">
+          <div class="tel-combo" id="tel4_combo">
             <select class="lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel4')" onblur="updateTelCombined('tel4')">
-          </div></div>
-        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+            <input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel4');clearTelError('tel4_combo')" onblur="updateTelCombined('tel4')">
           </div>
+          <div class="error-msg" id="err-tel4">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="radio-group" id="estCivilPF">
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+          </div>
+          <div class="error-msg" id="err-estCivilPF">Selecciona el estado civil.</div>
         </div>
         <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Conyuge_nombre_PF"></div>
         <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Conyuge_RFC_PF" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
@@ -841,59 +539,77 @@
 
     <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
     <div class="section-body">
-      <table class="mini-table"><thead><tr><th>Descripción</th><th>Modelo/Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+      <table class="mini-table"><thead><tr><th>Descripción<span class="req">*</span></th><th>Modelo/Año<span class="req">*</span></th><th>Valor (IVA incl.)<span class="req">*</span></th><th>Plazo<span class="req">*</span></th><th>Usuario<span class="req">*</span></th></tr></thead>
       <tbody id="tblEquiposPF">
-        <tr><td><input type="text" name="Eq1_desc"></td><td><input type="number" name="Eq1_anio" placeholder="2025"></td><td><input type="number" name="Eq1_valor" placeholder="$0"></td><td><input type="text" name="Eq1_plazo" placeholder="Meses"></td><td><input type="text" name="Eq1_usuario"></td></tr>
+        <tr><td><input type="text" name="Eq1_desc" required></td><td><input type="number" name="Eq1_anio" placeholder="2025" required></td><td><input type="number" name="Eq1_valor" placeholder="$0" required></td><td><input type="text" name="Eq1_plazo" placeholder="Meses" required></td><td><input type="text" name="Eq1_usuario" required></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF','PF')">+ Agregar equipo</button>
     </div>
 
     <div class="section-header"><div class="section-icon">👥</div><div class="section-title">Referencias Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group col-full"><label class="field-label">Referencia 1</label><input class="field-input" type="text" name="Ref1_nombre_PF" placeholder="Nombre completo"></div>
-        <div class="field-group"><label class="field-label">Parentesco</label><input class="field-input" type="text" name="Ref1_parentesco_PF"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Ref1_tel_PF" id="tel5_combined">
-          <div class="tel-combo">
+        <div class="field-group col-full"><label class="field-label">Referencia 1<span class="req">*</span></label><input class="field-input" type="text" name="Ref1_nombre_PF" placeholder="Nombre completo" required></div>
+        <div class="field-group"><label class="field-label">Parentesco<span class="req">*</span></label><input class="field-input" type="text" name="Ref1_parentesco_PF" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Ref1_tel_PF" id="tel5_combined">
+          <div class="tel-combo" id="tel5_combo">
             <select class="lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel5')" onblur="updateTelCombined('tel5')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Ref1_cel_PF" id="tel6_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel5');clearTelError('tel5_combo')" onblur="updateTelCombined('tel5')">
+          </div>
+          <div class="error-msg" id="err-tel5">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Ref1_cel_PF" id="tel6_combined">
+          <div class="tel-combo" id="tel6_combo">
             <select class="lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel6')" onblur="updateTelCombined('tel6')">
-          </div></div>
+            <input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel6');clearTelError('tel6_combo')" onblur="updateTelCombined('tel6')">
+          </div>
+          <div class="error-msg" id="err-tel6">Este campo es obligatorio.</div>
+        </div>
         <div class="divider col-full"></div>
-        <div class="field-group col-full"><label class="field-label">Referencia 2</label><input class="field-input" type="text" name="Ref2_nombre_PF" placeholder="Nombre completo"></div>
-        <div class="field-group"><label class="field-label">Parentesco</label><input class="field-input" type="text" name="Ref2_parentesco_PF"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Ref2_tel_PF" id="tel7_combined">
-          <div class="tel-combo">
+        <div class="field-group col-full"><label class="field-label">Referencia 2<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_nombre_PF" placeholder="Nombre completo" required></div>
+        <div class="field-group"><label class="field-label">Parentesco<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_parentesco_PF" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Ref2_tel_PF" id="tel7_combined">
+          <div class="tel-combo" id="tel7_combo">
             <select class="lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel7')" onblur="updateTelCombined('tel7')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Ref2_cel_PF" id="tel8_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel7');clearTelError('tel7_combo')" onblur="updateTelCombined('tel7')">
+          </div>
+          <div class="error-msg" id="err-tel7">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Ref2_cel_PF" id="tel8_combined">
+          <div class="tel-combo" id="tel8_combo">
             <select class="lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel8')" onblur="updateTelCombined('tel8')">
-          </div></div>
+            <input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel8');clearTelError('tel8_combo')" onblur="updateTelCombined('tel8')">
+          </div>
+          <div class="error-msg" id="err-tel8">Este campo es obligatorio.</div>
+        </div>
       </div>
     </div>
 
     <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita al Negocio</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group"><label class="field-label">Nombre</label><input class="field-input" type="text" name="Visita_nombre_PF"></div>
-        <div class="field-group"><label class="field-label">Puesto</label><input class="field-input" type="text" name="Visita_puesto_PF"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Visita_tel_PF" id="tel9_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">Nombre<span class="req">*</span></label><input class="field-input" type="text" name="Visita_nombre_PF" required></div>
+        <div class="field-group"><label class="field-label">Puesto<span class="req">*</span></label><input class="field-input" type="text" name="Visita_puesto_PF" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Visita_tel_PF" id="tel9_combined">
+          <div class="tel-combo" id="tel9_combo">
             <select class="lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel9')" onblur="updateTelCombined('tel9')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Visita_cel_PF" id="tel10_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel9');clearTelError('tel9_combo')" onblur="updateTelCombined('tel9')">
+          </div>
+          <div class="error-msg" id="err-tel9">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Visita_cel_PF" id="tel10_combined">
+          <div class="tel-combo" id="tel10_combo">
             <select class="lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel10')" onblur="updateTelCombined('tel10')">
-          </div></div>
+            <input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel10');clearTelError('tel10_combo')" onblur="updateTelCombined('tel10')">
+          </div>
+          <div class="error-msg" id="err-tel10">Este campo es obligatorio.</div>
+        </div>
       </div>
     </div>
   </form>
@@ -911,36 +627,43 @@
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Razón social<span class="req">*</span></label><input class="field-input" type="text" name="RazonSocial" required></div>
         <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC_PM" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
-        <div class="field-group"><label class="field-label">Actividad principal</label><input class="field-input" type="text" name="Actividad_PM"></div>
+        <div class="field-group"><label class="field-label">Actividad principal<span class="req">*</span></label><input class="field-input" type="text" name="Actividad_PM" required></div>
         <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_PM" required></div>
-        <div class="field-group"><label class="field-label">Nombre comercial</label><input class="field-input" type="text" name="NombreComercial_PM"></div>
-        <div class="field-group"><label class="field-label">Fundador</label><input class="field-input" type="text" name="Fundador_PM"></div>
-        <div class="field-group"><label class="field-label">Fecha de inicio</label><input class="field-input" type="date" name="FechaInicio_PM"></div>
-        <div class="field-group"><label class="field-label">No. empleados</label><input class="field-input" type="number" name="Empleados_PM" min="0"></div>
+        <div class="field-group"><label class="field-label">Nombre comercial<span class="req">*</span></label><input class="field-input" type="text" name="NombreComercial_PM" required></div>
+        <div class="field-group"><label class="field-label">Fundador<span class="req">*</span></label><input class="field-input" type="text" name="Fundador_PM" required></div>
+        <div class="field-group"><label class="field-label">Fecha de inicio<span class="req">*</span></label><input class="field-input" type="date" name="FechaInicio_PM" required></div>
+        <div class="field-group"><label class="field-label">No. empleados<span class="req">*</span></label><input class="field-input" type="number" name="Empleados_PM" min="0" required></div>
         <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_PM" placeholder="https://"></div>
       </div>
-      <div class="sub-section-label">Sector</div>
-      <div class="check-group">
-        <label class="check-pill"><input type="checkbox" name="SectorPM_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill"><input type="checkbox" name="SectorPM_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill"><input type="checkbox" name="SectorPM_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill"><input type="checkbox" name="SectorPM_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill"><input type="checkbox" name="SectorPM_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
+      <div class="sub-section-label">Sector <span class="req">*</span></div>
+      <div class="check-group" id="sectorPM" data-required-group="sectorPM" data-min="1">
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
       </div>
+      <div class="error-msg" id="err-sectorPM">Selecciona al menos un sector.</div>
       <div class="field-grid" style="margin-top:18px">
         <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE_PM" maxlength="18" required></div>
-        <div class="field-group"><label class="field-label">Banco</label><input class="field-input" type="text" name="Banco_PM"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Tel_PM" id="tel11_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">Banco<span class="req">*</span></label><input class="field-input" type="text" name="Banco_PM" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Tel_PM" id="tel11_combined">
+          <div class="tel-combo" id="tel11_combo">
             <select class="lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel11')" onblur="updateTelCombined('tel11')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Cel_PM" id="tel12_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel11');clearTelError('tel11_combo')" onblur="updateTelCombined('tel11')">
+          </div>
+          <div class="error-msg" id="err-tel11">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Cel_PM" id="tel12_combined">
+          <div class="tel-combo" id="tel12_combo">
             <select class="lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel12')" onblur="updateTelCombined('tel12')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Correo electrónico</label><input class="field-input" type="email" name="Email_PM"></div>
+            <input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel12');clearTelError('tel12_combo')" onblur="updateTelCombined('tel12')">
+          </div>
+          <div class="error-msg" id="err-tel12">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_PM" required></div>
       </div>
       <div class="sub-section-label">Accionistas</div>
       <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Participación %</th><th>RFC</th></tr></thead>
@@ -948,90 +671,103 @@
         <tr><td><input type="text" name="Acc1_nombre"></td><td><input type="number" name="Acc1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc1_rfc"></td></tr>
         <tr><td><input type="text" name="Acc2_nombre"></td><td><input type="number" name="Acc2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc2_rfc"></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas','PM')">+ Agregar accionista</button>
     </div>
 
     <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal de la Empresa</div></div>
     <div class="section-body">
       <div class="field-grid thirds">
         <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_calle" required></div>
-        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="FiscalPM_noext"></div>
+        <div class="field-group"><label class="field-label">No. Ext.<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_noext" required></div>
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="FiscalPM_noint"></div>
-        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="FiscalPM_colonia"></div>
-        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp2" name="FiscalPM_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_colonia" required></div>
+        <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp2" name="FiscalPM_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
         <div class="field-group cp-colonia-group" id="colonias-cp2-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp2"></span></div>
-        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="FiscalPM_ciudad"></div>
-        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="FiscalPM_estado"></div>
+        <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_ciudad" required></div>
+        <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_estado" required></div>
       </div>
     </div>
 
     <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
     <div class="section-body">
-      <table class="mini-table"><thead><tr><th>Descripción</th><th>Modelo/Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+      <table class="mini-table"><thead><tr><th>Descripción<span class="req">*</span></th><th>Modelo/Año<span class="req">*</span></th><th>Valor (IVA incl.)<span class="req">*</span></th><th>Plazo<span class="req">*</span></th><th>Usuario<span class="req">*</span></th></tr></thead>
       <tbody id="tblEquiposPM">
-        <tr><td><input type="text" name="Eq1PM_desc"></td><td><input type="number" name="Eq1PM_anio" placeholder="2025"></td><td><input type="number" name="Eq1PM_valor"></td><td><input type="text" name="Eq1PM_plazo"></td><td><input type="text" name="Eq1PM_usuario"></td></tr>
+        <tr><td><input type="text" name="Eq1PM_desc" required></td><td><input type="number" name="Eq1PM_anio" placeholder="2025" required></td><td><input type="number" name="Eq1PM_valor" required></td><td><input type="text" name="Eq1PM_plazo" required></td><td><input type="text" name="Eq1PM_usuario" required></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM')">+ Agregar equipo</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM','PM')">+ Agregar equipo</button>
     </div>
 
     <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos del Accionista / Aval</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Nombre completo<span class="req">*</span></label><input class="field-input" type="text" name="Aval_nombre" required></div>
-        <div class="field-group"><label class="field-label">R.F.C.</label><input class="field-input" type="text" name="Aval_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
-        <div class="field-group"><label class="field-label">Nacimiento (lugar y fecha)</label><input class="field-input" type="text" name="Aval_nacimiento" placeholder="Ciudad, DD/MM/AAAA"></div>
-        <div class="field-group"><label class="field-label">Cargo en la empresa</label><input class="field-input" type="text" name="Aval_puesto"></div>
-        <div class="field-group"><label class="field-label">Email</label><input class="field-input" type="email" name="Aval_email"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Aval_tel" id="tel14_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="Aval_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">Nacimiento (lugar y fecha)<span class="req">*</span></label><input class="field-input" type="text" name="Aval_nacimiento" placeholder="Ciudad, DD/MM/AAAA" required></div>
+        <div class="field-group"><label class="field-label">Cargo en la empresa<span class="req">*</span></label><input class="field-input" type="text" name="Aval_puesto" required></div>
+        <div class="field-group"><label class="field-label">Email<span class="req">*</span></label><input class="field-input" type="email" name="Aval_email" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Aval_tel" id="tel14_combined">
+          <div class="tel-combo" id="tel14_combo">
             <select class="lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel14')" onblur="updateTelCombined('tel14')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Aval_cel" id="tel15_combined">
-          <div class="tel-combo">
-            <select class="lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel15')" onblur="updateTelCombined('tel15')">
-          </div></div>
-        <div class="field-group col-full"><label class="field-label">Estado civil</label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+            <input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel14');clearTelError('tel14_combo')" onblur="updateTelCombined('tel14')">
           </div>
+          <div class="error-msg" id="err-tel14">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Aval_cel" id="tel15_combined">
+          <div class="tel-combo" id="tel15_combo">
+            <select class="lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel15');clearTelError('tel15_combo')" onblur="updateTelCombined('tel15')">
+          </div>
+          <div class="error-msg" id="err-tel15">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="radio-group" id="estCivilAval">
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+          </div>
+          <div class="error-msg" id="err-estCivilAval">Selecciona el estado civil.</div>
         </div>
         <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_nombre"></div>
         <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
       <div class="sub-section-label">Domicilio Particular del Aval</div>
       <div class="field-grid thirds">
-        <div class="field-group col-full"><label class="field-label">Calle</label><input class="field-input" type="text" name="AvalDom_calle"></div>
-        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="AvalDom_noext"></div>
+        <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_calle" required></div>
+        <div class="field-group"><label class="field-label">No. Ext.<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_noext" required></div>
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="AvalDom_noint"></div>
-        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="AvalDom_colonia"></div>
-        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp3" name="AvalDom_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_colonia" required></div>
+        <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp3" name="AvalDom_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
         <div class="field-group cp-colonia-group" id="colonias-cp3-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp3"></span></div>
-        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="AvalDom_ciudad"></div>
-        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="AvalDom_estado"></div>
+        <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_ciudad" required></div>
+        <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_estado" required></div>
       </div>
     </div>
 
     <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita a la Empresa</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group"><label class="field-label">Nombre</label><input class="field-input" type="text" name="Visita_nombre_PM"></div>
-        <div class="field-group"><label class="field-label">Puesto</label><input class="field-input" type="text" name="Visita_puesto_PM"></div>
-        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Visita_tel_PM" id="tel18_combined">
-          <div class="tel-combo">
+        <div class="field-group"><label class="field-label">Nombre<span class="req">*</span></label><input class="field-input" type="text" name="Visita_nombre_PM" required></div>
+        <div class="field-group"><label class="field-label">Puesto<span class="req">*</span></label><input class="field-input" type="text" name="Visita_puesto_PM" required></div>
+        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+          <input type="hidden" name="Visita_tel_PM" id="tel18_combined">
+          <div class="tel-combo" id="tel18_combo">
             <select class="lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel18')" onblur="updateTelCombined('tel18')">
-          </div></div>
-        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Visita_cel_PM" id="tel19_combined">
-          <div class="tel-combo">
+            <input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel18');clearTelError('tel18_combo')" onblur="updateTelCombined('tel18')">
+          </div>
+          <div class="error-msg" id="err-tel18">Este campo es obligatorio.</div>
+        </div>
+        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <input type="hidden" name="Visita_cel_PM" id="tel19_combined">
+          <div class="tel-combo" id="tel19_combo">
             <select class="lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel19')" onblur="updateTelCombined('tel19')">
-          </div></div>
+            <input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel19');clearTelError('tel19_combo')" onblur="updateTelCombined('tel19')">
+          </div>
+          <div class="error-msg" id="err-tel19">Este campo es obligatorio.</div>
+        </div>
       </div>
     </div>
   </form>
@@ -1039,7 +775,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="60011609130f2006090e02050102034e030f0d4e0d18">[email&#160;protected]</a></strong>
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong><a href="https://www.anpai.com.mx" target="_blank" rel="noopener" style="color:inherit">www.anpai.com.mx</a></strong> / <strong>info@anpai.com.mx</strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
@@ -1088,7 +824,6 @@
 
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
-    <!-- Header con fondo navy -->
     <div class="success-header">
       <div class="success-checkmark">
         <svg viewBox="0 0 36 36" fill="none">
@@ -1098,7 +833,6 @@
       <div class="success-title">¡Solicitud Enviada!</div>
       <div class="success-subtitle">Arrendamiento Puro · AVA</div>
     </div>
-    <!-- Cuerpo -->
     <div class="success-body">
       <div class="success-info-row">
         <div class="success-info-icon">
@@ -1119,28 +853,24 @@
         </div>
       </div>
       <div class="success-divider"></div>
-      <button class="success-close-btn" onclick="closeSuccessModal()">
-        Volver al Formulario
-      </button>
+      <button class="success-close-btn" onclick="closeSuccessModal()">Volver al Formulario</button>
     </div>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // =============================================================
-// reCAPTCHA v3 — callback llamado por el script de Google
+// reCAPTCHA v3
 // =============================================================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
-
-function initRecaptcha() {
-  recaptchaReady = true;
-}
+function initRecaptcha() { recaptchaReady = true; }
 
 // =============================================================
 // TIPO SELECTOR
 // =============================================================
 var currentType = null;
+
 function selectType(type) {
   currentType = type;
   ['PF','PM'].forEach(function(t) {
@@ -1149,50 +879,109 @@ function selectType(type) {
     document.getElementById('form'+t).classList.toggle('show', t===type);
   });
   document.getElementById('submitArea').classList.add('show');
+  // Set inmueble initial state
+  if (type === 'PF') {
+    setInmuebleRequired('propioPF', true);
+    setInmuebleRequired('rentadoPF', false);
+  }
   setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
-  // Activar campos obligatorios para el form seleccionado
-  makeAllFieldsRequired('form' + type);
-  // Activate progress bar for selected form
   showProgressBar('form' + type);
 }
 
-// Pill interactivity
-document.addEventListener('click', function(e) {
-  var cp = e.target.closest('.check-pill');
-  if (cp) { cp.classList.toggle('selected'); var cb=cp.querySelector('input[type=checkbox]'); if(cb) cb.checked=cp.classList.contains('selected'); }
-  var rp = e.target.closest('.radio-pill');
-  if (rp) {
-    var ri=rp.querySelector('input[type=radio]');
-    if (ri&&ri.name) document.querySelectorAll('input[name="'+ri.name+'"]').forEach(function(r){ var p=r.closest('.radio-pill'); if(p) p.classList.remove('selected'); });
-    rp.classList.add('selected'); if(ri) ri.checked=true;
+// =============================================================
+// CHECK PILLS — FIX: proper toggle with checkbox sync
+// =============================================================
+function toggleCheckPill(label) {
+  // Prevent double-firing from child element clicks
+  var cb = label.querySelector('input[type=checkbox]');
+  if (!cb) return;
+  // Toggle
+  cb.checked = !cb.checked;
+  label.classList.toggle('selected', cb.checked);
+  // Clear error on parent group
+  var group = label.closest('.check-group');
+  if (group && group.id) {
+    var errEl = document.getElementById('err-' + group.id);
+    if (errEl && cb.checked) {
+      group.classList.remove('input-error');
+      errEl.classList.remove('show');
+    }
   }
-});
+  updateProgressBar();
+}
+
+// =============================================================
+// RADIO PILLS — FIX: proper selection with name deselection
+// =============================================================
+function selectRadioPill(label) {
+  var rb = label.querySelector('input[type=radio]');
+  if (!rb) return;
+  var name = rb.name;
+  // Deselect all in same group
+  document.querySelectorAll('input[type=radio][name="'+name+'"]').forEach(function(r) {
+    r.checked = false;
+    var p = r.closest('.radio-pill');
+    if (p) p.classList.remove('selected');
+  });
+  // Select this one
+  rb.checked = true;
+  label.classList.add('selected');
+  // Clear error
+  var group = label.closest('.radio-group');
+  if (group && group.id) {
+    var errEl = document.getElementById('err-' + group.id);
+    if (errEl) {
+      group.classList.remove('input-error');
+      errEl.classList.remove('show');
+    }
+  }
+  updateProgressBar();
+}
+
+// =============================================================
+// INMUEBLE TOGGLE — propio/rentado with required management
+// =============================================================
+function setInmuebleRequired(groupName, isRequired) {
+  document.querySelectorAll('[data-inmueble-group="' + groupName + '"]').forEach(function(el) {
+    el.required = isRequired;
+  });
+}
 
 function toggleInmueble(toggleId, btn, showId, hideId) {
   document.getElementById(toggleId).querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
-  var s=document.getElementById(showId), h=document.getElementById(hideId);
-  if(s) s.style.display=''; if(h) h.style.display='none';
+  var showEl = document.getElementById(showId);
+  var hideEl = document.getElementById(hideId);
+  if (showEl) showEl.style.display = '';
+  if (hideEl) hideEl.style.display = 'none';
+
+  // Determine which group is now active and update required
+  if (toggleId === 'inmuebleFiscalPF') {
+    if (showId === 'fiscalPropioDetails') {
+      setInmuebleRequired('propioPF', true);
+      setInmuebleRequired('rentadoPF', false);
+    } else {
+      setInmuebleRequired('rentadoPF', true);
+      setInmuebleRequired('propioPF', false);
+    }
+  }
 }
 
 function addRow(tbodyId) {
-  var tb=document.getElementById(tbodyId), fr=tb && tb.querySelector('tr');
-  if(!fr) return;
-  var row=fr.cloneNode(true);
-  row.querySelectorAll('input').forEach(function(i){
-    i.value='';
-    i.required = true; // nuevas filas también obligatorias
-  });
+  var tb = document.getElementById(tbodyId), fr = tb && tb.querySelector('tr');
+  if (!fr) return;
+  var row = fr.cloneNode(true);
+  row.querySelectorAll('input').forEach(function(i){ i.value = ''; });
   tb.appendChild(row);
-  updateProgressBar(); // recalcular total
+  updateProgressBar();
 }
 
 // =============================================================
 // DECLARATION + SUBMIT STATE
 // =============================================================
 function toggleDeclaration(checkbox) {
-  var wrap=document.getElementById('declarationWrap');
-  var btn=document.getElementById('mainSubmitBtn');
+  var wrap = document.getElementById('declarationWrap');
+  var btn = document.getElementById('mainSubmitBtn');
   wrap.classList.toggle('checked', checkbox.checked);
   if (checkbox.checked) {
     btn.disabled = false;
@@ -1204,123 +993,198 @@ function toggleDeclaration(checkbox) {
 }
 
 // =============================================================
-// MODAL DE CONFIRMACIÓN
+// MODAL
 // =============================================================
 function showSuccessModal() {
-  var overlay = document.getElementById('successOverlay');
-  overlay.classList.add('show');
+  document.getElementById('successOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
 }
 
 function closeSuccessModal() {
-  var overlay = document.getElementById('successOverlay');
-  overlay.classList.remove('show');
+  document.getElementById('successOverlay').classList.remove('show');
   document.body.style.overflow = '';
-  // Resetear formulario y estado
   var form = currentType ? document.getElementById('form' + currentType) : null;
   if (form) form.reset();
+  // Reset check/radio pills
+  document.querySelectorAll('.check-pill.selected').forEach(function(p){ p.classList.remove('selected'); var cb=p.querySelector('input'); if(cb) cb.checked=false; });
+  document.querySelectorAll('.radio-pill.selected').forEach(function(p){ p.classList.remove('selected'); var rb=p.querySelector('input'); if(rb) rb.checked=false; });
   var decl = document.getElementById('declarationCheck');
   if (decl) { decl.checked = false; toggleDeclaration(decl); }
   updateProgressBar();
 }
 
-// Cerrar modal al hacer clic en el overlay (fuera del card)
 document.addEventListener('click', function(e) {
   if (e.target && e.target.id === 'successOverlay') closeSuccessModal();
 });
+
+// =============================================================
+// TEL COMBO HELPERS
+// =============================================================
+function clearTelError(comboId) {
+  var combo = document.getElementById(comboId);
+  if (combo) combo.classList.remove('input-error');
+  // Also hide associated error message
+  var prefix = comboId.replace('_combo','');
+  var errEl = document.getElementById('err-' + prefix);
+  if (errEl) errEl.classList.remove('show');
+}
+
+// =============================================================
+// VALIDATION HELPERS
+// =============================================================
+function showFieldError(el) {
+  el.classList.add('input-error');
+  el.addEventListener('input', function(){ el.classList.remove('input-error'); }, {once:true});
+  el.addEventListener('change', function(){ el.classList.remove('input-error'); }, {once:true});
+}
+
+function validateTelField(prefix) {
+  var numEl = document.getElementById(prefix + '_num');
+  var comboEl = document.getElementById(prefix + '_combo');
+  var errEl = document.getElementById('err-' + prefix);
+  if (!numEl) return true; // doesn't exist in current form
+  var val = numEl.value.replace(/\D/g, '').trim();
+  if (val.length < 7) {
+    if (comboEl) comboEl.classList.add('input-error');
+    if (errEl) errEl.classList.add('show');
+    return false;
+  }
+  return true;
+}
 
 // =============================================================
 // SUBMIT
 // =============================================================
 function triggerFormSubmit() {
   if (!currentType) { alert('Selecciona el tipo de solicitante.'); return; }
-  var decl=document.getElementById('declarationCheck');
-  if (!decl||!decl.checked) {
-    var dw=document.getElementById('declarationWrap');
-    if(dw){ dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
-    alert('Confirma la declaración antes de enviar.'); return;
+  var decl = document.getElementById('declarationCheck');
+  if (!decl || !decl.checked) {
+    var dw = document.getElementById('declarationWrap');
+    if (dw) { dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
+    return;
   }
-  var form=document.getElementById('form'+currentType);
-  var valid=true;
+
+  var form = document.getElementById('form' + currentType);
+  var valid = true;
   var firstInvalid = null;
 
-  // Validar todos los campos required (incluyendo mini-table)
-  form.querySelectorAll('[required]').forEach(function(inp) {
+  // 1. Standard required inputs/selects/textareas (visible only)
+  form.querySelectorAll('input[required], select[required], textarea[required]').forEach(function(inp) {
     if (inp.type === 'hidden') return;
-    if (inp.type === 'radio' || inp.type === 'checkbox') return; // se validan por grupo
+    if (inp.type === 'radio' || inp.type === 'checkbox') return;
+    // Skip if inside a hidden parent (inmueble toggle)
+    var parent = inp.closest('[style*="display:none"], [style*="display: none"]');
+    if (parent) return;
     if (!inp.value.trim()) {
-      inp.style.borderColor='var(--error)';
+      showFieldError(inp);
       if (!firstInvalid) firstInvalid = inp;
-      valid=false;
-      inp.addEventListener('input',function(){ inp.style.borderColor=''; },{once:true});
-    }
-  });
-
-  // Validar radio groups obligatorios
-  var radioNames = {};
-  form.querySelectorAll('input[type=radio][required]').forEach(function(r) { radioNames[r.name] = true; });
-  Object.keys(radioNames).forEach(function(name) {
-    if (!form.querySelector('input[name="'+name+'"]:checked')) {
-      var grp = form.querySelector('.radio-group');
-      if (grp && !firstInvalid) firstInvalid = grp;
       valid = false;
     }
   });
 
-  var lf=document.getElementById('lugar_fecha'), nf=document.getElementById('nombre_firmante');
-  [lf,nf].forEach(function(inp){
-    if(!inp.value.trim()){
-      inp.style.borderColor='var(--error)';
-      if (!firstInvalid) firstInvalid = inp;
-      valid=false;
-      inp.addEventListener('input',function(){ inp.style.borderColor=''; },{once:true});
+  // 2. Validate tel combos (all visible ones in current form)
+  var telIds = currentType === 'PF'
+    ? ['tel1','tel2','tel3','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
+    : ['tel11','tel12','tel14','tel15','tel18','tel19'];
+
+  telIds.forEach(function(prefix) {
+    var numEl = document.getElementById(prefix + '_num');
+    if (!numEl) return;
+    // Skip tel3 if rentado section is hidden
+    if (prefix === 'tel3') {
+      var rentadoSection = document.getElementById('fiscalRentadoDetails');
+      if (rentadoSection && rentadoSection.style.display === 'none') return;
+    }
+    if (!validateTelField(prefix)) {
+      if (!firstInvalid) firstInvalid = document.getElementById(prefix + '_combo') || numEl;
+      valid = false;
     }
   });
 
-  if(!valid){
-    if (firstInvalid) firstInvalid.scrollIntoView({behavior:'smooth',block:'center'});
+  // 3. Validate sector check groups
+  var sectorId = currentType === 'PF' ? 'sectorPF' : 'sectorPM';
+  var sectorGroup = document.getElementById(sectorId);
+  var sectorErrEl = document.getElementById('err-' + sectorId);
+  if (sectorGroup) {
+    var anyChecked = sectorGroup.querySelectorAll('input[type=checkbox]:checked').length > 0;
+    if (!anyChecked) {
+      sectorGroup.classList.add('input-error');
+      if (sectorErrEl) sectorErrEl.classList.add('show');
+      if (!firstInvalid) firstInvalid = sectorGroup;
+      valid = false;
+    } else {
+      sectorGroup.classList.remove('input-error');
+      if (sectorErrEl) sectorErrEl.classList.remove('show');
+    }
+  }
+
+  // 4. Validate radio groups
+  var radioGroupsToValidate = currentType === 'PF'
+    ? [{groupId: 'estCivilPF', name: 'EstadoCivil_PF', errId: 'err-estCivilPF'}]
+    : [{groupId: 'estCivilAval', name: 'EstadoCivil_Aval', errId: 'err-estCivilAval'}];
+
+  radioGroupsToValidate.forEach(function(rg) {
+    var checked = form.querySelector('input[name="'+rg.name+'"]:checked');
+    var grpEl = document.getElementById(rg.groupId);
+    var errEl = document.getElementById(rg.errId);
+    if (!checked) {
+      if (grpEl) grpEl.classList.add('input-error');
+      if (errEl) errEl.classList.add('show');
+      if (!firstInvalid) firstInvalid = grpEl;
+      valid = false;
+    } else {
+      if (grpEl) grpEl.classList.remove('input-error');
+      if (errEl) errEl.classList.remove('show');
+    }
+  });
+
+  // 5. Validate submit fields
+  var lf = document.getElementById('lugar_fecha');
+  var nf = document.getElementById('nombre_firmante');
+  [lf, nf].forEach(function(inp) {
+    if (!inp.value.trim()) {
+      showFieldError(inp);
+      if (!firstInvalid) firstInvalid = inp;
+      valid = false;
+    }
+  });
+
+  if (!valid) {
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(function(){
+        if (firstInvalid.focus) firstInvalid.focus();
+      }, 400);
+    }
     return;
   }
 
-  var btn=document.getElementById('mainSubmitBtn');
-  btn.disabled=true;
-  document.getElementById('btnText').textContent='Verificando seguridad...';
+  // All valid — proceed
+  var btn = document.getElementById('mainSubmitBtn');
+  btn.disabled = true;
+  document.getElementById('btnText').textContent = 'Verificando seguridad...';
 
   function injectHidden(name, value) {
-    var old=form.querySelector('input[name="'+name+'"]'); if(old) old.remove();
-    var h=document.createElement('input'); h.type='hidden'; h.name=name; h.value=value; form.appendChild(h);
+    var old = form.querySelector('input[name="'+name+'"]'); if (old) old.remove();
+    var h = document.createElement('input'); h.type='hidden'; h.name=name; h.value=value; form.appendChild(h);
   }
   injectHidden('Lugar_Fecha', lf.value);
   injectHidden('Firmante', nf.value);
 
   function doSubmit(token) {
-    if(token) injectHidden('g-recaptcha-response', token);
-
-    // Recolectar todos los datos del form como JSON para enviar via fetch
-    var formData = new FormData(form);
-    var btn = document.getElementById('mainSubmitBtn');
+    if (token) injectHidden('g-recaptcha-response', token);
     document.getElementById('btnText').textContent = 'Enviando...';
-
-    // FormSubmit acepta fetch con header Accept: application/json
-    // para evitar la redirección y devolver JSON
+    var formData = new FormData(form);
     fetch(form.action, {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: formData
     })
     .then(function(res) {
-      // FormSubmit devuelve 200 en éxito
-      if (res.ok || res.status === 200) {
-        showSuccessModal();
-      } else {
-        return res.text().then(function(t) { throw new Error(t); });
-      }
+      if (res.ok || res.status === 200) { showSuccessModal(); }
+      else { return res.text().then(function(t){ throw new Error(t); }); }
     })
-    .catch(function(err) {
-      console.warn('Submit error:', err);
-      // Aunque haya error de red, mostrar modal (el email pudo enviarse)
-      showSuccessModal();
-    })
+    .catch(function(err) { console.warn('Submit error:', err); showSuccessModal(); })
     .finally(function() {
       btn.disabled = false;
       document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
@@ -1330,16 +1194,11 @@ function triggerFormSubmit() {
   function executeRecaptcha(attempts) {
     attempts = attempts || 0;
     if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
-      if (attempts > 50) {
-        console.warn('reCAPTCHA no disponible, enviando sin token');
-        doSubmit(null);
-        return;
-      }
-      setTimeout(function(){ executeRecaptcha(attempts + 1); }, 100);
-      return;
+      if (attempts > 50) { console.warn('reCAPTCHA no disponible'); doSubmit(null); return; }
+      setTimeout(function(){ executeRecaptcha(attempts + 1); }, 100); return;
     }
     grecaptcha.ready(function() {
-      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
+      grecaptcha.execute(RECAPTCHA_SITE_KEY, {action:'submit_arrendamiento'})
         .then(function(token){ doSubmit(token); })
         .catch(function(err){ console.warn('reCAPTCHA error:', err); doSubmit(null); });
     });
@@ -1352,19 +1211,18 @@ function triggerFormSubmit() {
 // =============================================================
 var RFC_RE = /^([A-ZÑ&]{3,4})\d{6}[A-Z\d]{3}$/i;
 function validateRFC(el) {
-  var v=el.value.toUpperCase().trim(); el.value=v;
-  var hint=el.parentElement.querySelector('.rfc-hint');
-  if(!hint){ hint=document.createElement('span'); hint.className='rfc-hint field-hint'; el.parentElement.appendChild(hint); }
-  if(!v.length){ el.classList.remove('rfc-valid','rfc-error'); hint.textContent=''; return; }
-  var ok=RFC_RE.test(v)&&(v.length===12||v.length===13);
+  var v = el.value.toUpperCase().trim(); el.value = v;
+  var hint = el.parentElement.querySelector('.rfc-hint');
+  if (!hint) { hint = document.createElement('span'); hint.className='rfc-hint field-hint'; el.parentElement.appendChild(hint); }
+  if (!v.length) { el.classList.remove('rfc-valid','rfc-error'); hint.textContent=''; return; }
+  var ok = RFC_RE.test(v) && (v.length===12||v.length===13);
   el.classList.toggle('rfc-valid',ok); el.classList.toggle('rfc-error',!ok);
   hint.classList.toggle('ok',ok); hint.classList.toggle('err',!ok);
-  hint.textContent=ok?'RFC válido':(v.length<12?v.length+'/13 chars':'Formato inválido');
+  hint.textContent = ok ? 'RFC válido' : (v.length<12 ? v.length+'/13 chars' : 'Formato inválido');
 }
 
 // =============================================================
-// LADAS — banderas usando emoji regional indicator symbols
-// compatible con todos los navegadores modernos
+// LADAS
 // =============================================================
 var LADAS = [
   {r:'América del Norte',f:'MX',n:'México',c:'+52'},
@@ -1413,34 +1271,21 @@ var LADAS = [
   {r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
 ];
 
-/**
- * Convierte un código de país ISO 3166-1 alpha-2 en emoji de bandera.
- * Usa Unicode Regional Indicator Symbol Letters (U+1F1E6–U+1F1FF).
- * Funciona en Chrome, Firefox, Safari, Edge y Android.
- * En Windows el soporte de banderas es limitado pero muestra el código de país.
- */
 function countryCodeToFlag(code) {
-  // Cada letra se convierte a su Regional Indicator Symbol correspondiente
-  return Array.from(code.toUpperCase()).map(function(char) {
+  return Array.from(code.toUpperCase()).map(function(char){
     return String.fromCodePoint(char.charCodeAt(0) - 65 + 0x1F1E6);
   }).join('');
 }
 
 function buildLadaOptions(sel) {
   var groups = {};
-  LADAS.forEach(function(l) {
-    if (!groups[l.r]) groups[l.r] = [];
-    groups[l.r].push(l);
-  });
-  Object.keys(groups).forEach(function(r) {
-    var og = document.createElement('optgroup');
-    og.label = r;
-    groups[r].forEach(function(l) {
+  LADAS.forEach(function(l){ if(!groups[l.r]) groups[l.r]=[]; groups[l.r].push(l); });
+  Object.keys(groups).forEach(function(r){
+    var og = document.createElement('optgroup'); og.label = r;
+    groups[r].forEach(function(l){
       var op = document.createElement('option');
       op.value = l.c;
-      // Texto: bandera + nombre corto + código
-      var flagEmoji = countryCodeToFlag(l.f);
-      op.textContent = flagEmoji + ' ' + l.n + ' ' + l.c;
+      op.textContent = countryCodeToFlag(l.f) + ' ' + l.n + ' ' + l.c;
       if (l.f === 'MX') op.selected = true;
       og.appendChild(op);
     });
@@ -1449,22 +1294,18 @@ function buildLadaOptions(sel) {
 }
 
 function initAllLadas() {
-  document.querySelectorAll('.lada-select').forEach(function(sel) {
-    buildLadaOptions(sel);
-  });
+  document.querySelectorAll('.lada-select').forEach(function(sel){ buildLadaOptions(sel); });
 }
 
 function updateTelCombined(prefix) {
-  var lada = document.getElementById(prefix + '_lada');
-  var num  = document.getElementById(prefix + '_num');
-  var out  = document.getElementById(prefix + '_combined');
+  var lada = document.getElementById(prefix+'_lada');
+  var num  = document.getElementById(prefix+'_num');
+  var out  = document.getElementById(prefix+'_combined');
   if (lada && num && out) out.value = (lada.value + ' ' + num.value).trim();
 }
 
 // =============================================================
-// COPOMEX — API Código Postal Mexicano
-// Endpoint: GET https://api.copomex.com/query/info_cp/{cp}?type=simplified&token={TOKEN}
-// Response con type=simplified devuelve UN objeto con response.asentamiento como array
+// COPOMEX
 // =============================================================
 var COPOMEX_TOKEN = '36da398a-1848-44f3-a952-06c9bfb02cc8';
 var cpTimers = {};
@@ -1472,122 +1313,62 @@ var cpTimers = {};
 function handleCPInput(input) {
   var uid = input.id;
   clearTimeout(cpTimers[uid]);
-  input.classList.remove('cp-valid', 'cp-error', 'cp-loading');
-
-  // Ocultar colonia wrap mientras escribe
-  var wrap = document.getElementById('colonias-' + uid + '-wrap');
+  input.classList.remove('cp-valid','cp-error','cp-loading');
+  var wrap = document.getElementById('colonias-'+uid+'-wrap');
   if (wrap) wrap.style.display = 'none';
-
-  var val = input.value.replace(/\D/g, ''); // solo dígitos
+  var val = input.value.replace(/\D/g,'');
   input.value = val;
   if (val.length < 5) return;
-
   input.classList.add('cp-loading');
-  cpTimers[uid] = setTimeout(function() { fetchCP(input, uid); }, 600);
+  cpTimers[uid] = setTimeout(function(){ fetchCP(input, uid); }, 600);
 }
 
 function fetchCP(input, uid) {
   var cp = input.value.trim();
   if (cp.length !== 5) { input.classList.remove('cp-loading'); return; }
-
-  // URL correcta según documentación: type=simplified agrupa colonias en un arreglo
-  var url = 'https://api.copomex.com/query/info_cp/' + cp + '?type=simplified&token=' + COPOMEX_TOKEN;
-
+  var url = 'https://api.copomex.com/query/info_cp/'+cp+'?type=simplified&token='+COPOMEX_TOKEN;
   fetch(url)
-    .then(function(res) {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
-    })
-    .then(function(data) {
+    .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); })
+    .then(function(data){
       input.classList.remove('cp-loading');
-
-      // Con type=simplified la respuesta es UN objeto (no array)
-      // Estructura: { error: false, response: { cp, asentamiento: [...], municipio, estado, ciudad } }
       var resp = null;
-      if (Array.isArray(data)) {
-        // Fallback: sin type=simplified devuelve array — tomamos el primer elemento
-        if (data.length > 0 && !data[0].error) resp = data[0].response;
-      } else {
-        if (!data.error) resp = data.response;
-      }
-
-      if (!resp) {
-        input.classList.add('cp-error');
-        return;
-      }
-
+      if (Array.isArray(data)) { if(data.length>0&&!data[0].error) resp=data[0].response; }
+      else { if(!data.error) resp=data.response; }
+      if (!resp) { input.classList.add('cp-error'); return; }
       input.classList.add('cp-valid');
-
-      // Extraer colonias — con simplified es un array; sin simplified es string
-      var colonias = [];
-      if (Array.isArray(resp.asentamiento)) {
-        colonias = resp.asentamiento;
-      } else if (resp.asentamiento) {
-        colonias = [resp.asentamiento];
-      }
-
-      var ciudad  = resp.ciudad   || resp.municipio || '';
-      var estado  = resp.estado   || '';
-      var municipio = resp.municipio || '';
-
-      // Autocompletar ciudad y estado en el mismo field-grid que el CP
-      var section = input.closest('.section-body') || input.closest('.field-grid');
+      var colonias = Array.isArray(resp.asentamiento) ? resp.asentamiento : (resp.asentamiento ? [resp.asentamiento] : []);
+      var ciudad = resp.ciudad||resp.municipio||'';
+      var estado = resp.estado||'';
+      var section = input.closest('.section-body')||input.closest('.field-grid');
       if (section) {
-        section.querySelectorAll('input.field-input').forEach(function(el) {
-          var ph = (el.placeholder || '').toLowerCase().trim();
-          if (ph === 'ciudad') {
-            el.value = ciudad;
-            el.classList.add('cp-autofilled');
-            el.dispatchEvent(new Event('input'));
-          }
-          if (ph === 'estado') {
-            el.value = estado;
-            el.classList.add('cp-autofilled');
-            el.dispatchEvent(new Event('input'));
-          }
+        section.querySelectorAll('input.field-input').forEach(function(el){
+          var ph=(el.placeholder||'').toLowerCase().trim();
+          if(ph==='ciudad'){el.value=ciudad;el.classList.add('cp-autofilled');el.dispatchEvent(new Event('input'));}
+          if(ph==='estado'){el.value=estado;el.classList.add('cp-autofilled');el.dispatchEvent(new Event('input'));}
         });
       }
-
-      // Mostrar selector de colonias
-      var selWrap = document.getElementById('colonias-' + uid + '-wrap');
-      var sel     = document.getElementById('colonias-' + uid);
-      var hint    = document.getElementById('hint-' + uid);
-
-      if (selWrap && sel && colonias.length > 0) {
-        sel.innerHTML = '<option value="">-- Selecciona colonia --</option>';
-        colonias.sort().forEach(function(c) {
-          var op = document.createElement('option');
-          op.value = c;
-          op.textContent = c;
-          sel.appendChild(op);
-        });
-        selWrap.style.display = '';
-        if (colonias.length === 1) {
-          sel.value = colonias[0];
-          onColoniaChange(sel, uid);
-        }
-        if (hint) hint.textContent = colonias.length + ' colonia(s) encontrada(s)';
+      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
+      var sel=document.getElementById('colonias-'+uid);
+      var hint=document.getElementById('hint-'+uid);
+      if(selWrap&&sel&&colonias.length>0){
+        sel.innerHTML='<option value="">-- Selecciona colonia --</option>';
+        colonias.sort().forEach(function(c){ var op=document.createElement('option');op.value=c;op.textContent=c;sel.appendChild(op); });
+        selWrap.style.display='';
+        if(colonias.length===1){sel.value=colonias[0];onColoniaChange(sel,uid);}
+        if(hint) hint.textContent=colonias.length+' colonia(s) encontrada(s)';
       }
     })
-    .catch(function(err) {
-      console.warn('COPOMEX error:', err);
-      input.classList.remove('cp-loading');
-      input.classList.add('cp-error');
-    });
+    .catch(function(err){ console.warn('COPOMEX error:',err); input.classList.remove('cp-loading'); input.classList.add('cp-error'); });
 }
 
 function onColoniaChange(select, uid) {
-  var cp = document.getElementById(uid);
-  if (!cp) return;
-  var section = cp.closest('.section-body') || cp.closest('.field-grid');
-  if (!section) return;
-  var colVal = select.value;
-  if (!colVal) return;
-  section.querySelectorAll('input.field-input').forEach(function(inp) {
-    var ph = (inp.placeholder || '').toLowerCase().trim();
-    if (ph === 'colonia' || ph.includes('colonia') || ph.includes('fraccionamiento') || ph.includes('asentamiento')) {
-      inp.value = colVal;
-      inp.dispatchEvent(new Event('input'));
+  var cp = document.getElementById(uid); if(!cp) return;
+  var section=cp.closest('.section-body')||cp.closest('.field-grid'); if(!section) return;
+  var colVal=select.value; if(!colVal) return;
+  section.querySelectorAll('input.field-input').forEach(function(inp){
+    var ph=(inp.placeholder||'').toLowerCase().trim();
+    if(ph==='colonia'||ph.includes('colonia')||ph.includes('fraccionamiento')||ph.includes('asentamiento')){
+      inp.value=colVal; inp.dispatchEvent(new Event('input'));
     }
   });
 }
@@ -1595,60 +1376,54 @@ function onColoniaChange(select, uid) {
 // =============================================================
 // FLOATING PROGRESS BAR
 // =============================================================
-var progressState = {
-  currentForm: null,
-  total: 0,
-  done: 0
-};
+var progressState = { currentForm: null };
 
-/**
- * Collects all "required" fields for a given form.
- * Includes:
- *  - Standard inputs/selects/textareas with [required]
- *  - Radio groups (counted once per name)
- *  - The global submit fields: lugar_fecha, nombre_firmante
- */
 function getRequiredFieldsForForm(formId) {
-  var form = document.getElementById(formId);
-  if (!form) return [];
+  var form = document.getElementById(formId); if(!form) return [];
   var fields = [];
   var radioGroups = {};
   var seen = {};
 
   form.querySelectorAll('[required]').forEach(function(el) {
-    if (el.type === 'hidden') return;
-    if (el.classList.contains('lada-select')) return;
-    if (el.classList.contains('tel-number')) return;
-    if (el.id && el.id.indexOf('colonias-') === 0) return;
-    var key = el.name || el.id || Math.random();
-    if (el.type === 'radio') {
-      if (!radioGroups[el.name]) {
-        radioGroups[el.name] = true;
-        fields.push({ type: 'radio', name: el.name });
-      }
+    if (el.type==='hidden') return;
+    if (el.classList.contains('lada-select')||el.classList.contains('tel-number')) return;
+    if (el.id&&el.id.indexOf('colonias-')===0) return;
+    var key = el.name||el.id||Math.random();
+    if (el.type==='radio') {
+      if (!radioGroups[el.name]) { radioGroups[el.name]=true; fields.push({type:'radio',name:el.name}); }
     } else {
-      if (!seen[key]) {
-        seen[key] = true;
-        fields.push({ type: 'standard', el: el });
-      }
+      if (!seen[key]) { seen[key]=true; fields.push({type:'standard',el:el}); }
     }
   });
 
-  // Global submit fields
-  var lf = document.getElementById('lugar_fecha');
-  var nf = document.getElementById('nombre_firmante');
-  if (lf && !seen['lugar_fecha']) fields.push({ type: 'standard', el: lf });
-  if (nf && !seen['nombre_firmante']) fields.push({ type: 'standard', el: nf });
+  // Sector check groups
+  var sectorId = formId === 'formPF' ? 'sectorPF' : 'sectorPM';
+  fields.push({type:'checkgroup', id: sectorId});
 
+  // Telephone combos
+  var telPrefixes = formId === 'formPF'
+    ? ['tel1','tel2','tel3','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
+    : ['tel11','tel12','tel14','tel15','tel18','tel19'];
+  telPrefixes.forEach(function(p){ fields.push({type:'tel', prefix:p}); });
+
+  // Submit area fields
+  var lf=document.getElementById('lugar_fecha');
+  var nf=document.getElementById('nombre_firmante');
+  if(lf) fields.push({type:'standard',el:lf});
+  if(nf) fields.push({type:'standard',el:nf});
   return fields;
 }
 
-function isFieldFilled(fieldDef) {
-  if (fieldDef.type === 'radio') {
-    return document.querySelector('input[name="' + fieldDef.name + '"]:checked') !== null;
+function isFieldFilled(f) {
+  if (f.type==='radio') return document.querySelector('input[name="'+f.name+'"]:checked')!==null;
+  if (f.type==='standard') return f.el&&f.el.value.trim().length>0;
+  if (f.type==='checkgroup') {
+    var g=document.getElementById(f.id);
+    return g&&g.querySelectorAll('input:checked').length>0;
   }
-  if (fieldDef.type === 'standard') {
-    return fieldDef.el && fieldDef.el.value.trim().length > 0;
+  if (f.type==='tel') {
+    var numEl=document.getElementById(f.prefix+'_num');
+    return numEl&&numEl.value.replace(/\D/g,'').length>=7;
   }
   return false;
 }
@@ -1656,34 +1431,24 @@ function isFieldFilled(fieldDef) {
 function updateProgressBar() {
   if (!progressState.currentForm) return;
   var fields = getRequiredFieldsForForm(progressState.currentForm);
-  var total = fields.length;
-  var done = 0;
-  fields.forEach(function(f) { if (isFieldFilled(f)) done++; });
-
-  progressState.total = total;
-  progressState.done = done;
-
-  var pct = total > 0 ? (done / total) * 100 : 0;
-  document.getElementById('formProgressFill').style.width = pct + '%';
+  var total = fields.length, done = 0;
+  fields.forEach(function(f){ if(isFieldFilled(f)) done++; });
+  var pct = total>0 ? (done/total)*100 : 0;
+  document.getElementById('formProgressFill').style.width = pct+'%';
   document.getElementById('formProgressDone').textContent = done;
   document.getElementById('formProgressTotal').textContent = total;
 }
 
 function attachProgressListeners(formId) {
-  var form = document.getElementById(formId);
-  if (!form) return;
-
-  // Listen on all inputs inside form
-  form.querySelectorAll('input, select, textarea').forEach(function(el) {
+  var form = document.getElementById(formId); if(!form) return;
+  form.querySelectorAll('input,select,textarea').forEach(function(el){
     el.addEventListener('input', updateProgressBar);
     el.addEventListener('change', updateProgressBar);
   });
-
-  // Also listen on the global submit fields
-  var lf = document.getElementById('lugar_fecha');
-  var nf = document.getElementById('nombre_firmante');
-  if (lf) { lf.addEventListener('input', updateProgressBar); }
-  if (nf) { nf.addEventListener('input', updateProgressBar); }
+  var lf=document.getElementById('lugar_fecha');
+  var nf=document.getElementById('nombre_firmante');
+  if(lf){lf.addEventListener('input',updateProgressBar);}
+  if(nf){nf.addEventListener('input',updateProgressBar);}
 }
 
 function showProgressBar(formId) {
@@ -1694,71 +1459,21 @@ function showProgressBar(formId) {
 }
 
 // =============================================================
-// HACER TODOS LOS CAMPOS OBLIGATORIOS
-// Aplica `required` a todos los inputs/selects/textareas visibles
-// dentro de los formularios, excepto: hidden, los tel-number (cubiertos
-// por el hidden combinado), los de mini-table que se añaden dinámicamente,
-// y campos de tipo radio (que ya tienen required en su grupo).
-// =============================================================
-function makeAllFieldsRequired(formId) {
-  var form = document.getElementById(formId);
-  if (!form) return;
-
-  var skip = ['hidden', 'radio', 'checkbox', 'submit', 'button', 'file'];
-
-  form.querySelectorAll('input, select, textarea').forEach(function(el) {
-    if (skip.indexOf(el.type) !== -1) return;
-    if (el.classList.contains('lada-select')) return; // lada es opcional
-    if (el.classList.contains('tel-number')) return;  // cubierto por hidden combinado
-    if (el.id && el.id.indexOf('colonias-') === 0) return; // colonia selector (opcional, autorellenado)
-
-    el.required = true;
-
-    // Actualizar el label para mostrar el asterisco si no lo tiene ya
-    var group = el.closest('.field-group');
-    if (group) {
-      var lbl = group.querySelector('.field-label');
-      if (lbl && !lbl.querySelector('.req')) {
-        var star = document.createElement('span');
-        star.className = 'req';
-        star.textContent = '*';
-        lbl.appendChild(star);
-      }
-    }
-  });
-
-  // Las mini-tables tienen inputs sin field-group — los marcamos required también
-  // pero sin modificar label (no tienen)
-  form.querySelectorAll('.mini-table input, .mini-table select').forEach(function(el) {
-    if (skip.indexOf(el.type) !== -1) return;
-    el.required = true;
-  });
-}
-
-// =============================================================
 // INIT
 // =============================================================
 document.addEventListener('DOMContentLoaded', function() {
   initAllLadas();
-  var btn = document.getElementById('mainSubmitBtn');
-  if (btn) btn.disabled = true;
+  document.getElementById('mainSubmitBtn').disabled = true;
 
-  // ---- THEME TOGGLE ----
+  // Theme toggle
   var themeBtn = document.getElementById('themeToggleBtn');
-  try {
-    if (localStorage.getItem('ava-theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  } catch(e) {}
-
+  try { if(localStorage.getItem('ava-theme')==='dark') document.body.classList.add('dark-mode'); } catch(e){}
   if (themeBtn) {
-    themeBtn.addEventListener('click', function() {
+    themeBtn.addEventListener('click', function(){
       var isDark = document.body.classList.toggle('dark-mode');
-      try { localStorage.setItem('ava-theme', isDark ? 'dark' : 'light'); } catch(e) {}
-      themeBtn.style.boxShadow = isDark
-        ? '0 0 24px rgba(65,105,225,0.75)'
-        : '0 0 24px rgba(255,215,0,0.75)';
-      setTimeout(function(){ themeBtn.style.boxShadow = ''; }, 400);
+      try { localStorage.setItem('ava-theme', isDark?'dark':'light'); } catch(e){}
+      themeBtn.style.boxShadow = isDark ? '0 0 24px rgba(65,105,225,0.75)' : '0 0 24px rgba(255,215,0,0.75)';
+      setTimeout(function(){ themeBtn.style.boxShadow=''; }, 400);
     });
   }
 });
