@@ -184,6 +184,211 @@
   .whatsapp-float:hover { transform: scale(1.12) translateY(-3px); box-shadow: 0 16px 36px rgba(37,211,102,0.55); }
   .whatsapp-icon { width: 30px; height: 30px; }
 
+  /* Section icon SVG container */
+  .section-icon-svg { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; }
+
+  /* ===================== THEME TOGGLE BUTTON ===================== */
+  .theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e8ecf4, #d0d6e8);
+    box-shadow:
+      0 6px 20px rgba(0,0,0,0.18),
+      inset 0 -2px 4px rgba(0,0,0,0.15),
+      inset 0 2px 4px rgba(255,255,255,0.9);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: subtlePulse 3s infinite ease-in-out;
+  }
+  .theme-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .theme-toggle-btn:hover::before { opacity: 1; }
+  .theme-toggle-btn:hover {
+    animation: none;
+    transform: scale(1.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,1);
+  }
+  .theme-toggle-btn:active { transform: scale(0.94); }
+  @keyframes subtlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
+  .toggle-icon-wrap {
+    position: relative;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .theme-toggle-btn:hover .toggle-icon-wrap { transform: rotate(20deg); }
+  .icon-sun, .icon-moon {
+    position: absolute;
+    width: 28px; height: 28px;
+    transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);
+  }
+  .icon-sun  { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.6)); }
+  .icon-moon { opacity: 0; transform: scale(0.4) rotate(-80deg); filter: drop-shadow(0 0 4px rgba(100,120,255,0.6)); }
+  body.dark-mode .icon-sun  { opacity: 0; transform: scale(0.4) rotate(80deg); }
+  body.dark-mode .icon-moon { opacity: 1; transform: scale(1) rotate(0deg); }
+  body.dark-mode .theme-toggle-btn {
+    background: linear-gradient(145deg, #1e2d50, #0f1d38);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 15px rgba(65,105,225,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06);
+  }
+
+  /* ===================== DARK MODE VARIABLES ===================== */
+  body.dark-mode {
+    --navy: #1a2d56;
+    --blue: #4d8aff;
+    --blue-light: #6ba3ff;
+    --white: #e8edf8;
+    --dark: #d0d8ec;
+    --gray-100: #111827;
+    --gray-200: #1e2d45;
+    --gray-400: #4a5878;
+    --gray-500: #7a8fb0;
+    --card-bg: rgba(17,28,50,0.97);
+    --shadow: 0 8px 40px rgba(0,0,0,0.35);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+    background: #0c1525;
+  }
+
+  /* Dark mode: header stays deep navy */
+  body.dark-mode .header { background: #061022; }
+
+  /* Dark mode: form cards */
+  body.dark-mode .form-card,
+  body.dark-mode .submit-area {
+    background: #111c33;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Dark mode: section headers */
+  body.dark-mode .section-header { background: #0d1d3a; border-bottom: 1px solid #1e3060; }
+
+  /* Dark mode: section body bg */
+  body.dark-mode .section-body { background: #111c33; }
+
+  /* Dark mode: inputs */
+  body.dark-mode .field-input {
+    background: #162040;
+    border-color: #243660;
+    color: #d0d8ec;
+  }
+  body.dark-mode .field-input:focus {
+    background: #1a2850;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(77,138,255,0.15);
+  }
+  body.dark-mode .field-input::placeholder { color: #4a5878; }
+
+  /* Dark mode: select dropdown arrow color */
+  body.dark-mode select.field-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  /* Dark mode: tel combo */
+  body.dark-mode .tel-combo { background: #162040; border-color: #243660; }
+  body.dark-mode .tel-combo:focus-within { background: #1a2850; border-color: var(--blue); }
+  body.dark-mode .lada-select { background-color: rgba(10,20,50,0.5); color: #a0b0d0; border-right-color: #243660; }
+  body.dark-mode .lada-select:focus { background-color: rgba(77,138,255,0.1); }
+  body.dark-mode .tel-number { color: #d0d8ec; }
+
+  /* Dark mode: radio / check pills */
+  body.dark-mode .radio-pill,
+  body.dark-mode .check-pill {
+    background: #162040;
+    border-color: #243660;
+    color: #7a8fb0;
+  }
+  body.dark-mode .radio-pill:hover,
+  body.dark-mode .check-pill:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark-mode .radio-pill.selected,
+  body.dark-mode .check-pill.selected { background: rgba(77,138,255,0.12); border-color: var(--blue); color: var(--blue); }
+
+  /* Dark mode: type selector cards */
+  body.dark-mode .type-btn { background: #111c33; border-color: #1e2d45; }
+  body.dark-mode .type-btn:hover { border-color: var(--blue-light); box-shadow: 0 12px 40px rgba(77,138,255,0.18); }
+  body.dark-mode .type-btn.active { background: #0d1d3a; border-color: var(--blue); }
+  body.dark-mode .type-label { color: #d0d8ec; }
+  body.dark-mode .type-desc { color: #7a8fb0; }
+
+  /* Dark mode: req banner */
+  body.dark-mode .req-banner { background: linear-gradient(135deg, #0d1d3a 0%, #091630 100%); }
+
+  /* Dark mode: mini table */
+  body.dark-mode .mini-table th { background: #162040; color: #7a8fb0; border-bottom-color: #243660; }
+  body.dark-mode .mini-table td { border-bottom-color: #243660; }
+  body.dark-mode .mini-table td input,
+  body.dark-mode .mini-table td select { color: #d0d8ec; }
+  body.dark-mode .mini-table td input:focus { border-bottom-color: var(--blue); }
+
+  /* Dark mode: add-row button */
+  body.dark-mode .add-row-btn { border-color: #4a5878; color: #7a8fb0; }
+  body.dark-mode .add-row-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* Dark mode: inmueble toggle */
+  body.dark-mode .inmueble-toggle { border-color: #243660; }
+  body.dark-mode .inmueble-opt { background: #162040; color: #7a8fb0; }
+  body.dark-mode .inmueble-opt.active { background: #0d1d3a; color: #d0d8ec; }
+
+  /* Dark mode: declaration box */
+  body.dark-mode .declaration-wrap { border-color: #243660; }
+  body.dark-mode .declaration-box { background: #162040; }
+  body.dark-mode .declaration-wrap.checked { border-color: var(--blue); }
+  body.dark-mode .declaration-wrap.checked .declaration-box { background: rgba(77,138,255,0.08); }
+  body.dark-mode .declaration-check-icon { background: #1e2d45; border-color: #4a5878; }
+  body.dark-mode .declaration-text { color: #7a8fb0; }
+  body.dark-mode .declaration-text strong { color: #d0d8ec; }
+
+  /* Dark mode: legal text */
+  body.dark-mode .legal-text { background: #162040; border-left-color: var(--blue); color: #7a8fb0; }
+
+  /* Dark mode: divider */
+  body.dark-mode .divider { background: #243660; }
+
+  /* Dark mode: sub-section label */
+  body.dark-mode .sub-section-label { color: var(--blue); border-left-color: var(--blue); }
+
+  /* Dark mode: field label */
+  body.dark-mode .field-label { color: #7a8fb0; }
+
+  /* Dark mode: cp autofilled */
+  body.dark-mode .cp-autofilled { background: rgba(77,138,255,0.08) !important; color: var(--blue) !important; }
+  body.dark-mode .cp-input.cp-loading { background: rgba(77,138,255,0.06) !important; }
+
+  /* Dark mode: recaptcha notice */
+  body.dark-mode .recaptcha-notice { color: #4a5878; }
+  body.dark-mode .recaptcha-notice a { color: var(--blue); }
+
+  /* Dark mode: success card */
+  body.dark-mode .success-card { background: #111c33; }
+  body.dark-mode .success-title { color: #d0d8ec; }
+  body.dark-mode .success-sub { color: #7a8fb0; }
+
+  /* Dark mode: section icon SVGs — make them brighter */
+  body.dark-mode .section-icon-svg svg rect,
+  body.dark-mode .section-icon-svg svg circle { fill: rgba(77,138,255,0.25); stroke: #4d8aff; }
+  body.dark-mode .section-icon-svg svg path { stroke: #4d8aff; }
+
+  /* Smooth transition for all theme changes */
+  body, .form-card, .section-header, .section-body, .field-input, .type-btn,
+  .radio-pill, .check-pill, .mini-table th, .mini-table td,
+  .declaration-box, .legal-text, .submit-area, .req-banner {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
   @media (max-width: 640px) {
     .field-grid, .field-grid.thirds { grid-template-columns: 1fr; }
     .type-selector, .req-grid { grid-template-columns: 1fr; }
@@ -192,10 +397,39 @@
     .header-inner { padding: 28px 20px 24px; }
     .main { padding: 24px 14px 60px; }
     .lada-select { width: 130px; }
+    .theme-toggle-btn { top: 14px; right: 14px; width: 44px; height: 44px; }
+    .icon-sun, .icon-moon { width: 22px; height: 22px; }
   }
 </style>
 </head>
 <body>
+
+<!-- ===== TEMA CLARO / OSCURO ===== -->
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+  <div class="toggle-icon-wrap">
+    <!-- Sol (modo claro) -->
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4.5" fill="#FFD700" stroke="#FFA500" stroke-width="1.4"/>
+      <g stroke="#FFD700" stroke-width="2" stroke-linecap="round">
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></line>
+        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></line>
+      </g>
+    </svg>
+    <!-- Luna (modo oscuro) -->
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/>
+      <circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="5s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+</button>
 
 <header class="header">
   <div class="header-deco"></div>
@@ -260,7 +494,7 @@
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="Tipo_Solicitud" value="Persona Fisica PFAE">
 
-    <div class="section-header"><div class="section-icon">🏗</div><div class="section-title">Datos del Negocio / PFAE</div></div>
+    <div class="section-header"><div class="section-icon section-icon-svg"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><rect x="2" y="7" width="20" height="14" rx="2" stroke="#165DFF" stroke-width="1.8" fill="rgba(22,93,255,0.15)"/><path d="M8 7V5a4 4 0 0 1 8 0v2" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/><path d="M12 12v4" stroke="#60AAFF" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#165DFF"/></svg></div><div class="section-title">Datos del Negocio / PFAE</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Nombre del cliente<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_cliente" placeholder="Nombre completo" required></div>
@@ -580,7 +814,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong>aviso@finbeabc.com.mx</strong>
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="60011609130f2006090e02050102034e030f0d4e0d18">[email&#160;protected]</a></strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
@@ -624,7 +858,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // =============================================================
 // reCAPTCHA v3 — callback llamado por el script de Google
 // =============================================================
@@ -942,6 +1176,27 @@ document.addEventListener('DOMContentLoaded', function() {
   initAllLadas();
   var btn = document.getElementById('mainSubmitBtn');
   if (btn) btn.disabled = true;
+
+  // ---- THEME TOGGLE ----
+  var themeBtn = document.getElementById('themeToggleBtn');
+  // Restore saved preference
+  try {
+    if (localStorage.getItem('ava-theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  } catch(e) {}
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function() {
+      var isDark = document.body.classList.toggle('dark-mode');
+      try { localStorage.setItem('ava-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+      // Brief glow effect
+      themeBtn.style.boxShadow = isDark
+        ? '0 0 24px rgba(65,105,225,0.75)'
+        : '0 0 24px rgba(255,215,0,0.75)';
+      setTimeout(function(){ themeBtn.style.boxShadow = ''; }, 400);
+    });
+  }
 });
 </script>
 </body>
