@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVA – Formulario Arrendamiento Puro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1F44;
+    --blue: #165DFF;
+    --blue-light: #3a7fff;
+    --white: #FFFFFF;
+    --dark: #333333;
+    --gray-100: #F4F6FB;
+    --gray-200: #E8ECF4;
+    --gray-400: #9BA8C0;
+    --gray-500: #6B7A99;
+    --success: #0FC373;
+    --error: #FF4757;
+    --card-bg: rgba(255,255,255,0.97);
+    --shadow: 0 8px 40px rgba(10,31,68,0.10);
+    --shadow-lg: 0 20px 60px rgba(10,31,68,0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-100);
+    color: var(--dark);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 32px 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .header-deco {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(22,93,255,0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-deco2 {
+    position: absolute;
+    bottom: -80px; left: 10%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(22,93,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .logo-text span { color: var(--blue); }
+  .logo-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--gray-400);
+    text-transform: uppercase;
+  }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-top: 18px;
+    letter-spacing: -0.3px;
+  }
+  .header-title span {
+    color: var(--blue);
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--blue);
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 20px 80px;
+  }
+
+  /* TYPE SELECTOR */
+  .type-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .type-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .type-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(22,93,255,0.06), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .type-btn:hover::before { opacity: 1; }
+  .type-btn:hover {
+    border-color: var(--blue-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(22,93,255,0.15);
+  }
+  .type-btn.active {
+    border-color: var(--blue);
+    background: var(--navy);
+    box-shadow: 0 16px 48px rgba(10,31,68,0.28);
+    transform: translateY(-3px);
+  }
+  .type-btn.active::before { opacity: 0; }
+  .type-icon {
+    width: 44px; height: 44px;
+    background: var(--gray-100);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+    font-size: 20px;
+    transition: background 0.25s;
+  }
+  .type-btn.active .type-icon {
+    background: rgba(22,93,255,0.18);
+  }
+  .type-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    transition: color 0.25s;
+  }
+  .type-btn.active .type-label { color: var(--white); }
+  .type-desc {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.5;
+    transition: color 0.25s;
+  }
+  .type-btn.active .type-desc { color: rgba(255,255,255,0.55); }
+  .type-check {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .type-btn.active .type-check {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .type-check svg { width: 12px; height: 12px; }
+
+  /* REQUIREMENTS BANNER */
+  .req-banner {
+    background: linear-gradient(135deg, var(--navy) 0%, #12296b 100%);
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+    display: none;
+    animation: fadeSlide 0.4s ease;
+    box-shadow: var(--shadow-lg);
+  }
+  .req-banner.show { display: block; }
+  .req-banner-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .req-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 20px;
+  }
+  .req-item {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    line-height: 1.4;
+  }
+  .req-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* FORM CARD */
+  .form-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: none;
+    animation: fadeSlide 0.35s ease;
+  }
+  .form-card.show { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    background: var(--navy);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: rgba(22,93,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .section-body {
+    padding: 28px;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
+  }
+  .field-grid.thirds {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .field-grid.full {
+    grid-template-columns: 1fr;
+  }
+  .col-full { grid-column: 1 / -1; }
+  .col-2 { grid-column: span 2; }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .field-label .req { color: var(--blue); margin-left: 2px; }
+
+  .field-input {
+    background: var(--gray-100);
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .field-input:focus {
+    border-color: var(--blue);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(22,93,255,0.10);
+  }
+  .field-input::placeholder { color: var(--gray-400); }
+
+  select.field-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  textarea.field-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* RADIO GROUPS */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .radio-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--gray-200);
+    background: var(--gray-100);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    transition: all 0.2s;
+  }
+  .radio-pill input { display: none; }
+  .radio-pill:hover { border-color: var(--blue-light); color: var(--blue); }
+  .radio-pill.selected {
+    border-color: var(--blue);
+    background: rgba(22,93,255,0.08);
+    color: var(--blue);
+  }
+  .radio-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .radio-pill.selected .radio-dot::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--blue);
+    border-radius: 50%;
+  }
+
+  /* SECTOR CHECKS */
+  .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .check-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--gray-200);
+    background: var(--gray-100);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .check-pill input { display: none; }
+  .check-pill:hover { border-color: var(--blue-light); color: var(--blue); }
+  .check-pill.selected {
+    border-color: var(--blue);
+    background: rgba(22,93,255,0.08);
+    color: var(--blue);
+  }
+  .check-box {
+    width: 14px; height: 14px;
+    border-radius: 4px;
+    border: 2px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .check-pill.selected .check-box {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .check-pill.selected .check-box::after {
+    content: '✓';
+    font-size: 9px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 24px 0;
+  }
+
+  /* TABLE-LIKE */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .mini-table th {
+    background: var(--gray-100);
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .mini-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .mini-table td input, .mini-table td select {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--dark);
+    width: 100%;
+    padding: 2px 0;
+  }
+  .mini-table td input:focus, .mini-table td select:focus {
+    border-bottom: 1.5px solid var(--blue);
+  }
+  .mini-table tr:last-child td { border-bottom: none; }
+
+  /* ADD ROW BTN */
+  .add-row-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: 1.5px dashed var(--gray-400);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .add-row-btn:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(22,93,255,0.04);
+  }
+
+  /* INMUEBLE TOGGLE */
+  .inmueble-toggle {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+    width: fit-content;
+    margin-bottom: 16px;
+  }
+  .inmueble-opt {
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    cursor: pointer;
+    background: var(--gray-100);
+    border: none;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .inmueble-opt.active {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  /* CONDITIONAL */
+  .conditional { display: none; }
+  .conditional.show { display: block; }
+
+  /* SUBMIT AREA */
+  .submit-area {
+    display: none;
+    padding: 28px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    animation: fadeSlide 0.35s ease;
+  }
+  .submit-area.show { display: block; }
+
+  .legal-text {
+    font-size: 12px;
+    color: var(--gray-500);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--gray-100);
+    border-radius: 10px;
+    border-left: 3px solid var(--blue);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  }
+  .submit-btn:hover {
+    background: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(22,93,255,0.35);
+  }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* TOOLTIP */
+  .field-hint {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  /* SECTION LABEL */
+  .sub-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin: 20px 0 14px;
+    padding-left: 10px;
+    border-left: 3px solid var(--blue);
+  }
+
+  .note-box {
+    background: rgba(22,93,255,0.06);
+    border: 1px solid rgba(22,93,255,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: var(--gray-500);
+    line-height: 1.6;
+  }
+  .note-box strong { color: var(--blue); }
+
+  /* SUCCESS */
+  .success-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,31,68,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .success-overlay.show { display: flex; }
+  .success-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 400px;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: rgba(15,195,115,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  .success-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .success-sub {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .success-close {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .success-close:hover { background: var(--blue); }
+
+  @media (max-width: 640px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .field-grid.thirds { grid-template-columns: 1fr; }
+    .type-selector { grid-template-columns: 1fr; }
+    .req-grid { grid-template-columns: 1fr; }
+    .col-full { grid-column: 1; }
+    .col-2 { grid-column: 1; }
+    .section-body { padding: 20px 16px; }
+    .header-inner { padding: 28px 20px 24px; }
+    .main { padding: 24px 14px 60px; }
+    .logo-text { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-deco"></div>
+  <div class="header-deco2"></div>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div>
+        <div class="logo-text">A<span>V</span>A</div>
+        <div class="logo-sub">Trámites Vehiculares en Morelos</div>
+      </div>
+    </div>
+    <div class="header-title">Formulario <span>Arrendamiento Puro</span></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TIPO SELECTOR -->
+  <div class="type-selector">
+    <label class="type-btn" id="btnPF" onclick="selectType('PF')">
+      <div class="type-icon">👤</div>
+      <div class="type-label">Persona Física</div>
+      <div class="type-desc">Persona física con actividad empresarial o profesionista independiente (PFAE)</div>
+      <div class="type-check">
+        <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </label>
+    <label class="type-btn" id="btnPM" onclick="selectType('PM')">
+      <div class="type-icon">🏢</div>
+      <div class="type-label">Persona Moral</div>
+      <div class="type-desc">Empresa o sociedad mercantil constituida legalmente (PM)</div>
+      <div class="type-check">
+        <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </label>
+  </div>
+
+  <!-- REQUIREMENTS BANNER PF -->
+  <div class="req-banner" id="reqPF">
+    <div class="req-banner-title">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Documentos requeridos – Persona Física (PFAE)
+    </div>
+    <div class="req-grid">
+      <div class="req-item"><div class="req-dot"></div>Solicitud de arrendamiento firmada</div>
+      <div class="req-item"><div class="req-dot"></div>Autorización consulta buró de crédito (PF)</div>
+      <div class="req-item"><div class="req-dot"></div>3 estados de cuenta completos (PDF, máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>Opinión de cumplimiento SAT (máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>Constancia de situación fiscal / RFC</div>
+      <div class="req-item"><div class="req-dot"></div>Comprobante de domicilio fiscal y particular</div>
+      <div class="req-item"><div class="req-dot"></div>Identificación oficial vigente (INE, Pasaporte, FM2)</div>
+      <div class="req-item"><div class="req-dot"></div>Recibo predial del año en curso</div>
+    </div>
+  </div>
+
+  <!-- REQUIREMENTS BANNER PM -->
+  <div class="req-banner" id="reqPM">
+    <div class="req-banner-title">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Documentos requeridos – Persona Moral (PM)
+    </div>
+    <div class="req-grid">
+      <div class="req-item"><div class="req-dot"></div>Solicitud de arrendamiento</div>
+      <div class="req-item"><div class="req-dot"></div>Autorización buró de crédito PF y PM</div>
+      <div class="req-item"><div class="req-dot"></div>Estados financieros parciales con analíticas (máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>3 estados de cuenta completos (PDF, máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>Opinión de cumplimiento SAT (máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>Constancia de situación fiscal / RFC</div>
+      <div class="req-item"><div class="req-dot"></div>Acta constitutiva, poderes y escritura accionaria</div>
+      <div class="req-item"><div class="req-dot"></div>Identificación oficial de participantes</div>
+      <div class="req-item"><div class="req-dot"></div>Comprobante de domicilio fiscal y particular (máx. 3 meses)</div>
+      <div class="req-item"><div class="req-dot"></div>Recibo predial del año en curso</div>
+    </div>
+  </div>
+
+  <!-- ===================== FORMULARIO PF ===================== -->
+  <form id="formPF" class="form-card" onsubmit="return false">
+
+    <!-- DATOS DEL NEGOCIO -->
+    <div class="section-header">
+      <div class="section-icon">🏪</div>
+      <div class="section-title">Datos del Negocio / PFAE</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full">
+          <label class="field-label">Nombre del cliente<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Nombre completo" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">R.F.C.<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="RFC con homoclave" maxlength="13" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Actividad principal</label>
+          <input class="field-input" type="text" placeholder="Descripción de actividad">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Régimen fiscal<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Transcribir de la Constancia de Situación Fiscal" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre comercial</label>
+          <input class="field-input" type="text" placeholder="Nombre del negocio">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Fundador del negocio</label>
+          <input class="field-input" type="text" placeholder="Nombre del fundador">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Fecha de inicio del negocio</label>
+          <input class="field-input" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Número de empleados</label>
+          <input class="field-input" type="number" placeholder="0" min="0">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Sitio web / Facebook</label>
+          <input class="field-input" type="text" placeholder="https://">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Sector</div>
+      <div class="check-group" id="sectorPF">
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Construcción</label>
+      </div>
+
+      <div class="field-grid" style="margin-top:18px">
+        <div class="field-group">
+          <label class="field-label">Persona que dirige el negocio</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Relación con el aval</label>
+          <input class="field-input" type="text" placeholder="Ej. Socio, cónyuge...">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Cuenta CLABE<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="18 dígitos" maxlength="18" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre del banco</label>
+          <input class="field-input" type="text" placeholder="Banco">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Contacto de pagos</label>
+          <input class="field-input" type="text" placeholder="Nombre">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Correo electrónico</label>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
+        </div>
+      </div>
+
+      <!-- Clientes -->
+      <div class="sub-section-label">Principales Clientes</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre del cliente</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
+        <tbody id="tblClientesPF">
+          <tr><td><input type="text" placeholder="Cliente 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+          <tr><td><input type="text" placeholder="Cliente 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+        </tbody>
+      </table>
+
+      <!-- Proveedores -->
+      <div class="sub-section-label">Principales Proveedores</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre del proveedor</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Proveedor 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+          <tr><td><input type="text" placeholder="Proveedor 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+        </tbody>
+      </table>
+
+      <!-- Productos -->
+      <div class="sub-section-label">Productos o Servicios</div>
+      <table class="mini-table">
+        <thead><tr><th>Productos / Servicios</th><th>% Ventas</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Producto o servicio principal"></td><td><input type="number" placeholder="%" min="0" max="100"></td></tr>
+          <tr><td><input type="text" placeholder="Producto o servicio 2"></td><td><input type="number" placeholder="%" min="0" max="100"></td></tr>
+        </tbody>
+      </table>
+
+      <!-- Directivos -->
+      <div class="sub-section-label">Primer Cuadro Directivo</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años de exp.</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
+          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="field-grid" style="margin-top:20px">
+        <div class="field-group col-full">
+          <label class="field-label">¿Cliente actual o anterior?</label>
+          <div class="radio-group" id="clienteAnteriorPF">
+            <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="si"><div class="radio-dot"></div>Sí</label>
+            <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="no"><div class="radio-dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Contratos anteriores (a nombre de)</label>
+          <input class="field-input" type="text" placeholder="Personas físicas o morales">
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMICILIO FISCAL -->
+    <div class="section-header">
+      <div class="section-icon">📍</div>
+      <div class="section-title">Domicilio Fiscal del Negocio</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid thirds">
+        <div class="field-group col-2">
+          <label class="field-label">Calle<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Calle" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Número exterior</label>
+          <input class="field-input" type="text" placeholder="No. Ext">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Número interior</label>
+          <input class="field-input" type="text" placeholder="No. Int">
+        </div>
+        <div class="field-group col-2">
+          <label class="field-label">Colonia / Fraccionamiento</label>
+          <input class="field-input" type="text" placeholder="Colonia">
+        </div>
+        <div class="field-group">
+          <label class="field-label">C.P.</label>
+          <input class="field-input" type="text" placeholder="00000" maxlength="5">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ciudad</label>
+          <input class="field-input" type="text" placeholder="Ciudad">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Estado</label>
+          <input class="field-input" type="text" placeholder="Estado">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Entre calles / Referencia</label>
+          <input class="field-input" type="text" placeholder="Entre calle A y calle B...">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
+      <div class="inmueble-toggle" id="inmuebleFiscalPF">
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF', 'propio', 'fiscalPropioDetails')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF', 'rentado', 'fiscalRentadoDetails')">Rentado</button>
+      </div>
+
+      <div class="field-grid" id="fiscalPropioDetails">
+        <div class="field-group col-full">
+          <label class="field-label">¿A nombre de quién está registrado?</label>
+          <input class="field-input" type="text" placeholder="Nombre del titular">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tipo (planta, oficina, otro)</label>
+          <input class="field-input" type="text" placeholder="Tipo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tamaño (m²)</label>
+          <input class="field-input" type="number" placeholder="0">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Datos Registro Público de la Propiedad</label>
+          <input class="field-input" type="text" placeholder="Datos completos de inscripción">
+        </div>
+        <div class="field-group">
+          <label class="field-label">¿Presenta gravamen?</label>
+          <select class="field-input">
+            <option value="">Seleccionar</option>
+            <option>No presenta gravamen</option>
+            <option>Hipoteca</option>
+            <option>Embargo</option>
+            <option>Usufructo vitalicio</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-grid conditional" id="fiscalRentadoDetails">
+        <div class="field-group col-full">
+          <label class="field-label">Nombre del arrendador</label>
+          <input class="field-input" type="text" placeholder="Nombre del arrendador">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono del arrendador</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Inicio de contrato</label>
+          <input class="field-input" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Término de contrato</label>
+          <input class="field-input" type="date">
+        </div>
+      </div>
+    </div>
+
+    <!-- DATOS PERSONALES PF -->
+    <div class="section-header">
+      <div class="section-icon">🪪</div>
+      <div class="section-title">Datos Personales</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Lugar y fecha de nacimiento<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Ciudad, DD/MM/AAAA" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Profesión</label>
+          <input class="field-input" type="text" placeholder="Profesión">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Puesto en el negocio</label>
+          <input class="field-input" type="text" placeholder="Ej. Director, Propietario">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Antigüedad en el negocio</label>
+          <input class="field-input" type="text" placeholder="Ej. 5 años">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email<span class="req">*</span></label>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono particular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="radio-group" id="estadoCivilPF">
+            <label class="radio-pill"><input type="radio" name="ecPF" value="sep"><div class="radio-dot"></div>Casado(a) – Sep. de bienes</label>
+            <label class="radio-pill"><input type="radio" name="ecPF" value="man"><div class="radio-dot"></div>Casado(a) – Bienes mancomunados</label>
+            <label class="radio-pill"><input type="radio" name="ecPF" value="sol"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill"><input type="radio" name="ecPF" value="div"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill"><input type="radio" name="ecPF" value="viu"><div class="radio-dot"></div>Viudo(a)</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Nombre completo del cónyuge">
+        </div>
+        <div class="field-group">
+          <label class="field-label">RFC del cónyuge</label>
+          <input class="field-input" type="text" placeholder="RFC con homoclave">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Lugar de nacimiento del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Ciudad, estado">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ocupación del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Ocupación">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Profesión del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Profesión">
+        </div>
+      </div>
+    </div>
+
+    <!-- EQUIPOS SOLICITADOS PF -->
+    <div class="section-header">
+      <div class="section-icon">🚗</div>
+      <div class="section-title">Equipos / Vehículos Solicitados</div>
+    </div>
+    <div class="section-body">
+      <table class="mini-table">
+        <thead><tr><th>Descripción</th><th>Año modelo</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+        <tbody id="tblEquiposPF">
+          <tr>
+            <td><input type="text" placeholder="Descripción del equipo"></td>
+            <td><input type="number" placeholder="2024" min="2000" max="2030"></td>
+            <td><input type="number" placeholder="$0.00" min="0"></td>
+            <td><input type="text" placeholder="Meses"></td>
+            <td><input type="text" placeholder="Nombre del usuario"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
+      <div class="note-box" style="margin-top:14px">
+        <strong>Nota:</strong> Los equipos son para uso exclusivo del solicitante. No podrán ser subarrendados a terceros ni modificados sin autorización expresa del arrendador.
+      </div>
+    </div>
+
+    <!-- REFERENCIAS PF -->
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <div class="section-title">Referencias Personales</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full">
+          <label class="field-label">Referencia 1 – Nombre completo</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Parentesco</label>
+          <input class="field-input" type="text" placeholder="Familiar / Conocido">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono particular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="divider col-full"></div>
+        <div class="field-group col-full">
+          <label class="field-label">Referencia 2 – Nombre completo</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Parentesco</label>
+          <input class="field-input" type="text" placeholder="Familiar / Conocido">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono particular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+      </div>
+    </div>
+
+    <!-- VISITA PF -->
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div class="section-title">Contacto para Visita al Negocio</div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--gray-500);margin-bottom:18px;">Durante el análisis de la solicitud se realizará una visita al negocio. Indique con quién dirigirse:</p>
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Nombre del contacto</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Puesto</label>
+          <input class="field-input" type="text" placeholder="Cargo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+      </div>
+    </div>
+
+  </form><!-- END formPF -->
+
+
+  <!-- ===================== FORMULARIO PM ===================== -->
+  <form id="formPM" class="form-card" onsubmit="return false">
+
+    <!-- DATOS EMPRESA -->
+    <div class="section-header">
+      <div class="section-icon">🏢</div>
+      <div class="section-title">Datos de la Empresa (Persona Moral)</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full">
+          <label class="field-label">Nombre / Razón social<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Razón social completa" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">R.F.C.<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="RFC con homoclave" maxlength="13" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Actividad principal</label>
+          <input class="field-input" type="text" placeholder="Giro o actividad">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Régimen fiscal<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Transcribir de la Constancia de Situación Fiscal" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre comercial</label>
+          <input class="field-input" type="text" placeholder="Nombre comercial">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Fundador de la empresa</label>
+          <input class="field-input" type="text" placeholder="Nombre del fundador">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Fecha de inicio de la empresa</label>
+          <input class="field-input" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Número de empleados</label>
+          <input class="field-input" type="number" placeholder="0" min="0">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Sitio web / Facebook</label>
+          <input class="field-input" type="text" placeholder="https://">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Sector</div>
+      <div class="check-group">
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Construcción</label>
+      </div>
+
+      <div class="field-grid" style="margin-top:18px">
+        <div class="field-group">
+          <label class="field-label">Cuenta CLABE<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="18 dígitos" maxlength="18" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre del banco</label>
+          <input class="field-input" type="text" placeholder="Banco">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Contacto de pagos</label>
+          <input class="field-input" type="text" placeholder="Nombre">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Correo electrónico</label>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Accionistas</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre completo</th><th>Participación (%)</th><th>RFC con homoclave</th></tr></thead>
+        <tbody id="tblAccionistas">
+          <tr><td><input type="text" placeholder="Nombre completo"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="RFC"></td></tr>
+          <tr><td><input type="text" placeholder="Nombre completo"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="RFC"></td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
+
+      <div class="sub-section-label">Principales Clientes</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre del cliente</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Cliente 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+          <tr><td><input type="text" placeholder="Cliente 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-section-label">Principales Proveedores</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre del proveedor</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Proveedor 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+          <tr><td><input type="text" placeholder="Proveedor 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-section-label">Primer Cuadro Directivo</div>
+      <table class="mini-table">
+        <thead><tr><th>Nombre completo</th><th>Posición / Cargo</th><th>Años de exp.</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
+          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="field-grid" style="margin-top:20px">
+        <div class="field-group col-full">
+          <label class="field-label">¿Cliente actual o anterior?</label>
+          <div class="radio-group">
+            <label class="radio-pill"><input type="radio" name="clienteAnteriorPM" value="si"><div class="radio-dot"></div>Sí</label>
+            <label class="radio-pill"><input type="radio" name="clienteAnteriorPM" value="no"><div class="radio-dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Contratos anteriores (a nombre de)</label>
+          <input class="field-input" type="text" placeholder="Personas físicas o morales">
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMICILIO FISCAL PM -->
+    <div class="section-header">
+      <div class="section-icon">📍</div>
+      <div class="section-title">Domicilio Fiscal de la Empresa</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid thirds">
+        <div class="field-group col-2">
+          <label class="field-label">Calle<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Calle" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">No. Exterior</label>
+          <input class="field-input" type="text" placeholder="No. Ext">
+        </div>
+        <div class="field-group">
+          <label class="field-label">No. Interior</label>
+          <input class="field-input" type="text" placeholder="No. Int">
+        </div>
+        <div class="field-group col-2">
+          <label class="field-label">Colonia / Fraccionamiento</label>
+          <input class="field-input" type="text" placeholder="Colonia">
+        </div>
+        <div class="field-group">
+          <label class="field-label">C.P.</label>
+          <input class="field-input" type="text" placeholder="00000" maxlength="5">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ciudad</label>
+          <input class="field-input" type="text" placeholder="Ciudad">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Estado</label>
+          <input class="field-input" type="text" placeholder="Estado">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Entre calles / Referencia</label>
+          <input class="field-input" type="text" placeholder="Entre calle A y calle B">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
+      <div class="inmueble-toggle" id="inmuebleFiscalPM">
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPM', 'propio', 'fiscalPMPropioDetails')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPM', 'rentado', 'fiscalPMRentadoDetails')">Rentado</button>
+      </div>
+      <div class="field-grid" id="fiscalPMPropioDetails">
+        <div class="field-group col-full">
+          <label class="field-label">¿A nombre de quién está registrado?</label>
+          <input class="field-input" type="text" placeholder="Nombre del titular">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tipo (planta, oficina, otro)</label>
+          <input class="field-input" type="text" placeholder="Tipo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tamaño (m²)</label>
+          <input class="field-input" type="number" placeholder="0">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Datos Registro Público de la Propiedad</label>
+          <input class="field-input" type="text" placeholder="Datos completos">
+        </div>
+        <div class="field-group">
+          <label class="field-label">¿Presenta gravamen?</label>
+          <select class="field-input">
+            <option value="">Seleccionar</option>
+            <option>No presenta gravamen</option>
+            <option>Hipoteca</option>
+            <option>Embargo</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-grid conditional" id="fiscalPMRentadoDetails">
+        <div class="field-group col-full">
+          <label class="field-label">Nombre del arrendador</label>
+          <input class="field-input" type="text" placeholder="Nombre del arrendador">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono del arrendador</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Inicio de contrato</label>
+          <input class="field-input" type="date">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Término de contrato</label>
+          <input class="field-input" type="date">
+        </div>
+      </div>
+    </div>
+
+    <!-- EQUIPOS PM -->
+    <div class="section-header">
+      <div class="section-icon">🚗</div>
+      <div class="section-title">Equipos / Vehículos Solicitados</div>
+    </div>
+    <div class="section-body">
+      <table class="mini-table">
+        <thead><tr><th>Descripción</th><th>Modelo / Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+        <tbody id="tblEquiposPM">
+          <tr>
+            <td><input type="text" placeholder="Descripción"></td>
+            <td><input type="number" placeholder="2024" min="2000" max="2030"></td>
+            <td><input type="number" placeholder="$0.00" min="0"></td>
+            <td><input type="text" placeholder="Meses"></td>
+            <td><input type="text" placeholder="Usuario"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM')">+ Agregar equipo</button>
+      <div class="note-box" style="margin-top:14px">
+        <strong>Nota:</strong> Los equipos son para uso exclusivo del solicitante. No podrán ser subarrendados a terceros ni modificados sin autorización expresa del arrendador.
+      </div>
+    </div>
+
+    <!-- AVAL PM -->
+    <div class="section-header">
+      <div class="section-icon">🪪</div>
+      <div class="section-title">Datos del Accionista – Aval</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full">
+          <label class="field-label">Nombre completo<span class="req">*</span></label>
+          <input class="field-input" type="text" placeholder="Nombre del accionista" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label">R.F.C.</label>
+          <input class="field-input" type="text" placeholder="RFC con homoclave" maxlength="13">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Lugar y fecha de nacimiento</label>
+          <input class="field-input" type="text" placeholder="Ciudad, DD/MM/AAAA">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Profesión</label>
+          <input class="field-input" type="text" placeholder="Profesión">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Puesto en la empresa</label>
+          <input class="field-input" type="text" placeholder="Cargo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Antigüedad en la empresa</label>
+          <input class="field-input" type="text" placeholder="Ej. 3 años">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email</label>
+          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono particular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group col-full">
+          <label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-pill"><input type="radio" name="ecPM" value="sep"><div class="radio-dot"></div>Casado(a) – Sep. de bienes</label>
+            <label class="radio-pill"><input type="radio" name="ecPM" value="man"><div class="radio-dot"></div>Casado(a) – Bienes mancomunados</label>
+            <label class="radio-pill"><input type="radio" name="ecPM" value="sol"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill"><input type="radio" name="ecPM" value="div"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill"><input type="radio" name="ecPM" value="viu"><div class="radio-dot"></div>Viudo(a)</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Nombre del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">RFC del cónyuge</label>
+          <input class="field-input" type="text" placeholder="RFC con homoclave">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Lugar de nacimiento del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Ciudad, estado">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ocupación del cónyuge</label>
+          <input class="field-input" type="text" placeholder="Ocupación">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Domicilio Particular del Aval</div>
+      <div class="field-grid thirds">
+        <div class="field-group col-2">
+          <label class="field-label">Calle</label>
+          <input class="field-input" type="text" placeholder="Calle">
+        </div>
+        <div class="field-group">
+          <label class="field-label">No. Exterior</label>
+          <input class="field-input" type="text" placeholder="No. Ext">
+        </div>
+        <div class="field-group">
+          <label class="field-label">No. Interior</label>
+          <input class="field-input" type="text" placeholder="No. Int">
+        </div>
+        <div class="field-group col-2">
+          <label class="field-label">Colonia / Fraccionamiento</label>
+          <input class="field-input" type="text" placeholder="Colonia">
+        </div>
+        <div class="field-group">
+          <label class="field-label">C.P.</label>
+          <input class="field-input" type="text" placeholder="00000" maxlength="5">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ciudad</label>
+          <input class="field-input" type="text" placeholder="Ciudad">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Estado</label>
+          <input class="field-input" type="text" placeholder="Estado">
+        </div>
+      </div>
+
+      <div class="sub-section-label">Referencias Personales del Aval</div>
+      <div class="field-grid">
+        <div class="field-group col-full">
+          <label class="field-label">Referencia 1 – Nombre completo</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Parentesco</label>
+          <input class="field-input" type="text" placeholder="Familiar / Conocido">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="divider col-full"></div>
+        <div class="field-group col-full">
+          <label class="field-label">Referencia 2 – Nombre completo</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Parentesco</label>
+          <input class="field-input" type="text" placeholder="Familiar / Conocido">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+      </div>
+    </div>
+
+    <!-- VISITA PM -->
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div class="section-title">Contacto para Visita a la Empresa</div>
+    </div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Nombre del contacto</label>
+          <input class="field-input" type="text" placeholder="Nombre completo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Puesto</label>
+          <input class="field-input" type="text" placeholder="Cargo">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Celular</label>
+          <input class="field-input" type="tel" placeholder="(55) 0000-0000">
+        </div>
+      </div>
+    </div>
+
+  </form><!-- END formPM -->
+
+  <!-- SUBMIT -->
+  <div class="submit-area" id="submitArea">
+    <div class="legal-text">
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong>finbedatospersonales@bepensa.com</strong>.
+    </div>
+    <div class="field-grid" style="margin-bottom:20px">
+      <div class="field-group">
+        <label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label>
+        <input class="field-input" type="text" placeholder="Ciudad, DD/MM/AAAA" required>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Nombre del firmante<span class="req">*</span></label>
+        <input class="field-input" type="text" placeholder="Nombre completo" required>
+      </div>
+    </div>
+    <button type="button" class="submit-btn" onclick="submitForm()">
+      Enviar Solicitud de Arrendamiento →
+    </button>
+  </div>
+
+</main>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <div class="success-title">¡Solicitud enviada!</div>
+    <div class="success-sub">Tu solicitud de arrendamiento ha sido recibida. Un ejecutivo de promoción se pondrá en contacto contigo en breve.<br><br>📞 <strong>33 3563 8383</strong></div>
+    <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  let currentType = null;
+
+  function selectType(type) {
+    currentType = type;
+
+    // Update buttons
+    document.getElementById('btnPF').classList.toggle('active', type === 'PF');
+    document.getElementById('btnPM').classList.toggle('active', type === 'PM');
+
+    // Show req banners
+    document.getElementById('reqPF').classList.toggle('show', type === 'PF');
+    document.getElementById('reqPM').classList.toggle('show', type === 'PM');
+
+    // Show forms
+    document.getElementById('formPF').classList.toggle('show', type === 'PF');
+    document.getElementById('formPM').classList.toggle('show', type === 'PM');
+
+    // Show submit
+    document.getElementById('submitArea').classList.add('show');
+
+    // Progress
+    updateProgress();
+
+    // Scroll to form
+    setTimeout(() => {
+      document.getElementById('req' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function updateProgress() {
+    const form = currentType === 'PF' ? document.getElementById('formPF') : document.getElementById('formPM');
+    if (!form) return;
+    const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"]');
+    let filled = 0;
+    inputs.forEach(i => { if (i.value.trim()) filled++; });
+    const pct = Math.min(Math.round((filled / inputs.length) * 100), 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  // Check/radio pill interaction
+  document.addEventListener('click', function(e) {
+    const pill = e.target.closest('.check-pill');
+    if (pill) {
+      pill.classList.toggle('selected');
+      const cb = pill.querySelector('input[type="checkbox"]');
+      if (cb) cb.checked = pill.classList.contains('selected');
+    }
+    const radio = e.target.closest('.radio-pill');
+    if (radio) {
+      const name = radio.querySelector('input[type="radio"]')?.name;
+      if (name) {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+          r.closest('.radio-pill')?.classList.remove('selected');
+        });
+      }
+      radio.classList.add('selected');
+    }
+  });
+
+  // Progress on input
+  document.addEventListener('input', updateProgress);
+
+  function toggleInmueble(toggleId, type, showId) {
+    const toggle = document.getElementById(toggleId);
+    const btns = toggle.querySelectorAll('.inmueble-opt');
+    btns.forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Find sibling containers
+    const propioId = showId;
+    const rentadoId = showId.replace('Propio', 'Rentado').replace('propio', 'rentado');
+
+    if (type === 'propio') {
+      document.getElementById(propioId)?.classList.remove('conditional');
+      const ren = document.getElementById(rentadoId);
+      if (ren) { ren.classList.add('conditional'); }
+    } else {
+      document.getElementById(propioId)?.classList.add('conditional');
+      const ren = document.getElementById(rentadoId);
+      if (ren) { ren.classList.remove('conditional'); ren.classList.add('show'); }
+    }
+  }
+
+  function addRow(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    const firstRow = tbody.querySelector('tr');
+    if (!firstRow) return;
+    const newRow = firstRow.cloneNode(true);
+    newRow.querySelectorAll('input').forEach(i => i.value = '');
+    tbody.appendChild(newRow);
+  }
+
+  function submitForm() {
+    const form = currentType === 'PF' ? document.getElementById('formPF') : document.getElementById('formPM');
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(inp => {
+      if (!inp.value.trim()) {
+        inp.style.borderColor = 'var(--error)';
+        valid = false;
+        inp.addEventListener('input', () => inp.style.borderColor = '', { once: true });
+      }
+    });
+    if (!valid) {
+      form.querySelector('[required]:not([value])')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    document.getElementById('successOverlay').classList.add('show');
+    document.getElementById('progressFill').style.width = '100%';
+  }
+</script>
+</body>
+</html>
