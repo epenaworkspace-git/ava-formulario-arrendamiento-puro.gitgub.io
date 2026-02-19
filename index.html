@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<!-- reCAPTCHA v3: cargado async con callback onload correcto -->
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 <style>
   :root {
     --navy: #0A1F44;
@@ -30,7 +32,6 @@
   .header-deco { position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.22) 0%, transparent 70%); pointer-events: none; }
   .logo-text { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; line-height: 1; }
   .logo-text span { color: var(--blue); }
-  .logo-sub { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 4px; color: var(--gray-400); text-transform: uppercase; margin-top: 4px; }
   .header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-top: 18px; }
   .header-title span { color: var(--blue); }
   .progress-bar { height: 3px; background: rgba(255,255,255,0.08); }
@@ -79,10 +80,10 @@
   select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
   textarea.field-input { resize: vertical; min-height: 80px; }
 
-  /* TEL COMBO PREMIUM */
+  /* TEL COMBO */
   .tel-combo { display: flex; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gray-200); background: var(--gray-100); transition: border-color 0.22s, box-shadow 0.22s, background 0.22s; }
   .tel-combo:focus-within { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(22,93,255,0.10); }
-  .lada-select { flex-shrink: 0; width: 146px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: var(--navy); padding: 11px 22px 11px 11px; background-color: rgba(10,31,68,0.05); border: none; border-right: 1.5px solid var(--gray-200); border-radius: 0; outline: none; cursor: pointer; transition: background-color 0.18s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 7px center; }
+  .lada-select { flex-shrink: 0; width: 160px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: var(--navy); padding: 11px 22px 11px 11px; background-color: rgba(10,31,68,0.05); border: none; border-right: 1.5px solid var(--gray-200); border-radius: 0; outline: none; cursor: pointer; transition: background-color 0.18s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 7px center; }
   .lada-select:focus { background-color: rgba(22,93,255,0.07); outline: none; }
   .tel-number { flex: 1; min-width: 0; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); padding: 11px 12px; background: transparent; border: none; border-radius: 0; outline: none; }
   .tel-number::placeholder { color: var(--gray-400); }
@@ -157,15 +158,13 @@
   .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
   .declaration-firma { color: var(--blue); font-weight: 500; }
 
+  /* reCAPTCHA badge visible y bien posicionado */
   .grecaptcha-badge {
     visibility: visible !important;
     opacity: 1 !important;
-    bottom: 100px !important;
-    right: 16px !important;
-    box-shadow: 0 4px 18px rgba(10,31,68,0.18) !important;
-    border-radius: 8px !important;
-    z-index: 9999 !important;
+    display: block !important;
   }
+
   .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.6; }
   .recaptcha-notice a { color: var(--blue); text-decoration: none; }
 
@@ -192,14 +191,9 @@
     .section-body { padding: 20px 16px; }
     .header-inner { padding: 28px 20px 24px; }
     .main { padding: 24px 14px 60px; }
-    .lada-select { width: 118px; }
+    .lada-select { width: 130px; }
   }
 </style>
-<!--
-  reCAPTCHA v3: cargado SINCRONAMENTE (sin async/defer).
-  Esto garantiza que `grecaptcha` este disponible en el scope global
-  cuando el script inline se ejecuta.
--->
 </head>
 <body>
 
@@ -207,7 +201,6 @@
   <div class="header-deco"></div>
   <div class="header-inner">
     <div class="logo-text">A<span>V</span>A</div>
-    <div class="logo-sub">Trámites Vehiculares en Morelos</div>
     <div class="header-title">Formulario <span>Arrendamiento Puro</span></div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -587,7 +580,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e797958e9186848e838683a7818e898582868584c984888ac98a9f">[email&#160;protected]</a></strong>
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong>aviso@finbeabc.com.mx</strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
@@ -625,32 +618,21 @@
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon">✅</div>
-    <div class="success-title">Solicitud enviada!</div>
+    <div class="success-title">¡Solicitud enviada!</div>
     <div class="success-sub">Tu solicitud fue recibida. Un ejecutivo te contactará pronto.<br><br>📞 <strong>33 3563 8383</strong></div>
     <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">Cerrar</button>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // =============================================================
-// reCAPTCHA v3 — PATRON CORRECTO
-// El script fue cargado SINCRONAMENTE en el <head> (sin async/defer).
-// Esto garantiza que `grecaptcha` esta disponible aqui.
-// grecaptcha.ready() encola el callback hasta que el runtime este listo.
+// reCAPTCHA v3 — callback llamado por el script de Google
 // =============================================================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
 
-// initRecaptcha es llamado por Google via ?onload=initRecaptcha
-// Se ejecuta cuando el API de reCAPTCHA v3 esta completamente lista.
 function initRecaptcha() {
   recaptchaReady = true;
-  var decl = document.getElementById('declarationCheck');
-  var btn  = document.getElementById('mainSubmitBtn');
-  if (decl && decl.checked && btn) {
-    btn.disabled = false;
-    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-  }
 }
 
 // =============================================================
@@ -749,11 +731,10 @@ function triggerFormSubmit() {
     form.submit();
   }
 
-  // Ejecutar con polling de 100ms si aun no esta listo
   function executeRecaptcha(attempts) {
     attempts = attempts || 0;
     if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
-      if (attempts > 30) { // 3 segundos maximos
+      if (attempts > 50) {
         console.warn('reCAPTCHA no disponible, enviando sin token');
         doSubmit(null);
         return;
@@ -761,9 +742,11 @@ function triggerFormSubmit() {
       setTimeout(function(){ executeRecaptcha(attempts + 1); }, 100);
       return;
     }
-    grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
-      .then(function(token){ doSubmit(token); })
-      .catch(function(err){ console.warn('reCAPTCHA error:', err); doSubmit(null); });
+    grecaptcha.ready(function() {
+      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
+        .then(function(token){ doSubmit(token); })
+        .catch(function(err){ console.warn('reCAPTCHA error:', err); doSubmit(null); });
+    });
   }
   executeRecaptcha();
 }
@@ -784,7 +767,8 @@ function validateRFC(el) {
 }
 
 // =============================================================
-// LADAS
+// LADAS — banderas usando emoji regional indicator symbols
+// compatible con todos los navegadores modernos
 // =============================================================
 var LADAS = [
   {r:'América del Norte',f:'MX',n:'México',c:'+52'},
@@ -798,9 +782,9 @@ var LADAS = [
   {r:'América Central',f:'CR',n:'Costa Rica',c:'+506'},
   {r:'América Central',f:'PA',n:'Panamá',c:'+507'},
   {r:'Caribe',f:'CU',n:'Cuba',c:'+53'},
-  {r:'Caribe',f:'DO',n:'Rep. Dominicana',c:'+1-809'},
+  {r:'Caribe',f:'DO',n:'Rep. Dominicana',c:'+1'},
   {r:'Caribe',f:'HT',n:'Haití',c:'+509'},
-  {r:'Caribe',f:'PR',n:'Puerto Rico',c:'+1-787'},
+  {r:'Caribe',f:'PR',n:'Puerto Rico',c:'+1'},
   {r:'América del Sur',f:'AR',n:'Argentina',c:'+54'},
   {r:'América del Sur',f:'BO',n:'Bolivia',c:'+591'},
   {r:'América del Sur',f:'BR',n:'Brasil',c:'+55'},
@@ -833,20 +817,35 @@ var LADAS = [
   {r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
 ];
 
-function flag(f) {
-  return f.split('').map(function(c){ return String.fromCodePoint(0x1F1E0-65+c.charCodeAt(0)); }).join('');
+/**
+ * Convierte un código de país ISO 3166-1 alpha-2 en emoji de bandera.
+ * Usa Unicode Regional Indicator Symbol Letters (U+1F1E6–U+1F1FF).
+ * Funciona en Chrome, Firefox, Safari, Edge y Android.
+ * En Windows el soporte de banderas es limitado pero muestra el código de país.
+ */
+function countryCodeToFlag(code) {
+  // Cada letra se convierte a su Regional Indicator Symbol correspondiente
+  return Array.from(code.toUpperCase()).map(function(char) {
+    return String.fromCodePoint(char.charCodeAt(0) - 65 + 0x1F1E6);
+  }).join('');
 }
 
 function buildLadaOptions(sel) {
   var groups = {};
-  LADAS.forEach(function(l){ if(!groups[l.r]) groups[l.r]=[]; groups[l.r].push(l); });
+  LADAS.forEach(function(l) {
+    if (!groups[l.r]) groups[l.r] = [];
+    groups[l.r].push(l);
+  });
   Object.keys(groups).forEach(function(r) {
-    var og=document.createElement('optgroup'); og.label=r;
+    var og = document.createElement('optgroup');
+    og.label = r;
     groups[r].forEach(function(l) {
-      var op=document.createElement('option');
-      op.value=l.c;
-      op.textContent=flag(l.f)+' '+l.n+' '+l.c;
-      if(l.f==='MX') op.selected=true;
+      var op = document.createElement('option');
+      op.value = l.c;
+      // Texto: bandera + nombre corto + código
+      var flagEmoji = countryCodeToFlag(l.f);
+      op.textContent = flagEmoji + ' ' + l.n + ' ' + l.c;
+      if (l.f === 'MX') op.selected = true;
       og.appendChild(op);
     });
     sel.appendChild(og);
@@ -854,14 +853,16 @@ function buildLadaOptions(sel) {
 }
 
 function initAllLadas() {
-  document.querySelectorAll('.lada-select').forEach(function(sel){ buildLadaOptions(sel); });
+  document.querySelectorAll('.lada-select').forEach(function(sel) {
+    buildLadaOptions(sel);
+  });
 }
 
 function updateTelCombined(prefix) {
-  var lada=document.getElementById(prefix+'_lada');
-  var num=document.getElementById(prefix+'_num');
-  var out=document.getElementById(prefix+'_combined');
-  if(lada&&num&&out) out.value=(lada.value+' '+num.value).trim();
+  var lada = document.getElementById(prefix + '_lada');
+  var num  = document.getElementById(prefix + '_num');
+  var out  = document.getElementById(prefix + '_combined');
+  if (lada && num && out) out.value = (lada.value + ' ' + num.value).trim();
 }
 
 // =============================================================
@@ -871,65 +872,65 @@ var COPOMEX_TOKEN = '36da398a-1848-4082-8935-c96c22d79e12';
 var cpTimers = {};
 
 function handleCPInput(input) {
-  var uid=input.id;
+  var uid = input.id;
   clearTimeout(cpTimers[uid]);
   input.classList.remove('cp-valid','cp-error');
-  var wrap=document.getElementById('colonias-'+uid+'-wrap');
-  if(wrap) wrap.style.display='none';
-  if(input.value.length<5) return;
+  var wrap = document.getElementById('colonias-' + uid + '-wrap');
+  if (wrap) wrap.style.display = 'none';
+  if (input.value.length < 5) return;
   input.classList.add('cp-loading');
-  cpTimers[uid]=setTimeout(function(){ fetchCP(input,uid); },500);
+  cpTimers[uid] = setTimeout(function(){ fetchCP(input, uid); }, 500);
 }
 
 function fetchCP(input, uid) {
-  var cp=input.value.trim();
-  fetch('https://api.copomex.com/query/info_cp/'+cp+'?type=simplified&token='+COPOMEX_TOKEN)
+  var cp = input.value.trim();
+  fetch('https://api.copomex.com/query/info_cp/' + cp + '?type=simplified&token=' + COPOMEX_TOKEN)
     .then(function(r){ return r.json(); })
     .then(function(data) {
       input.classList.remove('cp-loading');
-      if(!data||data.error){ input.classList.add('cp-error'); return; }
+      if (!data || data.error) { input.classList.add('cp-error'); return; }
       input.classList.add('cp-valid');
-      var items=Array.isArray(data)?data:[data];
-      var colonias=[],ciudad='',estado='',municipio='';
+      var items = Array.isArray(data) ? data : [data];
+      var colonias=[], ciudad='', estado='', municipio='';
       items.forEach(function(d){
-        if(d.response){
-          if(d.response.asentamiento) colonias.push(d.response.asentamiento);
-          if(d.response.ciudad) ciudad=d.response.ciudad;
-          if(d.response.estado) estado=d.response.estado;
-          if(d.response.municipio) municipio=d.response.municipio;
+        if (d.response) {
+          if (d.response.asentamiento) colonias.push(d.response.asentamiento);
+          if (d.response.ciudad)    ciudad    = d.response.ciudad;
+          if (d.response.estado)    estado    = d.response.estado;
+          if (d.response.municipio) municipio = d.response.municipio;
         }
       });
-      var grid=input.closest('.field-grid')||input.closest('.section-body');
-      if(grid){
+      var grid = input.closest('.field-grid') || input.closest('.section-body');
+      if (grid) {
         grid.querySelectorAll('input.field-input').forEach(function(el){
-          var ph=(el.placeholder||'').toLowerCase();
-          if(ph==='ciudad'){ el.value=ciudad||municipio; el.classList.add('cp-autofilled'); }
-          if(ph==='estado'){ el.value=estado; el.classList.add('cp-autofilled'); }
+          var ph = (el.placeholder || '').toLowerCase();
+          if (ph === 'ciudad') { el.value = ciudad || municipio; el.classList.add('cp-autofilled'); }
+          if (ph === 'estado') { el.value = estado; el.classList.add('cp-autofilled'); }
         });
       }
-      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
-      var sel=document.getElementById('colonias-'+uid);
-      var hint=document.getElementById('hint-'+uid);
-      if(selWrap&&sel){
-        sel.innerHTML='<option value="">-- Selecciona --</option>';
+      var selWrap = document.getElementById('colonias-' + uid + '-wrap');
+      var sel     = document.getElementById('colonias-' + uid);
+      var hint    = document.getElementById('hint-' + uid);
+      if (selWrap && sel) {
+        sel.innerHTML = '<option value="">-- Selecciona --</option>';
         colonias.forEach(function(c){ var op=document.createElement('option'); op.value=c; op.textContent=c; sel.appendChild(op); });
-        selWrap.style.display='';
-        if(colonias.length===1){ sel.value=colonias[0]; }
-        if(hint) hint.textContent=colonias.length+' asentamiento(s)';
+        selWrap.style.display = '';
+        if (colonias.length === 1) sel.value = colonias[0];
+        if (hint) hint.textContent = colonias.length + ' asentamiento(s)';
       }
     })
     .catch(function(){ input.classList.remove('cp-loading'); input.classList.add('cp-error'); });
 }
 
 function onColoniaChange(select, uid) {
-  var cp=document.getElementById(uid);
-  if(!cp) return;
-  var grid=cp.closest('.field-grid')||cp.closest('.section-body');
-  if(!grid) return;
+  var cp = document.getElementById(uid);
+  if (!cp) return;
+  var grid = cp.closest('.field-grid') || cp.closest('.section-body');
+  if (!grid) return;
   grid.querySelectorAll('input.field-input').forEach(function(inp){
-    var ph=(inp.placeholder||'').toLowerCase();
-    if(ph==='colonia'||ph.includes('colonia')||ph.includes('fraccionamiento')){
-      inp.value=select.value;
+    var ph = (inp.placeholder || '').toLowerCase();
+    if (ph === 'colonia' || ph.includes('colonia') || ph.includes('fraccionamiento')) {
+      inp.value = select.value;
     }
   });
 }
@@ -939,9 +940,9 @@ function onColoniaChange(select, uid) {
 // =============================================================
 document.addEventListener('DOMContentLoaded', function() {
   initAllLadas();
-  var btn=document.getElementById('mainSubmitBtn');
-  if(btn) btn.disabled=true;
+  var btn = document.getElementById('mainSubmitBtn');
+  if (btn) btn.disabled = true;
 });
 </script>
-<!-- reCAPTCHA v3: cargado async con onload callback.
-     El script llama initRecaptcha() cuando el API esta
+</body>
+</html>
