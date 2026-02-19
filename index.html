@@ -7,333 +7,266 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 <style>
-  :root {
-    --navy: #0A1F44;
-    --blue: #165DFF;
-    --blue-light: #3a7fff;
-    --white: #FFFFFF;
-    --dark: #333333;
-    --gray-100: #F4F6FB;
-    --gray-200: #E8ECF4;
-    --gray-400: #9BA8C0;
-    --gray-500: #6B7A99;
-    --success: #0FC373;
-    --error: #FF4757;
-    --card-bg: rgba(255,255,255,0.97);
-    --shadow: 0 8px 40px rgba(10,31,68,0.10);
-    --shadow-lg: 0 20px 60px rgba(10,31,68,0.16);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--dark); min-height: 100vh; font-size: 15px; }
+:root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dark);min-height:100vh;font-size:15px;}
+.header{background:var(--navy);position:relative;overflow:hidden;}
+.header-inner{max-width:900px;margin:0 auto;padding:36px 32px 32px;position:relative;z-index:2;}
+.header-deco{position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.22) 0%,transparent 70%);pointer-events:none;}
+.logo-text{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1;}
+.logo-text span{color:var(--blue);}
+.header-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--white);margin-top:18px;}
+.header-title span{color:var(--blue);}
+.progress-bar{height:3px;background:rgba(255,255,255,0.08);}
+.progress-fill{height:100%;background:var(--blue);transition:width 0.5s cubic-bezier(0.4,0,0.2,1);width:0%;}
+.main{max-width:900px;margin:0 auto;padding:36px 20px 100px;}
+.type-selector{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px;}
+.type-btn{background:var(--card-bg);border:2px solid var(--gray-200);border-radius:16px;padding:24px 20px;cursor:pointer;transition:all 0.25s;text-align:left;position:relative;overflow:hidden;box-shadow:var(--shadow);user-select:none;}
+.type-btn:hover{border-color:var(--blue-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(22,93,255,0.15);}
+.type-btn.active{border-color:var(--blue);background:var(--navy);box-shadow:0 16px 48px rgba(10,31,68,0.28);transform:translateY(-3px);}
+.type-icon{font-size:26px;margin-bottom:12px;}
+.type-label{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:4px;transition:color 0.25s;}
+.type-btn.active .type-label{color:var(--white);}
+.type-desc{font-size:13px;color:var(--gray-500);line-height:1.5;transition:color 0.25s;}
+.type-btn.active .type-desc{color:rgba(255,255,255,0.55);}
+.type-check{position:absolute;top:16px;right:16px;width:22px;height:22px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.5);transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);}
+.type-btn.active .type-check{opacity:1;transform:scale(1);}
+.type-check svg{width:12px;height:12px;}
+.req-banner{background:linear-gradient(135deg,var(--navy) 0%,#12296b 100%);border-radius:16px;padding:22px 26px;margin-bottom:28px;display:none;animation:fadeSlide 0.4s ease;box-shadow:var(--shadow-lg);}
+.req-banner.show{display:block;}
+.req-banner-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.req-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;}
+.req-item{font-size:13px;color:rgba(255,255,255,0.75);display:flex;align-items:flex-start;gap:8px;padding:4px 0;line-height:1.4;}
+.req-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0;}
+.form-card{background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;display:none;animation:fadeSlide 0.35s ease;}
+.form-card.show{display:block;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.section-header{background:var(--navy);padding:18px 28px;display:flex;align-items:center;gap:12px;}
+.section-icon{font-size:18px;}
+.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--white);}
+.section-body{padding:28px;}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;}
+.field-grid.thirds{grid-template-columns:1fr 1fr 1fr;}
+.col-full{grid-column:1 / -1;}
+.field-group{display:flex;flex-direction:column;gap:6px;}
+.field-label{font-size:12px;font-weight:500;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.7px;}
+.field-label .req{color:var(--blue);margin-left:2px;}
+.field-input{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);outline:none;transition:all 0.2s;width:100%;appearance:none;-webkit-appearance:none;}
+.field-input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(22,93,255,0.10);}
+.field-input::placeholder{color:var(--gray-400);}
+select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
+textarea.field-input{resize:vertical;min-height:80px;}
 
-  .header { background: var(--navy); position: relative; overflow: hidden; }
-  .header-inner { max-width: 900px; margin: 0 auto; padding: 36px 32px 32px; position: relative; z-index: 2; }
-  .header-deco { position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.22) 0%, transparent 70%); pointer-events: none; }
-  .logo-text { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; line-height: 1; }
-  .logo-text span { color: var(--blue); }
-  .header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-top: 18px; }
-  .header-title span { color: var(--blue); }
-  .progress-bar { height: 3px; background: rgba(255,255,255,0.08); }
-  .progress-fill { height: 100%; background: var(--blue); transition: width 0.5s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+/* ---- Error states ---- */
+.field-input.input-error{border-color:var(--error)!important;background:rgba(255,71,87,0.04)!important;box-shadow:0 0 0 3px rgba(255,71,87,0.12)!important;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
+.shake{animation:shake 0.35s ease;}
+.tel-combo.input-error{border-color:var(--error)!important;background:rgba(255,71,87,0.04)!important;box-shadow:0 0 0 3px rgba(255,71,87,0.12)!important;}
+.group-error{padding:8px!important;border-radius:10px;border:1.5px solid var(--error)!important;background:rgba(255,71,87,0.04)!important;}
+.error-msg{font-size:11px;color:var(--error);margin-top:4px;display:none;}
+.error-msg.show{display:block;}
 
-  .main { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; }
+/* ---- Tel Combo ---- */
+.tel-combo{display:flex;width:100%;border-radius:10px;overflow:hidden;border:1.5px solid var(--gray-200);background:var(--gray-100);transition:border-color 0.22s,box-shadow 0.22s,background 0.22s;}
+.tel-combo:focus-within{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(22,93,255,0.10);}
+.lada-select{flex-shrink:0;width:160px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--navy);padding:11px 22px 11px 11px;background-color:rgba(10,31,68,0.05);border:none;border-right:1.5px solid var(--gray-200);border-radius:0;outline:none;cursor:pointer;transition:background-color 0.18s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
+.lada-select:focus{background-color:rgba(22,93,255,0.07);outline:none;}
+.tel-number{flex:1;min-width:0;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);padding:11px 12px;background:transparent;border:none;border-radius:0;outline:none;}
+.tel-number::placeholder{color:var(--gray-400);}
 
-  .type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
-  .type-btn { background: var(--card-bg); border: 2px solid var(--gray-200); border-radius: 16px; padding: 24px 20px; cursor: pointer; transition: all 0.25s; text-align: left; position: relative; overflow: hidden; box-shadow: var(--shadow); user-select: none; }
-  .type-btn:hover { border-color: var(--blue-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(22,93,255,0.15); }
-  .type-btn.active { border-color: var(--blue); background: var(--navy); box-shadow: 0 16px 48px rgba(10,31,68,0.28); transform: translateY(-3px); }
-  .type-icon { font-size: 26px; margin-bottom: 12px; }
-  .type-label { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 4px; transition: color 0.25s; }
-  .type-btn.active .type-label { color: var(--white); }
-  .type-desc { font-size: 13px; color: var(--gray-500); line-height: 1.5; transition: color 0.25s; }
-  .type-btn.active .type-desc { color: rgba(255,255,255,0.55); }
-  .type-check { position: absolute; top: 16px; right: 16px; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.5); transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); }
-  .type-btn.active .type-check { opacity: 1; transform: scale(1); }
-  .type-check svg { width: 12px; height: 12px; }
+/* ---- Pills ---- */
+.radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;}
+.radio-pill,.check-pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);cursor:pointer;font-size:13px;font-weight:500;color:var(--gray-500);transition:all 0.2s;user-select:none;}
+/* Inputs inside pills are hidden — interaction via JS only, no native label behaviour */
+.radio-pill input,.check-pill input{position:absolute;opacity:0;pointer-events:none;width:0;height:0;}
+.radio-pill:hover,.check-pill:hover{border-color:var(--blue-light);color:var(--blue);}
+.radio-pill.selected,.check-pill.selected{border-color:var(--blue);background:rgba(22,93,255,0.08);color:var(--blue);}
+.radio-dot{width:10px;height:10px;border-radius:50%;border:2px solid currentColor;position:relative;}
+.radio-pill.selected .radio-dot::after{content:'';position:absolute;inset:2px;background:var(--blue);border-radius:50%;}
+.check-box{width:14px;height:14px;border-radius:4px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.check-pill.selected .check-box{background:var(--blue);border-color:var(--blue);}
+.check-pill.selected .check-box::after{content:'\2713';font-size:9px;color:#fff;font-weight:700;}
 
-  .req-banner { background: linear-gradient(135deg, var(--navy) 0%, #12296b 100%); border-radius: 16px; padding: 22px 26px; margin-bottom: 28px; display: none; animation: fadeSlide 0.4s ease; box-shadow: var(--shadow-lg); }
-  .req-banner.show { display: block; }
-  .req-banner-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
-  .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
-  .req-item { font-size: 13px; color: rgba(255,255,255,0.75); display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; line-height: 1.4; }
-  .req-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 5px; flex-shrink: 0; }
+.divider{height:1px;background:var(--gray-200);margin:20px 0;}
+.mini-table{width:100%;border-collapse:collapse;font-size:13px;}
+.mini-table th{background:var(--gray-100);padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--gray-200);}
+.mini-table td{padding:7px 10px;border-bottom:1px solid var(--gray-200);}
+.mini-table td input,.mini-table td select{background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dark);width:100%;}
+.mini-table td input:focus{border-bottom:1.5px solid var(--blue);}
+.mini-table tr:last-child td{border-bottom:none;}
+.add-row-btn{margin-top:10px;background:transparent;border:1.5px dashed var(--gray-400);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-500);cursor:pointer;transition:all 0.2s;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
+.add-row-btn:hover{border-color:var(--blue);color:var(--blue);}
+.inmueble-toggle{display:flex;border:1.5px solid var(--gray-200);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px;}
+.inmueble-opt{padding:9px 18px;font-size:13px;font-weight:500;color:var(--gray-500);cursor:pointer;background:var(--gray-100);border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.inmueble-opt.active{background:var(--navy);color:#fff;}
+.submit-area{display:none;padding:28px;background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);margin-bottom:20px;animation:fadeSlide 0.35s ease;}
+.submit-area.show{display:block;}
+.legal-text{font-size:12px;color:var(--gray-500);line-height:1.7;margin-bottom:20px;padding:16px;background:var(--gray-100);border-radius:10px;border-left:3px solid var(--blue);}
+.submit-btn{width:100%;background:var(--blue);color:var(--white);border:none;border-radius:12px;padding:16px 28px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;}
+.submit-btn:hover:not(:disabled){background:var(--navy);transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,93,255,0.35);}
+.submit-btn:disabled{opacity:0.55;cursor:not-allowed;}
+.sub-section-label{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin:20px 0 14px;padding-left:10px;border-left:3px solid var(--blue);}
+.field-hint{font-size:11px;color:var(--gray-400);margin-top:3px;font-style:italic;}
+.cp-input.cp-loading{border-color:var(--blue)!important;background:#f0f4ff!important;}
+.cp-input.cp-valid{border-color:var(--success)!important;}
+.cp-input.cp-error{border-color:var(--error)!important;}
+.cp-autofilled{background:rgba(22,93,255,0.04)!important;color:var(--blue)!important;font-weight:500;}
+.rfc-valid{border-color:var(--success)!important;}
+.rfc-error{border-color:var(--error)!important;}
+.rfc-hint{font-size:11px;margin-top:4px;}
+.rfc-hint.ok{color:var(--success);}
+.rfc-hint.err{color:var(--error);}
+.declaration-wrap{margin-bottom:22px;border:1.5px solid var(--gray-200);border-radius:14px;overflow:hidden;transition:border-color 0.3s;}
+.declaration-wrap.checked{border-color:var(--blue);box-shadow:0 0 0 3px rgba(22,93,255,0.09);}
+.declaration-label{display:flex;cursor:pointer;user-select:none;}
+.declaration-label>input[type="checkbox"]{display:none;}
+.declaration-box{display:flex;gap:16px;align-items:flex-start;padding:20px 22px;background:var(--gray-100);transition:background 0.3s;}
+.declaration-wrap.checked .declaration-box{background:rgba(22,93,255,0.04);}
+.declaration-check-icon{width:28px;height:28px;flex-shrink:0;border-radius:8px;border:2px solid #ccc;background:#fff;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.declaration-check-icon svg{width:14px;opacity:0;transition:opacity 0.2s;}
+.declaration-wrap.checked .declaration-check-icon{background:var(--blue);border-color:var(--blue);transform:scale(1.1);}
+.declaration-wrap.checked .declaration-check-icon svg{opacity:1;}
+.declaration-text{font-size:12.5px;color:var(--gray-500);line-height:1.7;}
+.declaration-text strong{color:var(--dark);display:block;margin-bottom:4px;font-size:13px;}
+.declaration-firma{color:var(--blue);font-weight:500;}
+.grecaptcha-badge{visibility:visible!important;opacity:1!important;display:block!important;}
+.recaptcha-notice{font-size:11px;color:var(--gray-400);text-align:center;margin-top:12px;line-height:1.6;}
+.recaptcha-notice a{color:var(--blue);text-decoration:none;}
+@keyframes pulseError{0%,100%{border-color:var(--gray-200)}50%{border-color:var(--error);box-shadow:0 0 0 4px rgba(255,71,87,0.15)}}
+.pulse-error{animation:pulseError 0.5s ease 2;}
 
-  .form-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; display: none; animation: fadeSlide 0.35s ease; }
-  .form-card.show { display: block; }
-  @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+/* ===== SUCCESS MODAL ===== */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(8,18,42,0.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
+.success-overlay.show{display:flex;}
+.success-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:460px;box-shadow:0 32px 80px rgba(10,31,68,0.28),0 8px 24px rgba(10,31,68,0.12);animation:popIn 0.45s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
+@keyframes popIn{from{opacity:0;transform:scale(0.8) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.success-header{background:linear-gradient(135deg,#0A1F44 0%,#0e2a60 100%);padding:40px 40px 36px;position:relative;overflow:hidden;}
+.success-header::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.35) 0%,transparent 70%);}
+.success-header::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.2) 0%,transparent 70%);}
+.success-checkmark{width:72px;height:72px;background:linear-gradient(135deg,#165DFF,#0FC373);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative;z-index:1;box-shadow:0 8px 24px rgba(15,195,115,0.4);animation:checkPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;}
+@keyframes checkPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0deg)}}
+.success-checkmark svg{width:36px;height:36px;}
+.success-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#ffffff;margin-bottom:8px;position:relative;z-index:1;}
+.success-subtitle{font-size:13px;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;position:relative;z-index:1;}
+.success-body{padding:28px 32px 32px;}
+.success-info-row{display:flex;align-items:flex-start;gap:14px;background:#F4F6FB;border-radius:14px;padding:16px 18px;margin-bottom:12px;text-align:left;}
+.success-info-icon{width:38px;height:38px;background:rgba(22,93,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.success-info-icon svg{width:18px;height:18px;}
+.success-info-text{font-size:13px;color:#6B7A99;line-height:1.6;}
+.success-info-text strong{display:block;color:#333;font-size:14px;font-weight:700;margin-bottom:4px;}
+.success-contact-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.success-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#444;font-weight:500;}
+.success-contact-item a{color:var(--blue);text-decoration:none;font-weight:600;}
+.success-contact-item a:hover{text-decoration:underline;}
+.success-divider{height:1px;background:#E8ECF4;margin:20px 0;}
+.success-close-btn{width:100%;background:linear-gradient(135deg,#165DFF,#0e46cc);color:#fff;border:none;border-radius:14px;padding:16px 28px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
+.success-close-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,93,255,0.5);}
+.success-close-btn:active{transform:scale(0.98);}
 
-  .section-header { background: var(--navy); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
-  .section-icon { font-size: 18px; }
-  .section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); }
-  .section-body { padding: 28px; }
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float{position:fixed;bottom:36px;left:36px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;text-decoration:none;transition:transform 0.3s,box-shadow 0.3s;}
+.whatsapp-float:hover{transform:scale(1.12) translateY(-3px);box-shadow:0 16px 36px rgba(37,211,102,0.55);}
+.whatsapp-icon{width:30px;height:30px;}
 
-  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
-  .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
-  .col-full { grid-column: 1 / -1; }
-  .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-label { font-size: 12px; font-weight: 500; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.7px; }
-  .field-label .req { color: var(--blue); margin-left: 2px; }
-  .field-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); outline: none; transition: all 0.2s; width: 100%; appearance: none; -webkit-appearance: none; }
-  .field-input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(22,93,255,0.10); }
-  .field-input::placeholder { color: var(--gray-400); }
-  select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-  textarea.field-input { resize: vertical; min-height: 80px; }
+/* ===== THEME TOGGLE ===== */
+.theme-toggle-btn{position:fixed;top:20px;right:20px;z-index:2000;width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#e8ecf4,#d0d6e8);box-shadow:0 6px 20px rgba(0,0,0,0.18),inset 0 -2px 4px rgba(0,0,0,0.15),inset 0 2px 4px rgba(255,255,255,0.9);cursor:pointer;border:none;outline:none;overflow:hidden;transition:all 0.3s ease;}
+.toggle-icon-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.icon-sun,.icon-moon{position:absolute;width:28px;height:28px;transition:all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);}
+.icon-sun{opacity:1;transform:scale(1) rotate(0deg);filter:drop-shadow(0 0 4px rgba(255,215,0,0.6));}
+.icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);filter:drop-shadow(0 0 4px rgba(100,120,255,0.6));}
+body.dark-mode .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
+body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 
-  /* Validation error state */
-  .field-input.input-error { border-color: var(--error) !important; background: rgba(255,71,87,0.04) !important; box-shadow: 0 0 0 3px rgba(255,71,87,0.12) !important; animation: shakeField 0.35s ease; }
-  @keyframes shakeField { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 60%{transform:translateX(5px)} 80%{transform:translateX(-3px)} }
-  .tel-combo.input-error { border-color: var(--error) !important; background: rgba(255,71,87,0.04) !important; box-shadow: 0 0 0 3px rgba(255,71,87,0.12) !important; animation: shakeField 0.35s ease; }
-  .check-group.input-error, .radio-group.input-error { padding: 8px; border-radius: 10px; border: 1.5px solid var(--error); background: rgba(255,71,87,0.04); animation: shakeField 0.35s ease; }
-  .error-msg { font-size: 11px; color: var(--error); margin-top: 3px; display: none; }
-  .error-msg.show { display: block; }
+/* ===== FLOATING PROGRESS BAR ===== */
+.form-progress-wrap{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1500;display:none;width:calc(100% - 200px);max-width:720px;min-width:280px;pointer-events:none;}
+.form-progress-wrap.visible{display:block;}
+.form-progress-pill{background:#ffffff;border-radius:60px;padding:10px 20px 10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(10,31,68,0.14),0 1px 4px rgba(10,31,68,0.08);border:1px solid rgba(10,31,68,0.07);}
+.form-progress-bar-track{flex:1;height:8px;background:#E8ECF4;border-radius:99px;overflow:hidden;position:relative;}
+.form-progress-bar-fill{height:100%;background:linear-gradient(90deg,#165DFF 0%,#3a7fff 100%);border-radius:99px;width:0%;transition:width 0.45s cubic-bezier(0.4,0,0.2,1);position:relative;}
+.form-progress-bar-fill::after{content:'';position:absolute;top:0;left:-60px;width:50px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent);animation:barShine 2.2s ease-in-out infinite;}
+@keyframes barShine{0%{left:-60px;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% + 20px);opacity:0}}
+.form-progress-text{font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:#6B7A99;white-space:nowrap;flex-shrink:0;min-width:130px;text-align:right;}
+.form-progress-text strong{color:#165DFF;font-weight:700;}
 
-  /* TEL COMBO */
-  .tel-combo { display: flex; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gray-200); background: var(--gray-100); transition: border-color 0.22s, box-shadow 0.22s, background 0.22s; }
-  .tel-combo:focus-within { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(22,93,255,0.10); }
-  .lada-select { flex-shrink: 0; width: 160px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: var(--navy); padding: 11px 22px 11px 11px; background-color: rgba(10,31,68,0.05); border: none; border-right: 1.5px solid var(--gray-200); border-radius: 0; outline: none; cursor: pointer; transition: background-color 0.18s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 7px center; }
-  .lada-select:focus { background-color: rgba(22,93,255,0.07); outline: none; }
-  .tel-number { flex: 1; min-width: 0; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); padding: 11px 12px; background: transparent; border: none; border-radius: 0; outline: none; }
-  .tel-number::placeholder { color: var(--gray-400); }
+/* ===== DARK MODE ===== */
+body.dark-mode{--navy:#1a2d56;--blue:#4d8aff;--blue-light:#6ba3ff;--white:#e8edf8;--dark:#d0d8ec;--gray-100:#111827;--gray-200:#1e2d45;--gray-400:#4a5878;--gray-500:#7a8fb0;--card-bg:rgba(17,28,50,0.97);--shadow:0 8px 40px rgba(0,0,0,0.35);--shadow-lg:0 20px 60px rgba(0,0,0,0.5);background:#0c1525;}
+body.dark-mode .header{background:#061022;}
+body.dark-mode .form-card,body.dark-mode .submit-area{background:#111c33;}
+body.dark-mode .section-header{background:#0d1d3a;border-bottom:1px solid #1e3060;}
+body.dark-mode .section-body{background:#111c33;}
+body.dark-mode .field-input{background:#162040;border-color:#243660;color:#d0d8ec;}
+body.dark-mode .field-input:focus{background:#1a2850;border-color:var(--blue);box-shadow:0 0 0 3px rgba(77,138,255,0.15);}
+body.dark-mode .field-input::placeholder{color:#4a5878;}
+body.dark-mode select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");}
+body.dark-mode .tel-combo{background:#162040;border-color:#243660;}
+body.dark-mode .tel-combo:focus-within{background:#1a2850;border-color:var(--blue);}
+body.dark-mode .lada-select{background-color:rgba(10,20,50,0.5);color:#a0b0d0;border-right-color:#243660;}
+body.dark-mode .tel-number{color:#d0d8ec;}
+body.dark-mode .radio-pill,body.dark-mode .check-pill{background:#162040;border-color:#243660;color:#7a8fb0;}
+body.dark-mode .radio-pill:hover,body.dark-mode .check-pill:hover{border-color:var(--blue);color:var(--blue);}
+body.dark-mode .radio-pill.selected,body.dark-mode .check-pill.selected{background:rgba(77,138,255,0.12);border-color:var(--blue);color:var(--blue);}
+body.dark-mode .type-btn{background:#111c33;border-color:#1e2d45;}
+body.dark-mode .type-btn.active{background:#0d1d3a;border-color:var(--blue);}
+body.dark-mode .type-label{color:#d0d8ec;}
+body.dark-mode .type-desc{color:#7a8fb0;}
+body.dark-mode .req-banner{background:linear-gradient(135deg,#0d1d3a 0%,#091630 100%);}
+body.dark-mode .mini-table th{background:#162040;color:#7a8fb0;border-bottom-color:#243660;}
+body.dark-mode .mini-table td{border-bottom-color:#243660;}
+body.dark-mode .mini-table td input,body.dark-mode .mini-table td select{color:#d0d8ec;}
+body.dark-mode .mini-table td input:focus{border-bottom-color:var(--blue);}
+body.dark-mode .add-row-btn{border-color:#4a5878;color:#7a8fb0;}
+body.dark-mode .add-row-btn:hover{border-color:var(--blue);color:var(--blue);}
+body.dark-mode .inmueble-toggle{border-color:#243660;}
+body.dark-mode .inmueble-opt{background:#162040;color:#7a8fb0;}
+body.dark-mode .inmueble-opt.active{background:#0d1d3a;color:#d0d8ec;}
+body.dark-mode .declaration-wrap{border-color:#243660;}
+body.dark-mode .declaration-box{background:#162040;}
+body.dark-mode .declaration-wrap.checked .declaration-box{background:rgba(77,138,255,0.08);}
+body.dark-mode .declaration-check-icon{background:#1e2d45;border-color:#4a5878;}
+body.dark-mode .declaration-text{color:#7a8fb0;}
+body.dark-mode .declaration-text strong{color:#d0d8ec;}
+body.dark-mode .legal-text{background:#162040;border-left-color:var(--blue);color:#7a8fb0;}
+body.dark-mode .divider{background:#243660;}
+body.dark-mode .sub-section-label{color:var(--blue);border-left-color:var(--blue);}
+body.dark-mode .field-label{color:#7a8fb0;}
+body.dark-mode .recaptcha-notice{color:#4a5878;}
+body.dark-mode .recaptcha-notice a{color:var(--blue);}
+body.dark-mode .success-card{background:#111c33;}
+body.dark-mode .success-info-row{background:#162040;}
+body.dark-mode .success-info-text{color:#7a8fb0;}
+body.dark-mode .success-info-text strong{color:#d0d8ec;}
+body.dark-mode .success-contact-item{color:#d0d8ec;}
+body.dark-mode .success-divider{background:#243660;}
+body.dark-mode .form-progress-pill{background:#1a2645;border-color:rgba(255,255,255,0.12);box-shadow:0 4px 28px rgba(0,0,0,0.55);}
+body.dark-mode .form-progress-bar-track{background:#263558;}
+body.dark-mode .form-progress-bar-fill{background:linear-gradient(90deg,#4d8aff 0%,#78b0ff 100%);}
+body.dark-mode .form-progress-text{color:#c8d6f0;}
+body.dark-mode .form-progress-text strong{color:#78b0ff;font-weight:800;}
+body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d38);box-shadow:0 6px 20px rgba(0,0,0,0.4),0 0 15px rgba(65,105,225,0.3);}
+body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill,.check-pill,.mini-table th,.mini-table td,.declaration-box,.legal-text,.submit-area,.req-banner{transition:background-color 0.3s ease,border-color 0.3s ease,color 0.3s ease;}
 
-  .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .radio-pill { display: flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: var(--gray-100); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-500); transition: all 0.2s; user-select: none; }
-  .radio-pill input { display: none; }
-  .radio-pill:hover { border-color: var(--blue-light); color: var(--blue); }
-  .radio-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
-  .radio-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; position: relative; }
-  .radio-pill.selected .radio-dot::after { content: ''; position: absolute; inset: 2px; background: var(--blue); border-radius: 50%; }
-  .check-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .check-pill { display: flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: var(--gray-100); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-500); transition: all 0.2s; user-select: none; }
-  .check-pill input { display: none; }
-  .check-pill:hover { border-color: var(--blue-light); color: var(--blue); }
-  .check-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
-  .check-box { width: 14px; height: 14px; border-radius: 4px; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .check-pill.selected .check-box { background: var(--blue); border-color: var(--blue); }
-  .check-pill.selected .check-box::after { content: '\2713'; font-size: 9px; color: #fff; font-weight: 700; }
-
-  .divider { height: 1px; background: var(--gray-200); margin: 20px 0; }
-
-  .mini-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .mini-table th { background: var(--gray-100); padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--gray-200); }
-  .mini-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-200); }
-  .mini-table td input, .mini-table td select { background: transparent; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--dark); width: 100%; }
-  .mini-table td input:focus { border-bottom: 1.5px solid var(--blue); }
-  .mini-table tr:last-child td { border-bottom: none; }
-
-  .add-row-btn { margin-top: 10px; background: transparent; border: 1.5px dashed var(--gray-400); border-radius: 8px; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--gray-500); cursor: pointer; transition: all 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .add-row-btn:hover { border-color: var(--blue); color: var(--blue); }
-
-  .inmueble-toggle { display: flex; border: 1.5px solid var(--gray-200); border-radius: 10px; overflow: hidden; width: fit-content; margin-bottom: 16px; }
-  .inmueble-opt { padding: 9px 18px; font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; background: var(--gray-100); border: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-  .inmueble-opt.active { background: var(--navy); color: #fff; }
-
-  .submit-area { display: none; padding: 28px; background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; animation: fadeSlide 0.35s ease; }
-  .submit-area.show { display: block; }
-  .legal-text { font-size: 12px; color: var(--gray-500); line-height: 1.7; margin-bottom: 20px; padding: 16px; background: var(--gray-100); border-radius: 10px; border-left: 3px solid var(--blue); }
-  .submit-btn { width: 100%; background: var(--blue); color: var(--white); border: none; border-radius: 12px; padding: 16px 28px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s; letter-spacing: 0.3px; }
-  .submit-btn:hover:not(:disabled) { background: var(--navy); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.35); }
-  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-  .sub-section-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin: 20px 0 14px; padding-left: 10px; border-left: 3px solid var(--blue); }
-  .note-box { background: rgba(22,93,255,0.05); border: 1px solid rgba(22,93,255,0.18); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: var(--gray-500); line-height: 1.6; }
-  .note-box strong { color: var(--blue); }
-  .field-hint { font-size: 11px; color: var(--gray-400); margin-top: 3px; font-style: italic; }
-
-  .cp-input.cp-loading { border-color: var(--blue) !important; background: #f0f4ff !important; }
-  .cp-input.cp-valid   { border-color: var(--success) !important; }
-  .cp-input.cp-error   { border-color: var(--error) !important; }
-  .cp-autofilled { background: rgba(22,93,255,0.04) !important; color: var(--blue) !important; font-weight: 500; }
-  .cp-colonia-group { animation: fadeSlide 0.3s ease; }
-
-  .rfc-valid { border-color: var(--success) !important; }
-  .rfc-error { border-color: var(--error) !important; }
-  .rfc-hint { font-size: 11px; margin-top: 4px; }
-  .rfc-hint.ok  { color: var(--success); }
-  .rfc-hint.err { color: var(--error); }
-
-  .declaration-wrap { margin-bottom: 22px; border: 1.5px solid var(--gray-200); border-radius: 14px; overflow: hidden; transition: border-color 0.3s; }
-  .declaration-wrap.checked { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(22,93,255,0.09); }
-  .declaration-label { display: flex; cursor: pointer; user-select: none; }
-  .declaration-label > input[type="checkbox"] { display: none; }
-  .declaration-box { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; background: var(--gray-100); transition: background 0.3s; }
-  .declaration-wrap.checked .declaration-box { background: rgba(22,93,255,0.04); }
-  .declaration-check-icon { width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; border: 2px solid #ccc; background: #fff; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
-  .declaration-check-icon svg { width: 14px; opacity: 0; transition: opacity 0.2s; }
-  .declaration-wrap.checked .declaration-check-icon { background: var(--blue); border-color: var(--blue); transform: scale(1.1); }
-  .declaration-wrap.checked .declaration-check-icon svg { opacity: 1; }
-  .declaration-text { font-size: 12.5px; color: var(--gray-500); line-height: 1.7; }
-  .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
-  .declaration-firma { color: var(--blue); font-weight: 500; }
-
-  .grecaptcha-badge { visibility: visible !important; opacity: 1 !important; display: block !important; }
-
-  .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.6; }
-  .recaptcha-notice a { color: var(--blue); text-decoration: none; }
-
-  /* ===================== SUCCESS MODAL ===================== */
-  .success-overlay { display: none; position: fixed; inset: 0; background: rgba(8,18,42,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 9000; align-items: center; justify-content: center; padding: 20px; }
-  .success-overlay.show { display: flex; }
-  .success-card { background: #ffffff; border-radius: 28px; padding: 0; text-align: center; width: 100%; max-width: 440px; box-shadow: 0 32px 80px rgba(10,31,68,0.28), 0 8px 24px rgba(10,31,68,0.12); animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1); overflow: hidden; }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-  .success-header { background: linear-gradient(135deg, #0A1F44 0%, #0e2a60 100%); padding: 40px 40px 36px; position: relative; overflow: hidden; }
-  .success-header::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.35) 0%, transparent 70%); }
-  .success-header::after { content: ''; position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.2) 0%, transparent 70%); }
-  .success-checkmark { width: 72px; height: 72px; background: linear-gradient(135deg, #165DFF, #0FC373); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; position: relative; z-index: 1; box-shadow: 0 8px 24px rgba(15,195,115,0.4); animation: checkPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
-  @keyframes checkPop { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0deg); } }
-  .success-checkmark svg { width: 36px; height: 36px; }
-  .success-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #ffffff; margin-bottom: 8px; position: relative; z-index: 1; }
-  .success-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; position: relative; z-index: 1; }
-  .success-body { padding: 32px 36px; }
-  .success-info-row { display: flex; align-items: center; gap: 12px; background: #F4F6FB; border-radius: 12px; padding: 14px 18px; margin-bottom: 12px; text-align: left; }
-  .success-info-icon { width: 36px; height: 36px; background: rgba(22,93,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .success-info-icon svg { width: 18px; height: 18px; }
-  .success-info-text { font-size: 13px; color: #6B7A99; line-height: 1.5; }
-  .success-info-text strong { display: block; color: #333; font-size: 14px; font-weight: 600; margin-bottom: 1px; }
-  .success-divider { height: 1px; background: #E8ECF4; margin: 20px 0; }
-  .success-close-btn { width: 100%; background: linear-gradient(135deg, #165DFF, #0e46cc); color: #fff; border: none; border-radius: 14px; padding: 16px 28px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; letter-spacing: 0.3px; box-shadow: 0 6px 20px rgba(22,93,255,0.35); }
-  .success-close-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.5); }
-  .success-close-btn:active { transform: scale(0.98); }
-
-  @keyframes pulseError { 0%,100% { border-color: var(--gray-200); } 50% { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); } }
-  .pulse-error { animation: pulseError 0.5s ease 2; }
-
-  .whatsapp-float { position: fixed; bottom: 36px; left: 36px; background: linear-gradient(135deg,#25d366,#128c7e); color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); cursor: pointer; z-index: 1000; text-decoration: none; transition: transform 0.3s, box-shadow 0.3s; }
-  .whatsapp-float:hover { transform: scale(1.12) translateY(-3px); box-shadow: 0 16px 36px rgba(37,211,102,0.55); }
-  .whatsapp-icon { width: 30px; height: 30px; }
-
-  .section-icon-svg { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; }
-
-  /* ===================== THEME TOGGLE BUTTON ===================== */
-  .theme-toggle-btn { position: fixed; top: 20px; right: 20px; z-index: 2000; width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(145deg, #e8ecf4, #d0d6e8); box-shadow: 0 6px 20px rgba(0,0,0,0.18), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.9); cursor: pointer; border: none; outline: none; overflow: hidden; transition: all 0.3s ease; animation: subtlePulse 3s infinite ease-in-out; }
-  .theme-toggle-btn::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
-  .theme-toggle-btn:hover::before { opacity: 1; }
-  .theme-toggle-btn:hover { animation: none; transform: scale(1.08); box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 3px 6px rgba(255,255,255,1); }
-  .theme-toggle-btn:active { transform: scale(0.94); }
-  @keyframes subtlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
-  .toggle-icon-wrap { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-  .theme-toggle-btn:hover .toggle-icon-wrap { transform: rotate(20deg); }
-  .icon-sun, .icon-moon { position: absolute; width: 28px; height: 28px; transition: all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55); }
-  .icon-sun  { opacity: 1; transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px rgba(255,215,0,0.6)); }
-  .icon-moon { opacity: 0; transform: scale(0.4) rotate(-80deg); filter: drop-shadow(0 0 4px rgba(100,120,255,0.6)); }
-  body.dark-mode .icon-sun  { opacity: 0; transform: scale(0.4) rotate(80deg); }
-  body.dark-mode .icon-moon { opacity: 1; transform: scale(1) rotate(0deg); }
-  body.dark-mode .theme-toggle-btn { background: linear-gradient(145deg, #1e2d50, #0f1d38); box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 15px rgba(65,105,225,0.3), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.06); }
-
-  /* ===================== DARK MODE ===================== */
-  body.dark-mode { --navy: #1a2d56; --blue: #4d8aff; --blue-light: #6ba3ff; --white: #e8edf8; --dark: #d0d8ec; --gray-100: #111827; --gray-200: #1e2d45; --gray-400: #4a5878; --gray-500: #7a8fb0; --card-bg: rgba(17,28,50,0.97); --shadow: 0 8px 40px rgba(0,0,0,0.35); --shadow-lg: 0 20px 60px rgba(0,0,0,0.5); background: #0c1525; }
-  body.dark-mode .header { background: #061022; }
-  body.dark-mode .form-card, body.dark-mode .submit-area { background: #111c33; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
-  body.dark-mode .section-header { background: #0d1d3a; border-bottom: 1px solid #1e3060; }
-  body.dark-mode .section-body { background: #111c33; }
-  body.dark-mode .field-input { background: #162040; border-color: #243660; color: #d0d8ec; }
-  body.dark-mode .field-input:focus { background: #1a2850; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(77,138,255,0.15); }
-  body.dark-mode .field-input::placeholder { color: #4a5878; }
-  body.dark-mode select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
-  body.dark-mode .tel-combo { background: #162040; border-color: #243660; }
-  body.dark-mode .tel-combo:focus-within { background: #1a2850; border-color: var(--blue); }
-  body.dark-mode .lada-select { background-color: rgba(10,20,50,0.5); color: #a0b0d0; border-right-color: #243660; }
-  body.dark-mode .lada-select:focus { background-color: rgba(77,138,255,0.1); }
-  body.dark-mode .tel-number { color: #d0d8ec; }
-  body.dark-mode .radio-pill, body.dark-mode .check-pill { background: #162040; border-color: #243660; color: #7a8fb0; }
-  body.dark-mode .radio-pill:hover, body.dark-mode .check-pill:hover { border-color: var(--blue); color: var(--blue); }
-  body.dark-mode .radio-pill.selected, body.dark-mode .check-pill.selected { background: rgba(77,138,255,0.12); border-color: var(--blue); color: var(--blue); }
-  body.dark-mode .type-btn { background: #111c33; border-color: #1e2d45; }
-  body.dark-mode .type-btn:hover { border-color: var(--blue-light); box-shadow: 0 12px 40px rgba(77,138,255,0.18); }
-  body.dark-mode .type-btn.active { background: #0d1d3a; border-color: var(--blue); }
-  body.dark-mode .type-label { color: #d0d8ec; }
-  body.dark-mode .type-desc { color: #7a8fb0; }
-  body.dark-mode .req-banner { background: linear-gradient(135deg, #0d1d3a 0%, #091630 100%); }
-  body.dark-mode .mini-table th { background: #162040; color: #7a8fb0; border-bottom-color: #243660; }
-  body.dark-mode .mini-table td { border-bottom-color: #243660; }
-  body.dark-mode .mini-table td input, body.dark-mode .mini-table td select { color: #d0d8ec; }
-  body.dark-mode .mini-table td input:focus { border-bottom-color: var(--blue); }
-  body.dark-mode .add-row-btn { border-color: #4a5878; color: #7a8fb0; }
-  body.dark-mode .add-row-btn:hover { border-color: var(--blue); color: var(--blue); }
-  body.dark-mode .inmueble-toggle { border-color: #243660; }
-  body.dark-mode .inmueble-opt { background: #162040; color: #7a8fb0; }
-  body.dark-mode .inmueble-opt.active { background: #0d1d3a; color: #d0d8ec; }
-  body.dark-mode .declaration-wrap { border-color: #243660; }
-  body.dark-mode .declaration-box { background: #162040; }
-  body.dark-mode .declaration-wrap.checked { border-color: var(--blue); }
-  body.dark-mode .declaration-wrap.checked .declaration-box { background: rgba(77,138,255,0.08); }
-  body.dark-mode .declaration-check-icon { background: #1e2d45; border-color: #4a5878; }
-  body.dark-mode .declaration-text { color: #7a8fb0; }
-  body.dark-mode .declaration-text strong { color: #d0d8ec; }
-  body.dark-mode .legal-text { background: #162040; border-left-color: var(--blue); color: #7a8fb0; }
-  body.dark-mode .divider { background: #243660; }
-  body.dark-mode .sub-section-label { color: var(--blue); border-left-color: var(--blue); }
-  body.dark-mode .field-label { color: #7a8fb0; }
-  body.dark-mode .cp-autofilled { background: rgba(77,138,255,0.08) !important; color: var(--blue) !important; }
-  body.dark-mode .cp-input.cp-loading { background: rgba(77,138,255,0.06) !important; }
-  body.dark-mode .recaptcha-notice { color: #4a5878; }
-  body.dark-mode .recaptcha-notice a { color: var(--blue); }
-  body.dark-mode .success-card { background: #111c33; }
-  body.dark-mode .success-info-row { background: #162040; }
-  body.dark-mode .success-info-text { color: #7a8fb0; }
-  body.dark-mode .success-info-text strong { color: #d0d8ec; }
-  body.dark-mode .success-divider { background: #243660; }
-
-  body, .form-card, .section-header, .section-body, .field-input, .type-btn,
-  .radio-pill, .check-pill, .mini-table th, .mini-table td,
-  .declaration-box, .legal-text, .submit-area, .req-banner {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* ===================== FLOATING PROGRESS BAR ===================== */
-  .form-progress-wrap { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 1500; display: none; width: calc(100% - 200px); max-width: 720px; min-width: 280px; pointer-events: none; }
-  .form-progress-wrap.visible { display: block; }
-  .form-progress-pill { background: #ffffff; border-radius: 60px; padding: 10px 20px 10px 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 24px rgba(10,31,68,0.14), 0 1px 4px rgba(10,31,68,0.08); border: 1px solid rgba(10,31,68,0.07); }
-  .form-progress-bar-track { flex: 1; height: 8px; background: #E8ECF4; border-radius: 99px; overflow: hidden; position: relative; }
-  .form-progress-bar-fill { height: 100%; background: linear-gradient(90deg, #165DFF 0%, #3a7fff 100%); border-radius: 99px; width: 0%; transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
-  .form-progress-bar-fill::after { content: ''; position: absolute; top: 0; left: -60px; width: 50px; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); animation: barShine 2.2s ease-in-out infinite; }
-  @keyframes barShine { 0%{left:-60px;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:calc(100% + 20px);opacity:0} }
-  .form-progress-text { font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: #6B7A99; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.1px; min-width: 130px; text-align: right; }
-  .form-progress-text strong { color: #165DFF; font-weight: 700; }
-  body.dark-mode .form-progress-pill { background: #1a2645; border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 28px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.35); }
-  body.dark-mode .form-progress-bar-track { background: #263558; }
-  body.dark-mode .form-progress-bar-fill { background: linear-gradient(90deg, #4d8aff 0%, #78b0ff 100%); }
-  body.dark-mode .form-progress-text { color: #c8d6f0; font-weight: 600; }
-  body.dark-mode .form-progress-text strong { color: #78b0ff; font-weight: 800; }
-
-  @media (max-width: 640px) {
-    .field-grid, .field-grid.thirds { grid-template-columns: 1fr; }
-    .type-selector, .req-grid { grid-template-columns: 1fr; }
-    .col-full { grid-column: 1; }
-    .section-body { padding: 20px 16px; }
-    .header-inner { padding: 28px 20px 24px; }
-    .main { padding: 24px 14px 60px; }
-    .lada-select { width: 130px; }
-    .theme-toggle-btn { top: 14px; right: 14px; width: 44px; height: 44px; }
-    .icon-sun, .icon-moon { width: 22px; height: 22px; }
-    .form-progress-wrap { width: calc(100% - 24px); bottom: 16px; }
-    .form-progress-pill { padding: 8px 14px 8px 12px; gap: 10px; }
-    .form-progress-text { font-size: 11.5px; min-width: 110px; }
-  }
+@media(max-width:640px){
+  .field-grid,.field-grid.thirds{grid-template-columns:1fr;}
+  .type-selector,.req-grid{grid-template-columns:1fr;}
+  .col-full{grid-column:1;}
+  .section-body{padding:20px 16px;}
+  .header-inner{padding:28px 20px 24px;}
+  .main{padding:24px 14px 80px;}
+  .lada-select{width:130px;}
+  .theme-toggle-btn{top:14px;right:14px;width:44px;height:44px;}
+  .form-progress-wrap{width:calc(100% - 24px);bottom:16px;}
+  .form-progress-pill{padding:8px 14px 8px 12px;gap:10px;}
+  .form-progress-text{font-size:11.5px;min-width:110px;}
+}
 </style>
 </head>
 <body>
 
-<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+<!-- THEME TOGGLE -->
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar tema">
   <div class="toggle-icon-wrap">
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="4.5" fill="#FFD700" stroke="#FFA500" stroke-width="1.4"/>
-      <g stroke="#FFD700" stroke-width="2" stroke-linecap="round">
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"></line>
-        <line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"></line>
-      </g>
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/>
-      <circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"></circle>
-      <circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"></circle>
-      <circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"></circle>
-    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.5" fill="#FFD700" stroke="#FFA500" stroke-width="1.4"/><g stroke="#FFD700" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"/></g></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/><circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"/><circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"/><circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"/></svg>
   </div>
 </button>
 
@@ -347,7 +280,6 @@
 </header>
 
 <main class="main">
-
   <div class="type-selector">
     <div class="type-btn" id="btnPF" onclick="selectType('PF')">
       <div class="type-icon">👤</div>
@@ -393,7 +325,7 @@
     </div>
   </div>
 
-  <!-- ===== FORM PERSONA FISICA ===== -->
+  <!-- ===== FORM PERSONA FÍSICA ===== -->
   <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Fisica | AVA">
     <input type="hidden" name="_captcha" value="false">
@@ -401,11 +333,12 @@
     <input type="hidden" name="_next" value="about:blank">
     <input type="hidden" name="Tipo_Solicitud" value="Persona Fisica PFAE">
 
-    <div class="section-header"><div class="section-icon section-icon-svg"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><rect x="2" y="7" width="20" height="14" rx="2" stroke="#165DFF" stroke-width="1.8" fill="rgba(22,93,255,0.15)"/><path d="M8 7V5a4 4 0 0 1 8 0v2" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/><path d="M12 12v4" stroke="#60AAFF" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#165DFF"/></svg></div><div class="section-title">Datos del Negocio / PFAE</div></div>
+    <!-- DATOS DEL NEGOCIO -->
+    <div class="section-header"><div class="section-icon">💼</div><div class="section-title">Datos del Negocio / PFAE</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Nombre del cliente<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_cliente" placeholder="Nombre completo" required></div>
-        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required></div>
         <div class="field-group"><label class="field-label">Actividad principal<span class="req">*</span></label><input class="field-input" type="text" name="Actividad_principal" placeholder="Descripción de actividad" required></div>
         <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_fiscal" placeholder="Transcribir de la Constancia de Situación Fiscal" required></div>
         <div class="field-group"><label class="field-label">Nombre comercial<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_comercial" placeholder="Nombre del negocio" required></div>
@@ -414,52 +347,49 @@
         <div class="field-group"><label class="field-label">Número de empleados<span class="req">*</span></label><input class="field-input" type="number" name="Num_empleados" placeholder="0" min="0" required></div>
         <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_Facebook" placeholder="https://"></div>
       </div>
+
       <div class="sub-section-label">Sector <span class="req">*</span></div>
-      <!-- FIX: check-group uses JS-driven onclick; actual checkbox inputs handled properly -->
-      <div class="check-group" id="sectorPF" data-required-group="sectorPF" data-min="1">
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="Sector_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
+      <div class="check-group" id="sectorPF">
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="Sector_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="Sector_Servicios" value="Servicios"><div class="check-box"></div>Servicios</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="Sector_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="Sector_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="Sector_Construccion" value="Construcción"><div class="check-box"></div>Construcción</div>
       </div>
       <div class="error-msg" id="err-sectorPF">Selecciona al menos un sector.</div>
+
       <div class="field-grid" style="margin-top:18px">
         <div class="field-group"><label class="field-label">Persona que dirige el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Director_negocio" placeholder="Nombre completo" required></div>
         <div class="field-group"><label class="field-label">Relación con el aval<span class="req">*</span></label><input class="field-input" type="text" name="Relacion_aval" placeholder="Ej. Socio, cónyuge..." required></div>
         <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE" placeholder="18 dígitos" maxlength="18" required></div>
         <div class="field-group"><label class="field-label">Banco<span class="req">*</span></label><input class="field-input" type="text" name="Banco" placeholder="Nombre del banco" required></div>
         <div class="field-group"><label class="field-label">Contacto de pagos<span class="req">*</span></label><input class="field-input" type="text" name="Contacto_pagos" placeholder="Nombre" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel1"><label class="field-label">Teléfono negocio<span class="req">*</span></label>
           <input type="hidden" name="Telefono_negocio" id="tel1_combined">
-          <div class="tel-combo" id="tel1_combo">
-            <select class="lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel1');clearTelError('tel1_combo')" onblur="updateTelCombined('tel1')">
-          </div>
-          <div class="error-msg" id="err-tel1">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel1_combo"><select class="lada-select" id="tel1_lada" onchange="syncTel('tel1')"></select><input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="syncTel('tel1')"></div>
+          <div class="error-msg" id="err-tel1">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel2"><label class="field-label">Celular negocio<span class="req">*</span></label>
           <input type="hidden" name="Celular_negocio" id="tel2_combined">
-          <div class="tel-combo" id="tel2_combo">
-            <select class="lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel2');clearTelError('tel2_combo')" onblur="updateTelCombined('tel2')">
-          </div>
-          <div class="error-msg" id="err-tel2">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel2_combo"><select class="lada-select" id="tel2_lada" onchange="syncTel('tel2')"></select><input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="syncTel('tel2')"></div>
+          <div class="error-msg" id="err-tel2">Campo obligatorio.</div></div>
         <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com" required></div>
       </div>
+
       <div class="sub-section-label">Principales Clientes</div>
       <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
       <tbody id="tblClientesPF">
         <tr><td><input type="text" name="C1_nombre"></td><td><input type="tel" name="C1_tel"></td><td><input type="number" name="C1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C1_contacto"></td></tr>
         <tr><td><input type="text" name="C2_nombre"></td><td><input type="tel" name="C2_tel"></td><td><input type="number" name="C2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C2_contacto"></td></tr>
       </tbody></table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblClientesPF')">+ Agregar cliente</button>
+
       <div class="sub-section-label">Principales Proveedores</div>
       <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
       <tbody>
         <tr><td><input type="text" name="P1_nombre"></td><td><input type="tel" name="P1_tel"></td><td><input type="number" name="P1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P1_contacto"></td></tr>
         <tr><td><input type="text" name="P2_nombre"></td><td><input type="tel" name="P2_tel"></td><td><input type="number" name="P2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P2_contacto"></td></tr>
       </tbody></table>
+
       <div class="sub-section-label">Primer Cuadro Directivo</div>
       <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años exp.</th></tr></thead>
       <tbody>
@@ -468,6 +398,7 @@
       </tbody></table>
     </div>
 
+    <!-- DOMICILIO FISCAL -->
     <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal del Negocio</div></div>
     <div class="section-body">
       <div class="field-grid thirds">
@@ -476,36 +407,34 @@
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="Fiscal_noint"></div>
         <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_colonia" placeholder="Colonia" required></div>
         <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp1" name="Fiscal_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
-        <div class="field-group cp-colonia-group" id="colonias-cp1-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp1"></span></div>
+        <div class="field-group" id="colonias-cp1-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp1"></span></div>
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_ciudad" placeholder="Ciudad" required></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_estado" placeholder="Estado" required></div>
       </div>
+
       <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
       <div class="inmueble-toggle" id="inmuebleFiscalPF">
-        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalPropioDetails','fiscalRentadoDetails')">Propio</button>
-        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalRentadoDetails','fiscalPropioDetails')">Rentado</button>
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalPropioDetails','fiscalRentadoDetails','propioPF','rentadoPF')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalRentadoDetails','fiscalPropioDetails','rentadoPF','propioPF')">Rentado</button>
       </div>
       <div class="field-grid" id="fiscalPropioDetails">
-        <div class="field-group col-full"><label class="field-label">A nombre de quién está registrado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_titular" placeholder="Titular" data-inmueble-group="propioPF" required></div>
-        <div class="field-group"><label class="field-label">Tipo<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_tipo" placeholder="Planta, oficina..." data-inmueble-group="propioPF" required></div>
-        <div class="field-group"><label class="field-label">Tamaño (m2)<span class="req">*</span></label><input class="field-input" type="number" name="FiscalPropio_m2" placeholder="0" data-inmueble-group="propioPF" required></div>
-        <div class="field-group"><label class="field-label">Presenta gravamen<span class="req">*</span></label><select class="field-input" name="FiscalPropio_gravamen" data-inmueble-group="propioPF" required><option value="">Seleccionar</option><option>No presenta gravamen</option><option>Hipoteca</option><option>Embargo</option><option>Otro</option></select></div>
+        <div class="field-group col-full"><label class="field-label">A nombre de quién está registrado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_titular" data-ig="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Tipo<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPropio_tipo" placeholder="Planta, oficina..." data-ig="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Tamaño (m²)<span class="req">*</span></label><input class="field-input" type="number" name="FiscalPropio_m2" placeholder="0" data-ig="propioPF" required></div>
+        <div class="field-group"><label class="field-label">Presenta gravamen<span class="req">*</span></label><select class="field-input" name="FiscalPropio_gravamen" data-ig="propioPF" required><option value="">Seleccionar</option><option>No presenta gravamen</option><option>Hipoteca</option><option>Embargo</option><option>Otro</option></select></div>
       </div>
       <div class="field-grid" id="fiscalRentadoDetails" style="display:none">
-        <div class="field-group col-full"><label class="field-label">Nombre del arrendador<span class="req">*</span></label><input class="field-input" type="text" name="FiscalRentado_arrendador" data-inmueble-group="rentadoPF"></div>
-        <div class="field-group"><label class="field-label">Teléfono arrendador<span class="req">*</span></label>
+        <div class="field-group col-full"><label class="field-label">Nombre del arrendador<span class="req">*</span></label><input class="field-input" type="text" name="FiscalRentado_arrendador" data-ig="rentadoPF"></div>
+        <div class="field-group" id="fg-tel3"><label class="field-label">Teléfono arrendador<span class="req">*</span></label>
           <input type="hidden" name="FiscalRentado_tel" id="tel3_combined">
-          <div class="tel-combo" id="tel3_combo">
-            <select class="lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" data-inmueble-group="rentadoPF" oninput="updateTelCombined('tel3');clearTelError('tel3_combo')" onblur="updateTelCombined('tel3')">
-          </div>
-          <div class="error-msg" id="err-tel3">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Inicio contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_inicio" data-inmueble-group="rentadoPF"></div>
-        <div class="field-group"><label class="field-label">Término contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_termino" data-inmueble-group="rentadoPF"></div>
+          <div class="tel-combo" id="tel3_combo"><select class="lada-select" id="tel3_lada" onchange="syncTel('tel3')"></select><input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" data-ig="rentadoPF" oninput="syncTel('tel3')"></div>
+          <div class="error-msg" id="err-tel3">Campo obligatorio.</div></div>
+        <div class="field-group"><label class="field-label">Inicio contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_inicio" data-ig="rentadoPF"></div>
+        <div class="field-group"><label class="field-label">Término contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_termino" data-ig="rentadoPF"></div>
       </div>
     </div>
 
+    <!-- DATOS PERSONALES -->
     <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
@@ -513,103 +442,79 @@
         <div class="field-group"><label class="field-label">Profesión<span class="req">*</span></label><input class="field-input" type="text" name="Profesion_PF" required></div>
         <div class="field-group"><label class="field-label">Puesto en el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Puesto_PF" placeholder="Director, Propietario..." required></div>
         <div class="field-group"><label class="field-label">Antigüedad en el negocio<span class="req">*</span></label><input class="field-input" type="text" name="Antiguedad_PF" placeholder="Ej. 5 años" required></div>
-        <div class="field-group"><label class="field-label">Email<span class="req">*</span></label><input class="field-input" type="email" name="Email_PF" required></div>
-        <div class="field-group"><label class="field-label">Teléfono particular<span class="req">*</span></label>
+        <div class="field-group"><label class="field-label">Email personal<span class="req">*</span></label><input class="field-input" type="email" name="Email_PF" required></div>
+        <div class="field-group" id="fg-tel4"><label class="field-label">Teléfono particular<span class="req">*</span></label>
           <input type="hidden" name="Tel_particular_PF" id="tel4_combined">
-          <div class="tel-combo" id="tel4_combo">
-            <select class="lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel4');clearTelError('tel4_combo')" onblur="updateTelCombined('tel4')">
-          </div>
-          <div class="error-msg" id="err-tel4">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="tel-combo" id="tel4_combo"><select class="lada-select" id="tel4_lada" onchange="syncTel('tel4')"></select><input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="syncTel('tel4')"></div>
+          <div class="error-msg" id="err-tel4">Campo obligatorio.</div></div>
+        <div class="field-group col-full">
+          <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilPF">
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Sep')"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Man')"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Soltero')"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Divorciado')"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Viudo')"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
           </div>
           <div class="error-msg" id="err-estCivilPF">Selecciona el estado civil.</div>
         </div>
         <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Conyuge_nombre_PF"></div>
-        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Conyuge_RFC_PF" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Conyuge_RFC_PF" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
     </div>
 
+    <!-- EQUIPOS PF -->
     <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
     <div class="section-body">
-      <table class="mini-table"><thead><tr><th>Descripción<span class="req">*</span></th><th>Modelo/Año<span class="req">*</span></th><th>Valor (IVA incl.)<span class="req">*</span></th><th>Plazo<span class="req">*</span></th><th>Usuario<span class="req">*</span></th></tr></thead>
+      <table class="mini-table"><thead><tr><th>Descripción *</th><th>Modelo/Año *</th><th>Valor (IVA incl.) *</th><th>Plazo *</th><th>Usuario *</th></tr></thead>
       <tbody id="tblEquiposPF">
         <tr><td><input type="text" name="Eq1_desc" required></td><td><input type="number" name="Eq1_anio" placeholder="2025" required></td><td><input type="number" name="Eq1_valor" placeholder="$0" required></td><td><input type="text" name="Eq1_plazo" placeholder="Meses" required></td><td><input type="text" name="Eq1_usuario" required></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF','PF')">+ Agregar equipo</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
     </div>
 
+    <!-- REFERENCIAS -->
     <div class="section-header"><div class="section-icon">👥</div><div class="section-title">Referencias Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Referencia 1<span class="req">*</span></label><input class="field-input" type="text" name="Ref1_nombre_PF" placeholder="Nombre completo" required></div>
         <div class="field-group"><label class="field-label">Parentesco<span class="req">*</span></label><input class="field-input" type="text" name="Ref1_parentesco_PF" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel5"><label class="field-label">Teléfono Ref. 1<span class="req">*</span></label>
           <input type="hidden" name="Ref1_tel_PF" id="tel5_combined">
-          <div class="tel-combo" id="tel5_combo">
-            <select class="lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel5');clearTelError('tel5_combo')" onblur="updateTelCombined('tel5')">
-          </div>
-          <div class="error-msg" id="err-tel5">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel5_combo"><select class="lada-select" id="tel5_lada" onchange="syncTel('tel5')"></select><input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="syncTel('tel5')"></div>
+          <div class="error-msg" id="err-tel5">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel6"><label class="field-label">Celular Ref. 1<span class="req">*</span></label>
           <input type="hidden" name="Ref1_cel_PF" id="tel6_combined">
-          <div class="tel-combo" id="tel6_combo">
-            <select class="lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel6');clearTelError('tel6_combo')" onblur="updateTelCombined('tel6')">
-          </div>
-          <div class="error-msg" id="err-tel6">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel6_combo"><select class="lada-select" id="tel6_lada" onchange="syncTel('tel6')"></select><input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="syncTel('tel6')"></div>
+          <div class="error-msg" id="err-tel6">Campo obligatorio.</div></div>
         <div class="divider col-full"></div>
         <div class="field-group col-full"><label class="field-label">Referencia 2<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_nombre_PF" placeholder="Nombre completo" required></div>
         <div class="field-group"><label class="field-label">Parentesco<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_parentesco_PF" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel7"><label class="field-label">Teléfono Ref. 2<span class="req">*</span></label>
           <input type="hidden" name="Ref2_tel_PF" id="tel7_combined">
-          <div class="tel-combo" id="tel7_combo">
-            <select class="lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel7');clearTelError('tel7_combo')" onblur="updateTelCombined('tel7')">
-          </div>
-          <div class="error-msg" id="err-tel7">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel7_combo"><select class="lada-select" id="tel7_lada" onchange="syncTel('tel7')"></select><input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="syncTel('tel7')"></div>
+          <div class="error-msg" id="err-tel7">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel8"><label class="field-label">Celular Ref. 2<span class="req">*</span></label>
           <input type="hidden" name="Ref2_cel_PF" id="tel8_combined">
-          <div class="tel-combo" id="tel8_combo">
-            <select class="lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel8');clearTelError('tel8_combo')" onblur="updateTelCombined('tel8')">
-          </div>
-          <div class="error-msg" id="err-tel8">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel8_combo"><select class="lada-select" id="tel8_lada" onchange="syncTel('tel8')"></select><input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="syncTel('tel8')"></div>
+          <div class="error-msg" id="err-tel8">Campo obligatorio.</div></div>
       </div>
     </div>
 
+    <!-- VISITA -->
     <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita al Negocio</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group"><label class="field-label">Nombre<span class="req">*</span></label><input class="field-input" type="text" name="Visita_nombre_PF" required></div>
         <div class="field-group"><label class="field-label">Puesto<span class="req">*</span></label><input class="field-input" type="text" name="Visita_puesto_PF" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel9"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Visita_tel_PF" id="tel9_combined">
-          <div class="tel-combo" id="tel9_combo">
-            <select class="lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel9');clearTelError('tel9_combo')" onblur="updateTelCombined('tel9')">
-          </div>
-          <div class="error-msg" id="err-tel9">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel9_combo"><select class="lada-select" id="tel9_lada" onchange="syncTel('tel9')"></select><input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="syncTel('tel9')"></div>
+          <div class="error-msg" id="err-tel9">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel10"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Visita_cel_PF" id="tel10_combined">
-          <div class="tel-combo" id="tel10_combo">
-            <select class="lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel10');clearTelError('tel10_combo')" onblur="updateTelCombined('tel10')">
-          </div>
-          <div class="error-msg" id="err-tel10">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel10_combo"><select class="lada-select" id="tel10_lada" onchange="syncTel('tel10')"></select><input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="syncTel('tel10')"></div>
+          <div class="error-msg" id="err-tel10">Campo obligatorio.</div></div>
       </div>
     </div>
   </form>
@@ -626,7 +531,7 @@
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Razón social<span class="req">*</span></label><input class="field-input" type="text" name="RazonSocial" required></div>
-        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC_PM" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC_PM" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
         <div class="field-group"><label class="field-label">Actividad principal<span class="req">*</span></label><input class="field-input" type="text" name="Actividad_PM" required></div>
         <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_PM" required></div>
         <div class="field-group"><label class="field-label">Nombre comercial<span class="req">*</span></label><input class="field-input" type="text" name="NombreComercial_PM" required></div>
@@ -635,43 +540,38 @@
         <div class="field-group"><label class="field-label">No. empleados<span class="req">*</span></label><input class="field-input" type="number" name="Empleados_PM" min="0" required></div>
         <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_PM" placeholder="https://"></div>
       </div>
+
       <div class="sub-section-label">Sector <span class="req">*</span></div>
-      <div class="check-group" id="sectorPM" data-required-group="sectorPM" data-min="1">
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill" onclick="toggleCheckPill(this)"><input type="checkbox" name="SectorPM_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
+      <div class="check-group" id="sectorPM">
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="SectorPM_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="SectorPM_Servicios" value="Servicios"><div class="check-box"></div>Servicios</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="SectorPM_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="SectorPM_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</div>
+        <div class="check-pill" onclick="onCheckPill(this)"><input type="checkbox" name="SectorPM_Construccion" value="Construcción"><div class="check-box"></div>Construcción</div>
       </div>
       <div class="error-msg" id="err-sectorPM">Selecciona al menos un sector.</div>
+
       <div class="field-grid" style="margin-top:18px">
         <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE_PM" maxlength="18" required></div>
         <div class="field-group"><label class="field-label">Banco<span class="req">*</span></label><input class="field-input" type="text" name="Banco_PM" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel11"><label class="field-label">Teléfono empresa<span class="req">*</span></label>
           <input type="hidden" name="Tel_PM" id="tel11_combined">
-          <div class="tel-combo" id="tel11_combo">
-            <select class="lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel11');clearTelError('tel11_combo')" onblur="updateTelCombined('tel11')">
-          </div>
-          <div class="error-msg" id="err-tel11">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel11_combo"><select class="lada-select" id="tel11_lada" onchange="syncTel('tel11')"></select><input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="syncTel('tel11')"></div>
+          <div class="error-msg" id="err-tel11">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel12"><label class="field-label">Celular empresa<span class="req">*</span></label>
           <input type="hidden" name="Cel_PM" id="tel12_combined">
-          <div class="tel-combo" id="tel12_combo">
-            <select class="lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel12');clearTelError('tel12_combo')" onblur="updateTelCombined('tel12')">
-          </div>
-          <div class="error-msg" id="err-tel12">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel12_combo"><select class="lada-select" id="tel12_lada" onchange="syncTel('tel12')"></select><input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="syncTel('tel12')"></div>
+          <div class="error-msg" id="err-tel12">Campo obligatorio.</div></div>
         <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_PM" required></div>
       </div>
+
       <div class="sub-section-label">Accionistas</div>
       <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Participación %</th><th>RFC</th></tr></thead>
       <tbody id="tblAccionistas">
         <tr><td><input type="text" name="Acc1_nombre"></td><td><input type="number" name="Acc1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc1_rfc"></td></tr>
         <tr><td><input type="text" name="Acc2_nombre"></td><td><input type="number" name="Acc2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc2_rfc"></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas','PM')">+ Agregar accionista</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
     </div>
 
     <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal de la Empresa</div></div>
@@ -682,7 +582,7 @@
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="FiscalPM_noint"></div>
         <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_colonia" required></div>
         <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp2" name="FiscalPM_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
-        <div class="field-group cp-colonia-group" id="colonias-cp2-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp2"></span></div>
+        <div class="field-group" id="colonias-cp2-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp2"></span></div>
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_ciudad" required></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_estado" required></div>
       </div>
@@ -690,50 +590,44 @@
 
     <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
     <div class="section-body">
-      <table class="mini-table"><thead><tr><th>Descripción<span class="req">*</span></th><th>Modelo/Año<span class="req">*</span></th><th>Valor (IVA incl.)<span class="req">*</span></th><th>Plazo<span class="req">*</span></th><th>Usuario<span class="req">*</span></th></tr></thead>
+      <table class="mini-table"><thead><tr><th>Descripción *</th><th>Modelo/Año *</th><th>Valor (IVA incl.) *</th><th>Plazo *</th><th>Usuario *</th></tr></thead>
       <tbody id="tblEquiposPM">
         <tr><td><input type="text" name="Eq1PM_desc" required></td><td><input type="number" name="Eq1PM_anio" placeholder="2025" required></td><td><input type="number" name="Eq1PM_valor" required></td><td><input type="text" name="Eq1PM_plazo" required></td><td><input type="text" name="Eq1PM_usuario" required></td></tr>
       </tbody></table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM','PM')">+ Agregar equipo</button>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM')">+ Agregar equipo</button>
     </div>
 
     <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos del Accionista / Aval</div></div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group col-full"><label class="field-label">Nombre completo<span class="req">*</span></label><input class="field-input" type="text" name="Aval_nombre" required></div>
-        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="Aval_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="Aval_RFC" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
         <div class="field-group"><label class="field-label">Nacimiento (lugar y fecha)<span class="req">*</span></label><input class="field-input" type="text" name="Aval_nacimiento" placeholder="Ciudad, DD/MM/AAAA" required></div>
         <div class="field-group"><label class="field-label">Cargo en la empresa<span class="req">*</span></label><input class="field-input" type="text" name="Aval_puesto" required></div>
         <div class="field-group"><label class="field-label">Email<span class="req">*</span></label><input class="field-input" type="email" name="Aval_email" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel14"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Aval_tel" id="tel14_combined">
-          <div class="tel-combo" id="tel14_combo">
-            <select class="lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel14');clearTelError('tel14_combo')" onblur="updateTelCombined('tel14')">
-          </div>
-          <div class="error-msg" id="err-tel14">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel14_combo"><select class="lada-select" id="tel14_lada" onchange="syncTel('tel14')"></select><input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="syncTel('tel14')"></div>
+          <div class="error-msg" id="err-tel14">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel15"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Aval_cel" id="tel15_combined">
-          <div class="tel-combo" id="tel15_combo">
-            <select class="lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel15');clearTelError('tel15_combo')" onblur="updateTelCombined('tel15')">
-          </div>
-          <div class="error-msg" id="err-tel15">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
+          <div class="tel-combo" id="tel15_combo"><select class="lada-select" id="tel15_lada" onchange="syncTel('tel15')"></select><input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="syncTel('tel15')"></div>
+          <div class="error-msg" id="err-tel15">Campo obligatorio.</div></div>
+        <div class="field-group col-full">
+          <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilAval">
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill" onclick="selectRadioPill(this)"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Sep')"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Man')"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Soltero')"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Divorciado')"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Viudo')"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
           </div>
           <div class="error-msg" id="err-estCivilAval">Selecciona el estado civil.</div>
         </div>
         <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_nombre"></div>
-        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_RFC" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
+
       <div class="sub-section-label">Domicilio Particular del Aval</div>
       <div class="field-grid thirds">
         <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_calle" required></div>
@@ -741,7 +635,7 @@
         <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="AvalDom_noint"></div>
         <div class="field-group col-full"><label class="field-label">Colonia<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_colonia" required></div>
         <div class="field-group"><label class="field-label">C.P.<span class="req">*</span></label><input class="field-input cp-input" type="text" id="cp3" name="AvalDom_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required></div>
-        <div class="field-group cp-colonia-group" id="colonias-cp3-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp3"></span></div>
+        <div class="field-group" id="colonias-cp3-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp3"></span></div>
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_ciudad" required></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_estado" required></div>
       </div>
@@ -752,22 +646,14 @@
       <div class="field-grid">
         <div class="field-group"><label class="field-label">Nombre<span class="req">*</span></label><input class="field-input" type="text" name="Visita_nombre_PM" required></div>
         <div class="field-group"><label class="field-label">Puesto<span class="req">*</span></label><input class="field-input" type="text" name="Visita_puesto_PM" required></div>
-        <div class="field-group"><label class="field-label">Teléfono<span class="req">*</span></label>
+        <div class="field-group" id="fg-tel18"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Visita_tel_PM" id="tel18_combined">
-          <div class="tel-combo" id="tel18_combo">
-            <select class="lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel18');clearTelError('tel18_combo')" onblur="updateTelCombined('tel18')">
-          </div>
-          <div class="error-msg" id="err-tel18">Este campo es obligatorio.</div>
-        </div>
-        <div class="field-group"><label class="field-label">Celular<span class="req">*</span></label>
+          <div class="tel-combo" id="tel18_combo"><select class="lada-select" id="tel18_lada" onchange="syncTel('tel18')"></select><input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="syncTel('tel18')"></div>
+          <div class="error-msg" id="err-tel18">Campo obligatorio.</div></div>
+        <div class="field-group" id="fg-tel19"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Visita_cel_PM" id="tel19_combined">
-          <div class="tel-combo" id="tel19_combo">
-            <select class="lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')" title="Código de país"></select>
-            <input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel19');clearTelError('tel19_combo')" onblur="updateTelCombined('tel19')">
-          </div>
-          <div class="error-msg" id="err-tel19">Este campo es obligatorio.</div>
-        </div>
+          <div class="tel-combo" id="tel19_combo"><select class="lada-select" id="tel19_lada" onchange="syncTel('tel19')"></select><input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="syncTel('tel19')"></div>
+          <div class="error-msg" id="err-tel19">Campo obligatorio.</div></div>
       </div>
     </div>
   </form>
@@ -775,7 +661,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong><a href="https://www.anpai.com.mx" target="_blank" rel="noopener" style="color:inherit">www.anpai.com.mx</a></strong> / <strong>info@anpai.com.mx</strong>
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong><a href="https://www.anpai.com.mx" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">www.anpai.com.mx</a></strong> | <strong>info@anpai.com.mx</strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
@@ -798,37 +684,28 @@
     <button type="button" id="mainSubmitBtn" class="submit-btn" onclick="triggerFormSubmit()" disabled>
       <span id="btnText">Confirma la declaración para enviar</span>
     </button>
-    <p class="recaptcha-notice">
-      Protegido por <a href="https://policies.google.com/privacy" target="_blank">reCAPTCHA</a> de Google.
-      <a href="https://policies.google.com/terms" target="_blank">Términos de Servicio</a>.
-    </p>
+    <p class="recaptcha-notice">Protegido por <a href="https://policies.google.com/privacy" target="_blank">reCAPTCHA</a> de Google. <a href="https://policies.google.com/terms" target="_blank">Términos de Servicio</a>.</p>
   </div>
-
 </main>
 
-<!-- ===== FLOATING PROGRESS BAR ===== -->
+<!-- FLOATING PROGRESS -->
 <div class="form-progress-wrap" id="formProgressWrap">
   <div class="form-progress-pill">
-    <div class="form-progress-bar-track">
-      <div class="form-progress-bar-fill" id="formProgressFill"></div>
-    </div>
-    <span class="form-progress-text" id="formProgressText">
-      <strong id="formProgressDone">0</strong> de <span id="formProgressTotal">0</span> campos completados
-    </span>
+    <div class="form-progress-bar-track"><div class="form-progress-bar-fill" id="formProgressFill"></div></div>
+    <span class="form-progress-text"><strong id="formProgressDone">0</strong> de <span id="formProgressTotal">0</span> campos completados</span>
   </div>
 </div>
 
-<a href="https://wa.me/525525374608?text=Hola%20AVA" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+<a href="https://wa.me/5215525374608?text=Hola%20AVA" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
   <svg class="whatsapp-icon" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
 </a>
 
+<!-- SUCCESS MODAL -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-header">
       <div class="success-checkmark">
-        <svg viewBox="0 0 36 36" fill="none">
-          <path d="M7 18l7 7L29 11" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg viewBox="0 0 36 36" fill="none"><path d="M7 18l7 7L29 11" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div class="success-title">¡Solicitud Enviada!</div>
       <div class="success-subtitle">Arrendamiento Puro · AVA</div>
@@ -849,7 +726,11 @@
         </div>
         <div class="success-info-text">
           <strong>Contacto directo</strong>
-          📞 <strong style="color:#165DFF">33 3563 8383</strong> &nbsp;|&nbsp; WhatsApp disponible
+          <div class="success-contact-list">
+            <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
+            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
+            <div class="success-contact-item">💬 <a href="https://wa.me/5215525374608" target="_blank">WhatsApp disponible</a></div>
+          </div>
         </div>
       </div>
       <div class="success-divider"></div>
@@ -859,623 +740,529 @@
 </div>
 
 <script>
-// =============================================================
-// reCAPTCHA v3
-// =============================================================
+// ==================== reCAPTCHA ====================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
-function initRecaptcha() { recaptchaReady = true; }
+function initRecaptcha(){ recaptchaReady = true; }
 
-// =============================================================
-// TIPO SELECTOR
-// =============================================================
-var currentType = null;
-
-function selectType(type) {
-  currentType = type;
-  ['PF','PM'].forEach(function(t) {
-    document.getElementById('btn'+t).classList.toggle('active', t===type);
-    document.getElementById('req'+t).classList.toggle('show', t===type);
-    document.getElementById('form'+t).classList.toggle('show', t===type);
-  });
-  document.getElementById('submitArea').classList.add('show');
-  // Set inmueble initial state
-  if (type === 'PF') {
-    setInmuebleRequired('propioPF', true);
-    setInmuebleRequired('rentadoPF', false);
-  }
-  setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
-  showProgressBar('form' + type);
-}
-
-// =============================================================
-// CHECK PILLS — FIX: proper toggle with checkbox sync
-// =============================================================
-function toggleCheckPill(label) {
-  // Prevent double-firing from child element clicks
-  var cb = label.querySelector('input[type=checkbox]');
-  if (!cb) return;
-  // Toggle
-  cb.checked = !cb.checked;
-  label.classList.toggle('selected', cb.checked);
-  // Clear error on parent group
-  var group = label.closest('.check-group');
-  if (group && group.id) {
-    var errEl = document.getElementById('err-' + group.id);
-    if (errEl && cb.checked) {
-      group.classList.remove('input-error');
-      errEl.classList.remove('show');
-    }
-  }
-  updateProgressBar();
-}
-
-// =============================================================
-// RADIO PILLS — FIX: proper selection with name deselection
-// =============================================================
-function selectRadioPill(label) {
-  var rb = label.querySelector('input[type=radio]');
-  if (!rb) return;
-  var name = rb.name;
-  // Deselect all in same group
-  document.querySelectorAll('input[type=radio][name="'+name+'"]').forEach(function(r) {
-    r.checked = false;
-    var p = r.closest('.radio-pill');
-    if (p) p.classList.remove('selected');
-  });
-  // Select this one
-  rb.checked = true;
-  label.classList.add('selected');
-  // Clear error
-  var group = label.closest('.radio-group');
-  if (group && group.id) {
-    var errEl = document.getElementById('err-' + group.id);
-    if (errEl) {
-      group.classList.remove('input-error');
-      errEl.classList.remove('show');
-    }
-  }
-  updateProgressBar();
-}
-
-// =============================================================
-// INMUEBLE TOGGLE — propio/rentado with required management
-// =============================================================
-function setInmuebleRequired(groupName, isRequired) {
-  document.querySelectorAll('[data-inmueble-group="' + groupName + '"]').forEach(function(el) {
-    el.required = isRequired;
-  });
-}
-
-function toggleInmueble(toggleId, btn, showId, hideId) {
-  document.getElementById(toggleId).querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  var showEl = document.getElementById(showId);
-  var hideEl = document.getElementById(hideId);
-  if (showEl) showEl.style.display = '';
-  if (hideEl) hideEl.style.display = 'none';
-
-  // Determine which group is now active and update required
-  if (toggleId === 'inmuebleFiscalPF') {
-    if (showId === 'fiscalPropioDetails') {
-      setInmuebleRequired('propioPF', true);
-      setInmuebleRequired('rentadoPF', false);
-    } else {
-      setInmuebleRequired('rentadoPF', true);
-      setInmuebleRequired('propioPF', false);
-    }
-  }
-}
-
-function addRow(tbodyId) {
-  var tb = document.getElementById(tbodyId), fr = tb && tb.querySelector('tr');
-  if (!fr) return;
-  var row = fr.cloneNode(true);
-  row.querySelectorAll('input').forEach(function(i){ i.value = ''; });
-  tb.appendChild(row);
-  updateProgressBar();
-}
-
-// =============================================================
-// DECLARATION + SUBMIT STATE
-// =============================================================
-function toggleDeclaration(checkbox) {
-  var wrap = document.getElementById('declarationWrap');
-  var btn = document.getElementById('mainSubmitBtn');
-  wrap.classList.toggle('checked', checkbox.checked);
-  if (checkbox.checked) {
-    btn.disabled = false;
-    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-  } else {
-    btn.disabled = true;
-    document.getElementById('btnText').textContent = 'Confirma la declaración para enviar';
-  }
-}
-
-// =============================================================
-// MODAL
-// =============================================================
-function showSuccessModal() {
-  document.getElementById('successOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeSuccessModal() {
-  document.getElementById('successOverlay').classList.remove('show');
-  document.body.style.overflow = '';
-  var form = currentType ? document.getElementById('form' + currentType) : null;
-  if (form) form.reset();
-  // Reset check/radio pills
-  document.querySelectorAll('.check-pill.selected').forEach(function(p){ p.classList.remove('selected'); var cb=p.querySelector('input'); if(cb) cb.checked=false; });
-  document.querySelectorAll('.radio-pill.selected').forEach(function(p){ p.classList.remove('selected'); var rb=p.querySelector('input'); if(rb) rb.checked=false; });
-  var decl = document.getElementById('declarationCheck');
-  if (decl) { decl.checked = false; toggleDeclaration(decl); }
-  updateProgressBar();
-}
-
-document.addEventListener('click', function(e) {
-  if (e.target && e.target.id === 'successOverlay') closeSuccessModal();
-});
-
-// =============================================================
-// TEL COMBO HELPERS
-// =============================================================
-function clearTelError(comboId) {
-  var combo = document.getElementById(comboId);
-  if (combo) combo.classList.remove('input-error');
-  // Also hide associated error message
-  var prefix = comboId.replace('_combo','');
-  var errEl = document.getElementById('err-' + prefix);
-  if (errEl) errEl.classList.remove('show');
-}
-
-// =============================================================
-// VALIDATION HELPERS
-// =============================================================
-function showFieldError(el) {
-  el.classList.add('input-error');
-  el.addEventListener('input', function(){ el.classList.remove('input-error'); }, {once:true});
-  el.addEventListener('change', function(){ el.classList.remove('input-error'); }, {once:true});
-}
-
-function validateTelField(prefix) {
-  var numEl = document.getElementById(prefix + '_num');
-  var comboEl = document.getElementById(prefix + '_combo');
-  var errEl = document.getElementById('err-' + prefix);
-  if (!numEl) return true; // doesn't exist in current form
-  var val = numEl.value.replace(/\D/g, '').trim();
-  if (val.length < 7) {
-    if (comboEl) comboEl.classList.add('input-error');
-    if (errEl) errEl.classList.add('show');
-    return false;
-  }
-  return true;
-}
-
-// =============================================================
-// SUBMIT
-// =============================================================
-function triggerFormSubmit() {
-  if (!currentType) { alert('Selecciona el tipo de solicitante.'); return; }
-  var decl = document.getElementById('declarationCheck');
-  if (!decl || !decl.checked) {
-    var dw = document.getElementById('declarationWrap');
-    if (dw) { dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
-    return;
-  }
-
-  var form = document.getElementById('form' + currentType);
-  var valid = true;
-  var firstInvalid = null;
-
-  // 1. Standard required inputs/selects/textareas (visible only)
-  form.querySelectorAll('input[required], select[required], textarea[required]').forEach(function(inp) {
-    if (inp.type === 'hidden') return;
-    if (inp.type === 'radio' || inp.type === 'checkbox') return;
-    // Skip if inside a hidden parent (inmueble toggle)
-    var parent = inp.closest('[style*="display:none"], [style*="display: none"]');
-    if (parent) return;
-    if (!inp.value.trim()) {
-      showFieldError(inp);
-      if (!firstInvalid) firstInvalid = inp;
-      valid = false;
-    }
-  });
-
-  // 2. Validate tel combos (all visible ones in current form)
-  var telIds = currentType === 'PF'
-    ? ['tel1','tel2','tel3','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
-    : ['tel11','tel12','tel14','tel15','tel18','tel19'];
-
-  telIds.forEach(function(prefix) {
-    var numEl = document.getElementById(prefix + '_num');
-    if (!numEl) return;
-    // Skip tel3 if rentado section is hidden
-    if (prefix === 'tel3') {
-      var rentadoSection = document.getElementById('fiscalRentadoDetails');
-      if (rentadoSection && rentadoSection.style.display === 'none') return;
-    }
-    if (!validateTelField(prefix)) {
-      if (!firstInvalid) firstInvalid = document.getElementById(prefix + '_combo') || numEl;
-      valid = false;
-    }
-  });
-
-  // 3. Validate sector check groups
-  var sectorId = currentType === 'PF' ? 'sectorPF' : 'sectorPM';
-  var sectorGroup = document.getElementById(sectorId);
-  var sectorErrEl = document.getElementById('err-' + sectorId);
-  if (sectorGroup) {
-    var anyChecked = sectorGroup.querySelectorAll('input[type=checkbox]:checked').length > 0;
-    if (!anyChecked) {
-      sectorGroup.classList.add('input-error');
-      if (sectorErrEl) sectorErrEl.classList.add('show');
-      if (!firstInvalid) firstInvalid = sectorGroup;
-      valid = false;
-    } else {
-      sectorGroup.classList.remove('input-error');
-      if (sectorErrEl) sectorErrEl.classList.remove('show');
-    }
-  }
-
-  // 4. Validate radio groups
-  var radioGroupsToValidate = currentType === 'PF'
-    ? [{groupId: 'estCivilPF', name: 'EstadoCivil_PF', errId: 'err-estCivilPF'}]
-    : [{groupId: 'estCivilAval', name: 'EstadoCivil_Aval', errId: 'err-estCivilAval'}];
-
-  radioGroupsToValidate.forEach(function(rg) {
-    var checked = form.querySelector('input[name="'+rg.name+'"]:checked');
-    var grpEl = document.getElementById(rg.groupId);
-    var errEl = document.getElementById(rg.errId);
-    if (!checked) {
-      if (grpEl) grpEl.classList.add('input-error');
-      if (errEl) errEl.classList.add('show');
-      if (!firstInvalid) firstInvalid = grpEl;
-      valid = false;
-    } else {
-      if (grpEl) grpEl.classList.remove('input-error');
-      if (errEl) errEl.classList.remove('show');
-    }
-  });
-
-  // 5. Validate submit fields
-  var lf = document.getElementById('lugar_fecha');
-  var nf = document.getElementById('nombre_firmante');
-  [lf, nf].forEach(function(inp) {
-    if (!inp.value.trim()) {
-      showFieldError(inp);
-      if (!firstInvalid) firstInvalid = inp;
-      valid = false;
-    }
-  });
-
-  if (!valid) {
-    if (firstInvalid) {
-      firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(function(){
-        if (firstInvalid.focus) firstInvalid.focus();
-      }, 400);
-    }
-    return;
-  }
-
-  // All valid — proceed
-  var btn = document.getElementById('mainSubmitBtn');
-  btn.disabled = true;
-  document.getElementById('btnText').textContent = 'Verificando seguridad...';
-
-  function injectHidden(name, value) {
-    var old = form.querySelector('input[name="'+name+'"]'); if (old) old.remove();
-    var h = document.createElement('input'); h.type='hidden'; h.name=name; h.value=value; form.appendChild(h);
-  }
-  injectHidden('Lugar_Fecha', lf.value);
-  injectHidden('Firmante', nf.value);
-
-  function doSubmit(token) {
-    if (token) injectHidden('g-recaptcha-response', token);
-    document.getElementById('btnText').textContent = 'Enviando...';
-    var formData = new FormData(form);
-    fetch(form.action, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: formData
-    })
-    .then(function(res) {
-      if (res.ok || res.status === 200) { showSuccessModal(); }
-      else { return res.text().then(function(t){ throw new Error(t); }); }
-    })
-    .catch(function(err) { console.warn('Submit error:', err); showSuccessModal(); })
-    .finally(function() {
-      btn.disabled = false;
-      document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-    });
-  }
-
-  function executeRecaptcha(attempts) {
-    attempts = attempts || 0;
-    if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
-      if (attempts > 50) { console.warn('reCAPTCHA no disponible'); doSubmit(null); return; }
-      setTimeout(function(){ executeRecaptcha(attempts + 1); }, 100); return;
-    }
-    grecaptcha.ready(function() {
-      grecaptcha.execute(RECAPTCHA_SITE_KEY, {action:'submit_arrendamiento'})
-        .then(function(token){ doSubmit(token); })
-        .catch(function(err){ console.warn('reCAPTCHA error:', err); doSubmit(null); });
-    });
-  }
-  executeRecaptcha();
-}
-
-// =============================================================
-// RFC VALIDATION
-// =============================================================
-var RFC_RE = /^([A-ZÑ&]{3,4})\d{6}[A-Z\d]{3}$/i;
-function validateRFC(el) {
-  var v = el.value.toUpperCase().trim(); el.value = v;
-  var hint = el.parentElement.querySelector('.rfc-hint');
-  if (!hint) { hint = document.createElement('span'); hint.className='rfc-hint field-hint'; el.parentElement.appendChild(hint); }
-  if (!v.length) { el.classList.remove('rfc-valid','rfc-error'); hint.textContent=''; return; }
-  var ok = RFC_RE.test(v) && (v.length===12||v.length===13);
-  el.classList.toggle('rfc-valid',ok); el.classList.toggle('rfc-error',!ok);
-  hint.classList.toggle('ok',ok); hint.classList.toggle('err',!ok);
-  hint.textContent = ok ? 'RFC válido' : (v.length<12 ? v.length+'/13 chars' : 'Formato inválido');
-}
-
-// =============================================================
-// LADAS
-// =============================================================
-var LADAS = [
+// ==================== LADAS ====================
+var LADAS=[
   {r:'América del Norte',f:'MX',n:'México',c:'+52'},
   {r:'América del Norte',f:'US',n:'EE.UU.',c:'+1'},
   {r:'América del Norte',f:'CA',n:'Canadá',c:'+1'},
-  {r:'América Central',f:'GT',n:'Guatemala',c:'+502'},
-  {r:'América Central',f:'BZ',n:'Belice',c:'+501'},
-  {r:'América Central',f:'SV',n:'El Salvador',c:'+503'},
-  {r:'América Central',f:'HN',n:'Honduras',c:'+504'},
-  {r:'América Central',f:'NI',n:'Nicaragua',c:'+505'},
-  {r:'América Central',f:'CR',n:'Costa Rica',c:'+506'},
+  {r:'América Central',f:'GT',n:'Guatemala',c:'+502'},{r:'América Central',f:'BZ',n:'Belice',c:'+501'},
+  {r:'América Central',f:'SV',n:'El Salvador',c:'+503'},{r:'América Central',f:'HN',n:'Honduras',c:'+504'},
+  {r:'América Central',f:'NI',n:'Nicaragua',c:'+505'},{r:'América Central',f:'CR',n:'Costa Rica',c:'+506'},
   {r:'América Central',f:'PA',n:'Panamá',c:'+507'},
-  {r:'Caribe',f:'CU',n:'Cuba',c:'+53'},
-  {r:'Caribe',f:'DO',n:'Rep. Dominicana',c:'+1'},
-  {r:'Caribe',f:'HT',n:'Haití',c:'+509'},
-  {r:'Caribe',f:'PR',n:'Puerto Rico',c:'+1'},
-  {r:'América del Sur',f:'AR',n:'Argentina',c:'+54'},
-  {r:'América del Sur',f:'BO',n:'Bolivia',c:'+591'},
-  {r:'América del Sur',f:'BR',n:'Brasil',c:'+55'},
-  {r:'América del Sur',f:'CL',n:'Chile',c:'+56'},
-  {r:'América del Sur',f:'CO',n:'Colombia',c:'+57'},
-  {r:'América del Sur',f:'EC',n:'Ecuador',c:'+593'},
-  {r:'América del Sur',f:'PY',n:'Paraguay',c:'+595'},
-  {r:'América del Sur',f:'PE',n:'Perú',c:'+51'},
-  {r:'América del Sur',f:'UY',n:'Uruguay',c:'+598'},
-  {r:'América del Sur',f:'VE',n:'Venezuela',c:'+58'},
-  {r:'Europa',f:'DE',n:'Alemania',c:'+49'},
-  {r:'Europa',f:'ES',n:'España',c:'+34'},
-  {r:'Europa',f:'FR',n:'Francia',c:'+33'},
-  {r:'Europa',f:'GB',n:'Reino Unido',c:'+44'},
-  {r:'Europa',f:'IT',n:'Italia',c:'+39'},
-  {r:'Europa',f:'PT',n:'Portugal',c:'+351'},
-  {r:'Europa',f:'NL',n:'Países Bajos',c:'+31'},
-  {r:'Europa',f:'BE',n:'Bélgica',c:'+32'},
-  {r:'Europa',f:'CH',n:'Suiza',c:'+41'},
-  {r:'Europa',f:'SE',n:'Suecia',c:'+46'},
-  {r:'Europa',f:'NO',n:'Noruega',c:'+47'},
-  {r:'Europa',f:'PL',n:'Polonia',c:'+48'},
+  {r:'Caribe',f:'CU',n:'Cuba',c:'+53'},{r:'Caribe',f:'DO',n:'Rep. Dominicana',c:'+1'},
+  {r:'Caribe',f:'HT',n:'Haití',c:'+509'},{r:'Caribe',f:'PR',n:'Puerto Rico',c:'+1'},
+  {r:'América del Sur',f:'AR',n:'Argentina',c:'+54'},{r:'América del Sur',f:'BO',n:'Bolivia',c:'+591'},
+  {r:'América del Sur',f:'BR',n:'Brasil',c:'+55'},{r:'América del Sur',f:'CL',n:'Chile',c:'+56'},
+  {r:'América del Sur',f:'CO',n:'Colombia',c:'+57'},{r:'América del Sur',f:'EC',n:'Ecuador',c:'+593'},
+  {r:'América del Sur',f:'PY',n:'Paraguay',c:'+595'},{r:'América del Sur',f:'PE',n:'Perú',c:'+51'},
+  {r:'América del Sur',f:'UY',n:'Uruguay',c:'+598'},{r:'América del Sur',f:'VE',n:'Venezuela',c:'+58'},
+  {r:'Europa',f:'DE',n:'Alemania',c:'+49'},{r:'Europa',f:'ES',n:'España',c:'+34'},
+  {r:'Europa',f:'FR',n:'Francia',c:'+33'},{r:'Europa',f:'GB',n:'Reino Unido',c:'+44'},
+  {r:'Europa',f:'IT',n:'Italia',c:'+39'},{r:'Europa',f:'PT',n:'Portugal',c:'+351'},
+  {r:'Europa',f:'NL',n:'Países Bajos',c:'+31'},{r:'Europa',f:'CH',n:'Suiza',c:'+41'},
+  {r:'Europa',f:'SE',n:'Suecia',c:'+46'},{r:'Europa',f:'PL',n:'Polonia',c:'+48'},
   {r:'Europa',f:'RU',n:'Rusia',c:'+7'},
-  {r:'Asia',f:'CN',n:'China',c:'+86'},
-  {r:'Asia',f:'JP',n:'Japón',c:'+81'},
-  {r:'Asia',f:'KR',n:'Corea del Sur',c:'+82'},
-  {r:'Asia',f:'IN',n:'India',c:'+91'},
+  {r:'Asia',f:'CN',n:'China',c:'+86'},{r:'Asia',f:'JP',n:'Japón',c:'+81'},
+  {r:'Asia',f:'KR',n:'Corea del Sur',c:'+82'},{r:'Asia',f:'IN',n:'India',c:'+91'},
   {r:'Asia',f:'IL',n:'Israel',c:'+972'},
-  {r:'Oceanía',f:'AU',n:'Australia',c:'+61'},
-  {r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
+  {r:'Oceanía',f:'AU',n:'Australia',c:'+61'},{r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
 ];
 
-function countryCodeToFlag(code) {
-  return Array.from(code.toUpperCase()).map(function(char){
-    return String.fromCodePoint(char.charCodeAt(0) - 65 + 0x1F1E6);
+function flag(code){
+  return Array.from(code.toUpperCase()).map(function(c){
+    return String.fromCodePoint(c.charCodeAt(0)-65+0x1F1E6);
   }).join('');
 }
 
-function buildLadaOptions(sel) {
-  var groups = {};
+function buildLadas(sel){
+  var groups={};
   LADAS.forEach(function(l){ if(!groups[l.r]) groups[l.r]=[]; groups[l.r].push(l); });
   Object.keys(groups).forEach(function(r){
-    var og = document.createElement('optgroup'); og.label = r;
+    var og=document.createElement('optgroup'); og.label=r;
     groups[r].forEach(function(l){
-      var op = document.createElement('option');
-      op.value = l.c;
-      op.textContent = countryCodeToFlag(l.f) + ' ' + l.n + ' ' + l.c;
-      if (l.f === 'MX') op.selected = true;
+      var op=document.createElement('option');
+      op.value=l.c;
+      op.textContent=flag(l.f)+' '+l.n+' '+l.c;
+      if(l.f==='MX') op.selected=true;
       og.appendChild(op);
     });
     sel.appendChild(og);
   });
 }
 
-function initAllLadas() {
-  document.querySelectorAll('.lada-select').forEach(function(sel){ buildLadaOptions(sel); });
+function initAllLadas(){
+  document.querySelectorAll('.lada-select').forEach(buildLadas);
 }
 
-function updateTelCombined(prefix) {
-  var lada = document.getElementById(prefix+'_lada');
-  var num  = document.getElementById(prefix+'_num');
-  var out  = document.getElementById(prefix+'_combined');
-  if (lada && num && out) out.value = (lada.value + ' ' + num.value).trim();
-}
-
-// =============================================================
-// COPOMEX
-// =============================================================
-var COPOMEX_TOKEN = '36da398a-1848-44f3-a952-06c9bfb02cc8';
-var cpTimers = {};
-
-function handleCPInput(input) {
-  var uid = input.id;
-  clearTimeout(cpTimers[uid]);
-  input.classList.remove('cp-valid','cp-error','cp-loading');
-  var wrap = document.getElementById('colonias-'+uid+'-wrap');
-  if (wrap) wrap.style.display = 'none';
-  var val = input.value.replace(/\D/g,'');
-  input.value = val;
-  if (val.length < 5) return;
-  input.classList.add('cp-loading');
-  cpTimers[uid] = setTimeout(function(){ fetchCP(input, uid); }, 600);
-}
-
-function fetchCP(input, uid) {
-  var cp = input.value.trim();
-  if (cp.length !== 5) { input.classList.remove('cp-loading'); return; }
-  var url = 'https://api.copomex.com/query/info_cp/'+cp+'?type=simplified&token='+COPOMEX_TOKEN;
-  fetch(url)
-    .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); })
-    .then(function(data){
-      input.classList.remove('cp-loading');
-      var resp = null;
-      if (Array.isArray(data)) { if(data.length>0&&!data[0].error) resp=data[0].response; }
-      else { if(!data.error) resp=data.response; }
-      if (!resp) { input.classList.add('cp-error'); return; }
-      input.classList.add('cp-valid');
-      var colonias = Array.isArray(resp.asentamiento) ? resp.asentamiento : (resp.asentamiento ? [resp.asentamiento] : []);
-      var ciudad = resp.ciudad||resp.municipio||'';
-      var estado = resp.estado||'';
-      var section = input.closest('.section-body')||input.closest('.field-grid');
-      if (section) {
-        section.querySelectorAll('input.field-input').forEach(function(el){
-          var ph=(el.placeholder||'').toLowerCase().trim();
-          if(ph==='ciudad'){el.value=ciudad;el.classList.add('cp-autofilled');el.dispatchEvent(new Event('input'));}
-          if(ph==='estado'){el.value=estado;el.classList.add('cp-autofilled');el.dispatchEvent(new Event('input'));}
-        });
-      }
-      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
-      var sel=document.getElementById('colonias-'+uid);
-      var hint=document.getElementById('hint-'+uid);
-      if(selWrap&&sel&&colonias.length>0){
-        sel.innerHTML='<option value="">-- Selecciona colonia --</option>';
-        colonias.sort().forEach(function(c){ var op=document.createElement('option');op.value=c;op.textContent=c;sel.appendChild(op); });
-        selWrap.style.display='';
-        if(colonias.length===1){sel.value=colonias[0];onColoniaChange(sel,uid);}
-        if(hint) hint.textContent=colonias.length+' colonia(s) encontrada(s)';
-      }
-    })
-    .catch(function(err){ console.warn('COPOMEX error:',err); input.classList.remove('cp-loading'); input.classList.add('cp-error'); });
-}
-
-function onColoniaChange(select, uid) {
-  var cp = document.getElementById(uid); if(!cp) return;
-  var section=cp.closest('.section-body')||cp.closest('.field-grid'); if(!section) return;
-  var colVal=select.value; if(!colVal) return;
-  section.querySelectorAll('input.field-input').forEach(function(inp){
-    var ph=(inp.placeholder||'').toLowerCase().trim();
-    if(ph==='colonia'||ph.includes('colonia')||ph.includes('fraccionamiento')||ph.includes('asentamiento')){
-      inp.value=colVal; inp.dispatchEvent(new Event('input'));
-    }
-  });
-}
-
-// =============================================================
-// FLOATING PROGRESS BAR
-// =============================================================
-var progressState = { currentForm: null };
-
-function getRequiredFieldsForForm(formId) {
-  var form = document.getElementById(formId); if(!form) return [];
-  var fields = [];
-  var radioGroups = {};
-  var seen = {};
-
-  form.querySelectorAll('[required]').forEach(function(el) {
-    if (el.type==='hidden') return;
-    if (el.classList.contains('lada-select')||el.classList.contains('tel-number')) return;
-    if (el.id&&el.id.indexOf('colonias-')===0) return;
-    var key = el.name||el.id||Math.random();
-    if (el.type==='radio') {
-      if (!radioGroups[el.name]) { radioGroups[el.name]=true; fields.push({type:'radio',name:el.name}); }
-    } else {
-      if (!seen[key]) { seen[key]=true; fields.push({type:'standard',el:el}); }
-    }
-  });
-
-  // Sector check groups
-  var sectorId = formId === 'formPF' ? 'sectorPF' : 'sectorPM';
-  fields.push({type:'checkgroup', id: sectorId});
-
-  // Telephone combos
-  var telPrefixes = formId === 'formPF'
-    ? ['tel1','tel2','tel3','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
-    : ['tel11','tel12','tel14','tel15','tel18','tel19'];
-  telPrefixes.forEach(function(p){ fields.push({type:'tel', prefix:p}); });
-
-  // Submit area fields
-  var lf=document.getElementById('lugar_fecha');
-  var nf=document.getElementById('nombre_firmante');
-  if(lf) fields.push({type:'standard',el:lf});
-  if(nf) fields.push({type:'standard',el:nf});
-  return fields;
-}
-
-function isFieldFilled(f) {
-  if (f.type==='radio') return document.querySelector('input[name="'+f.name+'"]:checked')!==null;
-  if (f.type==='standard') return f.el&&f.el.value.trim().length>0;
-  if (f.type==='checkgroup') {
-    var g=document.getElementById(f.id);
-    return g&&g.querySelectorAll('input:checked').length>0;
-  }
-  if (f.type==='tel') {
-    var numEl=document.getElementById(f.prefix+'_num');
-    return numEl&&numEl.value.replace(/\D/g,'').length>=7;
-  }
-  return false;
-}
-
-function updateProgressBar() {
-  if (!progressState.currentForm) return;
-  var fields = getRequiredFieldsForForm(progressState.currentForm);
-  var total = fields.length, done = 0;
-  fields.forEach(function(f){ if(isFieldFilled(f)) done++; });
-  var pct = total>0 ? (done/total)*100 : 0;
-  document.getElementById('formProgressFill').style.width = pct+'%';
-  document.getElementById('formProgressDone').textContent = done;
-  document.getElementById('formProgressTotal').textContent = total;
-}
-
-function attachProgressListeners(formId) {
-  var form = document.getElementById(formId); if(!form) return;
-  form.querySelectorAll('input,select,textarea').forEach(function(el){
-    el.addEventListener('input', updateProgressBar);
-    el.addEventListener('change', updateProgressBar);
-  });
-  var lf=document.getElementById('lugar_fecha');
-  var nf=document.getElementById('nombre_firmante');
-  if(lf){lf.addEventListener('input',updateProgressBar);}
-  if(nf){nf.addEventListener('input',updateProgressBar);}
-}
-
-function showProgressBar(formId) {
-  progressState.currentForm = formId;
-  document.getElementById('formProgressWrap').classList.add('visible');
-  attachProgressListeners(formId);
+function syncTel(prefix){
+  var lada=document.getElementById(prefix+'_lada');
+  var num=document.getElementById(prefix+'_num');
+  var out=document.getElementById(prefix+'_combined');
+  if(lada&&num&&out) out.value=(lada.value+' '+num.value).trim();
+  // Clear error when user types
+  var combo=document.getElementById(prefix+'_combo');
+  var err=document.getElementById('err-'+prefix);
+  if(combo) combo.classList.remove('input-error');
+  if(err) err.classList.remove('show');
   updateProgressBar();
 }
 
-// =============================================================
-// INIT
-// =============================================================
-document.addEventListener('DOMContentLoaded', function() {
-  initAllLadas();
-  document.getElementById('mainSubmitBtn').disabled = true;
+// ==================== CHECK PILLS ====================
+// CRITICAL FIX: use <div> not <label> to avoid double-fire.
+// onclick on the div manually toggles the hidden checkbox.
+function onCheckPill(el){
+  var cb=el.querySelector('input[type=checkbox]');
+  if(!cb) return;
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+  // Clear sector error if now checked
+  var group=el.closest('.check-group');
+  if(group&&group.id){
+    var errEl=document.getElementById('err-'+group.id);
+    if(cb.checked){
+      group.classList.remove('group-error');
+      if(errEl) errEl.classList.remove('show');
+    }
+  }
+  updateProgressBar();
+}
 
-  // Theme toggle
-  var themeBtn = document.getElementById('themeToggleBtn');
-  try { if(localStorage.getItem('ava-theme')==='dark') document.body.classList.add('dark-mode'); } catch(e){}
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function(){
-      var isDark = document.body.classList.toggle('dark-mode');
-      try { localStorage.setItem('ava-theme', isDark?'dark':'light'); } catch(e){}
-      themeBtn.style.boxShadow = isDark ? '0 0 24px rgba(65,105,225,0.75)' : '0 0 24px rgba(255,215,0,0.75)';
-      setTimeout(function(){ themeBtn.style.boxShadow=''; }, 400);
+// ==================== RADIO PILLS ====================
+// CRITICAL FIX: use <div> not <label>; manually set radio value.
+function onRadioPill(el, name, value){
+  // Deselect all siblings
+  var group=el.closest('.radio-group');
+  if(group){
+    group.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
+    // Clear error
+    if(group.id){
+      var errEl=document.getElementById('err-'+group.id);
+      group.classList.remove('group-error');
+      if(errEl) errEl.classList.remove('show');
+    }
+  }
+  el.classList.add('selected');
+  // Set the hidden radio
+  var rb=el.querySelector('input[type=radio]');
+  if(rb) rb.checked=true;
+  updateProgressBar();
+}
+
+// ==================== INMUEBLE TOGGLE ====================
+function setIG(groupName, required){
+  document.querySelectorAll('[data-ig="'+groupName+'"]').forEach(function(el){
+    if(required){ el.required=true; }
+    else{ el.required=false; }
+  });
+}
+
+function toggleInmueble(toggleId, btn, showId, hideId, showGroup, hideGroup){
+  document.getElementById(toggleId).querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var showEl=document.getElementById(showId);
+  var hideEl=document.getElementById(hideId);
+  if(showEl) showEl.style.display='';
+  if(hideEl) hideEl.style.display='none';
+  setIG(showGroup, true);
+  setIG(hideGroup, false);
+}
+
+// ==================== TYPE SELECTOR ====================
+var currentType=null;
+
+function selectType(type){
+  currentType=type;
+  ['PF','PM'].forEach(function(t){
+    document.getElementById('btn'+t).classList.toggle('active',t===type);
+    document.getElementById('req'+t).classList.toggle('show',t===type);
+    document.getElementById('form'+t).classList.toggle('show',t===type);
+  });
+  document.getElementById('submitArea').classList.add('show');
+  // Init inmueble PF defaults
+  if(type==='PF'){
+    setIG('propioPF',true);
+    setIG('rentadoPF',false);
+  }
+  setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); },100);
+  showProgressBar('form'+type);
+}
+
+// ==================== DECLARATION ====================
+function toggleDeclaration(cb){
+  var wrap=document.getElementById('declarationWrap');
+  var btn=document.getElementById('mainSubmitBtn');
+  wrap.classList.toggle('checked',cb.checked);
+  btn.disabled=!cb.checked;
+  document.getElementById('btnText').textContent=cb.checked?'Enviar Solicitud de Arrendamiento →':'Confirma la declaración para enviar';
+}
+
+// ==================== SUCCESS MODAL ====================
+function showSuccessModal(){
+  document.getElementById('successOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeSuccessModal(){
+  document.getElementById('successOverlay').classList.remove('show');
+  document.body.style.overflow='';
+  var form=currentType?document.getElementById('form'+currentType):null;
+  if(form) form.reset();
+  document.querySelectorAll('.check-pill.selected').forEach(function(p){
+    p.classList.remove('selected');
+    var cb=p.querySelector('input');
+    if(cb) cb.checked=false;
+  });
+  document.querySelectorAll('.radio-pill.selected').forEach(function(p){
+    p.classList.remove('selected');
+    var rb=p.querySelector('input');
+    if(rb) rb.checked=false;
+  });
+  var decl=document.getElementById('declarationCheck');
+  if(decl){ decl.checked=false; toggleDeclaration(decl); }
+  updateProgressBar();
+}
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.id==='successOverlay') closeSuccessModal();
+});
+
+// ==================== VALIDATION ====================
+function markError(el){
+  el.classList.add('input-error','shake');
+  el.addEventListener('animationend',function(){ el.classList.remove('shake'); },{once:true});
+  el.addEventListener('input',function(){ el.classList.remove('input-error'); },{once:true});
+  el.addEventListener('change',function(){ el.classList.remove('input-error'); },{once:true});
+}
+
+function focusFirst(el){
+  // Scroll into view then focus the best focusable element
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(function(){
+    var focusable=el.querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),select,textarea,.tel-number');
+    if(focusable) focusable.focus();
+    else if(el.focus) el.focus();
+  },350);
+}
+
+function validateTels(telList, activeRentado){
+  var ok=true;
+  var first=null;
+  telList.forEach(function(prefix){
+    // Skip tel3 (rentado) if that section is hidden
+    if(prefix==='tel3'&&!activeRentado) return;
+    var numEl=document.getElementById(prefix+'_num');
+    var combo=document.getElementById(prefix+'_combo');
+    var err=document.getElementById('err-'+prefix);
+    if(!numEl) return;
+    var digits=numEl.value.replace(/\D/g,'');
+    if(digits.length<7){
+      if(combo){ combo.classList.add('input-error','shake'); combo.addEventListener('animationend',function(){ combo.classList.remove('shake'); },{once:true}); }
+      if(err) err.classList.add('show');
+      numEl.addEventListener('input',function(){
+        if(numEl.value.replace(/\D/g,'').length>=7){
+          if(combo) combo.classList.remove('input-error');
+          if(err) err.classList.remove('show');
+        }
+      });
+      if(!first) first=combo||numEl;
+      ok=false;
+    }
+  });
+  return {ok:ok, first:first};
+}
+
+// ==================== SUBMIT ====================
+function triggerFormSubmit(){
+  if(!currentType){ alert('Selecciona el tipo de solicitante.'); return; }
+  var decl=document.getElementById('declarationCheck');
+  if(!decl||!decl.checked){
+    var dw=document.getElementById('declarationWrap');
+    if(dw){ dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
+    return;
+  }
+
+  var form=document.getElementById('form'+currentType);
+  var valid=true;
+  var firstInvalid=null;
+
+  // 1. Standard inputs with [required]
+  form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(inp){
+    if(inp.type==='hidden'||inp.type==='radio'||inp.type==='checkbox') return;
+    // Skip if inside a hidden parent
+    var hiddenParent=inp.closest('[style*="display:none"],[style*="display: none"]');
+    if(hiddenParent) return;
+    if(!inp.value.trim()){
+      markError(inp);
+      if(!firstInvalid) firstInvalid=inp;
+      valid=false;
+    }
+  });
+
+  // 2. Submit area fields
+  var lf=document.getElementById('lugar_fecha');
+  var nf=document.getElementById('nombre_firmante');
+  [lf,nf].forEach(function(inp){
+    if(!inp.value.trim()){
+      markError(inp);
+      if(!firstInvalid) firstInvalid=inp;
+      valid=false;
+    }
+  });
+
+  // 3. Telephone combos
+  var telListPF=['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10'];
+  var telListPM=['tel11','tel12','tel14','tel15','tel18','tel19'];
+  var activeRentado=false;
+  if(currentType==='PF'){
+    var rentSec=document.getElementById('fiscalRentadoDetails');
+    activeRentado=rentSec&&rentSec.style.display!=='none';
+    if(activeRentado) telListPF=telListPF.concat(['tel3']);
+  }
+  var telResult=validateTels(currentType==='PF'?telListPF:telListPM, activeRentado);
+  if(!telResult.ok){
+    if(!firstInvalid) firstInvalid=telResult.first;
+    valid=false;
+  }
+
+  // 4. Sector check groups
+  var sectorId=currentType==='PF'?'sectorPF':'sectorPM';
+  var sectorGroup=document.getElementById(sectorId);
+  var sectorErr=document.getElementById('err-'+sectorId);
+  if(sectorGroup&&sectorGroup.querySelectorAll('input:checked').length===0){
+    sectorGroup.classList.add('group-error','shake');
+    sectorGroup.addEventListener('animationend',function(){ sectorGroup.classList.remove('shake'); },{once:true});
+    if(sectorErr) sectorErr.classList.add('show');
+    if(!firstInvalid) firstInvalid=sectorGroup;
+    valid=false;
+  }
+
+  // 5. Radio groups
+  var radioGroups=currentType==='PF'
+    ?[{id:'estCivilPF',name:'EstadoCivil_PF'}]
+    :[{id:'estCivilAval',name:'EstadoCivil_Aval'}];
+  radioGroups.forEach(function(rg){
+    var grpEl=document.getElementById(rg.id);
+    var errEl=document.getElementById('err-'+rg.id);
+    var checked=form.querySelector('input[name="'+rg.name+'"]:checked');
+    if(!checked){
+      if(grpEl){ grpEl.classList.add('group-error','shake'); grpEl.addEventListener('animationend',function(){ grpEl.classList.remove('shake'); },{once:true}); }
+      if(errEl) errEl.classList.add('show');
+      if(!firstInvalid) firstInvalid=grpEl;
+      valid=false;
+    }
+  });
+
+  if(!valid){
+    if(firstInvalid) focusFirst(firstInvalid);
+    return;
+  }
+
+  // All good — submit
+  var btn=document.getElementById('mainSubmitBtn');
+  btn.disabled=true;
+  document.getElementById('btnText').textContent='Verificando seguridad...';
+
+  function inject(name,val){
+    var old=form.querySelector('input[name="'+name+'"]'); if(old) old.remove();
+    var h=document.createElement('input'); h.type='hidden'; h.name=name; h.value=val; form.appendChild(h);
+  }
+  inject('Lugar_Fecha',lf.value);
+  inject('Firmante',nf.value);
+
+  function doSubmit(token){
+    if(token) inject('g-recaptcha-response',token);
+    document.getElementById('btnText').textContent='Enviando...';
+    fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)})
+      .then(function(res){ if(res.ok||res.status===200){ showSuccessModal(); } else { return res.text().then(function(t){ throw new Error(t); }); } })
+      .catch(function(){ showSuccessModal(); })
+      .finally(function(){ btn.disabled=false; document.getElementById('btnText').textContent='Enviar Solicitud de Arrendamiento →'; });
+  }
+
+  function execCaptcha(n){
+    n=n||0;
+    if(typeof grecaptcha==='undefined'||!recaptchaReady){
+      if(n>50){ doSubmit(null); return; }
+      setTimeout(function(){ execCaptcha(n+1); },100); return;
+    }
+    grecaptcha.ready(function(){
+      grecaptcha.execute(RECAPTCHA_SITE_KEY,{action:'submit'})
+        .then(function(t){ doSubmit(t); })
+        .catch(function(){ doSubmit(null); });
     });
   }
+  execCaptcha();
+}
+
+// ==================== RFC ====================
+var RFC_RE=/^([A-ZÑ&]{3,4})\d{6}[A-Z\d]{3}$/i;
+function validateRFC(el){
+  var v=el.value.toUpperCase().trim(); el.value=v;
+  var hint=el.parentElement.querySelector('.rfc-hint');
+  if(!hint){ hint=document.createElement('span'); hint.className='rfc-hint field-hint'; el.parentElement.appendChild(hint); }
+  if(!v){ el.classList.remove('rfc-valid','rfc-error'); hint.textContent=''; return; }
+  var ok=RFC_RE.test(v)&&(v.length===12||v.length===13);
+  el.classList.toggle('rfc-valid',ok); el.classList.toggle('rfc-error',!ok);
+  hint.classList.toggle('ok',ok); hint.classList.toggle('err',!ok);
+  hint.textContent=ok?'RFC válido':(v.length<12?v.length+'/13 chars':'Formato inválido');
+}
+
+// ==================== CP / COPOMEX ====================
+var COPOMEX_TOKEN='36da398a-1848-44f3-a952-06c9bfb02cc8';
+var cpTimers={};
+
+function handleCPInput(inp){
+  var uid=inp.id;
+  clearTimeout(cpTimers[uid]);
+  inp.classList.remove('cp-valid','cp-error','cp-loading');
+  var wrap=document.getElementById('colonias-'+uid+'-wrap');
+  if(wrap) wrap.style.display='none';
+  var val=inp.value.replace(/\D/g,''); inp.value=val;
+  if(val.length<5) return;
+  inp.classList.add('cp-loading');
+  cpTimers[uid]=setTimeout(function(){ fetchCP(inp,uid); },600);
+}
+
+function fetchCP(inp,uid){
+  if(inp.value.length!==5){ inp.classList.remove('cp-loading'); return; }
+  fetch('https://api.copomex.com/query/info_cp/'+inp.value+'?type=simplified&token='+COPOMEX_TOKEN)
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(d){
+      inp.classList.remove('cp-loading');
+      var resp=Array.isArray(d)?(d[0]&&!d[0].error?d[0].response:null):(!d.error?d.response:null);
+      if(!resp){ inp.classList.add('cp-error'); return; }
+      inp.classList.add('cp-valid');
+      var cols=Array.isArray(resp.asentamiento)?resp.asentamiento:(resp.asentamiento?[resp.asentamiento]:[]);
+      var ciudad=resp.ciudad||resp.municipio||'';
+      var estado=resp.estado||'';
+      var sec=inp.closest('.section-body')||inp.closest('.field-grid');
+      if(sec) sec.querySelectorAll('input.field-input').forEach(function(el){
+        var ph=(el.placeholder||'').toLowerCase().trim();
+        if(ph==='ciudad'){ el.value=ciudad; el.classList.add('cp-autofilled'); }
+        if(ph==='estado'){ el.value=estado; el.classList.add('cp-autofilled'); }
+      });
+      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
+      var sel=document.getElementById('colonias-'+uid);
+      var hint=document.getElementById('hint-'+uid);
+      if(selWrap&&sel&&cols.length>0){
+        sel.innerHTML='<option value="">-- Selecciona --</option>';
+        cols.sort().forEach(function(c){ var op=document.createElement('option'); op.value=c; op.textContent=c; sel.appendChild(op); });
+        selWrap.style.display='';
+        if(cols.length===1){ sel.value=cols[0]; onColoniaChange(sel,uid); }
+        if(hint) hint.textContent=cols.length+' colonia(s)';
+      }
+    })
+    .catch(function(){ inp.classList.remove('cp-loading'); inp.classList.add('cp-error'); });
+}
+
+function onColoniaChange(sel,uid){
+  var cp=document.getElementById(uid); if(!cp) return;
+  var sec=cp.closest('.section-body')||cp.closest('.field-grid'); if(!sec) return;
+  var v=sel.value; if(!v) return;
+  sec.querySelectorAll('input.field-input').forEach(function(inp){
+    var ph=(inp.placeholder||'').toLowerCase();
+    if(ph==='colonia'||ph.includes('colonia')){ inp.value=v; inp.dispatchEvent(new Event('input')); }
+  });
+}
+
+// ==================== PROGRESS BAR ====================
+var progressState={form:null};
+
+function updateProgressBar(){
+  if(!progressState.form) return;
+  var form=document.getElementById(progressState.form); if(!form) return;
+  var total=0, done=0;
+
+  // Required text/select/email/date fields (not hidden)
+  form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(el){
+    if(el.type==='hidden'||el.type==='radio'||el.type==='checkbox') return;
+    // Skip hidden sections
+    if(el.closest('[style*="display:none"],[style*="display: none"]')) return;
+    total++;
+    if(el.value.trim()) done++;
+  });
+
+  // Tel combos
+  var tels=progressState.form==='formPF'
+    ?['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
+    :['tel11','tel12','tel14','tel15','tel18','tel19'];
+  tels.forEach(function(p){
+    var n=document.getElementById(p+'_num'); if(!n) return;
+    total++;
+    if(n.value.replace(/\D/g,'').length>=7) done++;
+  });
+
+  // Sector
+  var sid=progressState.form==='formPF'?'sectorPF':'sectorPM';
+  var sg=document.getElementById(sid);
+  if(sg){ total++; if(sg.querySelectorAll('input:checked').length>0) done++; }
+
+  // Radio
+  var rname=progressState.form==='formPF'?'EstadoCivil_PF':'EstadoCivil_Aval';
+  total++;
+  if(form.querySelector('input[name="'+rname+'"]:checked')) done++;
+
+  // Submit fields
+  var lf=document.getElementById('lugar_fecha');
+  var nf=document.getElementById('nombre_firmante');
+  [lf,nf].forEach(function(el){ if(el){ total++; if(el.value.trim()) done++; } });
+
+  var pct=total>0?(done/total)*100:0;
+  document.getElementById('formProgressFill').style.width=pct+'%';
+  document.getElementById('formProgressDone').textContent=done;
+  document.getElementById('formProgressTotal').textContent=total;
+}
+
+function attachProgress(formId){
+  var form=document.getElementById(formId); if(!form) return;
+  form.querySelectorAll('input,select,textarea').forEach(function(el){
+    el.addEventListener('input',updateProgressBar);
+    el.addEventListener('change',updateProgressBar);
+  });
+  ['lugar_fecha','nombre_firmante'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input',updateProgressBar);
+  });
+}
+
+function showProgressBar(formId){
+  progressState.form=formId;
+  document.getElementById('formProgressWrap').classList.add('visible');
+  attachProgress(formId);
+  updateProgressBar();
+}
+
+// ==================== ADD ROW ====================
+function addRow(tbodyId){
+  var tb=document.getElementById(tbodyId);
+  var fr=tb&&tb.querySelector('tr'); if(!fr) return;
+  var row=fr.cloneNode(true);
+  row.querySelectorAll('input').forEach(function(i){ i.value=''; });
+  tb.appendChild(row);
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded',function(){
+  initAllLadas();
+  document.getElementById('mainSubmitBtn').disabled=true;
+
+  // Theme
+  var themeBtn=document.getElementById('themeToggleBtn');
+  try{ if(localStorage.getItem('ava-theme')==='dark') document.body.classList.add('dark-mode'); }catch(e){}
+  if(themeBtn){
+    themeBtn.addEventListener('click',function(){
+      var dark=document.body.classList.toggle('dark-mode');
+      try{ localStorage.setItem('ava-theme',dark?'dark':'light'); }catch(e){}
+    });
+  }
+
+  // Global input listener for progress
+  ['lugar_fecha','nombre_firmante'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input',updateProgressBar);
+  });
 });
 </script>
 </body>
