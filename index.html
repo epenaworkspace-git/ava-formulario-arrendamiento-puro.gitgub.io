@@ -689,7 +689,8 @@
     .whatsapp-tooltip { display: none; }
   }
 </style>
-<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV" async defer></script>
+<!-- reCAPTCHA v3 cargado con onload callback oficial -->
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=onRecaptchaLoad" async defer></script>
 </head>
 <body>
 
@@ -1688,7 +1689,7 @@
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong>privacidad@finbeabc.com.mx</strong>.
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1262607b6473717b76737652747b7c70777370713c717d7f3c7f6a">[email&#160;protected]</a></strong>.
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group">
@@ -1745,7 +1746,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ============================================================
 // TYPE SELECTOR — FIX: plain functions, no label/input conflict
 // ============================================================
@@ -1888,13 +1889,13 @@ function toggleDeclaration(checkbox) {
 // ============================================================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 
-function initRecaptcha() {
-  if (typeof grecaptcha === 'undefined') {
-    setTimeout(initRecaptcha, 200);
-    return;
-  }
+// ── Callback oficial de reCAPTCHA v3 (llamado automáticamente por Google) ──
+function onRecaptchaLoad() {
   grecaptcha.ready(function() {
     recaptchaReady = true;
+    console.log("reCAPTCHA v3 listo");
+    // Si el usuario ya marcó la declaración antes de que cargara reCAPTCHA,
+    // habilitamos el botón ahora.
     var declaration = document.getElementById('declarationCheck');
     var btn = document.getElementById('mainSubmitBtn');
     if (btn && declaration && declaration.checked) {
@@ -1902,6 +1903,15 @@ function initRecaptcha() {
       document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
     }
   });
+}
+// Fallback: si por algún motivo onload no se disparó, lo intentamos manualmente
+function initRecaptchaFallback() {
+  if (recaptchaReady) return;
+  if (typeof grecaptcha !== 'undefined') {
+    onRecaptchaLoad();
+  } else {
+    setTimeout(initRecaptchaFallback, 500);
+  }
 }
 
 function triggerFormSubmit() {
@@ -1953,10 +1963,23 @@ function triggerFormSubmit() {
   btn.disabled = true;
   document.getElementById('btnText').textContent = '🔒 Verificando seguridad...';
 
+  // Si reCAPTCHA aún no cargó, intentar inicializar y reintentar en 1s
   if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
-    btn.disabled = false;
-    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-    alert('reCAPTCHA no disponible. Verifica tu conexión y recarga la página.');
+    document.getElementById('btnText').textContent = '⏳ Esperando reCAPTCHA...';
+    // Intentar forzar la inicialización
+    if (typeof grecaptcha !== 'undefined' && !recaptchaReady) {
+      onRecaptchaLoad();
+    }
+    setTimeout(function() {
+      btn.disabled = false;
+      if (recaptchaReady) {
+        document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
+        triggerFormSubmit();
+      } else {
+        document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
+        alert('reCAPTCHA no disponible. Verifica tu conexión a internet y recarga la página.');
+      }
+    }, 1500);
     return;
   }
   grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
@@ -2220,12 +2243,13 @@ function autoFillColonia(cpInput, colonia) {
 
 // ============================================================
 // INIT
-// ============================================================
+// ========================================
 document.addEventListener('DOMContentLoaded', function() {
   initAllLadas();
   var btn = document.getElementById('mainSubmitBtn');
   if (btn) { btn.disabled = true; }
-  initRecaptcha();
+  // Fallback por si onRecaptchaLoad ya fue llamado antes del DOMContentLoaded
+  setTimeout(initRecaptchaFallback, 800);
 });
 </script>
 </body>
