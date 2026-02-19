@@ -33,7 +33,6 @@
     font-size: 15px;
   }
 
-  /* HEADER */
   .header {
     background: var(--navy);
     padding: 0;
@@ -94,11 +93,8 @@
     margin-top: 18px;
     letter-spacing: -0.3px;
   }
-  .header-title span {
-    color: var(--blue);
-  }
+  .header-title span { color: var(--blue); }
 
-  /* PROGRESS */
   .progress-bar {
     height: 3px;
     background: rgba(255,255,255,0.08);
@@ -111,14 +107,12 @@
     width: 0%;
   }
 
-  /* MAIN */
   .main {
     max-width: 900px;
     margin: 0 auto;
     padding: 36px 20px 80px;
   }
 
-  /* TYPE SELECTOR */
   .type-selector {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -126,6 +120,7 @@
     margin-bottom: 36px;
   }
 
+  /* FIX: changed <label> to <div> in HTML; these are now plain divs */
   .type-btn {
     background: var(--card-bg);
     border: 2px solid var(--gray-200);
@@ -137,6 +132,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow);
+    user-select: none;
   }
   .type-btn::before {
     content: '';
@@ -168,9 +164,7 @@
     font-size: 20px;
     transition: background 0.25s;
   }
-  .type-btn.active .type-icon {
-    background: rgba(22,93,255,0.18);
-  }
+  .type-btn.active .type-icon { background: rgba(22,93,255,0.18); }
   .type-label {
     font-family: 'Syne', sans-serif;
     font-size: 17px;
@@ -204,7 +198,6 @@
   }
   .type-check svg { width: 12px; height: 12px; }
 
-  /* REQUIREMENTS BANNER */
   .req-banner {
     background: linear-gradient(135deg, var(--navy) 0%, #12296b 100%);
     border-radius: 16px;
@@ -249,7 +242,6 @@
     flex-shrink: 0;
   }
 
-  /* FORM CARD */
   .form-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -289,23 +281,17 @@
     color: var(--white);
   }
 
-  .section-body {
-    padding: 28px;
-  }
+  .section-body { padding: 28px; }
 
   .field-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 18px 20px;
   }
-  .field-grid.thirds {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  .field-grid.full {
-    grid-template-columns: 1fr;
-  }
+  .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+  .field-grid.full   { grid-template-columns: 1fr; }
   .col-full { grid-column: 1 / -1; }
-  .col-2 { grid-column: span 2; }
+  .col-2    { grid-column: span 2; }
 
   .field-group {
     display: flex;
@@ -350,17 +336,9 @@
     cursor: pointer;
   }
 
-  textarea.field-input {
-    resize: vertical;
-    min-height: 80px;
-  }
+  textarea.field-input { resize: vertical; min-height: 80px; }
 
-  /* RADIO GROUPS */
-  .radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+  .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
   .radio-pill {
     display: flex;
     align-items: center;
@@ -377,11 +355,7 @@
   }
   .radio-pill input { display: none; }
   .radio-pill:hover { border-color: var(--blue-light); color: var(--blue); }
-  .radio-pill.selected {
-    border-color: var(--blue);
-    background: rgba(22,93,255,0.08);
-    color: var(--blue);
-  }
+  .radio-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
   .radio-dot {
     width: 10px; height: 10px;
     border-radius: 50%;
@@ -397,12 +371,7 @@
     border-radius: 50%;
   }
 
-  /* SECTOR CHECKS */
-  .check-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+  .check-group { display: flex; flex-wrap: wrap; gap: 8px; }
   .check-pill {
     display: flex;
     align-items: center;
@@ -420,11 +389,7 @@
   }
   .check-pill input { display: none; }
   .check-pill:hover { border-color: var(--blue-light); color: var(--blue); }
-  .check-pill.selected {
-    border-color: var(--blue);
-    background: rgba(22,93,255,0.08);
-    color: var(--blue);
-  }
+  .check-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
   .check-box {
     width: 14px; height: 14px;
     border-radius: 4px;
@@ -432,30 +397,12 @@
     display: flex; align-items: center; justify-content: center;
     transition: all 0.15s;
   }
-  .check-pill.selected .check-box {
-    background: var(--blue);
-    border-color: var(--blue);
-  }
-  .check-pill.selected .check-box::after {
-    content: '✓';
-    font-size: 9px;
-    color: #fff;
-    font-weight: 700;
-  }
+  .check-pill.selected .check-box { background: var(--blue); border-color: var(--blue); }
+  .check-pill.selected .check-box::after { content: '✓'; font-size: 9px; color: #fff; font-weight: 700; }
 
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: var(--gray-200);
-    margin: 24px 0;
-  }
+  .divider { height: 1px; background: var(--gray-200); margin: 24px 0; }
 
-  /* TABLE-LIKE */
-  .mini-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .mini-table th {
     background: var(--gray-100);
     padding: 9px 12px;
@@ -467,10 +414,7 @@
     letter-spacing: 0.5px;
     border-bottom: 1px solid var(--gray-200);
   }
-  .mini-table td {
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--gray-200);
-  }
+  .mini-table td { padding: 8px 10px; border-bottom: 1px solid var(--gray-200); }
   .mini-table td input, .mini-table td select {
     background: transparent;
     border: none;
@@ -481,12 +425,9 @@
     width: 100%;
     padding: 2px 0;
   }
-  .mini-table td input:focus, .mini-table td select:focus {
-    border-bottom: 1.5px solid var(--blue);
-  }
+  .mini-table td input:focus, .mini-table td select:focus { border-bottom: 1.5px solid var(--blue); }
   .mini-table tr:last-child td { border-bottom: none; }
 
-  /* ADD ROW BTN */
   .add-row-btn {
     margin-top: 10px;
     background: transparent;
@@ -504,13 +445,8 @@
     justify-content: center;
     gap: 6px;
   }
-  .add-row-btn:hover {
-    border-color: var(--blue);
-    color: var(--blue);
-    background: rgba(22,93,255,0.04);
-  }
+  .add-row-btn:hover { border-color: var(--blue); color: var(--blue); background: rgba(22,93,255,0.04); }
 
-  /* INMUEBLE TOGGLE */
   .inmueble-toggle {
     display: flex;
     gap: 0;
@@ -531,16 +467,11 @@
     transition: all 0.2s;
     font-family: 'DM Sans', sans-serif;
   }
-  .inmueble-opt.active {
-    background: var(--navy);
-    color: #fff;
-  }
+  .inmueble-opt.active { background: var(--navy); color: #fff; }
 
-  /* CONDITIONAL */
   .conditional { display: none; }
   .conditional.show { display: block; }
 
-  /* SUBMIT AREA */
   .submit-area {
     display: none;
     padding: 28px;
@@ -585,22 +516,12 @@
     inset: 0;
     background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
   }
-  .submit-btn:hover {
-    background: var(--navy);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(22,93,255,0.35);
-  }
+  .submit-btn:hover { background: var(--navy); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.35); }
   .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-  /* TOOLTIP */
-  .field-hint {
-    font-size: 11px;
-    color: var(--gray-400);
-    margin-top: 3px;
-    font-style: italic;
-  }
+  .field-hint { font-size: 11px; color: var(--gray-400); margin-top: 3px; font-style: italic; }
 
-  /* SECTION LABEL */
   .sub-section-label {
     font-family: 'Syne', sans-serif;
     font-size: 12px;
@@ -624,7 +545,6 @@
   }
   .note-box strong { color: var(--blue); }
 
-  /* SUCCESS */
   .success-overlay {
     display: none;
     position: fixed;
@@ -647,66 +567,73 @@
     from { opacity: 0; transform: scale(0.85); }
     to { opacity: 1; transform: scale(1); }
   }
-  .success-icon {
-    width: 72px; height: 72px;
-    background: rgba(15,195,115,0.12);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 32px;
-  }
-  .success-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--navy);
-    margin-bottom: 10px;
-  }
-  .success-sub {
-    font-size: 14px;
-    color: var(--gray-500);
-    line-height: 1.6;
-    margin-bottom: 28px;
-  }
-  .success-close {
-    background: var(--navy);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 28px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
-  }
+  .success-icon { width: 72px; height: 72px; background: rgba(15,195,115,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; }
+  .success-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .success-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 28px; }
+  .success-close { background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 12px 28px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 14px; transition: background 0.2s; }
   .success-close:hover { background: var(--blue); }
 
-  /* reCAPTCHA v3 – ocultar badge por defecto y mostrar aviso propio */
-  .grecaptcha-badge {
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-  .recaptcha-notice {
-    font-size: 11px;
-    color: var(--gray-400);
-    text-align: center;
-    margin-top: 10px;
-    line-height: 1.6;
-  }
+  .grecaptcha-badge { visibility: hidden !important; opacity: 0 !important; }
+  .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 10px; line-height: 1.6; }
   .recaptcha-notice a { color: var(--blue); text-decoration: none; }
   .recaptcha-notice a:hover { text-decoration: underline; }
 
-  /* reCAPTCHA shield badge on button */
-  .submit-btn .recaptcha-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.75;
-    font-size: 13px;
-    font-weight: 400;
-    margin-left: 10px;
+  /* CP */
+  .cp-input { transition: border-color 0.2s; }
+  .cp-input.cp-loading { border-color: var(--blue) !important; background: #f0f4ff !important; }
+  .cp-input.cp-valid   { border-color: var(--success) !important; }
+  .cp-input.cp-error   { border-color: var(--error) !important; }
+  .cp-colonia-group { animation: fadeSlide 0.3s ease; }
+  .cp-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--gray-200); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .cp-autofilled { background: rgba(22,93,255,0.04) !important; color: var(--blue) !important; font-weight: 500; }
+
+  /* Tel combo */
+  .tel-combo { display: flex; gap: 8px; width: 100%; }
+  .lada-select { width: 120px !important; flex-shrink: 0; font-size: 13px !important; padding: 11px 10px !important; cursor: pointer; }
+  .tel-number { flex: 1; min-width: 0; }
+
+  /* RFC */
+  .rfc-valid { border-color: var(--success) !important; }
+  .rfc-error { border-color: var(--error) !important; }
+  .rfc-hint { font-size: 11px; margin-top: 4px; transition: color 0.2s; }
+  .rfc-hint.ok  { color: var(--success); }
+  .rfc-hint.err { color: var(--error); }
+
+  /* Declaration */
+  .declaration-wrap {
+    margin-bottom: 22px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.3s;
   }
+  .declaration-wrap.checked { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(22,93,255,0.09); }
+  .declaration-label { display: flex; cursor: pointer; user-select: none; }
+  .declaration-label > input[type="checkbox"] { display: none; }
+  .declaration-box { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; background: var(--gray-100); transition: background 0.3s; }
+  .declaration-wrap.checked .declaration-box { background: rgba(22,93,255,0.04); }
+  .declaration-check-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .declaration-check-icon svg { width: 14px; opacity: 0; transition: opacity 0.2s; }
+  .declaration-wrap.checked .declaration-check-icon { background: var(--blue); border-color: var(--blue); transform: scale(1.1); }
+  .declaration-wrap.checked .declaration-check-icon svg { opacity: 1; }
+  .declaration-text { font-size: 12.5px; color: var(--gray-500); line-height: 1.7; }
+  .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
+  .declaration-firma { color: var(--blue); font-weight: 500; }
+
+  @keyframes pulseError {
+    0%,100% { border-color: var(--gray-200); }
+    50%      { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); }
+  }
+  .pulse-error { animation: pulseError 0.5s ease 2; }
 
   @media (max-width: 640px) {
     .field-grid { grid-template-columns: 1fr; }
@@ -721,104 +648,51 @@
     .logo-text { font-size: 30px; }
   }
 
-  /* ===== COPOMEX CP WIDGET ===== */
-  .cp-input { transition: border-color 0.2s; }
-  .cp-input.cp-loading { border-color: var(--blue) !important; background: #f0f4ff !important; }
-  .cp-input.cp-valid   { border-color: var(--success) !important; }
-  .cp-input.cp-error   { border-color: var(--error) !important; }
-  .cp-colonia-group { animation: fadeSlide 0.3s ease; }
-  .cp-spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid var(--gray-200); border-top-color: var(--blue);
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-    vertical-align: middle; margin-right: 6px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .cp-autofilled { background: rgba(22,93,255,0.04) !important; color: var(--blue) !important; font-weight: 500; }
-
-  /* ===== LADA SELECT + TEL COMBO ===== */
-  .tel-combo {
-    display: flex; gap: 8px; width: 100%;
-  }
-  .lada-select {
-    width: 120px !important; flex-shrink: 0;
-    font-size: 13px !important; padding: 11px 10px !important;
-    cursor: pointer;
-  }
-  .tel-number { flex: 1; min-width: 0; }
-
-  /* ===== RFC VALIDATION ===== */
-  .rfc-valid   { border-color: var(--success) !important; }
-  .rfc-error   { border-color: var(--error) !important; }
-  .rfc-hint {
-    font-size: 11px; margin-top: 4px;
-    transition: color 0.2s;
-  }
-  .rfc-hint.ok  { color: var(--success); }
-  .rfc-hint.err { color: var(--error); }
-
-  /* ===== DECLARATION CHECKBOX ===== */
-  .declaration-wrap {
-    margin-bottom: 22px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-  .declaration-wrap.checked {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(22,93,255,0.09);
-  }
-  .declaration-label {
-    display: flex; cursor: pointer;
-    user-select: none;
-  }
-  .declaration-label > input[type="checkbox"] { display: none; }
-  .declaration-box {
-    display: flex; gap: 16px; align-items: flex-start;
-    padding: 20px 22px;
-    background: var(--gray-100);
-    transition: background 0.3s;
-  }
-  .declaration-wrap.checked .declaration-box {
-    background: rgba(22,93,255,0.04);
-  }
-  .declaration-check-icon {
-    width: 28px; height: 28px; flex-shrink: 0;
-    border-radius: 8px;
-    border: 2px solid var(--gray-300, #ccc);
-    background: #fff;
+  /* WhatsApp */
+  .whatsapp-float {
+    position: fixed; bottom: 50px; left: 50px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    color: white; width: 75px; height: 75px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    margin-top: 2px;
-    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+    cursor: pointer; z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    text-decoration: none;
+    animation: floatPremium 3s ease-in-out infinite;
+    border: 4px solid white; overflow: hidden;
   }
-  .declaration-check-icon svg { width: 14px; opacity: 0; transition: opacity 0.2s; }
-  .declaration-wrap.checked .declaration-check-icon {
-    background: var(--blue); border-color: var(--blue);
-    transform: scale(1.1);
+  .whatsapp-float::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+    animation: shine 3s infinite;
   }
-  .declaration-wrap.checked .declaration-check-icon svg { opacity: 1; }
-  .declaration-text {
-    font-size: 12.5px; color: var(--gray-500); line-height: 1.7;
+  .whatsapp-float:hover { transform: scale(1.2) translateY(-5px); box-shadow: 0 20px 40px rgba(37,211,102,0.6); animation: none; }
+  .whatsapp-tooltip {
+    position: absolute; left: 95px; background: white; color: #333;
+    padding: 15px 25px; border-radius: 12px; white-space: nowrap;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15); opacity: 0; pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1); font-size: 1rem; font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.1); z-index: 1001;
   }
-  .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
-  .declaration-firma { color: var(--blue); font-weight: 500; }
-
-
-  @keyframes pulseError {
-    0%,100% { border-color: var(--gray-200); }
-    50%      { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); }
+  .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; transform: translateX(10px); }
+  .whatsapp-icon { width: 36px; height: 36px; position: relative; z-index: 1; }
+  .whatsapp-icon path { fill: white; }
+  @keyframes floatPremium {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(2deg); }
+    75% { transform: translateY(-5px) rotate(-2deg); }
   }
-  .pulse-error { animation: pulseError 0.5s ease 2; }
-  /* Submit btn disabled state */
-  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+  @keyframes shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+  @media (max-width: 768px) {
+    .whatsapp-float { width: 65px; height: 65px; bottom: 30px; left: 20px; }
+    .whatsapp-icon { width: 30px; height: 30px; }
+    .whatsapp-tooltip { display: none; }
+  }
 </style>
-  <!-- reCAPTCHA v3 -->
-  <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV" async defer></script>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-deco"></div>
   <div class="header-deco2"></div>
@@ -834,30 +708,29 @@
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 </header>
 
-<!-- MAIN -->
 <main class="main">
 
-  <!-- TIPO SELECTOR -->
+  <!-- TIPO SELECTOR — FIX: use <div> instead of <label> to avoid click conflicts -->
   <div class="type-selector">
-    <label class="type-btn" id="btnPF" onclick="selectType('PF')">
+    <div class="type-btn" id="btnPF" onclick="selectType('PF')">
       <div class="type-icon">👤</div>
       <div class="type-label">Persona Física</div>
       <div class="type-desc">Persona física con actividad empresarial o profesionista independiente (PFAE)</div>
       <div class="type-check">
         <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-    </label>
-    <label class="type-btn" id="btnPM" onclick="selectType('PM')">
+    </div>
+    <div class="type-btn" id="btnPM" onclick="selectType('PM')">
       <div class="type-icon">🏢</div>
       <div class="type-label">Persona Moral</div>
       <div class="type-desc">Empresa o sociedad mercantil constituida legalmente (PM)</div>
       <div class="type-check">
         <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-    </label>
+    </div>
   </div>
 
-  <!-- REQUIREMENTS BANNER PF -->
+  <!-- REQUIREMENTS PF -->
   <div class="req-banner" id="reqPF">
     <div class="req-banner-title">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -875,7 +748,7 @@
     </div>
   </div>
 
-  <!-- REQUIREMENTS BANNER PM -->
+  <!-- REQUIREMENTS PM -->
   <div class="req-banner" id="reqPM">
     <div class="req-banner-title">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -896,17 +769,13 @@
   </div>
 
   <!-- ===================== FORMULARIO PF ===================== -->
-  <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return handleSubmit(event, this)">
-    <!-- ===== FormSubmit config ===== -->
+  <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento – Persona Física | AVA">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_autoresponse" value="Gracias por enviar tu solicitud de Arrendamiento Puro con AVA. Hemos recibido tu información y un ejecutivo se pondrá en contacto a la brevedad.">
     <input type="hidden" name="Tipo_Solicitud" value="Persona Física (PFAE)">
-    <!-- =============================== -->
 
-
-    <!-- DATOS DEL NEGOCIO -->
     <div class="section-header">
       <div class="section-icon">🏪</div>
       <div class="section-title">Datos del Negocio / PFAE</div>
@@ -983,21 +852,19 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel1_combined" id="tel1_combined"><div class="tel-combo" id="tel1_wrap">
-          <select class="field-input lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel1_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel1')" onblur="updateTelCombined('tel1')">
-        </div>
+          <input type="hidden" name="tel_tel1_combined" id="tel1_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país"></select>
+            <input class="field-input tel-number" type="tel" id="tel1_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel1')" onblur="updateTelCombined('tel1')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel2_combined" id="tel2_combined"><div class="tel-combo" id="tel2_wrap">
-          <select class="field-input lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel2_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel2')" onblur="updateTelCombined('tel2')">
-        </div>
+          <input type="hidden" name="tel_tel2_combined" id="tel2_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país"></select>
+            <input class="field-input tel-number" type="tel" id="tel2_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel2')" onblur="updateTelCombined('tel2')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Correo electrónico</label>
@@ -1005,7 +872,6 @@
         </div>
       </div>
 
-      <!-- Clientes -->
       <div class="sub-section-label">Principales Clientes</div>
       <table class="mini-table">
         <thead><tr><th>Nombre del cliente</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
@@ -1015,7 +881,6 @@
         </tbody>
       </table>
 
-      <!-- Proveedores -->
       <div class="sub-section-label">Principales Proveedores</div>
       <table class="mini-table">
         <thead><tr><th>Nombre del proveedor</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
@@ -1025,7 +890,6 @@
         </tbody>
       </table>
 
-      <!-- Productos -->
       <div class="sub-section-label">Productos o Servicios</div>
       <table class="mini-table">
         <thead><tr><th>Productos / Servicios</th><th>% Ventas</th></tr></thead>
@@ -1035,7 +899,6 @@
         </tbody>
       </table>
 
-      <!-- Directivos -->
       <div class="sub-section-label">Primer Cuadro Directivo</div>
       <table class="mini-table">
         <thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años de exp.</th></tr></thead>
@@ -1048,7 +911,7 @@
       <div class="field-grid" style="margin-top:20px">
         <div class="field-group col-full">
           <label class="field-label">¿Cliente actual o anterior?</label>
-          <div class="radio-group" id="clienteAnteriorPF">
+          <div class="radio-group">
             <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="si"><div class="radio-dot"></div>Sí</label>
             <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="no"><div class="radio-dot"></div>No</label>
           </div>
@@ -1060,7 +923,7 @@
       </div>
     </div>
 
-    <!-- DOMICILIO FISCAL -->
+    <!-- DOMICILIO FISCAL PF -->
     <div class="section-header">
       <div class="section-icon">📍</div>
       <div class="section-title">Domicilio Fiscal del Negocio</div>
@@ -1088,8 +951,8 @@
           <input class="field-input cp-input" type="text" id="cp1" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
         </div>
         <div class="field-group cp-colonia-group" id="colonias-cp1-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento <span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp1" onchange="onColoniaChange(this, 'cp1')">
+          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
+          <select class="field-input cp-colonia-select" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')">
             <option value="">-- Selecciona colonia --</option>
           </select>
           <span class="field-hint" id="hint-cp1"></span>
@@ -1110,10 +973,9 @@
 
       <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
       <div class="inmueble-toggle" id="inmuebleFiscalPF">
-        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF', 'propio', 'fiscalPropioDetails')">Propio</button>
-        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF', 'rentado', 'fiscalRentadoDetails')">Rentado</button>
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF','propio','fiscalPropioDetails','fiscalRentadoDetails')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF','rentado','fiscalPropioDetails','fiscalRentadoDetails')">Rentado</button>
       </div>
-
       <div class="field-grid" id="fiscalPropioDetails">
         <div class="field-group col-full">
           <label class="field-label">¿A nombre de quién está registrado?</label>
@@ -1143,20 +1005,18 @@
           </select>
         </div>
       </div>
-
-      <div class="field-grid conditional" id="fiscalRentadoDetails">
+      <div class="field-grid" id="fiscalRentadoDetails" style="display:none">
         <div class="field-group col-full">
           <label class="field-label">Nombre del arrendador</label>
           <input class="field-input" type="text" placeholder="Nombre del arrendador">
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono del arrendador</label>
-          <input type="hidden" name="tel_tel3_combined" id="tel3_combined"><div class="tel-combo" id="tel3_wrap">
-          <select class="field-input lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel3_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel3')" onblur="updateTelCombined('tel3')">
-        </div>
+          <input type="hidden" name="tel_tel3_combined" id="tel3_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país"></select>
+            <input class="field-input tel-number" type="tel" id="tel3_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel3')" onblur="updateTelCombined('tel3')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Inicio de contrato</label>
@@ -1198,16 +1058,15 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel4_combined" id="tel4_combined"><div class="tel-combo" id="tel4_wrap">
-          <select class="field-input lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel4_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel4')" onblur="updateTelCombined('tel4')">
-        </div>
+          <input type="hidden" name="tel_tel4_combined" id="tel4_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país"></select>
+            <input class="field-input tel-number" type="tel" id="tel4_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel4')" onblur="updateTelCombined('tel4')">
+          </div>
         </div>
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
-          <div class="radio-group" id="estadoCivilPF">
+          <div class="radio-group">
             <label class="radio-pill"><input type="radio" name="ecPF" value="sep"><div class="radio-dot"></div>Casado(a) – Sep. de bienes</label>
             <label class="radio-pill"><input type="radio" name="ecPF" value="man"><div class="radio-dot"></div>Casado(a) – Bienes mancomunados</label>
             <label class="radio-pill"><input type="radio" name="ecPF" value="sol"><div class="radio-dot"></div>Soltero(a)</label>
@@ -1238,7 +1097,7 @@
       </div>
     </div>
 
-    <!-- EQUIPOS SOLICITADOS PF -->
+    <!-- EQUIPOS PF -->
     <div class="section-header">
       <div class="section-icon">🚗</div>
       <div class="section-title">Equipos / Vehículos Solicitados</div>
@@ -1279,21 +1138,19 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel5_combined" id="tel5_combined"><div class="tel-combo" id="tel5_wrap">
-          <select class="field-input lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel5_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel5')" onblur="updateTelCombined('tel5')">
-        </div>
+          <input type="hidden" name="tel_tel5_combined" id="tel5_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')"></select>
+            <input class="field-input tel-number" type="tel" id="tel5_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel5')" onblur="updateTelCombined('tel5')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel6_combined" id="tel6_combined"><div class="tel-combo" id="tel6_wrap">
-          <select class="field-input lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel6_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel6')" onblur="updateTelCombined('tel6')">
-        </div>
+          <input type="hidden" name="tel_tel6_combined" id="tel6_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')"></select>
+            <input class="field-input tel-number" type="tel" id="tel6_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel6')" onblur="updateTelCombined('tel6')">
+          </div>
         </div>
         <div class="divider col-full"></div>
         <div class="field-group col-full">
@@ -1306,21 +1163,19 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel7_combined" id="tel7_combined"><div class="tel-combo" id="tel7_wrap">
-          <select class="field-input lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel7_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel7')" onblur="updateTelCombined('tel7')">
-        </div>
+          <input type="hidden" name="tel_tel7_combined" id="tel7_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')"></select>
+            <input class="field-input tel-number" type="tel" id="tel7_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel7')" onblur="updateTelCombined('tel7')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel8_combined" id="tel8_combined"><div class="tel-combo" id="tel8_wrap">
-          <select class="field-input lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel8_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel8')" onblur="updateTelCombined('tel8')">
-        </div>
+          <input type="hidden" name="tel_tel8_combined" id="tel8_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')"></select>
+            <input class="field-input tel-number" type="tel" id="tel8_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel8')" onblur="updateTelCombined('tel8')">
+          </div>
         </div>
       </div>
     </div>
@@ -1343,40 +1198,33 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel9_combined" id="tel9_combined"><div class="tel-combo" id="tel9_wrap">
-          <select class="field-input lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel9_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel9')" onblur="updateTelCombined('tel9')">
-        </div>
+          <input type="hidden" name="tel_tel9_combined" id="tel9_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')"></select>
+            <input class="field-input tel-number" type="tel" id="tel9_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel9')" onblur="updateTelCombined('tel9')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel10_combined" id="tel10_combined"><div class="tel-combo" id="tel10_wrap">
-          <select class="field-input lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel10_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel10')" onblur="updateTelCombined('tel10')">
-        </div>
+          <input type="hidden" name="tel_tel10_combined" id="tel10_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')"></select>
+            <input class="field-input tel-number" type="tel" id="tel10_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel10')" onblur="updateTelCombined('tel10')">
+          </div>
         </div>
       </div>
     </div>
-
   </form><!-- END formPF -->
 
 
   <!-- ===================== FORMULARIO PM ===================== -->
-  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return handleSubmit(event, this)">
-    <!-- ===== FormSubmit config ===== -->
+  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento – Persona Moral | AVA">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_autoresponse" value="Gracias por enviar tu solicitud de Arrendamiento Puro con AVA. Hemos recibido tu información y un ejecutivo se pondrá en contacto a la brevedad.">
     <input type="hidden" name="Tipo_Solicitud" value="Persona Moral (PM)">
-    <!-- =============================== -->
 
-
-    <!-- DATOS EMPRESA -->
     <div class="section-header">
       <div class="section-icon">🏢</div>
       <div class="section-title">Datos de la Empresa (Persona Moral)</div>
@@ -1445,21 +1293,19 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel11_combined" id="tel11_combined"><div class="tel-combo" id="tel11_wrap">
-          <select class="field-input lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel11_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel11')" onblur="updateTelCombined('tel11')">
-        </div>
+          <input type="hidden" name="tel_tel11_combined" id="tel11_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')"></select>
+            <input class="field-input tel-number" type="tel" id="tel11_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel11')" onblur="updateTelCombined('tel11')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel12_combined" id="tel12_combined"><div class="tel-combo" id="tel12_wrap">
-          <select class="field-input lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel12_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel12')" onblur="updateTelCombined('tel12')">
-        </div>
+          <input type="hidden" name="tel_tel12_combined" id="tel12_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')"></select>
+            <input class="field-input tel-number" type="tel" id="tel12_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel12')" onblur="updateTelCombined('tel12')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Correo electrónico</label>
@@ -1547,8 +1393,8 @@
           <input class="field-input cp-input" type="text" id="cp2" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
         </div>
         <div class="field-group cp-colonia-group" id="colonias-cp2-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento <span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp2" onchange="onColoniaChange(this, 'cp2')">
+          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
+          <select class="field-input cp-colonia-select" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')">
             <option value="">-- Selecciona colonia --</option>
           </select>
           <span class="field-hint" id="hint-cp2"></span>
@@ -1569,8 +1415,8 @@
 
       <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
       <div class="inmueble-toggle" id="inmuebleFiscalPM">
-        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPM', 'propio', 'fiscalPMPropioDetails')">Propio</button>
-        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPM', 'rentado', 'fiscalPMRentadoDetails')">Rentado</button>
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPM','propio','fiscalPMPropioDetails','fiscalPMRentadoDetails')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPM','rentado','fiscalPMPropioDetails','fiscalPMRentadoDetails')">Rentado</button>
       </div>
       <div class="field-grid" id="fiscalPMPropioDetails">
         <div class="field-group col-full">
@@ -1600,19 +1446,18 @@
           </select>
         </div>
       </div>
-      <div class="field-grid conditional" id="fiscalPMRentadoDetails">
+      <div class="field-grid" id="fiscalPMRentadoDetails" style="display:none">
         <div class="field-group col-full">
           <label class="field-label">Nombre del arrendador</label>
           <input class="field-input" type="text" placeholder="Nombre del arrendador">
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono del arrendador</label>
-          <input type="hidden" name="tel_tel13_combined" id="tel13_combined"><div class="tel-combo" id="tel13_wrap">
-          <select class="field-input lada-select" id="tel13_lada" onchange="updateTelCombined('tel13')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel13_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel13')" onblur="updateTelCombined('tel13')">
-        </div>
+          <input type="hidden" name="tel_tel13_combined" id="tel13_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel13_lada" onchange="updateTelCombined('tel13')"></select>
+            <input class="field-input tel-number" type="tel" id="tel13_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel13')" onblur="updateTelCombined('tel13')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Inicio de contrato</label>
@@ -1686,21 +1531,19 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel14_combined" id="tel14_combined"><div class="tel-combo" id="tel14_wrap">
-          <select class="field-input lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel14_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel14')" onblur="updateTelCombined('tel14')">
-        </div>
+          <input type="hidden" name="tel_tel14_combined" id="tel14_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')"></select>
+            <input class="field-input tel-number" type="tel" id="tel14_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel14')" onblur="updateTelCombined('tel14')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel15_combined" id="tel15_combined"><div class="tel-combo" id="tel15_wrap">
-          <select class="field-input lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel15_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel15')" onblur="updateTelCombined('tel15')">
-        </div>
+          <input type="hidden" name="tel_tel15_combined" id="tel15_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')"></select>
+            <input class="field-input tel-number" type="tel" id="tel15_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel15')" onblur="updateTelCombined('tel15')">
+          </div>
         </div>
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
@@ -1753,8 +1596,8 @@
           <input class="field-input cp-input" type="text" id="cp3" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
         </div>
         <div class="field-group cp-colonia-group" id="colonias-cp3-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento <span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp3" onchange="onColoniaChange(this, 'cp3')">
+          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
+          <select class="field-input cp-colonia-select" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')">
             <option value="">-- Selecciona colonia --</option>
           </select>
           <span class="field-hint" id="hint-cp3"></span>
@@ -1781,12 +1624,11 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel16_combined" id="tel16_combined"><div class="tel-combo" id="tel16_wrap">
-          <select class="field-input lada-select" id="tel16_lada" onchange="updateTelCombined('tel16')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel16_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel16')" onblur="updateTelCombined('tel16')">
-        </div>
+          <input type="hidden" name="tel_tel16_combined" id="tel16_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel16_lada" onchange="updateTelCombined('tel16')"></select>
+            <input class="field-input tel-number" type="tel" id="tel16_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel16')" onblur="updateTelCombined('tel16')">
+          </div>
         </div>
         <div class="divider col-full"></div>
         <div class="field-group col-full">
@@ -1799,12 +1641,11 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel17_combined" id="tel17_combined"><div class="tel-combo" id="tel17_wrap">
-          <select class="field-input lada-select" id="tel17_lada" onchange="updateTelCombined('tel17')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel17_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel17')" onblur="updateTelCombined('tel17')">
-        </div>
+          <input type="hidden" name="tel_tel17_combined" id="tel17_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel17_lada" onchange="updateTelCombined('tel17')"></select>
+            <input class="field-input tel-number" type="tel" id="tel17_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel17')" onblur="updateTelCombined('tel17')">
+          </div>
         </div>
       </div>
     </div>
@@ -1826,31 +1667,28 @@
         </div>
         <div class="field-group">
           <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel18_combined" id="tel18_combined"><div class="tel-combo" id="tel18_wrap">
-          <select class="field-input lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel18_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel18')" onblur="updateTelCombined('tel18')">
-        </div>
+          <input type="hidden" name="tel_tel18_combined" id="tel18_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')"></select>
+            <input class="field-input tel-number" type="tel" id="tel18_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel18')" onblur="updateTelCombined('tel18')">
+          </div>
         </div>
         <div class="field-group">
           <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel19_combined" id="tel19_combined"><div class="tel-combo" id="tel19_wrap">
-          <select class="field-input lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')" title="Código de país">
-            <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-          </select>
-          <input class="field-input tel-number" type="tel" id="tel19_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel19')" onblur="updateTelCombined('tel19')">
-        </div>
+          <input type="hidden" name="tel_tel19_combined" id="tel19_combined">
+          <div class="tel-combo">
+            <select class="field-input lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')"></select>
+            <input class="field-input tel-number" type="tel" id="tel19_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel19')" onblur="updateTelCombined('tel19')">
+          </div>
         </div>
       </div>
     </div>
-
   </form><!-- END formPM -->
 
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d3b34333f38393c29322e2d382f2e32333c31382e1d3f382d38332e3c733e3230">[email&#160;protected]</a></strong>.
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong>privacidad@finbeabc.com.mx</strong>.
     </div>
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group">
@@ -1862,24 +1700,22 @@
         <input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo">
       </div>
     </div>
-    <!-- Declaración de veracidad -->
     <div class="declaration-wrap" id="declarationWrap">
-      <label class="declaration-label" id="declarationLabel">
+      <label class="declaration-label">
         <input type="checkbox" id="declarationCheck" onchange="toggleDeclaration(this)">
         <div class="declaration-box">
           <div class="declaration-check-icon" id="declarationCheckIcon">
             <svg viewBox="0 0 16 12" fill="none"><path d="M1 6l4.5 4.5L15 1" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="declaration-text">
-            <strong>Declaración de veracidad y autenticidad</strong><br>
+            <strong>Declaración de veracidad y autenticidad</strong>
             Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada en esta solicitud es verídica, auténtica y copia fiel de los documentos originales. Entiendo y acepto que cualquier dato falso o documento apócrifo puede derivar en consecuencias legales. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad con el contenido de esta solicitud, otorgando a esta acción el mismo valor jurídico que mi firma autógrafa, de conformidad con el artículo 89 del Código de Comercio y la NOM-151-SCFI-2016.</span>
           </div>
         </div>
       </label>
     </div>
-
     <button type="button" id="mainSubmitBtn" class="submit-btn" onclick="triggerFormSubmit()" disabled>
-      <span id="btnText">⏳ Cargando protección...</span>
+      <span id="btnText">Confirma la declaración para enviar</span>
     </button>
     <p class="recaptcha-notice">
       Este sitio está protegido por reCAPTCHA v3 de Google.
@@ -1890,88 +1726,13 @@
 
 </main>
 
-<!-- WHATSAPP FLOAT -->
-<style>
-.whatsapp-float {
-    position: fixed;
-    bottom: 50px;
-    left: 50px;
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-    color: white;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-    cursor: pointer;
-    z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    animation: floatPremium 3s ease-in-out infinite;
-    border: 4px solid white;
-    overflow: hidden;
-}
-.whatsapp-float::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-    animation: shine 3s infinite;
-}
-.whatsapp-float:hover {
-    transform: scale(1.2) translateY(-5px);
-    box-shadow: 0 20px 40px rgba(37, 211, 102, 0.6);
-    animation: none;
-}
-.whatsapp-tooltip {
-    position: absolute;
-    left: 95px;
-    background: white;
-    color: #333;
-    padding: 15px 25px;
-    border-radius: 12px;
-    white-space: nowrap;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 1rem;
-    font-weight: 600;
-    border: 1px solid rgba(0,0,0,0.1);
-    z-index: 1001;
-}
-.whatsapp-float:hover .whatsapp-tooltip {
-    opacity: 1;
-    transform: translateX(10px);
-}
-.whatsapp-icon { width: 36px; height: 36px; position: relative; z-index: 1; }
-.whatsapp-icon path { fill: white; }
-@keyframes floatPremium {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-15px) rotate(2deg); }
-    75% { transform: translateY(-5px) rotate(-2deg); }
-}
-@keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-@media (max-width: 768px) {
-    .whatsapp-float { width: 65px; height: 65px; bottom: 30px; left: 20px; }
-    .whatsapp-icon { width: 30px; height: 30px; }
-    .whatsapp-tooltip { display: none; }
-}
-</style>
-
+<!-- WhatsApp -->
 <a href="https://wa.me/525525374608?text=Hola%20AVA%2C%20tengo%20una%20consulta%20sobre%20Arrendamiento%20Puro"
-   class="whatsapp-float"
-   target="_blank"
-   aria-label="Chatear por WhatsApp con AVA">
-    <span class="whatsapp-tooltip">💬 ¿Dudas? Chatea con nosotros</span>
-    <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
-    </svg>
+   class="whatsapp-float" target="_blank" aria-label="Chatear por WhatsApp con AVA">
+  <span class="whatsapp-tooltip">💬 ¿Dudas? Chatea con nosotros</span>
+  <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+  </svg>
 </a>
 
 <!-- SUCCESS -->
@@ -1984,558 +1745,488 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// handleSubmit is called from form onsubmit — but we never use native submit
-  // All submission is done via triggerFormSubmit() button click
-  // This prevents accidental native submission
-  function handleSubmit(e, form) {
-    e.preventDefault();
-    return false;
+<script>
+// ============================================================
+// TYPE SELECTOR — FIX: plain functions, no label/input conflict
+// ============================================================
+let currentType = null;
+
+function selectType(type) {
+  currentType = type;
+  document.getElementById('btnPF').classList.toggle('active', type === 'PF');
+  document.getElementById('btnPM').classList.toggle('active', type === 'PM');
+  document.getElementById('reqPF').classList.toggle('show', type === 'PF');
+  document.getElementById('reqPM').classList.toggle('show', type === 'PM');
+  document.getElementById('formPF').classList.toggle('show', type === 'PF');
+  document.getElementById('formPM').classList.toggle('show', type === 'PM');
+  document.getElementById('submitArea').classList.add('show');
+  updateProgress();
+  setTimeout(function() {
+    document.getElementById('req' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function updateProgress() {
+  var form = currentType === 'PF' ? document.getElementById('formPF') : document.getElementById('formPM');
+  if (!form) return;
+  var inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"]');
+  var filled = 0;
+  inputs.forEach(function(i) { if (i.value.trim()) filled++; });
+  var pct = Math.min(Math.round((filled / inputs.length) * 100), 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// Check/radio pills
+document.addEventListener('click', function(e) {
+  var pill = e.target.closest('.check-pill');
+  if (pill) {
+    pill.classList.toggle('selected');
+    var cb = pill.querySelector('input[type="checkbox"]');
+    if (cb) cb.checked = pill.classList.contains('selected');
   }
-
-    let currentType = null;
-
-  function selectType(type) {
-    currentType = type;
-
-    // Update buttons
-    document.getElementById('btnPF').classList.toggle('active', type === 'PF');
-    document.getElementById('btnPM').classList.toggle('active', type === 'PM');
-
-    // Show req banners
-    document.getElementById('reqPF').classList.toggle('show', type === 'PF');
-    document.getElementById('reqPM').classList.toggle('show', type === 'PM');
-
-    // Show forms
-    document.getElementById('formPF').classList.toggle('show', type === 'PF');
-    document.getElementById('formPM').classList.toggle('show', type === 'PM');
-
-    // Show submit
-    document.getElementById('submitArea').classList.add('show');
-
-    // Progress
-    updateProgress();
-
-    // Scroll to form
-    setTimeout(() => {
-      document.getElementById('req' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  }
-
-  function updateProgress() {
-    const form = currentType === 'PF' ? document.getElementById('formPF') : document.getElementById('formPM');
-    if (!form) return;
-    const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"]');
-    let filled = 0;
-    inputs.forEach(i => { if (i.value.trim()) filled++; });
-    const pct = Math.min(Math.round((filled / inputs.length) * 100), 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-  }
-
-  // Check/radio pill interaction
-  document.addEventListener('click', function(e) {
-    const pill = e.target.closest('.check-pill');
-    if (pill) {
-      pill.classList.toggle('selected');
-      const cb = pill.querySelector('input[type="checkbox"]');
-      if (cb) cb.checked = pill.classList.contains('selected');
+  var radio = e.target.closest('.radio-pill');
+  if (radio) {
+    var rInput = radio.querySelector('input[type="radio"]');
+    var name = rInput ? rInput.name : null;
+    if (name) {
+      document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+        var p = r.closest('.radio-pill');
+        if (p) p.classList.remove('selected');
+      });
     }
-    const radio = e.target.closest('.radio-pill');
-    if (radio) {
-      const name = radio.querySelector('input[type="radio"]')?.name;
-      if (name) {
-        document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
-          r.closest('.radio-pill')?.classList.remove('selected');
-        });
-      }
-      radio.classList.add('selected');
-    }
-  });
-
-  // Progress on input
-  document.addEventListener('input', updateProgress);
-
-  function toggleInmueble(toggleId, type, showId) {
-    const toggle = document.getElementById(toggleId);
-    const btns = toggle.querySelectorAll('.inmueble-opt');
-    btns.forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-
-    // Find sibling containers
-    const propioId = showId;
-    const rentadoId = showId.replace('Propio', 'Rentado').replace('propio', 'rentado');
-
-    if (type === 'propio') {
-      document.getElementById(propioId)?.classList.remove('conditional');
-      const ren = document.getElementById(rentadoId);
-      if (ren) { ren.classList.add('conditional'); }
-    } else {
-      document.getElementById(propioId)?.classList.add('conditional');
-      const ren = document.getElementById(rentadoId);
-      if (ren) { ren.classList.remove('conditional'); ren.classList.add('show'); }
-    }
+    radio.classList.add('selected');
+    if (rInput) rInput.checked = true;
   }
+});
 
-  function addRow(tbodyId) {
-    const tbody = document.getElementById(tbodyId);
-    const firstRow = tbody.querySelector('tr');
-    if (!firstRow) return;
-    const newRow = firstRow.cloneNode(true);
-    newRow.querySelectorAll('input').forEach(i => i.value = '');
-    tbody.appendChild(newRow);
+document.addEventListener('input', updateProgress);
+
+// ============================================================
+// INMUEBLE TOGGLE — FIX: explicit propio/rentado ids, no string mangling
+// ============================================================
+function toggleInmueble(toggleId, type, propioId, rentadoId) {
+  var toggle = document.getElementById(toggleId);
+  toggle.querySelectorAll('.inmueble-opt').forEach(function(b) { b.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+
+  var propioEl  = document.getElementById(propioId);
+  var rentadoEl = document.getElementById(rentadoId);
+
+  if (type === 'propio') {
+    if (propioEl)  { propioEl.style.display  = ''; }
+    if (rentadoEl) { rentadoEl.style.display = 'none'; }
+  } else {
+    if (propioEl)  { propioEl.style.display  = 'none'; }
+    if (rentadoEl) { rentadoEl.style.display = ''; }
   }
+}
 
-  // ============================================================
-  // reCAPTCHA v3 + FormSubmit integration
-  // ============================================================
-  const RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
-  let recaptchaReady = false;
+function addRow(tbodyId) {
+  var tbody = document.getElementById(tbodyId);
+  var firstRow = tbody.querySelector('tr');
+  if (!firstRow) return;
+  var newRow = firstRow.cloneNode(true);
+  newRow.querySelectorAll('input').forEach(function(i) { i.value = ''; });
+  tbody.appendChild(newRow);
+}
 
-  // Enable submit button once reCAPTCHA is ready (ONLY if declaration also checked)
-  grecaptcha.ready(function () {
+// ============================================================
+// RFC VALIDATION
+// ============================================================
+var RFC_PATTERN = /^([A-ZÑ&]{3,4})(\d{6})([A-Z\d]{3})$/i;
+
+function validateRFC(el) {
+  var val = el.value.toUpperCase().trim();
+  el.value = val;
+  var hint = el.parentElement.querySelector('.rfc-hint');
+  if (!hint) {
+    hint = document.createElement('span');
+    hint.className = 'rfc-hint field-hint';
+    el.parentElement.appendChild(hint);
+  }
+  if (val.length === 0) {
+    el.classList.remove('rfc-valid','rfc-error');
+    hint.textContent = '';
+    return;
+  }
+  var valid = RFC_PATTERN.test(val) && (val.length === 12 || val.length === 13);
+  el.classList.toggle('rfc-valid', valid);
+  el.classList.toggle('rfc-error', !valid);
+  hint.classList.toggle('ok', valid);
+  hint.classList.toggle('err', !valid);
+  if (valid) {
+    hint.textContent = '✓ RFC válido';
+  } else if (val.length < 12) {
+    hint.textContent = val.length + '/13 caracteres — formato: 4 letras + 6 dígitos + 3 homoclave';
+  } else {
+    hint.textContent = '✗ Formato inválido. Ej: XAXX010101000 (PF) o AAA010101AAA (PM)';
+  }
+}
+
+// ============================================================
+// DECLARATION CHECKBOX
+// ============================================================
+var recaptchaReady = false;
+
+function toggleDeclaration(checkbox) {
+  var wrap = document.getElementById('declarationWrap');
+  var btn  = document.getElementById('mainSubmitBtn');
+  wrap.classList.toggle('checked', checkbox.checked);
+  if (checkbox.checked && recaptchaReady) {
+    btn.disabled = false;
+    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
+  } else if (checkbox.checked && !recaptchaReady) {
+    document.getElementById('btnText').textContent = '⏳ Cargando protección...';
+  } else {
+    btn.disabled = true;
+    document.getElementById('btnText').textContent = 'Confirma la declaración para enviar';
+  }
+}
+
+// ============================================================
+// reCAPTCHA
+// ============================================================
+var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
+
+function initRecaptcha() {
+  if (typeof grecaptcha === 'undefined') {
+    setTimeout(initRecaptcha, 200);
+    return;
+  }
+  grecaptcha.ready(function() {
     recaptchaReady = true;
-    const declaration = document.getElementById('declarationCheck');
-    const btn = document.getElementById('mainSubmitBtn');
+    var declaration = document.getElementById('declarationCheck');
+    var btn = document.getElementById('mainSubmitBtn');
     if (btn && declaration && declaration.checked) {
       btn.disabled = false;
       document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-    } else if (btn) {
-      document.getElementById('btnText').textContent = 'Confirma la declaración para enviar';
+    }
+  });
+}
+
+function triggerFormSubmit() {
+  if (!currentType) {
+    alert('Por favor selecciona el tipo de solicitante: Persona Física o Persona Moral.');
+    return;
+  }
+  if (!recaptchaReady) {
+    alert('La protección reCAPTCHA aún está cargando. Por favor espera un momento.');
+    return;
+  }
+  var declaration = document.getElementById('declarationCheck');
+  if (!declaration || !declaration.checked) {
+    var dw = document.getElementById('declarationWrap');
+    if (dw) { dw.scrollIntoView({ behavior: 'smooth', block: 'center' }); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); }, 1000); }
+    alert('Debes confirmar la declaración de veracidad antes de enviar.');
+    return;
+  }
+
+  var form = document.getElementById('form' + currentType);
+
+  // Validate required fields
+  var valid = true;
+  form.querySelectorAll('[required]').forEach(function(inp) {
+    if (!inp.value.trim()) {
+      inp.style.borderColor = 'var(--error)';
+      valid = false;
+      inp.addEventListener('input', function(){ inp.style.borderColor = ''; }, { once: true });
     }
   });
 
-  function triggerFormSubmit() {
-    if (!currentType) {
-      alert('Por favor selecciona el tipo de solicitante: Persona Física o Persona Moral.');
-      return;
+  var lugarFecha = document.getElementById('lugar_fecha');
+  var firmante   = document.getElementById('nombre_firmante');
+  [lugarFecha, firmante].forEach(function(inp) {
+    if (!inp.value.trim()) {
+      inp.style.borderColor = 'var(--error)';
+      valid = false;
+      inp.addEventListener('input', function(){ inp.style.borderColor = ''; }, { once: true });
     }
+  });
 
-    if (!recaptchaReady) {
-      alert('La protección reCAPTCHA aún está cargando. Por favor espera un momento.');
-      return;
-    }
+  if (!valid) {
+    var firstInvalid = document.querySelector('input[style*="var(--error)"]') || lugarFecha;
+    if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
 
-    const declaration = document.getElementById('declarationCheck');
-    if (!declaration || !declaration.checked) {
-      document.getElementById('declarationWrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      document.getElementById('declarationWrap')?.classList.add('pulse-error');
-      setTimeout(() => document.getElementById('declarationWrap')?.classList.remove('pulse-error'), 1000);
-      alert('Debes confirmar la declaración de veracidad antes de enviar.');
-      return;
-    }
+  var btn = document.getElementById('mainSubmitBtn');
+  btn.disabled = true;
+  document.getElementById('btnText').textContent = '🔒 Verificando seguridad...';
 
-    const form = document.getElementById('form' + currentType);
-
-    // --- Validate required fields ---
-    let valid = true;
-    form.querySelectorAll('[required]').forEach(inp => {
-      if (!inp.value.trim()) {
-        inp.style.borderColor = 'var(--error)';
-        valid = false;
-        inp.addEventListener('input', () => inp.style.borderColor = '', { once: true });
+  if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
+    btn.disabled = false;
+    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
+    alert('reCAPTCHA no disponible. Verifica tu conexión y recarga la página.');
+    return;
+  }
+  grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
+    .then(function(token) {
+      function injectField(name, value) {
+        var old = form.querySelector('input[name="' + name + '"]');
+        if (old) old.remove();
+        var inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = name;
+        inp.value = value;
+        form.appendChild(inp);
       }
-    });
 
-    const lugarFecha = document.getElementById('lugar_fecha');
-    const firmante  = document.getElementById('nombre_firmante');
-    [lugarFecha, firmante].forEach(inp => {
-      if (!inp.value.trim()) {
-        inp.style.borderColor = 'var(--error)';
-        valid = false;
-        inp.addEventListener('input', () => inp.style.borderColor = '', { once: true });
-      }
-    });
+      injectField('Lugar_y_Fecha_Elaboracion', lugarFecha.value);
+      injectField('Nombre_Firmante', firmante.value);
+      injectField('g-recaptcha-response', token);
+      injectField('reCAPTCHA_Score_Info', 'Token generado con reCAPTCHA v3 action:submit_arrendamiento');
 
-    if (!valid) {
-      const firstInvalid = document.querySelector('input[style*="var(--error)"]') || lugarFecha;
-      firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-
-    // --- Show loading state ---
-    const btn = document.getElementById('mainSubmitBtn');
-    btn.disabled = true;
-    document.getElementById('btnText').textContent = '🔒 Verificando seguridad...';
-
-    // --- Execute reCAPTCHA v3 at moment of submission (tokens expire in 2 min) ---
-    grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
-      .then(function (token) {
-
-        // --- Inject firma fields ---
-        const injectField = (name, value) => {
-          const old = form.querySelector('input[name="' + name + '"]');
-          if (old) old.remove();
-          const inp = document.createElement('input');
-          inp.type = 'hidden';
-          inp.name = name;
-          inp.value = value;
-          form.appendChild(inp);
-        };
-
-        injectField('Lugar_y_Fecha_Elaboracion', lugarFecha.value);
-        injectField('Nombre_Firmante', firmante.value);
-
-        // --- Inject reCAPTCHA token (sent to FormSubmit alongside form data) ---
-        injectField('g-recaptcha-response', token);
-        injectField('reCAPTCHA_Score_Info', 'Token generado con reCAPTCHA v3 action:submit_arrendamiento');
-
-        // --- Auto-name all un-named inputs ---
-        form.querySelectorAll('input:not([type=hidden]):not([name]), select:not([name]), textarea:not([name])').forEach((el, i) => {
-          const label = el.closest('.field-group')?.querySelector('.field-label');
-          const labelText = label ? label.textContent.replace(/[*
-]/g,'').trim() : ('Campo_' + (i+1));
-          el.name = labelText.replace(/\s+/g,'_').replace(/[^\wÀ-ɏ]/g,'') || ('Campo_' + (i+1));
-        });
-
-        // --- Submit form to FormSubmit ---
-        form.submit();
-      })
-      .catch(function (err) {
-        console.error('reCAPTCHA error:', err);
-        btn.disabled = false;
-        document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-        alert('Error al verificar reCAPTCHA. Por favor recarga la página e intenta de nuevo.');
+      // FIX: auto-name inputs — safe regex without literal newlines or unicode ranges
+      var counter = 0;
+      form.querySelectorAll('input:not([type=hidden]):not([name]), select:not([name]), textarea:not([name])').forEach(function(el) {
+        counter++;
+        var label = el.closest('.field-group') ? el.closest('.field-group').querySelector('.field-label') : null;
+        var raw = label ? label.textContent : '';
+        // FIX: replace asterisk and whitespace safely — no literal newlines in regex
+        var labelText = raw.replace(/\*/g, '').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\u00C0-\u024F]/g, '') || ('Campo_' + counter);
+        el.name = labelText || ('Campo_' + counter);
       });
-  }
 
-// ============================================================
-  // LADA INTERNACIONAL – populate all lada selects on DOM ready
-  // ============================================================
-  const LADAS = [
-    // ─── AMERICA DEL NORTE ───
-    { region:"América del Norte", flag:"🇨🇦", name:"Canadá",       code:"+1"   },
-    { region:"América del Norte", flag:"🇲🇽", name:"México",       code:"+52"  },
-    { region:"América del Norte", flag:"🇺🇸", name:"Estados Unidos",code:"+1"   },
-    // ─── AMERICA CENTRAL ───
-    { region:"América Central",   flag:"🇧🇿", name:"Belice",       code:"+501" },
-    { region:"América Central",   flag:"🇨🇷", name:"Costa Rica",   code:"+506" },
-    { region:"América Central",   flag:"🇸🇻", name:"El Salvador",  code:"+503" },
-    { region:"América Central",   flag:"🇬🇹", name:"Guatemala",    code:"+502" },
-    { region:"América Central",   flag:"🇭🇳", name:"Honduras",     code:"+504" },
-    { region:"América Central",   flag:"🇳🇮", name:"Nicaragua",    code:"+505" },
-    { region:"América Central",   flag:"🇵🇦", name:"Panamá",       code:"+507" },
-    // ─── CARIBE ───
-    { region:"Caribe",            flag:"🇨🇺", name:"Cuba",         code:"+53"  },
-    { region:"Caribe",            flag:"🇩🇴", name:"Rep. Dominicana",code:"+1-809"},
-    { region:"Caribe",            flag:"🇭🇹", name:"Haití",        code:"+509" },
-    { region:"Caribe",            flag:"🇵🇷", name:"Puerto Rico",  code:"+1-787"},
-    // ─── AMERICA DEL SUR ───
-    { region:"América del Sur",   flag:"🇦🇷", name:"Argentina",    code:"+54"  },
-    { region:"América del Sur",   flag:"🇧🇴", name:"Bolivia",      code:"+591" },
-    { region:"América del Sur",   flag:"🇧🇷", name:"Brasil",       code:"+55"  },
-    { region:"América del Sur",   flag:"🇨🇱", name:"Chile",        code:"+56"  },
-    { region:"América del Sur",   flag:"🇨🇴", name:"Colombia",     code:"+57"  },
-    { region:"América del Sur",   flag:"🇪🇨", name:"Ecuador",      code:"+593" },
-    { region:"América del Sur",   flag:"🇬🇾", name:"Guyana",       code:"+592" },
-    { region:"América del Sur",   flag:"🇵🇾", name:"Paraguay",     code:"+595" },
-    { region:"América del Sur",   flag:"🇵🇪", name:"Perú",         code:"+51"  },
-    { region:"América del Sur",   flag:"🇸🇷", name:"Surinam",      code:"+597" },
-    { region:"América del Sur",   flag:"🇺🇾", name:"Uruguay",      code:"+598" },
-    { region:"América del Sur",   flag:"🇻🇪", name:"Venezuela",    code:"+58"  },
-    // ─── EUROPA ───
-    { region:"Europa",            flag:"🇩🇪", name:"Alemania",     code:"+49"  },
-    { region:"Europa",            flag:"🇦🇹", name:"Austria",      code:"+43"  },
-    { region:"Europa",            flag:"🇧🇪", name:"Bélgica",      code:"+32"  },
-    { region:"Europa",            flag:"🇧🇬", name:"Bulgaria",     code:"+359" },
-    { region:"Europa",            flag:"🇭🇷", name:"Croacia",      code:"+385" },
-    { region:"Europa",            flag:"🇩🇰", name:"Dinamarca",    code:"+45"  },
-    { region:"Europa",            flag:"🇸🇰", name:"Eslovaquia",   code:"+421" },
-    { region:"Europa",            flag:"🇸🇮", name:"Eslovenia",    code:"+386" },
-    { region:"Europa",            flag:"🇪🇸", name:"España",       code:"+34"  },
-    { region:"Europa",            flag:"🇪🇪", name:"Estonia",      code:"+372" },
-    { region:"Europa",            flag:"🇫🇮", name:"Finlandia",    code:"+358" },
-    { region:"Europa",            flag:"🇫🇷", name:"Francia",      code:"+33"  },
-    { region:"Europa",            flag:"🇬🇷", name:"Grecia",       code:"+30"  },
-    { region:"Europa",            flag:"🇭🇺", name:"Hungría",      code:"+36"  },
-    { region:"Europa",            flag:"🇮🇪", name:"Irlanda",      code:"+353" },
-    { region:"Europa",            flag:"🇮🇸", name:"Islandia",     code:"+354" },
-    { region:"Europa",            flag:"🇮🇹", name:"Italia",       code:"+39"  },
-    { region:"Europa",            flag:"🇱🇻", name:"Letonia",      code:"+371" },
-    { region:"Europa",            flag:"🇱🇮", name:"Liechtenstein",code:"+423" },
-    { region:"Europa",            flag:"🇱🇹", name:"Lituania",     code:"+370" },
-    { region:"Europa",            flag:"🇱🇺", name:"Luxemburgo",   code:"+352" },
-    { region:"Europa",            flag:"🇲🇹", name:"Malta",        code:"+356" },
-    { region:"Europa",            flag:"🇳🇱", name:"Países Bajos", code:"+31"  },
-    { region:"Europa",            flag:"🇵🇱", name:"Polonia",      code:"+48"  },
-    { region:"Europa",            flag:"🇵🇹", name:"Portugal",     code:"+351" },
-    { region:"Europa",            flag:"🇬🇧", name:"Reino Unido",  code:"+44"  },
-    { region:"Europa",            flag:"🇨🇿", name:"Rep. Checa",   code:"+420" },
-    { region:"Europa",            flag:"🇷🇴", name:"Rumanía",      code:"+40"  },
-    { region:"Europa",            flag:"🇷🇺", name:"Rusia",        code:"+7"   },
-    { region:"Europa",            flag:"🇨🇭", name:"Suiza",        code:"+41"  },
-    { region:"Europa",            flag:"🇸🇪", name:"Suecia",       code:"+46"  },
-    { region:"Europa",            flag:"🇺🇦", name:"Ucrania",      code:"+380" },
-    // ─── ASIA ───
-    { region:"Asia",              flag:"🇸🇦", name:"Arabia Saudita",code:"+966" },
-    { region:"Asia",              flag:"🇨🇳", name:"China",        code:"+86"  },
-    { region:"Asia",              flag:"🇰🇷", name:"Corea del Sur",code:"+82"  },
-    { region:"Asia",              flag:"🇦🇪", name:"Emiratos Árabes",code:"+971"},
-    { region:"Asia",              flag:"🇵🇭", name:"Filipinas",    code:"+63"  },
-    { region:"Asia",              flag:"🇮🇳", name:"India",        code:"+91"  },
-    { region:"Asia",              flag:"🇮🇩", name:"Indonesia",    code:"+62"  },
-    { region:"Asia",              flag:"🇮🇱", name:"Israel",       code:"+972" },
-    { region:"Asia",              flag:"🇯🇵", name:"Japón",        code:"+81"  },
-    { region:"Asia",              flag:"🇲🇾", name:"Malasia",      code:"+60"  },
-    { region:"Asia",              flag:"🇵🇰", name:"Pakistán",     code:"+92"  },
-    { region:"Asia",              flag:"🇸🇬", name:"Singapur",     code:"+65"  },
-    { region:"Asia",              flag:"🇹🇭", name:"Tailandia",    code:"+66"  },
-    { region:"Asia",              flag:"🇹🇷", name:"Turquía",      code:"+90"  },
-    { region:"Asia",              flag:"🇻🇳", name:"Vietnam",      code:"+84"  },
-    // ─── AFRICA ───
-    { region:"África",            flag:"🇿🇦", name:"Sudáfrica",    code:"+27"  },
-    { region:"África",            flag:"🇳🇬", name:"Nigeria",      code:"+234" },
-    { region:"África",            flag:"🇪🇬", name:"Egipto",       code:"+20"  },
-    { region:"África",            flag:"🇲🇦", name:"Marruecos",    code:"+212" },
-    { region:"África",            flag:"🇰🇪", name:"Kenia",        code:"+254" },
-    // ─── OCEANIA ───
-    { region:"Oceanía",           flag:"🇦🇺", name:"Australia",    code:"+61"  },
-    { region:"Oceanía",           flag:"🇳🇿", name:"Nueva Zelanda",code:"+64"  },
-  ];
-
-  function buildLadaOptions(selectEl) {
-    const regions = [...new Set(LADAS.map(l => l.region))];
-    let html = '';
-    regions.forEach(region => {
-      const items = LADAS.filter(l => l.region === region)
-        .sort((a,b) => a.name.localeCompare(b.name, 'es'));
-      html += `<optgroup label="── ${region} ──">`;
-      items.forEach(l => {
-        const sel = l.code === '+52' ? ' selected' : '';
-        html += `<option value="${l.code}"${sel}>${l.flag} ${l.name} ${l.code}</option>`;
-      });
-      html += '</optgroup>';
-    });
-    selectEl.innerHTML = html;
-  }
-
-  function updateTelCombined(uid) {
-    const lada = document.getElementById(uid + '_lada');
-    const num  = document.getElementById(uid + '_num');
-    const combined = document.getElementById(uid + '_combined');
-    if (lada && num && combined) {
-      combined.value = (lada.value + ' ' + num.value).trim();
-    }
-  }
-
-  function initAllLadas() {
-    document.querySelectorAll('.lada-select').forEach(sel => {
-      buildLadaOptions(sel);
-    });
-  }
-
-  // ============================================================
-  // RFC VALIDATION (formato oficial SAT)
-  // PFAE: 4 letras + 6 dígitos + 3 homoclave = 13 chars
-  // PM:   3 letras + 6 dígitos + 3 homoclave = 12 chars
-  // ============================================================
-  const RFC_PATTERN = /^([A-ZÑ&]{3,4})(\d{6})([A-Z\d]{3})$/i;
-
-  function validateRFC(el) {
-    const val = el.value.toUpperCase().trim();
-    el.value = val;
-    // Find or create hint span
-    let hint = el.parentElement.querySelector('.rfc-hint');
-    if (!hint) {
-      hint = document.createElement('span');
-      hint.className = 'rfc-hint field-hint';
-      el.parentElement.appendChild(hint);
-    }
-    if (val.length === 0) {
-      el.classList.remove('rfc-valid','rfc-error');
-      hint.textContent = '';
-      return;
-    }
-    const valid = RFC_PATTERN.test(val) && (val.length === 12 || val.length === 13);
-    el.classList.toggle('rfc-valid', valid);
-    el.classList.toggle('rfc-error', !valid);
-    hint.classList.toggle('ok', valid);
-    hint.classList.toggle('err', !valid);
-    if (valid) {
-      hint.textContent = '✓ RFC válido';
-    } else if (val.length < 12) {
-      hint.textContent = `${val.length}/13 caracteres — formato: 4 letras + 6 dígitos + 3 homoclave`;
-    } else {
-      hint.textContent = '✗ Formato inválido. Ej: XAXX010101000 (PF) o AAA010101AAA (PM)';
-    }
-  }
-
-  // ============================================================
-  // DECLARATION CHECKBOX
-  // ============================================================
-  function toggleDeclaration(checkbox) {
-    const wrap = document.getElementById('declarationWrap');
-    const btn  = document.getElementById('mainSubmitBtn');
-    wrap.classList.toggle('checked', checkbox.checked);
-    // Enable/disable submit based on checkbox + recaptchaReady
-    if (checkbox.checked && recaptchaReady) {
+      form.submit();
+    })
+    .catch(function(err) {
+      console.error('reCAPTCHA error:', err);
       btn.disabled = false;
       document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-    } else if (checkbox.checked && !recaptchaReady) {
-      document.getElementById('btnText').textContent = '⏳ Cargando protección...';
-    } else {
-      btn.disabled = true;
-      document.getElementById('btnText').textContent = 'Confirma la declaración para enviar';
-    }
+      alert('Error al verificar reCAPTCHA. Por favor recarga la página e intenta de nuevo.');
+    });
+}
+
+// ============================================================
+// LADAS
+// ============================================================
+var LADAS = [
+  { region:"América del Norte", flag:"🇨🇦", name:"Canadá",         code:"+1"   },
+  { region:"América del Norte", flag:"🇲🇽", name:"México",         code:"+52"  },
+  { region:"América del Norte", flag:"🇺🇸", name:"Estados Unidos", code:"+1"   },
+  { region:"América Central",   flag:"🇧🇿", name:"Belice",         code:"+501" },
+  { region:"América Central",   flag:"🇨🇷", name:"Costa Rica",     code:"+506" },
+  { region:"América Central",   flag:"🇸🇻", name:"El Salvador",    code:"+503" },
+  { region:"América Central",   flag:"🇬🇹", name:"Guatemala",      code:"+502" },
+  { region:"América Central",   flag:"🇭🇳", name:"Honduras",       code:"+504" },
+  { region:"América Central",   flag:"🇳🇮", name:"Nicaragua",      code:"+505" },
+  { region:"América Central",   flag:"🇵🇦", name:"Panamá",         code:"+507" },
+  { region:"Caribe",            flag:"🇨🇺", name:"Cuba",           code:"+53"  },
+  { region:"Caribe",            flag:"🇩🇴", name:"Rep. Dominicana",code:"+1-809"},
+  { region:"Caribe",            flag:"🇭🇹", name:"Haití",          code:"+509" },
+  { region:"Caribe",            flag:"🇵🇷", name:"Puerto Rico",    code:"+1-787"},
+  { region:"América del Sur",   flag:"🇦🇷", name:"Argentina",      code:"+54"  },
+  { region:"América del Sur",   flag:"🇧🇴", name:"Bolivia",        code:"+591" },
+  { region:"América del Sur",   flag:"🇧🇷", name:"Brasil",         code:"+55"  },
+  { region:"América del Sur",   flag:"🇨🇱", name:"Chile",          code:"+56"  },
+  { region:"América del Sur",   flag:"🇨🇴", name:"Colombia",       code:"+57"  },
+  { region:"América del Sur",   flag:"🇪🇨", name:"Ecuador",        code:"+593" },
+  { region:"América del Sur",   flag:"🇬🇾", name:"Guyana",         code:"+592" },
+  { region:"América del Sur",   flag:"🇵🇾", name:"Paraguay",       code:"+595" },
+  { region:"América del Sur",   flag:"🇵🇪", name:"Perú",           code:"+51"  },
+  { region:"América del Sur",   flag:"🇸🇷", name:"Surinam",        code:"+597" },
+  { region:"América del Sur",   flag:"🇺🇾", name:"Uruguay",        code:"+598" },
+  { region:"América del Sur",   flag:"🇻🇪", name:"Venezuela",      code:"+58"  },
+  { region:"Europa",            flag:"🇩🇪", name:"Alemania",       code:"+49"  },
+  { region:"Europa",            flag:"🇦🇹", name:"Austria",        code:"+43"  },
+  { region:"Europa",            flag:"🇧🇪", name:"Bélgica",        code:"+32"  },
+  { region:"Europa",            flag:"🇧🇬", name:"Bulgaria",       code:"+359" },
+  { region:"Europa",            flag:"🇭🇷", name:"Croacia",        code:"+385" },
+  { region:"Europa",            flag:"🇩🇰", name:"Dinamarca",      code:"+45"  },
+  { region:"Europa",            flag:"🇸🇰", name:"Eslovaquia",     code:"+421" },
+  { region:"Europa",            flag:"🇸🇮", name:"Eslovenia",      code:"+386" },
+  { region:"Europa",            flag:"🇪🇸", name:"España",         code:"+34"  },
+  { region:"Europa",            flag:"🇪🇪", name:"Estonia",        code:"+372" },
+  { region:"Europa",            flag:"🇫🇮", name:"Finlandia",      code:"+358" },
+  { region:"Europa",            flag:"🇫🇷", name:"Francia",        code:"+33"  },
+  { region:"Europa",            flag:"🇬🇷", name:"Grecia",         code:"+30"  },
+  { region:"Europa",            flag:"🇭🇺", name:"Hungría",        code:"+36"  },
+  { region:"Europa",            flag:"🇮🇪", name:"Irlanda",        code:"+353" },
+  { region:"Europa",            flag:"🇮🇸", name:"Islandia",       code:"+354" },
+  { region:"Europa",            flag:"🇮🇹", name:"Italia",         code:"+39"  },
+  { region:"Europa",            flag:"🇱🇻", name:"Letonia",        code:"+371" },
+  { region:"Europa",            flag:"🇱🇮", name:"Liechtenstein",  code:"+423" },
+  { region:"Europa",            flag:"🇱🇹", name:"Lituania",       code:"+370" },
+  { region:"Europa",            flag:"🇱🇺", name:"Luxemburgo",     code:"+352" },
+  { region:"Europa",            flag:"🇲🇹", name:"Malta",          code:"+356" },
+  { region:"Europa",            flag:"🇳🇱", name:"Países Bajos",   code:"+31"  },
+  { region:"Europa",            flag:"🇵🇱", name:"Polonia",        code:"+48"  },
+  { region:"Europa",            flag:"🇵🇹", name:"Portugal",       code:"+351" },
+  { region:"Europa",            flag:"🇬🇧", name:"Reino Unido",    code:"+44"  },
+  { region:"Europa",            flag:"🇨🇿", name:"Rep. Checa",     code:"+420" },
+  { region:"Europa",            flag:"🇷🇴", name:"Rumanía",        code:"+40"  },
+  { region:"Europa",            flag:"🇷🇺", name:"Rusia",          code:"+7"   },
+  { region:"Europa",            flag:"🇨🇭", name:"Suiza",          code:"+41"  },
+  { region:"Europa",            flag:"🇸🇪", name:"Suecia",         code:"+46"  },
+  { region:"Europa",            flag:"🇺🇦", name:"Ucrania",        code:"+380" },
+  { region:"Asia",              flag:"🇸🇦", name:"Arabia Saudita", code:"+966" },
+  { region:"Asia",              flag:"🇨🇳", name:"China",          code:"+86"  },
+  { region:"Asia",              flag:"🇰🇷", name:"Corea del Sur",  code:"+82"  },
+  { region:"Asia",              flag:"🇦🇪", name:"Emiratos Árabes",code:"+971" },
+  { region:"Asia",              flag:"🇵🇭", name:"Filipinas",      code:"+63"  },
+  { region:"Asia",              flag:"🇮🇳", name:"India",          code:"+91"  },
+  { region:"Asia",              flag:"🇮🇩", name:"Indonesia",      code:"+62"  },
+  { region:"Asia",              flag:"🇮🇱", name:"Israel",         code:"+972" },
+  { region:"Asia",              flag:"🇯🇵", name:"Japón",          code:"+81"  },
+  { region:"Asia",              flag:"🇲🇾", name:"Malasia",        code:"+60"  },
+  { region:"Asia",              flag:"🇵🇰", name:"Pakistán",       code:"+92"  },
+  { region:"Asia",              flag:"🇸🇬", name:"Singapur",       code:"+65"  },
+  { region:"Asia",              flag:"🇹🇭", name:"Tailandia",      code:"+66"  },
+  { region:"Asia",              flag:"🇹🇷", name:"Turquía",        code:"+90"  },
+  { region:"Asia",              flag:"🇻🇳", name:"Vietnam",        code:"+84"  },
+  { region:"África",            flag:"🇿🇦", name:"Sudáfrica",      code:"+27"  },
+  { region:"África",            flag:"🇳🇬", name:"Nigeria",        code:"+234" },
+  { region:"África",            flag:"🇪🇬", name:"Egipto",         code:"+20"  },
+  { region:"África",            flag:"🇲🇦", name:"Marruecos",      code:"+212" },
+  { region:"África",            flag:"🇰🇪", name:"Kenia",          code:"+254" },
+  { region:"Oceanía",           flag:"🇦🇺", name:"Australia",      code:"+61"  },
+  { region:"Oceanía",           flag:"🇳🇿", name:"Nueva Zelanda",  code:"+64"  }
+];
+
+function buildLadaOptions(selectEl) {
+  var regions = [];
+  LADAS.forEach(function(l) { if (regions.indexOf(l.region) === -1) regions.push(l.region); });
+  var html = '';
+  regions.forEach(function(region) {
+    var items = LADAS.filter(function(l){ return l.region === region; })
+                     .sort(function(a,b){ return a.name.localeCompare(b.name,'es'); });
+    html += '<optgroup label="── ' + region + ' ──">';
+    items.forEach(function(l) {
+      var sel = l.code === '+52' ? ' selected' : '';
+      html += '<option value="' + l.code + '"' + sel + '>' + l.flag + ' ' + l.name + ' ' + l.code + '</option>';
+    });
+    html += '</optgroup>';
+  });
+  selectEl.innerHTML = html;
+}
+
+function updateTelCombined(uid) {
+  var lada = document.getElementById(uid + '_lada');
+  var num  = document.getElementById(uid + '_num');
+  var combined = document.getElementById(uid + '_combined');
+  if (lada && num && combined) {
+    combined.value = (lada.value + ' ' + num.value).trim();
+  }
+}
+
+function initAllLadas() {
+  document.querySelectorAll('.lada-select').forEach(function(sel) {
+    buildLadaOptions(sel);
+  });
+}
+
+// ============================================================
+// COPOMEX API
+// ============================================================
+var COPOMEX_TOKEN = '36da398a-1848-44f3-a952-06c9bfb02cc8';
+var COPOMEX_URL   = 'https://api.copomex.com/query/info_cp/';
+var cpCache = {};
+
+async function handleCPInput(input) {
+  var val = input.value.replace(/\D/g,'').slice(0,5);
+  input.value = val;
+  var uid = input.id;
+  var coloniaWrap   = document.getElementById('colonias-' + uid + '-wrap');
+  var coloniaSelect = document.getElementById('colonias-' + uid);
+  var hint          = document.getElementById('hint-' + uid);
+
+  coloniaWrap.style.display = 'none';
+  input.classList.remove('cp-valid','cp-error','cp-loading');
+  clearAutoFill(input);
+
+  if (val.length < 5) return;
+
+  if (cpCache[val]) {
+    renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, cpCache[val]);
+    return;
   }
 
-  // ============================================================
-  // COPOMEX API – CP Lookup
-  // ============================================================
-  const COPOMEX_TOKEN = '36da398a-1848-44f3-a952-06c9bfb02cc8';
-  const COPOMEX_URL   = 'https://api.copomex.com/query/info_cp/';
-  const cpCache = {};  // memoize results
+  input.classList.add('cp-loading');
+  if (hint) hint.innerHTML = '<span class="cp-spinner"></span> Consultando COPOMEX...';
 
-  async function handleCPInput(input) {
-    const val = input.value.replace(/\D/g,'').slice(0,5);
-    input.value = val;
-    const uid = input.id;
-
-    const coloniaWrap = document.getElementById('colonias-' + uid + '-wrap');
-    const coloniaSelect = document.getElementById('colonias-' + uid);
-    const hint = document.getElementById('hint-' + uid);
-
-    // Reset state
-    coloniaWrap.style.display = 'none';
-    input.classList.remove('cp-valid','cp-error','cp-loading');
-
-    // Clear auto-filled siblings
-    clearAutoFill(input);
-
-    if (val.length < 5) return;
-
-    // Use cache if available
-    if (cpCache[val]) {
-      renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, cpCache[val]);
-      return;
-    }
-
-    // Loading state
-    input.classList.add('cp-loading');
-    if (hint) hint.innerHTML = '<span class="cp-spinner"></span> Consultando COPOMEX...';
-
-    try {
-      const res = await fetch(
-        `${COPOMEX_URL}${val}?type=simplified&token=${COPOMEX_TOKEN}`
-      );
-      const data = await res.json();
-
-      if (data.error) {
-        throw new Error(data.error_message || 'CP no encontrado');
-      }
-
-      cpCache[val] = data.response;
-      renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, data.response);
-
-    } catch(err) {
-      input.classList.remove('cp-loading');
-      input.classList.add('cp-error');
-      coloniaWrap.style.display = 'none';
-      if (hint) hint.innerHTML = `<span style="color:var(--error)">✗ ${err.message || 'CP no válido'}</span>`;
-    }
-  }
-
-  function renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, response) {
+  try {
+    var res  = await fetch(COPOMEX_URL + val + '?type=simplified&token=' + COPOMEX_TOKEN);
+    var data = await res.json();
+    if (data.error) throw new Error(data.error_message || 'CP no encontrado');
+    cpCache[val] = data.response;
+    renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, data.response);
+  } catch(err) {
     input.classList.remove('cp-loading');
-
-    const colonias = Array.isArray(response.asentamiento)
-      ? response.asentamiento
-      : [response.asentamiento];
-
-    const municipio = response.municipio || '';
-    const estado    = response.estado    || '';
-    const ciudad    = response.ciudad    || municipio;
-
-    // Auto-fill municipio, ciudad, estado
-    autoFillSiblings(input, municipio, estado, ciudad);
-
-    // Populate colonia dropdown
-    coloniaSelect.innerHTML = '<option value="">-- Selecciona colonia --</option>';
-    colonias.sort().forEach(col => {
-      const opt = document.createElement('option');
-      opt.value = col;
-      opt.textContent = col;
-      coloniaSelect.appendChild(opt);
-    });
-
-    // If only 1 colonia, auto-select it
-    if (colonias.length === 1) {
-      coloniaSelect.value = colonias[0];
-      autoFillColonia(input, colonias[0]);
-    }
-
-    coloniaWrap.style.display = '';
-    input.classList.add('cp-valid');
-
-    const nCol = colonias.length;
-    if (hint) hint.innerHTML = `<span style="color:var(--success)">✓ ${municipio}, ${estado} · ${nCol} colonia${nCol>1?'s':''} encontrada${nCol>1?'s':''}</span>`;
+    input.classList.add('cp-error');
+    coloniaWrap.style.display = 'none';
+    if (hint) hint.innerHTML = '<span style="color:var(--error)">✗ ' + (err.message || 'CP no válido') + '</span>';
   }
+}
 
-  function autoFillSiblings(cpInput, municipio, estado, ciudad) {
-    // Walk up to .field-grid and find sibling inputs by placeholder
-    const grid = cpInput.closest('.field-grid, .section-body');
-    if (!grid) return;
-    grid.querySelectorAll('input.field-input').forEach(inp => {
-      const ph = (inp.placeholder || '').toLowerCase();
-      if (ph === 'ciudad' && municipio) {
-        inp.value = municipio; inp.classList.add('cp-autofilled');
-        inp.setAttribute('data-autofill','1');
-      }
-      if (ph === 'estado' && estado) {
-        inp.value = estado; inp.classList.add('cp-autofilled');
-        inp.setAttribute('data-autofill','1');
-      }
-    });
+function renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, response) {
+  input.classList.remove('cp-loading');
+  var colonias   = Array.isArray(response.asentamiento) ? response.asentamiento : [response.asentamiento];
+  var municipio  = response.municipio || '';
+  var estado     = response.estado    || '';
+  autoFillSiblings(input, municipio, estado);
+  coloniaSelect.innerHTML = '<option value="">-- Selecciona colonia --</option>';
+  colonias.slice().sort().forEach(function(col) {
+    var opt = document.createElement('option');
+    opt.value = col; opt.textContent = col;
+    coloniaSelect.appendChild(opt);
+  });
+  if (colonias.length === 1) {
+    coloniaSelect.value = colonias[0];
+    autoFillColonia(input, colonias[0]);
   }
+  coloniaWrap.style.display = '';
+  input.classList.add('cp-valid');
+  var nCol = colonias.length;
+  if (hint) hint.innerHTML = '<span style="color:var(--success)">✓ ' + municipio + ', ' + estado + ' · ' + nCol + ' colonia' + (nCol > 1 ? 's' : '') + ' encontrada' + (nCol > 1 ? 's' : '') + '</span>';
+}
 
-  function clearAutoFill(cpInput) {
-    const grid = cpInput.closest('.field-grid, .section-body');
-    if (!grid) return;
-    grid.querySelectorAll('[data-autofill="1"]').forEach(inp => {
-      inp.value = ''; inp.classList.remove('cp-autofilled');
-      inp.removeAttribute('data-autofill');
-    });
-    // Also reset colonia field
-    const colFill = grid.querySelector('.colonia-filled');
-    if (colFill) { colFill.value = ''; colFill.classList.remove('colonia-filled'); }
-  }
+function autoFillSiblings(cpInput, municipio, estado) {
+  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
+  if (!grid) return;
+  grid.querySelectorAll('input.field-input').forEach(function(inp) {
+    var ph = (inp.placeholder || '').toLowerCase();
+    if (ph === 'ciudad' && municipio) { inp.value = municipio; inp.classList.add('cp-autofilled'); inp.setAttribute('data-autofill','1'); }
+    if (ph === 'estado' && estado)    { inp.value = estado;    inp.classList.add('cp-autofilled'); inp.setAttribute('data-autofill','1'); }
+  });
+}
 
-  function onColoniaChange(select, uid) {
-    // Find CP input to get the grid
-    const cpInput = document.getElementById(uid);
-    if (!cpInput) return;
-    autoFillColonia(cpInput, select.value);
-  }
+function clearAutoFill(cpInput) {
+  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
+  if (!grid) return;
+  grid.querySelectorAll('[data-autofill="1"]').forEach(function(inp) {
+    inp.value = ''; inp.classList.remove('cp-autofilled'); inp.removeAttribute('data-autofill');
+  });
+  grid.querySelectorAll('.colonia-filled').forEach(function(inp) {
+    inp.value = ''; inp.classList.remove('colonia-filled');
+  });
+}
 
-  function autoFillColonia(cpInput, colonia) {
-    const grid = cpInput.closest('.field-grid, .section-body');
-    if (!grid) return;
-    grid.querySelectorAll('input.field-input').forEach(inp => {
-      const ph = (inp.placeholder || '').toLowerCase();
-      if ((ph === 'colonia' || ph.includes('colonia') || ph.includes('fraccionamiento')) && !inp.closest('.cp-colonia-group')) {
-        inp.value = colonia;
-        inp.classList.add('colonia-filled');
-      }
-    });
-  }
+function onColoniaChange(select, uid) {
+  var cpInput = document.getElementById(uid);
+  if (cpInput) autoFillColonia(cpInput, select.value);
+}
 
-  // ============================================================
-  // INIT on DOMContentLoaded
-  // ============================================================
-  document.addEventListener('DOMContentLoaded', function() {
-    initAllLadas();
-    // Disable submit until declaration checked
-    const btn = document.getElementById('mainSubmitBtn');
-    if (btn) {
-      btn.disabled = true;
-      const btnTextEl = document.getElementById('btnText');
-      if (btnTextEl) btnTextEl.textContent = 'Confirma la declaración para enviar';
+function autoFillColonia(cpInput, colonia) {
+  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
+  if (!grid) return;
+  grid.querySelectorAll('input.field-input').forEach(function(inp) {
+    var ph = (inp.placeholder || '').toLowerCase();
+    if ((ph === 'colonia' || ph.includes('colonia') || ph.includes('fraccionamiento')) && !inp.closest('.cp-colonia-group')) {
+      inp.value = colonia;
+      inp.classList.add('colonia-filled');
     }
   });
+}
 
-  // Patch grecaptcha.ready to also respect declaration checkbox
-  const _origRecaptchaReady = typeof grecaptcha !== 'undefined'
-    ? (cb => grecaptcha.ready(cb))
-    : (cb => cb());
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  initAllLadas();
+  var btn = document.getElementById('mainSubmitBtn');
+  if (btn) { btn.disabled = true; }
+  initRecaptcha();
+});
 </script>
 </body>
 </html>
