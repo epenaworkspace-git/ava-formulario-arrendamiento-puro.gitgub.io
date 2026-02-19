@@ -22,606 +22,134 @@
     --shadow: 0 8px 40px rgba(10,31,68,0.10);
     --shadow-lg: 0 20px 60px rgba(10,31,68,0.16);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--dark); min-height: 100vh; font-size: 15px; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--gray-100);
-    color: var(--dark);
-    min-height: 100vh;
-    font-size: 15px;
-  }
-
-  .header {
-    background: var(--navy);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 36px 32px 32px;
-    position: relative;
-    z-index: 2;
-  }
-  .header-deco {
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(22,93,255,0.22) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .header-deco2 {
-    position: absolute;
-    bottom: -80px; left: 10%;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(22,93,255,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .logo-wrap {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 6px;
-  }
-  .logo-text {
-    font-family: 'Syne', sans-serif;
-    font-size: 38px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -1px;
-    line-height: 1;
-  }
+  .header { background: var(--navy); position: relative; overflow: hidden; }
+  .header-inner { max-width: 900px; margin: 0 auto; padding: 36px 32px 32px; position: relative; z-index: 2; }
+  .header-deco { position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(22,93,255,0.22) 0%, transparent 70%); pointer-events: none; }
+  .logo-text { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; line-height: 1; }
   .logo-text span { color: var(--blue); }
-  .logo-sub {
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    color: var(--gray-400);
-    text-transform: uppercase;
-  }
-  .header-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--white);
-    margin-top: 18px;
-    letter-spacing: -0.3px;
-  }
+  .logo-sub { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 4px; color: var(--gray-400); text-transform: uppercase; margin-top: 4px; }
+  .header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-top: 18px; }
   .header-title span { color: var(--blue); }
+  .progress-bar { height: 3px; background: rgba(255,255,255,0.08); }
+  .progress-fill { height: 100%; background: var(--blue); transition: width 0.5s cubic-bezier(0.4,0,0.2,1); width: 0%; }
 
-  .progress-bar {
-    height: 3px;
-    background: rgba(255,255,255,0.08);
-    position: relative;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--blue);
-    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-    width: 0%;
-  }
+  .main { max-width: 900px; margin: 0 auto; padding: 36px 20px 80px; }
 
-  .main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 36px 20px 80px;
-  }
-
-  .type-selector {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 36px;
-  }
-
-  /* FIX: changed <label> to <div> in HTML; these are now plain divs */
-  .type-btn {
-    background: var(--card-bg);
-    border: 2px solid var(--gray-200);
-    border-radius: 16px;
-    padding: 24px 20px;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    user-select: none;
-  }
-  .type-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(22,93,255,0.06), transparent);
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-  .type-btn:hover::before { opacity: 1; }
-  .type-btn:hover {
-    border-color: var(--blue-light);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(22,93,255,0.15);
-  }
-  .type-btn.active {
-    border-color: var(--blue);
-    background: var(--navy);
-    box-shadow: 0 16px 48px rgba(10,31,68,0.28);
-    transform: translateY(-3px);
-  }
-  .type-btn.active::before { opacity: 0; }
-  .type-icon {
-    width: 44px; height: 44px;
-    background: var(--gray-100);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 14px;
-    font-size: 20px;
-    transition: background 0.25s;
-  }
-  .type-btn.active .type-icon { background: rgba(22,93,255,0.18); }
-  .type-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 4px;
-    transition: color 0.25s;
-  }
+  .type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
+  .type-btn { background: var(--card-bg); border: 2px solid var(--gray-200); border-radius: 16px; padding: 24px 20px; cursor: pointer; transition: all 0.25s; text-align: left; position: relative; overflow: hidden; box-shadow: var(--shadow); user-select: none; }
+  .type-btn:hover { border-color: var(--blue-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(22,93,255,0.15); }
+  .type-btn.active { border-color: var(--blue); background: var(--navy); box-shadow: 0 16px 48px rgba(10,31,68,0.28); transform: translateY(-3px); }
+  .type-icon { font-size: 26px; margin-bottom: 12px; }
+  .type-label { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 4px; transition: color 0.25s; }
   .type-btn.active .type-label { color: var(--white); }
-  .type-desc {
-    font-size: 13px;
-    color: var(--gray-500);
-    line-height: 1.5;
-    transition: color 0.25s;
-  }
+  .type-desc { font-size: 13px; color: var(--gray-500); line-height: 1.5; transition: color 0.25s; }
   .type-btn.active .type-desc { color: rgba(255,255,255,0.55); }
-  .type-check {
-    position: absolute;
-    top: 16px; right: 16px;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--blue);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .type-btn.active .type-check {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .type-check { position: absolute; top: 16px; right: 16px; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.5); transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+  .type-btn.active .type-check { opacity: 1; transform: scale(1); }
   .type-check svg { width: 12px; height: 12px; }
 
-  .req-banner {
-    background: linear-gradient(135deg, var(--navy) 0%, #12296b 100%);
-    border-radius: 16px;
-    padding: 22px 26px;
-    margin-bottom: 28px;
-    display: none;
-    animation: fadeSlide 0.4s ease;
-    box-shadow: var(--shadow-lg);
-  }
+  .req-banner { background: linear-gradient(135deg, var(--navy) 0%, #12296b 100%); border-radius: 16px; padding: 22px 26px; margin-bottom: 28px; display: none; animation: fadeSlide 0.4s ease; box-shadow: var(--shadow-lg); }
   .req-banner.show { display: block; }
-  .req-banner-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .req-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px 20px;
-  }
-  .req-item {
-    font-size: 13px;
-    color: rgba(255,255,255,0.75);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 5px 0;
-    line-height: 1.4;
-  }
-  .req-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--blue);
-    margin-top: 5px;
-    flex-shrink: 0;
-  }
+  .req-banner-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+  .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+  .req-item { font-size: 13px; color: rgba(255,255,255,0.75); display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; line-height: 1.4; }
+  .req-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 5px; flex-shrink: 0; }
 
-  .form-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    overflow: hidden;
-    display: none;
-    animation: fadeSlide 0.35s ease;
-  }
+  .form-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; display: none; animation: fadeSlide 0.35s ease; }
   .form-card.show { display: block; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .section-header {
-    background: var(--navy);
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-icon {
-    width: 34px; height: 34px;
-    border-radius: 10px;
-    background: rgba(22,93,255,0.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--white);
-  }
-
+  .section-header { background: var(--navy); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
+  .section-icon { font-size: 18px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); }
   .section-body { padding: 28px; }
 
-  .field-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 20px;
-  }
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
   .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
-  .field-grid.full   { grid-template-columns: 1fr; }
   .col-full { grid-column: 1 / -1; }
-  .col-2    { grid-column: span 2; }
-
-  .field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .field-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-  }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-size: 12px; font-weight: 500; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.7px; }
   .field-label .req { color: var(--blue); margin-left: 2px; }
-
-  .field-input {
-    background: var(--gray-100);
-    border: 1.5px solid var(--gray-200);
-    border-radius: 10px;
-    padding: 11px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--dark);
-    outline: none;
-    transition: all 0.2s;
-    width: 100%;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  .field-input:focus {
-    border-color: var(--blue);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(22,93,255,0.10);
-  }
+  .field-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); outline: none; transition: all 0.2s; width: 100%; appearance: none; -webkit-appearance: none; }
+  .field-input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(22,93,255,0.10); }
   .field-input::placeholder { color: var(--gray-400); }
-
-  select.field-input {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-
+  select.field-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
   textarea.field-input { resize: vertical; min-height: 80px; }
 
+  /* TEL COMBO PREMIUM */
+  .tel-combo { display: flex; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gray-200); background: var(--gray-100); transition: border-color 0.22s, box-shadow 0.22s, background 0.22s; }
+  .tel-combo:focus-within { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(22,93,255,0.10); }
+  .lada-select { flex-shrink: 0; width: 146px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: var(--navy); padding: 11px 22px 11px 11px; background-color: rgba(10,31,68,0.05); border: none; border-right: 1.5px solid var(--gray-200); border-radius: 0; outline: none; cursor: pointer; transition: background-color 0.18s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 7px center; }
+  .lada-select:focus { background-color: rgba(22,93,255,0.07); outline: none; }
+  .tel-number { flex: 1; min-width: 0; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); padding: 11px 12px; background: transparent; border: none; border-radius: 0; outline: none; }
+  .tel-number::placeholder { color: var(--gray-400); }
+
   .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .radio-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1.5px solid var(--gray-200);
-    background: var(--gray-100);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-500);
-    transition: all 0.2s;
-  }
+  .radio-pill { display: flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: var(--gray-100); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-500); transition: all 0.2s; user-select: none; }
   .radio-pill input { display: none; }
   .radio-pill:hover { border-color: var(--blue-light); color: var(--blue); }
   .radio-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
-  .radio-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    border: 2px solid currentColor;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .radio-pill.selected .radio-dot::after {
-    content: '';
-    position: absolute;
-    inset: 2px;
-    background: var(--blue);
-    border-radius: 50%;
-  }
-
+  .radio-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; position: relative; }
+  .radio-pill.selected .radio-dot::after { content: ''; position: absolute; inset: 2px; background: var(--blue); border-radius: 50%; }
   .check-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .check-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1.5px solid var(--gray-200);
-    background: var(--gray-100);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-500);
-    transition: all 0.2s;
-    user-select: none;
-  }
+  .check-pill { display: flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: var(--gray-100); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-500); transition: all 0.2s; user-select: none; }
   .check-pill input { display: none; }
   .check-pill:hover { border-color: var(--blue-light); color: var(--blue); }
   .check-pill.selected { border-color: var(--blue); background: rgba(22,93,255,0.08); color: var(--blue); }
-  .check-box {
-    width: 14px; height: 14px;
-    border-radius: 4px;
-    border: 2px solid currentColor;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
+  .check-box { width: 14px; height: 14px; border-radius: 4px; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .check-pill.selected .check-box { background: var(--blue); border-color: var(--blue); }
-  .check-pill.selected .check-box::after { content: '✓'; font-size: 9px; color: #fff; font-weight: 700; }
+  .check-pill.selected .check-box::after { content: '\2713'; font-size: 9px; color: #fff; font-weight: 700; }
 
-  .divider { height: 1px; background: var(--gray-200); margin: 24px 0; }
+  .divider { height: 1px; background: var(--gray-200); margin: 20px 0; }
 
   .mini-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .mini-table th {
-    background: var(--gray-100);
-    padding: 9px 12px;
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid var(--gray-200);
-  }
-  .mini-table td { padding: 8px 10px; border-bottom: 1px solid var(--gray-200); }
-  .mini-table td input, .mini-table td select {
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--dark);
-    width: 100%;
-    padding: 2px 0;
-  }
-  .mini-table td input:focus, .mini-table td select:focus { border-bottom: 1.5px solid var(--blue); }
+  .mini-table th { background: var(--gray-100); padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--gray-200); }
+  .mini-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-200); }
+  .mini-table td input, .mini-table td select { background: transparent; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--dark); width: 100%; }
+  .mini-table td input:focus { border-bottom: 1.5px solid var(--blue); }
   .mini-table tr:last-child td { border-bottom: none; }
 
-  .add-row-btn {
-    margin-top: 10px;
-    background: transparent;
-    border: 1.5px dashed var(--gray-400);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--gray-500);
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .add-row-btn:hover { border-color: var(--blue); color: var(--blue); background: rgba(22,93,255,0.04); }
+  .add-row-btn { margin-top: 10px; background: transparent; border: 1.5px dashed var(--gray-400); border-radius: 8px; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--gray-500); cursor: pointer; transition: all 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .add-row-btn:hover { border-color: var(--blue); color: var(--blue); }
 
-  .inmueble-toggle {
-    display: flex;
-    gap: 0;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 10px;
-    overflow: hidden;
-    width: fit-content;
-    margin-bottom: 16px;
-  }
-  .inmueble-opt {
-    padding: 9px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-500);
-    cursor: pointer;
-    background: var(--gray-100);
-    border: none;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
+  .inmueble-toggle { display: flex; border: 1.5px solid var(--gray-200); border-radius: 10px; overflow: hidden; width: fit-content; margin-bottom: 16px; }
+  .inmueble-opt { padding: 9px 18px; font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; background: var(--gray-100); border: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
   .inmueble-opt.active { background: var(--navy); color: #fff; }
 
-  .conditional { display: none; }
-  .conditional.show { display: block; }
-
-  .submit-area {
-    display: none;
-    padding: 28px;
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    animation: fadeSlide 0.35s ease;
-  }
+  .submit-area { display: none; padding: 28px; background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; animation: fadeSlide 0.35s ease; }
   .submit-area.show { display: block; }
+  .legal-text { font-size: 12px; color: var(--gray-500); line-height: 1.7; margin-bottom: 20px; padding: 16px; background: var(--gray-100); border-radius: 10px; border-left: 3px solid var(--blue); }
+  .submit-btn { width: 100%; background: var(--blue); color: var(--white); border: none; border-radius: 12px; padding: 16px 28px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s; letter-spacing: 0.3px; }
+  .submit-btn:hover:not(:disabled) { background: var(--navy); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.35); }
+  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-  .legal-text {
-    font-size: 12px;
-    color: var(--gray-500);
-    line-height: 1.7;
-    margin-bottom: 20px;
-    padding: 16px;
-    background: var(--gray-100);
-    border-radius: 10px;
-    border-left: 3px solid var(--blue);
-  }
-
-  .submit-btn {
-    width: 100%;
-    background: var(--blue);
-    color: var(--white);
-    border: none;
-    border-radius: 12px;
-    padding: 16px 28px;
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    letter-spacing: 0.3px;
-    position: relative;
-    overflow: hidden;
-  }
-  .submit-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-  }
-  .submit-btn:hover { background: var(--navy); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(22,93,255,0.35); }
-  .submit-btn:active { transform: translateY(0); }
-  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
-
+  .sub-section-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin: 20px 0 14px; padding-left: 10px; border-left: 3px solid var(--blue); }
+  .note-box { background: rgba(22,93,255,0.05); border: 1px solid rgba(22,93,255,0.18); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: var(--gray-500); line-height: 1.6; }
+  .note-box strong { color: var(--blue); }
   .field-hint { font-size: 11px; color: var(--gray-400); margin-top: 3px; font-style: italic; }
 
-  .sub-section-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin: 20px 0 14px;
-    padding-left: 10px;
-    border-left: 3px solid var(--blue);
-  }
-
-  .note-box {
-    background: rgba(22,93,255,0.06);
-    border: 1px solid rgba(22,93,255,0.2);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 12.5px;
-    color: var(--gray-500);
-    line-height: 1.6;
-  }
-  .note-box strong { color: var(--blue); }
-
-  .success-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,31,68,0.85);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-  }
-  .success-overlay.show { display: flex; }
-  .success-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 48px 40px;
-    text-align: center;
-    max-width: 400px;
-    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  @keyframes popIn {
-    from { opacity: 0; transform: scale(0.85); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  .success-icon { width: 72px; height: 72px; background: rgba(15,195,115,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; }
-  .success-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
-  .success-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 28px; }
-  .success-close { background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 12px 28px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 14px; transition: background 0.2s; }
-  .success-close:hover { background: var(--blue); }
-
-  .grecaptcha-badge { visibility: hidden !important; opacity: 0 !important; }
-  .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 10px; line-height: 1.6; }
-  .recaptcha-notice a { color: var(--blue); text-decoration: none; }
-  .recaptcha-notice a:hover { text-decoration: underline; }
-
-  /* CP */
-  .cp-input { transition: border-color 0.2s; }
   .cp-input.cp-loading { border-color: var(--blue) !important; background: #f0f4ff !important; }
   .cp-input.cp-valid   { border-color: var(--success) !important; }
   .cp-input.cp-error   { border-color: var(--error) !important; }
-  .cp-colonia-group { animation: fadeSlide 0.3s ease; }
-  .cp-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--gray-200); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   .cp-autofilled { background: rgba(22,93,255,0.04) !important; color: var(--blue) !important; font-weight: 500; }
+  .cp-colonia-group { animation: fadeSlide 0.3s ease; }
 
-  /* Tel combo */
-  .tel-combo { display: flex; gap: 8px; width: 100%; }
-  .lada-select { width: 120px !important; flex-shrink: 0; font-size: 13px !important; padding: 11px 10px !important; cursor: pointer; }
-  .tel-number { flex: 1; min-width: 0; }
-
-  /* RFC */
   .rfc-valid { border-color: var(--success) !important; }
   .rfc-error { border-color: var(--error) !important; }
-  .rfc-hint { font-size: 11px; margin-top: 4px; transition: color 0.2s; }
+  .rfc-hint { font-size: 11px; margin-top: 4px; }
   .rfc-hint.ok  { color: var(--success); }
   .rfc-hint.err { color: var(--error); }
 
-  /* Declaration */
-  .declaration-wrap {
-    margin-bottom: 22px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
+  .declaration-wrap { margin-bottom: 22px; border: 1.5px solid var(--gray-200); border-radius: 14px; overflow: hidden; transition: border-color 0.3s; }
   .declaration-wrap.checked { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(22,93,255,0.09); }
   .declaration-label { display: flex; cursor: pointer; user-select: none; }
   .declaration-label > input[type="checkbox"] { display: none; }
   .declaration-box { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; background: var(--gray-100); transition: background 0.3s; }
   .declaration-wrap.checked .declaration-box { background: rgba(22,93,255,0.04); }
-  .declaration-check-icon {
-    width: 28px; height: 28px; flex-shrink: 0;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-    background: #fff;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 2px;
-    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-  }
+  .declaration-check-icon { width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; border: 2px solid #ccc; background: #fff; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); }
   .declaration-check-icon svg { width: 14px; opacity: 0; transition: opacity 0.2s; }
   .declaration-wrap.checked .declaration-check-icon { background: var(--blue); border-color: var(--blue); transform: scale(1.1); }
   .declaration-wrap.checked .declaration-check-icon svg { opacity: 1; }
@@ -629,81 +157,49 @@
   .declaration-text strong { color: var(--dark); display: block; margin-bottom: 4px; font-size: 13px; }
   .declaration-firma { color: var(--blue); font-weight: 500; }
 
-  @keyframes pulseError {
-    0%,100% { border-color: var(--gray-200); }
-    50%      { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); }
-  }
+  .grecaptcha-badge { visibility: hidden !important; }
+  .recaptcha-notice { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.6; }
+  .recaptcha-notice a { color: var(--blue); text-decoration: none; }
+
+  .success-overlay { display: none; position: fixed; inset: 0; background: rgba(10,31,68,0.85); z-index: 100; align-items: center; justify-content: center; }
+  .success-overlay.show { display: flex; }
+  .success-card { background: var(--white); border-radius: 24px; padding: 48px 40px; text-align: center; max-width: 400px; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  .success-icon { font-size: 48px; margin-bottom: 16px; }
+  .success-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .success-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 28px; }
+  .success-close { background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 12px 28px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 14px; }
+
+  @keyframes pulseError { 0%,100% { border-color: var(--gray-200); } 50% { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,71,87,0.15); } }
   .pulse-error { animation: pulseError 0.5s ease 2; }
 
+  .whatsapp-float { position: fixed; bottom: 36px; left: 36px; background: linear-gradient(135deg,#25d366,#128c7e); color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); cursor: pointer; z-index: 1000; text-decoration: none; transition: transform 0.3s, box-shadow 0.3s; }
+  .whatsapp-float:hover { transform: scale(1.12) translateY(-3px); box-shadow: 0 16px 36px rgba(37,211,102,0.55); }
+  .whatsapp-icon { width: 30px; height: 30px; }
+
   @media (max-width: 640px) {
-    .field-grid { grid-template-columns: 1fr; }
-    .field-grid.thirds { grid-template-columns: 1fr; }
-    .type-selector { grid-template-columns: 1fr; }
-    .req-grid { grid-template-columns: 1fr; }
+    .field-grid, .field-grid.thirds { grid-template-columns: 1fr; }
+    .type-selector, .req-grid { grid-template-columns: 1fr; }
     .col-full { grid-column: 1; }
-    .col-2 { grid-column: 1; }
     .section-body { padding: 20px 16px; }
     .header-inner { padding: 28px 20px 24px; }
     .main { padding: 24px 14px 60px; }
-    .logo-text { font-size: 30px; }
-  }
-
-  /* WhatsApp */
-  .whatsapp-float {
-    position: fixed; bottom: 50px; left: 50px;
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-    color: white; width: 75px; height: 75px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
-    cursor: pointer; z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-    text-decoration: none;
-    animation: floatPremium 3s ease-in-out infinite;
-    border: 4px solid white; overflow: hidden;
-  }
-  .whatsapp-float::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-    animation: shine 3s infinite;
-  }
-  .whatsapp-float:hover { transform: scale(1.2) translateY(-5px); box-shadow: 0 20px 40px rgba(37,211,102,0.6); animation: none; }
-  .whatsapp-tooltip {
-    position: absolute; left: 95px; background: white; color: #333;
-    padding: 15px 25px; border-radius: 12px; white-space: nowrap;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15); opacity: 0; pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1); font-size: 1rem; font-weight: 600;
-    border: 1px solid rgba(0,0,0,0.1); z-index: 1001;
-  }
-  .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; transform: translateX(10px); }
-  .whatsapp-icon { width: 36px; height: 36px; position: relative; z-index: 1; }
-  .whatsapp-icon path { fill: white; }
-  @keyframes floatPremium {
-    0%,100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-15px) rotate(2deg); }
-    75% { transform: translateY(-5px) rotate(-2deg); }
-  }
-  @keyframes shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-  @media (max-width: 768px) {
-    .whatsapp-float { width: 65px; height: 65px; bottom: 30px; left: 20px; }
-    .whatsapp-icon { width: 30px; height: 30px; }
-    .whatsapp-tooltip { display: none; }
+    .lada-select { width: 118px; }
   }
 </style>
-<!-- reCAPTCHA v3 cargado con onload callback oficial -->
-<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=onRecaptchaLoad" async defer></script>
+<!--
+  reCAPTCHA v3: cargado SINCRONAMENTE (sin async/defer).
+  Esto garantiza que `grecaptcha` este disponible en el scope global
+  cuando el script inline se ejecuta.
+-->
 </head>
 <body>
 
 <header class="header">
   <div class="header-deco"></div>
-  <div class="header-deco2"></div>
   <div class="header-inner">
-    <div class="logo-wrap">
-      <div>
-        <div class="logo-text">A<span>V</span>A</div>
-        <div class="logo-sub">Trámites Vehiculares en Morelos</div>
-      </div>
-    </div>
+    <div class="logo-text">A<span>V</span>A</div>
+    <div class="logo-sub">Trámites Vehiculares en Morelos</div>
     <div class="header-title">Formulario <span>Arrendamiento Puro</span></div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -711,32 +207,23 @@
 
 <main class="main">
 
-  <!-- TIPO SELECTOR — FIX: use <div> instead of <label> to avoid click conflicts -->
   <div class="type-selector">
     <div class="type-btn" id="btnPF" onclick="selectType('PF')">
       <div class="type-icon">👤</div>
       <div class="type-label">Persona Física</div>
       <div class="type-desc">Persona física con actividad empresarial o profesionista independiente (PFAE)</div>
-      <div class="type-check">
-        <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      <div class="type-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </div>
     <div class="type-btn" id="btnPM" onclick="selectType('PM')">
       <div class="type-icon">🏢</div>
       <div class="type-label">Persona Moral</div>
       <div class="type-desc">Empresa o sociedad mercantil constituida legalmente (PM)</div>
-      <div class="type-check">
-        <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      <div class="type-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </div>
   </div>
 
-  <!-- REQUIREMENTS PF -->
   <div class="req-banner" id="reqPF">
-    <div class="req-banner-title">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Documentos requeridos – Persona Física (PFAE)
-    </div>
+    <div class="req-banner-title">Documentos requeridos – Persona Física (PFAE)</div>
     <div class="req-grid">
       <div class="req-item"><div class="req-dot"></div>Solicitud de arrendamiento firmada</div>
       <div class="req-item"><div class="req-dot"></div>Autorización consulta buró de crédito (PF)</div>
@@ -749,15 +236,11 @@
     </div>
   </div>
 
-  <!-- REQUIREMENTS PM -->
   <div class="req-banner" id="reqPM">
-    <div class="req-banner-title">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="#165DFF"/><path d="M7 5v4M7 4v0.5" stroke="#165DFF" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Documentos requeridos – Persona Moral (PM)
-    </div>
+    <div class="req-banner-title">Documentos requeridos – Persona Moral (PM)</div>
     <div class="req-grid">
       <div class="req-item"><div class="req-dot"></div>Solicitud de arrendamiento</div>
-      <div class="req-item"><div class="req-dot"></div>Autorización buró de crédito PF y PM</div>
+      <div class="req-item"><div class="req-dot"></div>Autorización buró crédito PF y PM</div>
       <div class="req-item"><div class="req-dot"></div>Estados financieros parciales con analíticas (máx. 3 meses)</div>
       <div class="req-item"><div class="req-dot"></div>3 estados de cuenta completos (PDF, máx. 3 meses)</div>
       <div class="req-item"><div class="req-dot"></div>Opinión de cumplimiento SAT (máx. 3 meses)</div>
@@ -769,948 +252,349 @@
     </div>
   </div>
 
-  <!-- ===================== FORMULARIO PF ===================== -->
+  <!-- ===== FORM PERSONA FISICA ===== -->
   <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
-    <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento – Persona Física | AVA">
+    <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Fisica | AVA">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_autoresponse" value="Gracias por enviar tu solicitud de Arrendamiento Puro con AVA. Hemos recibido tu información y un ejecutivo se pondrá en contacto a la brevedad.">
-    <input type="hidden" name="Tipo_Solicitud" value="Persona Física (PFAE)">
+    <input type="hidden" name="Tipo_Solicitud" value="Persona Fisica PFAE">
 
-    <div class="section-header">
-      <div class="section-icon">🏪</div>
-      <div class="section-title">Datos del Negocio / PFAE</div>
-    </div>
+    <div class="section-header"><div class="section-icon">🏗</div><div class="section-title">Datos del Negocio / PFAE</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group col-full">
-          <label class="field-label">Nombre del cliente<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Nombre completo" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">R.F.C.<span class="req">*</span></label>
-          <input class="field-input" type="text" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Actividad principal</label>
-          <input class="field-input" type="text" placeholder="Descripción de actividad">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Régimen fiscal<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Transcribir de la Constancia de Situación Fiscal" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Nombre comercial</label>
-          <input class="field-input" type="text" placeholder="Nombre del negocio">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Fundador del negocio</label>
-          <input class="field-input" type="text" placeholder="Nombre del fundador">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Fecha de inicio del negocio</label>
-          <input class="field-input" type="date">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Número de empleados</label>
-          <input class="field-input" type="number" placeholder="0" min="0">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Sitio web / Facebook</label>
-          <input class="field-input" type="text" placeholder="https://">
-        </div>
+        <div class="field-group col-full"><label class="field-label">Nombre del cliente<span class="req">*</span></label><input class="field-input" type="text" name="Nombre_cliente" placeholder="Nombre completo" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">Actividad principal</label><input class="field-input" type="text" name="Actividad_principal" placeholder="Descripción de actividad"></div>
+        <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_fiscal" placeholder="Transcribir de la Constancia de Situación Fiscal" required></div>
+        <div class="field-group"><label class="field-label">Nombre comercial</label><input class="field-input" type="text" name="Nombre_comercial" placeholder="Nombre del negocio"></div>
+        <div class="field-group"><label class="field-label">Fundador del negocio</label><input class="field-input" type="text" name="Fundador" placeholder="Nombre del fundador"></div>
+        <div class="field-group"><label class="field-label">Fecha inicio del negocio</label><input class="field-input" type="date" name="Fecha_inicio_negocio"></div>
+        <div class="field-group"><label class="field-label">Número de empleados</label><input class="field-input" type="number" name="Num_empleados" placeholder="0" min="0"></div>
+        <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_Facebook" placeholder="https://"></div>
       </div>
-
-      <div class="sub-section-label">Sector</div>
-      <div class="check-group" id="sectorPF">
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Construcción</label>
-      </div>
-
-      <div class="field-grid" style="margin-top:18px">
-        <div class="field-group">
-          <label class="field-label">Persona que dirige el negocio</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Relación con el aval</label>
-          <input class="field-input" type="text" placeholder="Ej. Socio, cónyuge...">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Cuenta CLABE<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="18 dígitos" maxlength="18" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Nombre del banco</label>
-          <input class="field-input" type="text" placeholder="Banco">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Contacto de pagos</label>
-          <input class="field-input" type="text" placeholder="Nombre">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel1_combined" id="tel1_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país"></select>
-            <input class="field-input tel-number" type="tel" id="tel1_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel1')" onblur="updateTelCombined('tel1')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel2_combined" id="tel2_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país"></select>
-            <input class="field-input tel-number" type="tel" id="tel2_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel2')" onblur="updateTelCombined('tel2')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Correo electrónico</label>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
-        </div>
-      </div>
-
-      <div class="sub-section-label">Principales Clientes</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre del cliente</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
-        <tbody id="tblClientesPF">
-          <tr><td><input type="text" placeholder="Cliente 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-          <tr><td><input type="text" placeholder="Cliente 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-        </tbody>
-      </table>
-
-      <div class="sub-section-label">Principales Proveedores</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre del proveedor</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Proveedor 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-          <tr><td><input type="text" placeholder="Proveedor 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-        </tbody>
-      </table>
-
-      <div class="sub-section-label">Productos o Servicios</div>
-      <table class="mini-table">
-        <thead><tr><th>Productos / Servicios</th><th>% Ventas</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Producto o servicio principal"></td><td><input type="number" placeholder="%" min="0" max="100"></td></tr>
-          <tr><td><input type="text" placeholder="Producto o servicio 2"></td><td><input type="number" placeholder="%" min="0" max="100"></td></tr>
-        </tbody>
-      </table>
-
-      <div class="sub-section-label">Primer Cuadro Directivo</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años de exp.</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
-          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
-        </tbody>
-      </table>
-
-      <div class="field-grid" style="margin-top:20px">
-        <div class="field-group col-full">
-          <label class="field-label">¿Cliente actual o anterior?</label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="si"><div class="radio-dot"></div>Sí</label>
-            <label class="radio-pill"><input type="radio" name="clienteAnteriorPF" value="no"><div class="radio-dot"></div>No</label>
-          </div>
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Contratos anteriores (a nombre de)</label>
-          <input class="field-input" type="text" placeholder="Personas físicas o morales">
-        </div>
-      </div>
-    </div>
-
-    <!-- DOMICILIO FISCAL PF -->
-    <div class="section-header">
-      <div class="section-icon">📍</div>
-      <div class="section-title">Domicilio Fiscal del Negocio</div>
-    </div>
-    <div class="section-body">
-      <div class="field-grid thirds">
-        <div class="field-group col-2">
-          <label class="field-label">Calle<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Calle" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Número exterior</label>
-          <input class="field-input" type="text" placeholder="No. Ext">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Número interior</label>
-          <input class="field-input" type="text" placeholder="No. Int">
-        </div>
-        <div class="field-group col-2">
-          <label class="field-label">Colonia / Fraccionamiento</label>
-          <input class="field-input" type="text" placeholder="Colonia">
-        </div>
-        <div class="field-group">
-          <label class="field-label">C.P.</label>
-          <input class="field-input cp-input" type="text" id="cp1" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
-        </div>
-        <div class="field-group cp-colonia-group" id="colonias-cp1-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')">
-            <option value="">-- Selecciona colonia --</option>
-          </select>
-          <span class="field-hint" id="hint-cp1"></span>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Ciudad</label>
-          <input class="field-input" type="text" placeholder="Ciudad">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Estado</label>
-          <input class="field-input" type="text" placeholder="Estado">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Entre calles / Referencia</label>
-          <input class="field-input" type="text" placeholder="Entre calle A y calle B...">
-        </div>
-      </div>
-
-      <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
-      <div class="inmueble-toggle" id="inmuebleFiscalPF">
-        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF','propio','fiscalPropioDetails','fiscalRentadoDetails')">Propio</button>
-        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF','rentado','fiscalPropioDetails','fiscalRentadoDetails')">Rentado</button>
-      </div>
-      <div class="field-grid" id="fiscalPropioDetails">
-        <div class="field-group col-full">
-          <label class="field-label">¿A nombre de quién está registrado?</label>
-          <input class="field-input" type="text" placeholder="Nombre del titular">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tipo (planta, oficina, otro)</label>
-          <input class="field-input" type="text" placeholder="Tipo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tamaño (m²)</label>
-          <input class="field-input" type="number" placeholder="0">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Datos Registro Público de la Propiedad</label>
-          <input class="field-input" type="text" placeholder="Datos completos de inscripción">
-        </div>
-        <div class="field-group">
-          <label class="field-label">¿Presenta gravamen?</label>
-          <select class="field-input">
-            <option value="">Seleccionar</option>
-            <option>No presenta gravamen</option>
-            <option>Hipoteca</option>
-            <option>Embargo</option>
-            <option>Usufructo vitalicio</option>
-            <option>Otro</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-grid" id="fiscalRentadoDetails" style="display:none">
-        <div class="field-group col-full">
-          <label class="field-label">Nombre del arrendador</label>
-          <input class="field-input" type="text" placeholder="Nombre del arrendador">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono del arrendador</label>
-          <input type="hidden" name="tel_tel3_combined" id="tel3_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país"></select>
-            <input class="field-input tel-number" type="tel" id="tel3_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel3')" onblur="updateTelCombined('tel3')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Inicio de contrato</label>
-          <input class="field-input" type="date">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Término de contrato</label>
-          <input class="field-input" type="date">
-        </div>
-      </div>
-    </div>
-
-    <!-- DATOS PERSONALES PF -->
-    <div class="section-header">
-      <div class="section-icon">🪪</div>
-      <div class="section-title">Datos Personales</div>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field-group">
-          <label class="field-label">Lugar y fecha de nacimiento<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Ciudad, DD/MM/AAAA" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Profesión</label>
-          <input class="field-input" type="text" placeholder="Profesión">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Puesto en el negocio</label>
-          <input class="field-input" type="text" placeholder="Ej. Director, Propietario">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Antigüedad en el negocio</label>
-          <input class="field-input" type="text" placeholder="Ej. 5 años">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Email<span class="req">*</span></label>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel4_combined" id="tel4_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país"></select>
-            <input class="field-input tel-number" type="tel" id="tel4_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel4')" onblur="updateTelCombined('tel4')">
-          </div>
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Estado civil<span class="req">*</span></label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="ecPF" value="sep"><div class="radio-dot"></div>Casado(a) – Sep. de bienes</label>
-            <label class="radio-pill"><input type="radio" name="ecPF" value="man"><div class="radio-dot"></div>Casado(a) – Bienes mancomunados</label>
-            <label class="radio-pill"><input type="radio" name="ecPF" value="sol"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill"><input type="radio" name="ecPF" value="div"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill"><input type="radio" name="ecPF" value="viu"><div class="radio-dot"></div>Viudo(a)</label>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Nombre del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Nombre completo del cónyuge">
-        </div>
-        <div class="field-group">
-          <label class="field-label">RFC del cónyuge</label>
-          <input class="field-input" type="text" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Lugar de nacimiento del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Ciudad, estado">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Ocupación del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Ocupación">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Profesión del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Profesión">
-        </div>
-      </div>
-    </div>
-
-    <!-- EQUIPOS PF -->
-    <div class="section-header">
-      <div class="section-icon">🚗</div>
-      <div class="section-title">Equipos / Vehículos Solicitados</div>
-    </div>
-    <div class="section-body">
-      <table class="mini-table">
-        <thead><tr><th>Descripción</th><th>Año modelo</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
-        <tbody id="tblEquiposPF">
-          <tr>
-            <td><input type="text" placeholder="Descripción del equipo"></td>
-            <td><input type="number" placeholder="2024" min="2000" max="2030"></td>
-            <td><input type="number" placeholder="$0.00" min="0"></td>
-            <td><input type="text" placeholder="Meses"></td>
-            <td><input type="text" placeholder="Nombre del usuario"></td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
-      <div class="note-box" style="margin-top:14px">
-        <strong>Nota:</strong> Los equipos son para uso exclusivo del solicitante. No podrán ser subarrendados a terceros ni modificados sin autorización expresa del arrendador.
-      </div>
-    </div>
-
-    <!-- REFERENCIAS PF -->
-    <div class="section-header">
-      <div class="section-icon">👥</div>
-      <div class="section-title">Referencias Personales</div>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field-group col-full">
-          <label class="field-label">Referencia 1 – Nombre completo</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Parentesco</label>
-          <input class="field-input" type="text" placeholder="Familiar / Conocido">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel5_combined" id="tel5_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')"></select>
-            <input class="field-input tel-number" type="tel" id="tel5_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel5')" onblur="updateTelCombined('tel5')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel6_combined" id="tel6_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')"></select>
-            <input class="field-input tel-number" type="tel" id="tel6_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel6')" onblur="updateTelCombined('tel6')">
-          </div>
-        </div>
-        <div class="divider col-full"></div>
-        <div class="field-group col-full">
-          <label class="field-label">Referencia 2 – Nombre completo</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Parentesco</label>
-          <input class="field-input" type="text" placeholder="Familiar / Conocido">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel7_combined" id="tel7_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')"></select>
-            <input class="field-input tel-number" type="tel" id="tel7_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel7')" onblur="updateTelCombined('tel7')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel8_combined" id="tel8_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')"></select>
-            <input class="field-input tel-number" type="tel" id="tel8_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel8')" onblur="updateTelCombined('tel8')">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VISITA PF -->
-    <div class="section-header">
-      <div class="section-icon">📋</div>
-      <div class="section-title">Contacto para Visita al Negocio</div>
-    </div>
-    <div class="section-body">
-      <p style="font-size:13px;color:var(--gray-500);margin-bottom:18px;">Durante el análisis de la solicitud se realizará una visita al negocio. Indique con quién dirigirse:</p>
-      <div class="field-grid">
-        <div class="field-group">
-          <label class="field-label">Nombre del contacto</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Puesto</label>
-          <input class="field-input" type="text" placeholder="Cargo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel9_combined" id="tel9_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')"></select>
-            <input class="field-input tel-number" type="tel" id="tel9_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel9')" onblur="updateTelCombined('tel9')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel10_combined" id="tel10_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')"></select>
-            <input class="field-input tel-number" type="tel" id="tel10_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel10')" onblur="updateTelCombined('tel10')">
-          </div>
-        </div>
-      </div>
-    </div>
-  </form><!-- END formPF -->
-
-
-  <!-- ===================== FORMULARIO PM ===================== -->
-  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
-    <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento – Persona Moral | AVA">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_autoresponse" value="Gracias por enviar tu solicitud de Arrendamiento Puro con AVA. Hemos recibido tu información y un ejecutivo se pondrá en contacto a la brevedad.">
-    <input type="hidden" name="Tipo_Solicitud" value="Persona Moral (PM)">
-
-    <div class="section-header">
-      <div class="section-icon">🏢</div>
-      <div class="section-title">Datos de la Empresa (Persona Moral)</div>
-    </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field-group col-full">
-          <label class="field-label">Nombre / Razón social<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Razón social completa" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">R.F.C.<span class="req">*</span></label>
-          <input class="field-input" type="text" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Actividad principal</label>
-          <input class="field-input" type="text" placeholder="Giro o actividad">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Régimen fiscal<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Transcribir de la Constancia de Situación Fiscal" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Nombre comercial</label>
-          <input class="field-input" type="text" placeholder="Nombre comercial">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Fundador de la empresa</label>
-          <input class="field-input" type="text" placeholder="Nombre del fundador">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Fecha de inicio de la empresa</label>
-          <input class="field-input" type="date">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Número de empleados</label>
-          <input class="field-input" type="number" placeholder="0" min="0">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Sitio web / Facebook</label>
-          <input class="field-input" type="text" placeholder="https://">
-        </div>
-      </div>
-
       <div class="sub-section-label">Sector</div>
       <div class="check-group">
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Manufactura</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Servicios</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al por mayor</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Comercio al menudeo</label>
-        <label class="check-pill"><input type="checkbox"><div class="check-box"></div>Construcción</label>
+        <label class="check-pill"><input type="checkbox" name="Sector_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill"><input type="checkbox" name="Sector_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill"><input type="checkbox" name="Sector_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill"><input type="checkbox" name="Sector_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill"><input type="checkbox" name="Sector_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
       </div>
-
       <div class="field-grid" style="margin-top:18px">
-        <div class="field-group">
-          <label class="field-label">Cuenta CLABE<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="18 dígitos" maxlength="18" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Nombre del banco</label>
-          <input class="field-input" type="text" placeholder="Banco">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Contacto de pagos</label>
-          <input class="field-input" type="text" placeholder="Nombre">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel11_combined" id="tel11_combined">
+        <div class="field-group"><label class="field-label">Persona que dirige el negocio</label><input class="field-input" type="text" name="Director_negocio" placeholder="Nombre completo"></div>
+        <div class="field-group"><label class="field-label">Relación con el aval</label><input class="field-input" type="text" name="Relacion_aval" placeholder="Ej. Socio, cónyuge..."></div>
+        <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE" placeholder="18 dígitos" maxlength="18" required></div>
+        <div class="field-group"><label class="field-label">Banco</label><input class="field-input" type="text" name="Banco" placeholder="Nombre del banco"></div>
+        <div class="field-group"><label class="field-label">Contacto de pagos</label><input class="field-input" type="text" name="Contacto_pagos" placeholder="Nombre"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Telefono_negocio" id="tel1_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')"></select>
-            <input class="field-input tel-number" type="tel" id="tel11_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel11')" onblur="updateTelCombined('tel11')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel12_combined" id="tel12_combined">
+            <select class="lada-select" id="tel1_lada" onchange="updateTelCombined('tel1')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel1')" onblur="updateTelCombined('tel1')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Celular_negocio" id="tel2_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')"></select>
-            <input class="field-input tel-number" type="tel" id="tel12_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel12')" onblur="updateTelCombined('tel12')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Correo electrónico</label>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
-        </div>
+            <select class="lada-select" id="tel2_lada" onchange="updateTelCombined('tel2')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel2')" onblur="updateTelCombined('tel2')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Correo electrónico</label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com"></div>
       </div>
-
-      <div class="sub-section-label">Accionistas</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre completo</th><th>Participación (%)</th><th>RFC con homoclave</th></tr></thead>
-        <tbody id="tblAccionistas">
-          <tr><td><input type="text" placeholder="Nombre completo"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="RFC"></td></tr>
-          <tr><td><input type="text" placeholder="Nombre completo"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="RFC"></td></tr>
-        </tbody>
-      </table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
-
       <div class="sub-section-label">Principales Clientes</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre del cliente</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Cliente 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-          <tr><td><input type="text" placeholder="Cliente 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-        </tbody>
-      </table>
-
+      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
+      <tbody id="tblClientesPF">
+        <tr><td><input type="text" name="C1_nombre"></td><td><input type="tel" name="C1_tel"></td><td><input type="number" name="C1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C1_contacto"></td></tr>
+        <tr><td><input type="text" name="C2_nombre"></td><td><input type="tel" name="C2_tel"></td><td><input type="number" name="C2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="C2_contacto"></td></tr>
+      </tbody></table>
       <div class="sub-section-label">Principales Proveedores</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre del proveedor</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Proveedor 1"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-          <tr><td><input type="text" placeholder="Proveedor 2"></td><td><input type="tel" placeholder="Teléfono"></td><td><input type="number" placeholder="%" min="0" max="100"></td><td><input type="text" placeholder="Nombre"></td></tr>
-        </tbody>
-      </table>
-
+      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
+      <tbody>
+        <tr><td><input type="text" name="P1_nombre"></td><td><input type="tel" name="P1_tel"></td><td><input type="number" name="P1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P1_contacto"></td></tr>
+        <tr><td><input type="text" name="P2_nombre"></td><td><input type="tel" name="P2_tel"></td><td><input type="number" name="P2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="P2_contacto"></td></tr>
+      </tbody></table>
       <div class="sub-section-label">Primer Cuadro Directivo</div>
-      <table class="mini-table">
-        <thead><tr><th>Nombre completo</th><th>Posición / Cargo</th><th>Años de exp.</th></tr></thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
-          <tr><td><input type="text" placeholder="Nombre"></td><td><input type="text" placeholder="Cargo"></td><td><input type="number" placeholder="0" min="0"></td></tr>
-        </tbody>
-      </table>
-
-      <div class="field-grid" style="margin-top:20px">
-        <div class="field-group col-full">
-          <label class="field-label">¿Cliente actual o anterior?</label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="clienteAnteriorPM" value="si"><div class="radio-dot"></div>Sí</label>
-            <label class="radio-pill"><input type="radio" name="clienteAnteriorPM" value="no"><div class="radio-dot"></div>No</label>
-          </div>
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Contratos anteriores (a nombre de)</label>
-          <input class="field-input" type="text" placeholder="Personas físicas o morales">
-        </div>
-      </div>
+      <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años exp.</th></tr></thead>
+      <tbody>
+        <tr><td><input type="text" name="D1_nombre"></td><td><input type="text" name="D1_cargo"></td><td><input type="number" name="D1_exp" min="0"></td></tr>
+        <tr><td><input type="text" name="D2_nombre"></td><td><input type="text" name="D2_cargo"></td><td><input type="number" name="D2_exp" min="0"></td></tr>
+      </tbody></table>
     </div>
 
-    <!-- DOMICILIO FISCAL PM -->
-    <div class="section-header">
-      <div class="section-icon">📍</div>
-      <div class="section-title">Domicilio Fiscal de la Empresa</div>
-    </div>
+    <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal del Negocio</div></div>
     <div class="section-body">
       <div class="field-grid thirds">
-        <div class="field-group col-2">
-          <label class="field-label">Calle<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Calle" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">No. Exterior</label>
-          <input class="field-input" type="text" placeholder="No. Ext">
-        </div>
-        <div class="field-group">
-          <label class="field-label">No. Interior</label>
-          <input class="field-input" type="text" placeholder="No. Int">
-        </div>
-        <div class="field-group col-2">
-          <label class="field-label">Colonia / Fraccionamiento</label>
-          <input class="field-input" type="text" placeholder="Colonia">
-        </div>
-        <div class="field-group">
-          <label class="field-label">C.P.</label>
-          <input class="field-input cp-input" type="text" id="cp2" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
-        </div>
-        <div class="field-group cp-colonia-group" id="colonias-cp2-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')">
-            <option value="">-- Selecciona colonia --</option>
-          </select>
-          <span class="field-hint" id="hint-cp2"></span>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Ciudad</label>
-          <input class="field-input" type="text" placeholder="Ciudad">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Estado</label>
-          <input class="field-input" type="text" placeholder="Estado">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Entre calles / Referencia</label>
-          <input class="field-input" type="text" placeholder="Entre calle A y calle B">
-        </div>
+        <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_calle" required></div>
+        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="Fiscal_noext"></div>
+        <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="Fiscal_noint"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="Fiscal_colonia" placeholder="Colonia"></div>
+        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp1" name="Fiscal_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group cp-colonia-group" id="colonias-cp1-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp1"></span></div>
+        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="Fiscal_ciudad" placeholder="Ciudad"></div>
+        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="Fiscal_estado" placeholder="Estado"></div>
       </div>
-
       <div class="sub-section-label">Tipo de Inmueble (Fiscal)</div>
-      <div class="inmueble-toggle" id="inmuebleFiscalPM">
-        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPM','propio','fiscalPMPropioDetails','fiscalPMRentadoDetails')">Propio</button>
-        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPM','rentado','fiscalPMPropioDetails','fiscalPMRentadoDetails')">Rentado</button>
+      <div class="inmueble-toggle" id="inmuebleFiscalPF">
+        <button type="button" class="inmueble-opt active" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalPropioDetails','fiscalRentadoDetails')">Propio</button>
+        <button type="button" class="inmueble-opt" onclick="toggleInmueble('inmuebleFiscalPF',this,'fiscalRentadoDetails','fiscalPropioDetails')">Rentado</button>
       </div>
-      <div class="field-grid" id="fiscalPMPropioDetails">
-        <div class="field-group col-full">
-          <label class="field-label">¿A nombre de quién está registrado?</label>
-          <input class="field-input" type="text" placeholder="Nombre del titular">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tipo (planta, oficina, otro)</label>
-          <input class="field-input" type="text" placeholder="Tipo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tamaño (m²)</label>
-          <input class="field-input" type="number" placeholder="0">
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Datos Registro Público de la Propiedad</label>
-          <input class="field-input" type="text" placeholder="Datos completos">
-        </div>
-        <div class="field-group">
-          <label class="field-label">¿Presenta gravamen?</label>
-          <select class="field-input">
-            <option value="">Seleccionar</option>
-            <option>No presenta gravamen</option>
-            <option>Hipoteca</option>
-            <option>Embargo</option>
-            <option>Otro</option>
-          </select>
-        </div>
+      <div class="field-grid" id="fiscalPropioDetails">
+        <div class="field-group col-full"><label class="field-label">A nombre de quién está registrado</label><input class="field-input" type="text" name="FiscalPropio_titular" placeholder="Titular"></div>
+        <div class="field-group"><label class="field-label">Tipo</label><input class="field-input" type="text" name="FiscalPropio_tipo" placeholder="Planta, oficina..."></div>
+        <div class="field-group"><label class="field-label">Tamaño (m2)</label><input class="field-input" type="number" name="FiscalPropio_m2" placeholder="0"></div>
+        <div class="field-group"><label class="field-label">Presenta gravamen</label><select class="field-input" name="FiscalPropio_gravamen"><option value="">Seleccionar</option><option>No presenta gravamen</option><option>Hipoteca</option><option>Embargo</option><option>Otro</option></select></div>
       </div>
-      <div class="field-grid" id="fiscalPMRentadoDetails" style="display:none">
-        <div class="field-group col-full">
-          <label class="field-label">Nombre del arrendador</label>
-          <input class="field-input" type="text" placeholder="Nombre del arrendador">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono del arrendador</label>
-          <input type="hidden" name="tel_tel13_combined" id="tel13_combined">
+      <div class="field-grid" id="fiscalRentadoDetails" style="display:none">
+        <div class="field-group col-full"><label class="field-label">Nombre del arrendador</label><input class="field-input" type="text" name="FiscalRentado_arrendador"></div>
+        <div class="field-group"><label class="field-label">Teléfono arrendador</label><input type="hidden" name="FiscalRentado_tel" id="tel3_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel13_lada" onchange="updateTelCombined('tel13')"></select>
-            <input class="field-input tel-number" type="tel" id="tel13_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel13')" onblur="updateTelCombined('tel13')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Inicio de contrato</label>
-          <input class="field-input" type="date">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Término de contrato</label>
-          <input class="field-input" type="date">
-        </div>
+            <select class="lada-select" id="tel3_lada" onchange="updateTelCombined('tel3')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel3')" onblur="updateTelCombined('tel3')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Inicio contrato</label><input class="field-input" type="date" name="FiscalRentado_inicio"></div>
+        <div class="field-group"><label class="field-label">Término contrato</label><input class="field-input" type="date" name="FiscalRentado_termino"></div>
       </div>
     </div>
 
-    <!-- EQUIPOS PM -->
-    <div class="section-header">
-      <div class="section-icon">🚗</div>
-      <div class="section-title">Equipos / Vehículos Solicitados</div>
-    </div>
-    <div class="section-body">
-      <table class="mini-table">
-        <thead><tr><th>Descripción</th><th>Modelo / Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
-        <tbody id="tblEquiposPM">
-          <tr>
-            <td><input type="text" placeholder="Descripción"></td>
-            <td><input type="number" placeholder="2024" min="2000" max="2030"></td>
-            <td><input type="number" placeholder="$0.00" min="0"></td>
-            <td><input type="text" placeholder="Meses"></td>
-            <td><input type="text" placeholder="Usuario"></td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM')">+ Agregar equipo</button>
-      <div class="note-box" style="margin-top:14px">
-        <strong>Nota:</strong> Los equipos son para uso exclusivo del solicitante. No podrán ser subarrendados a terceros ni modificados sin autorización expresa del arrendador.
-      </div>
-    </div>
-
-    <!-- AVAL PM -->
-    <div class="section-header">
-      <div class="section-icon">🪪</div>
-      <div class="section-title">Datos del Accionista – Aval</div>
-    </div>
+    <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group col-full">
-          <label class="field-label">Nombre completo<span class="req">*</span></label>
-          <input class="field-input" type="text" placeholder="Nombre del accionista" required>
-        </div>
-        <div class="field-group">
-          <label class="field-label">R.F.C.</label>
-          <input class="field-input" type="text" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave" maxlength="13">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Lugar y fecha de nacimiento</label>
-          <input class="field-input" type="text" placeholder="Ciudad, DD/MM/AAAA">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Profesión</label>
-          <input class="field-input" type="text" placeholder="Profesión">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Puesto en la empresa</label>
-          <input class="field-input" type="text" placeholder="Cargo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Antigüedad en la empresa</label>
-          <input class="field-input" type="text" placeholder="Ej. 3 años">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Email</label>
-          <input class="field-input" type="email" placeholder="correo@ejemplo.com">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono particular</label>
-          <input type="hidden" name="tel_tel14_combined" id="tel14_combined">
+        <div class="field-group"><label class="field-label">Lugar y fecha de nacimiento<span class="req">*</span></label><input class="field-input" type="text" name="Nacimiento_PF" placeholder="Ciudad, DD/MM/AAAA" required></div>
+        <div class="field-group"><label class="field-label">Profesión</label><input class="field-input" type="text" name="Profesion_PF"></div>
+        <div class="field-group"><label class="field-label">Puesto en el negocio</label><input class="field-input" type="text" name="Puesto_PF" placeholder="Director, Propietario..."></div>
+        <div class="field-group"><label class="field-label">Antigüedad en el negocio</label><input class="field-input" type="text" name="Antiguedad_PF" placeholder="Ej. 5 años"></div>
+        <div class="field-group"><label class="field-label">Email<span class="req">*</span></label><input class="field-input" type="email" name="Email_PF" required></div>
+        <div class="field-group"><label class="field-label">Teléfono particular</label><input type="hidden" name="Tel_particular_PF" id="tel4_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')"></select>
-            <input class="field-input tel-number" type="tel" id="tel14_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel14')" onblur="updateTelCombined('tel14')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono celular</label>
-          <input type="hidden" name="tel_tel15_combined" id="tel15_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')"></select>
-            <input class="field-input tel-number" type="tel" id="tel15_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel15')" onblur="updateTelCombined('tel15')">
-          </div>
-        </div>
-        <div class="field-group col-full">
-          <label class="field-label">Estado civil<span class="req">*</span></label>
+            <select class="lada-select" id="tel4_lada" onchange="updateTelCombined('tel4')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel4')" onblur="updateTelCombined('tel4')">
+          </div></div>
+        <div class="field-group col-full"><label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="ecPM" value="sep"><div class="radio-dot"></div>Casado(a) – Sep. de bienes</label>
-            <label class="radio-pill"><input type="radio" name="ecPM" value="man"><div class="radio-dot"></div>Casado(a) – Bienes mancomunados</label>
-            <label class="radio-pill"><input type="radio" name="ecPM" value="sol"><div class="radio-dot"></div>Soltero(a)</label>
-            <label class="radio-pill"><input type="radio" name="ecPM" value="div"><div class="radio-dot"></div>Divorciado(a)</label>
-            <label class="radio-pill"><input type="radio" name="ecPM" value="viu"><div class="radio-dot"></div>Viudo(a)</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
           </div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Nombre del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">RFC del cónyuge</label>
-          <input class="field-input" type="text" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" placeholder="RFC con homoclave">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Lugar de nacimiento del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Ciudad, estado">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Ocupación del cónyuge</label>
-          <input class="field-input" type="text" placeholder="Ocupación">
-        </div>
+        <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Conyuge_nombre_PF"></div>
+        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Conyuge_RFC_PF" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
+    </div>
 
+    <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
+    <div class="section-body">
+      <table class="mini-table"><thead><tr><th>Descripción</th><th>Modelo/Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+      <tbody id="tblEquiposPF">
+        <tr><td><input type="text" name="Eq1_desc"></td><td><input type="number" name="Eq1_anio" placeholder="2025"></td><td><input type="number" name="Eq1_valor" placeholder="$0"></td><td><input type="text" name="Eq1_plazo" placeholder="Meses"></td><td><input type="text" name="Eq1_usuario"></td></tr>
+      </tbody></table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
+    </div>
+
+    <div class="section-header"><div class="section-icon">👥</div><div class="section-title">Referencias Personales</div></div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full"><label class="field-label">Referencia 1</label><input class="field-input" type="text" name="Ref1_nombre_PF" placeholder="Nombre completo"></div>
+        <div class="field-group"><label class="field-label">Parentesco</label><input class="field-input" type="text" name="Ref1_parentesco_PF"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Ref1_tel_PF" id="tel5_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel5_lada" onchange="updateTelCombined('tel5')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel5')" onblur="updateTelCombined('tel5')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Ref1_cel_PF" id="tel6_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel6_lada" onchange="updateTelCombined('tel6')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel6')" onblur="updateTelCombined('tel6')">
+          </div></div>
+        <div class="divider col-full"></div>
+        <div class="field-group col-full"><label class="field-label">Referencia 2</label><input class="field-input" type="text" name="Ref2_nombre_PF" placeholder="Nombre completo"></div>
+        <div class="field-group"><label class="field-label">Parentesco</label><input class="field-input" type="text" name="Ref2_parentesco_PF"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Ref2_tel_PF" id="tel7_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel7_lada" onchange="updateTelCombined('tel7')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel7')" onblur="updateTelCombined('tel7')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Ref2_cel_PF" id="tel8_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel8_lada" onchange="updateTelCombined('tel8')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel8')" onblur="updateTelCombined('tel8')">
+          </div></div>
+      </div>
+    </div>
+
+    <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita al Negocio</div></div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group"><label class="field-label">Nombre</label><input class="field-input" type="text" name="Visita_nombre_PF"></div>
+        <div class="field-group"><label class="field-label">Puesto</label><input class="field-input" type="text" name="Visita_puesto_PF"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Visita_tel_PF" id="tel9_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel9_lada" onchange="updateTelCombined('tel9')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel9')" onblur="updateTelCombined('tel9')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Visita_cel_PF" id="tel10_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel10_lada" onchange="updateTelCombined('tel10')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel10')" onblur="updateTelCombined('tel10')">
+          </div></div>
+      </div>
+    </div>
+  </form>
+
+  <!-- ===== FORM PERSONA MORAL ===== -->
+  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
+    <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Moral | AVA">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="Tipo_Solicitud" value="Persona Moral PM">
+
+    <div class="section-header"><div class="section-icon">🏢</div><div class="section-title">Datos de la Empresa</div></div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full"><label class="field-label">Razón social<span class="req">*</span></label><input class="field-input" type="text" name="RazonSocial" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.<span class="req">*</span></label><input class="field-input" type="text" name="RFC_PM" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13" required></div>
+        <div class="field-group"><label class="field-label">Actividad principal</label><input class="field-input" type="text" name="Actividad_PM"></div>
+        <div class="field-group col-full"><label class="field-label">Régimen fiscal<span class="req">*</span></label><input class="field-input" type="text" name="Regimen_PM" required></div>
+        <div class="field-group"><label class="field-label">Nombre comercial</label><input class="field-input" type="text" name="NombreComercial_PM"></div>
+        <div class="field-group"><label class="field-label">Fundador</label><input class="field-input" type="text" name="Fundador_PM"></div>
+        <div class="field-group"><label class="field-label">Fecha de inicio</label><input class="field-input" type="date" name="FechaInicio_PM"></div>
+        <div class="field-group"><label class="field-label">No. empleados</label><input class="field-input" type="number" name="Empleados_PM" min="0"></div>
+        <div class="field-group col-full"><label class="field-label">Sitio web / Facebook</label><input class="field-input" type="text" name="Web_PM" placeholder="https://"></div>
+      </div>
+      <div class="sub-section-label">Sector</div>
+      <div class="check-group">
+        <label class="check-pill"><input type="checkbox" name="SectorPM_Manufactura" value="Manufactura"><div class="check-box"></div>Manufactura</label>
+        <label class="check-pill"><input type="checkbox" name="SectorPM_Servicios" value="Servicios"><div class="check-box"></div>Servicios</label>
+        <label class="check-pill"><input type="checkbox" name="SectorPM_ComercioMayor" value="Comercio al por mayor"><div class="check-box"></div>Comercio al por mayor</label>
+        <label class="check-pill"><input type="checkbox" name="SectorPM_Menudeo" value="Comercio al menudeo"><div class="check-box"></div>Comercio al menudeo</label>
+        <label class="check-pill"><input type="checkbox" name="SectorPM_Construccion" value="Construcción"><div class="check-box"></div>Construcción</label>
+      </div>
+      <div class="field-grid" style="margin-top:18px">
+        <div class="field-group"><label class="field-label">Cuenta CLABE<span class="req">*</span></label><input class="field-input" type="text" name="CLABE_PM" maxlength="18" required></div>
+        <div class="field-group"><label class="field-label">Banco</label><input class="field-input" type="text" name="Banco_PM"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Tel_PM" id="tel11_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel11_lada" onchange="updateTelCombined('tel11')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel11')" onblur="updateTelCombined('tel11')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Cel_PM" id="tel12_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel12_lada" onchange="updateTelCombined('tel12')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel12')" onblur="updateTelCombined('tel12')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Correo electrónico</label><input class="field-input" type="email" name="Email_PM"></div>
+      </div>
+      <div class="sub-section-label">Accionistas</div>
+      <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Participación %</th><th>RFC</th></tr></thead>
+      <tbody id="tblAccionistas">
+        <tr><td><input type="text" name="Acc1_nombre"></td><td><input type="number" name="Acc1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc1_rfc"></td></tr>
+        <tr><td><input type="text" name="Acc2_nombre"></td><td><input type="number" name="Acc2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc2_rfc"></td></tr>
+      </tbody></table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
+    </div>
+
+    <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal de la Empresa</div></div>
+    <div class="section-body">
+      <div class="field-grid thirds">
+        <div class="field-group col-full"><label class="field-label">Calle<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_calle" required></div>
+        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="FiscalPM_noext"></div>
+        <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="FiscalPM_noint"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="FiscalPM_colonia"></div>
+        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp2" name="FiscalPM_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group cp-colonia-group" id="colonias-cp2-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp2"></span></div>
+        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="FiscalPM_ciudad"></div>
+        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="FiscalPM_estado"></div>
+      </div>
+    </div>
+
+    <div class="section-header"><div class="section-icon">🚗</div><div class="section-title">Equipos / Vehículos Solicitados</div></div>
+    <div class="section-body">
+      <table class="mini-table"><thead><tr><th>Descripción</th><th>Modelo/Año</th><th>Valor (IVA incl.)</th><th>Plazo</th><th>Usuario</th></tr></thead>
+      <tbody id="tblEquiposPM">
+        <tr><td><input type="text" name="Eq1PM_desc"></td><td><input type="number" name="Eq1PM_anio" placeholder="2025"></td><td><input type="number" name="Eq1PM_valor"></td><td><input type="text" name="Eq1PM_plazo"></td><td><input type="text" name="Eq1PM_usuario"></td></tr>
+      </tbody></table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPM')">+ Agregar equipo</button>
+    </div>
+
+    <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos del Accionista / Aval</div></div>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field-group col-full"><label class="field-label">Nombre completo<span class="req">*</span></label><input class="field-input" type="text" name="Aval_nombre" required></div>
+        <div class="field-group"><label class="field-label">R.F.C.</label><input class="field-input" type="text" name="Aval_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+        <div class="field-group"><label class="field-label">Nacimiento (lugar y fecha)</label><input class="field-input" type="text" name="Aval_nacimiento" placeholder="Ciudad, DD/MM/AAAA"></div>
+        <div class="field-group"><label class="field-label">Cargo en la empresa</label><input class="field-input" type="text" name="Aval_puesto"></div>
+        <div class="field-group"><label class="field-label">Email</label><input class="field-input" type="email" name="Aval_email"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Aval_tel" id="tel14_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel14_lada" onchange="updateTelCombined('tel14')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel14')" onblur="updateTelCombined('tel14')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Aval_cel" id="tel15_combined">
+          <div class="tel-combo">
+            <select class="lada-select" id="tel15_lada" onchange="updateTelCombined('tel15')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel15')" onblur="updateTelCombined('tel15')">
+          </div></div>
+        <div class="field-group col-full"><label class="field-label">Estado civil</label>
+          <div class="radio-group">
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</label>
+            <label class="radio-pill"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</label>
+          </div>
+        </div>
+        <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_nombre"></div>
+        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_RFC" data-rfc="true" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+      </div>
       <div class="sub-section-label">Domicilio Particular del Aval</div>
       <div class="field-grid thirds">
-        <div class="field-group col-2">
-          <label class="field-label">Calle</label>
-          <input class="field-input" type="text" placeholder="Calle">
-        </div>
-        <div class="field-group">
-          <label class="field-label">No. Exterior</label>
-          <input class="field-input" type="text" placeholder="No. Ext">
-        </div>
-        <div class="field-group">
-          <label class="field-label">No. Interior</label>
-          <input class="field-input" type="text" placeholder="No. Int">
-        </div>
-        <div class="field-group col-2">
-          <label class="field-label">Colonia / Fraccionamiento</label>
-          <input class="field-input" type="text" placeholder="Colonia">
-        </div>
-        <div class="field-group">
-          <label class="field-label">C.P.</label>
-          <input class="field-input cp-input" type="text" id="cp3" placeholder="00000" maxlength="5" autocomplete="off" oninput="handleCPInput(this)">
-        </div>
-        <div class="field-group cp-colonia-group" id="colonias-cp3-wrap" style="display:none">
-          <label class="field-label">Colonia / Asentamiento<span class="req">*</span></label>
-          <select class="field-input cp-colonia-select" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')">
-            <option value="">-- Selecciona colonia --</option>
-          </select>
-          <span class="field-hint" id="hint-cp3"></span>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Ciudad</label>
-          <input class="field-input" type="text" placeholder="Ciudad">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Estado</label>
-          <input class="field-input" type="text" placeholder="Estado">
-        </div>
-      </div>
-
-      <div class="sub-section-label">Referencias Personales del Aval</div>
-      <div class="field-grid">
-        <div class="field-group col-full">
-          <label class="field-label">Referencia 1 – Nombre completo</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Parentesco</label>
-          <input class="field-input" type="text" placeholder="Familiar / Conocido">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel16_combined" id="tel16_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel16_lada" onchange="updateTelCombined('tel16')"></select>
-            <input class="field-input tel-number" type="tel" id="tel16_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel16')" onblur="updateTelCombined('tel16')">
-          </div>
-        </div>
-        <div class="divider col-full"></div>
-        <div class="field-group col-full">
-          <label class="field-label">Referencia 2 – Nombre completo</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Parentesco</label>
-          <input class="field-input" type="text" placeholder="Familiar / Conocido">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel17_combined" id="tel17_combined">
-          <div class="tel-combo">
-            <select class="field-input lada-select" id="tel17_lada" onchange="updateTelCombined('tel17')"></select>
-            <input class="field-input tel-number" type="tel" id="tel17_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel17')" onblur="updateTelCombined('tel17')">
-          </div>
-        </div>
+        <div class="field-group col-full"><label class="field-label">Calle</label><input class="field-input" type="text" name="AvalDom_calle"></div>
+        <div class="field-group"><label class="field-label">No. Ext.</label><input class="field-input" type="text" name="AvalDom_noext"></div>
+        <div class="field-group"><label class="field-label">No. Int.</label><input class="field-input" type="text" name="AvalDom_noint"></div>
+        <div class="field-group col-full"><label class="field-label">Colonia</label><input class="field-input" type="text" name="AvalDom_colonia"></div>
+        <div class="field-group"><label class="field-label">C.P.</label><input class="field-input cp-input" type="text" id="cp3" name="AvalDom_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)"></div>
+        <div class="field-group cp-colonia-group" id="colonias-cp3-wrap" style="display:none"><label class="field-label">Asentamiento</label><select class="field-input" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')"><option>-- Selecciona --</option></select><span class="field-hint" id="hint-cp3"></span></div>
+        <div class="field-group"><label class="field-label">Ciudad</label><input class="field-input" type="text" name="AvalDom_ciudad"></div>
+        <div class="field-group"><label class="field-label">Estado</label><input class="field-input" type="text" name="AvalDom_estado"></div>
       </div>
     </div>
 
-    <!-- VISITA PM -->
-    <div class="section-header">
-      <div class="section-icon">📋</div>
-      <div class="section-title">Contacto para Visita a la Empresa</div>
-    </div>
+    <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita a la Empresa</div></div>
     <div class="section-body">
       <div class="field-grid">
-        <div class="field-group">
-          <label class="field-label">Nombre del contacto</label>
-          <input class="field-input" type="text" placeholder="Nombre completo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Puesto</label>
-          <input class="field-input" type="text" placeholder="Cargo">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="hidden" name="tel_tel18_combined" id="tel18_combined">
+        <div class="field-group"><label class="field-label">Nombre</label><input class="field-input" type="text" name="Visita_nombre_PM"></div>
+        <div class="field-group"><label class="field-label">Puesto</label><input class="field-input" type="text" name="Visita_puesto_PM"></div>
+        <div class="field-group"><label class="field-label">Teléfono</label><input type="hidden" name="Visita_tel_PM" id="tel18_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')"></select>
-            <input class="field-input tel-number" type="tel" id="tel18_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel18')" onblur="updateTelCombined('tel18')">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Celular</label>
-          <input type="hidden" name="tel_tel19_combined" id="tel19_combined">
+            <select class="lada-select" id="tel18_lada" onchange="updateTelCombined('tel18')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel18')" onblur="updateTelCombined('tel18')">
+          </div></div>
+        <div class="field-group"><label class="field-label">Celular</label><input type="hidden" name="Visita_cel_PM" id="tel19_combined">
           <div class="tel-combo">
-            <select class="field-input lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')"></select>
-            <input class="field-input tel-number" type="tel" id="tel19_num" placeholder="(55) 0000-0000" oninput="updateTelCombined('tel19')" onblur="updateTelCombined('tel19')">
-          </div>
-        </div>
+            <select class="lada-select" id="tel19_lada" onchange="updateTelCombined('tel19')" title="Código de país"></select>
+            <input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="updateTelCombined('tel19')" onblur="updateTelCombined('tel19')">
+          </div></div>
       </div>
     </div>
-  </form><!-- END formPM -->
+  </form>
 
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
     <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de México, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Para más información consulte el Aviso de Privacidad en <strong>www.finbeabc.com.mx</strong> o escriba a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1262607b6473717b76737652747b7c70777370713c717d7f3c7f6a">[email&#160;protected]</a></strong>.
+      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong>www.finbeabc.com.mx</strong> / <strong>privacidad@finbeabc.com.mx</strong>
     </div>
     <div class="field-grid" style="margin-bottom:20px">
-      <div class="field-group">
-        <label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label>
-        <input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA">
-      </div>
-      <div class="field-group">
-        <label class="field-label">Nombre del firmante<span class="req">*</span></label>
-        <input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo">
-      </div>
+      <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
+      <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo"></div>
     </div>
     <div class="declaration-wrap" id="declarationWrap">
       <label class="declaration-label">
         <input type="checkbox" id="declarationCheck" onchange="toggleDeclaration(this)">
         <div class="declaration-box">
-          <div class="declaration-check-icon" id="declarationCheckIcon">
+          <div class="declaration-check-icon">
             <svg viewBox="0 0 16 12" fill="none"><path d="M1 6l4.5 4.5L15 1" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="declaration-text">
             <strong>Declaración de veracidad y autenticidad</strong>
-            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada en esta solicitud es verídica, auténtica y copia fiel de los documentos originales. Entiendo y acepto que cualquier dato falso o documento apócrifo puede derivar en consecuencias legales. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad con el contenido de esta solicitud, otorgando a esta acción el mismo valor jurídico que mi firma autógrafa, de conformidad con el artículo 89 del Código de Comercio y la NOM-151-SCFI-2016.</span>
+            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada es auténtica. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad otorgando a esta acción el mismo valor jurídico que mi firma autógrafa, de conformidad con el artículo 89 del Código de Comercio y la NOM-151-SCFI-2016.</span>
           </div>
         </div>
       </label>
@@ -1719,538 +603,341 @@
       <span id="btnText">Confirma la declaración para enviar</span>
     </button>
     <p class="recaptcha-notice">
-      Este sitio está protegido por reCAPTCHA v3 de Google.
-      <a href="https://policies.google.com/privacy" target="_blank">Política de Privacidad</a> y
-      <a href="https://policies.google.com/terms" target="_blank">Términos de Servicio</a> de Google.
+      Protegido por <a href="https://policies.google.com/privacy" target="_blank">reCAPTCHA</a> de Google.
+      <a href="https://policies.google.com/terms" target="_blank">Términos de Servicio</a>.
     </p>
   </div>
 
 </main>
 
-<!-- WhatsApp -->
-<a href="https://wa.me/525525374608?text=Hola%20AVA%2C%20tengo%20una%20consulta%20sobre%20Arrendamiento%20Puro"
-   class="whatsapp-float" target="_blank" aria-label="Chatear por WhatsApp con AVA">
-  <span class="whatsapp-tooltip">💬 ¿Dudas? Chatea con nosotros</span>
-  <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
-  </svg>
+<a href="https://wa.me/525525374608?text=Hola%20AVA" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+  <svg class="whatsapp-icon" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
 </a>
 
-<!-- SUCCESS -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon">✅</div>
-    <div class="success-title">¡Solicitud enviada!</div>
-    <div class="success-sub">Tu solicitud de arrendamiento ha sido recibida. Un ejecutivo de promoción se pondrá en contacto contigo en breve.<br><br>📞 <strong>33 3563 8383</strong></div>
+    <div class="success-title">Solicitud enviada!</div>
+    <div class="success-sub">Tu solicitud fue recibida. Un ejecutivo te contactará pronto.<br><br>📞 <strong>33 3563 8383</strong></div>
     <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">Cerrar</button>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ============================================================
-// TYPE SELECTOR — FIX: plain functions, no label/input conflict
-// ============================================================
-let currentType = null;
+<script>
+// =============================================================
+// reCAPTCHA v3 — PATRON CORRECTO
+// El script fue cargado SINCRONAMENTE en el <head> (sin async/defer).
+// Esto garantiza que `grecaptcha` esta disponible aqui.
+// grecaptcha.ready() encola el callback hasta que el runtime este listo.
+// =============================================================
+var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
+var recaptchaReady = false;
 
+// initRecaptcha es llamado por Google via ?onload=initRecaptcha
+// Se ejecuta cuando el API de reCAPTCHA v3 esta completamente lista.
+function initRecaptcha() {
+  recaptchaReady = true;
+  var decl = document.getElementById('declarationCheck');
+  var btn  = document.getElementById('mainSubmitBtn');
+  if (decl && decl.checked && btn) {
+    btn.disabled = false;
+    document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
+  }
+}
+
+// =============================================================
+// TIPO SELECTOR
+// =============================================================
+var currentType = null;
 function selectType(type) {
   currentType = type;
-  document.getElementById('btnPF').classList.toggle('active', type === 'PF');
-  document.getElementById('btnPM').classList.toggle('active', type === 'PM');
-  document.getElementById('reqPF').classList.toggle('show', type === 'PF');
-  document.getElementById('reqPM').classList.toggle('show', type === 'PM');
-  document.getElementById('formPF').classList.toggle('show', type === 'PF');
-  document.getElementById('formPM').classList.toggle('show', type === 'PM');
+  ['PF','PM'].forEach(function(t) {
+    document.getElementById('btn'+t).classList.toggle('active', t===type);
+    document.getElementById('req'+t).classList.toggle('show', t===type);
+    document.getElementById('form'+t).classList.toggle('show', t===type);
+  });
   document.getElementById('submitArea').classList.add('show');
-  updateProgress();
-  setTimeout(function() {
-    document.getElementById('req' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
 }
 
-function updateProgress() {
-  var form = currentType === 'PF' ? document.getElementById('formPF') : document.getElementById('formPM');
-  if (!form) return;
-  var inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"]');
-  var filled = 0;
-  inputs.forEach(function(i) { if (i.value.trim()) filled++; });
-  var pct = Math.min(Math.round((filled / inputs.length) * 100), 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-}
-
-// Check/radio pills
+// Pill interactivity
 document.addEventListener('click', function(e) {
-  var pill = e.target.closest('.check-pill');
-  if (pill) {
-    pill.classList.toggle('selected');
-    var cb = pill.querySelector('input[type="checkbox"]');
-    if (cb) cb.checked = pill.classList.contains('selected');
-  }
-  var radio = e.target.closest('.radio-pill');
-  if (radio) {
-    var rInput = radio.querySelector('input[type="radio"]');
-    var name = rInput ? rInput.name : null;
-    if (name) {
-      document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
-        var p = r.closest('.radio-pill');
-        if (p) p.classList.remove('selected');
-      });
-    }
-    radio.classList.add('selected');
-    if (rInput) rInput.checked = true;
+  var cp = e.target.closest('.check-pill');
+  if (cp) { cp.classList.toggle('selected'); var cb=cp.querySelector('input[type=checkbox]'); if(cb) cb.checked=cp.classList.contains('selected'); }
+  var rp = e.target.closest('.radio-pill');
+  if (rp) {
+    var ri=rp.querySelector('input[type=radio]');
+    if (ri&&ri.name) document.querySelectorAll('input[name="'+ri.name+'"]').forEach(function(r){ var p=r.closest('.radio-pill'); if(p) p.classList.remove('selected'); });
+    rp.classList.add('selected'); if(ri) ri.checked=true;
   }
 });
 
-document.addEventListener('input', updateProgress);
-
-// ============================================================
-// INMUEBLE TOGGLE — FIX: explicit propio/rentado ids, no string mangling
-// ============================================================
-function toggleInmueble(toggleId, type, propioId, rentadoId) {
-  var toggle = document.getElementById(toggleId);
-  toggle.querySelectorAll('.inmueble-opt').forEach(function(b) { b.classList.remove('active'); });
-  event.currentTarget.classList.add('active');
-
-  var propioEl  = document.getElementById(propioId);
-  var rentadoEl = document.getElementById(rentadoId);
-
-  if (type === 'propio') {
-    if (propioEl)  { propioEl.style.display  = ''; }
-    if (rentadoEl) { rentadoEl.style.display = 'none'; }
-  } else {
-    if (propioEl)  { propioEl.style.display  = 'none'; }
-    if (rentadoEl) { rentadoEl.style.display = ''; }
-  }
+function toggleInmueble(toggleId, btn, showId, hideId) {
+  document.getElementById(toggleId).querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var s=document.getElementById(showId), h=document.getElementById(hideId);
+  if(s) s.style.display=''; if(h) h.style.display='none';
 }
 
 function addRow(tbodyId) {
-  var tbody = document.getElementById(tbodyId);
-  var firstRow = tbody.querySelector('tr');
-  if (!firstRow) return;
-  var newRow = firstRow.cloneNode(true);
-  newRow.querySelectorAll('input').forEach(function(i) { i.value = ''; });
-  tbody.appendChild(newRow);
+  var tb=document.getElementById(tbodyId), fr=tb && tb.querySelector('tr');
+  if(!fr) return;
+  var row=fr.cloneNode(true);
+  row.querySelectorAll('input').forEach(function(i){ i.value=''; });
+  tb.appendChild(row);
 }
 
-// ============================================================
-// RFC VALIDATION
-// ============================================================
-var RFC_PATTERN = /^([A-ZÑ&]{3,4})(\d{6})([A-Z\d]{3})$/i;
-
-function validateRFC(el) {
-  var val = el.value.toUpperCase().trim();
-  el.value = val;
-  var hint = el.parentElement.querySelector('.rfc-hint');
-  if (!hint) {
-    hint = document.createElement('span');
-    hint.className = 'rfc-hint field-hint';
-    el.parentElement.appendChild(hint);
-  }
-  if (val.length === 0) {
-    el.classList.remove('rfc-valid','rfc-error');
-    hint.textContent = '';
-    return;
-  }
-  var valid = RFC_PATTERN.test(val) && (val.length === 12 || val.length === 13);
-  el.classList.toggle('rfc-valid', valid);
-  el.classList.toggle('rfc-error', !valid);
-  hint.classList.toggle('ok', valid);
-  hint.classList.toggle('err', !valid);
-  if (valid) {
-    hint.textContent = '✓ RFC válido';
-  } else if (val.length < 12) {
-    hint.textContent = val.length + '/13 caracteres — formato: 4 letras + 6 dígitos + 3 homoclave';
-  } else {
-    hint.textContent = '✗ Formato inválido. Ej: XAXX010101000 (PF) o AAA010101AAA (PM)';
-  }
-}
-
-// ============================================================
-// DECLARATION CHECKBOX
-// ============================================================
-var recaptchaReady = false;
-
+// =============================================================
+// DECLARATION + SUBMIT STATE
+// =============================================================
 function toggleDeclaration(checkbox) {
-  var wrap = document.getElementById('declarationWrap');
-  var btn  = document.getElementById('mainSubmitBtn');
+  var wrap=document.getElementById('declarationWrap');
+  var btn=document.getElementById('mainSubmitBtn');
   wrap.classList.toggle('checked', checkbox.checked);
-  if (checkbox.checked && recaptchaReady) {
+  if (checkbox.checked) {
     btn.disabled = false;
     document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-  } else if (checkbox.checked && !recaptchaReady) {
-    document.getElementById('btnText').textContent = '⏳ Cargando protección...';
   } else {
     btn.disabled = true;
     document.getElementById('btnText').textContent = 'Confirma la declaración para enviar';
   }
 }
 
-// ============================================================
-// reCAPTCHA
-// ============================================================
-var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
-
-// ── Callback oficial de reCAPTCHA v3 (llamado automáticamente por Google) ──
-function onRecaptchaLoad() {
-  grecaptcha.ready(function() {
-    recaptchaReady = true;
-    console.log("reCAPTCHA v3 listo");
-    // Si el usuario ya marcó la declaración antes de que cargara reCAPTCHA,
-    // habilitamos el botón ahora.
-    var declaration = document.getElementById('declarationCheck');
-    var btn = document.getElementById('mainSubmitBtn');
-    if (btn && declaration && declaration.checked) {
-      btn.disabled = false;
-      document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-    }
-  });
-}
-// Fallback: si por algún motivo onload no se disparó, lo intentamos manualmente
-function initRecaptchaFallback() {
-  if (recaptchaReady) return;
-  if (typeof grecaptcha !== 'undefined') {
-    onRecaptchaLoad();
-  } else {
-    setTimeout(initRecaptchaFallback, 500);
-  }
-}
-
+// =============================================================
+// SUBMIT
+// =============================================================
 function triggerFormSubmit() {
-  if (!currentType) {
-    alert('Por favor selecciona el tipo de solicitante: Persona Física o Persona Moral.');
-    return;
+  if (!currentType) { alert('Selecciona el tipo de solicitante.'); return; }
+  var decl=document.getElementById('declarationCheck');
+  if (!decl||!decl.checked) {
+    var dw=document.getElementById('declarationWrap');
+    if(dw){ dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
+    alert('Confirma la declaración antes de enviar.'); return;
   }
-  if (!recaptchaReady) {
-    alert('La protección reCAPTCHA aún está cargando. Por favor espera un momento.');
-    return;
-  }
-  var declaration = document.getElementById('declarationCheck');
-  if (!declaration || !declaration.checked) {
-    var dw = document.getElementById('declarationWrap');
-    if (dw) { dw.scrollIntoView({ behavior: 'smooth', block: 'center' }); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); }, 1000); }
-    alert('Debes confirmar la declaración de veracidad antes de enviar.');
-    return;
-  }
-
-  var form = document.getElementById('form' + currentType);
-
-  // Validate required fields
-  var valid = true;
+  var form=document.getElementById('form'+currentType);
+  var valid=true;
   form.querySelectorAll('[required]').forEach(function(inp) {
-    if (!inp.value.trim()) {
-      inp.style.borderColor = 'var(--error)';
-      valid = false;
-      inp.addEventListener('input', function(){ inp.style.borderColor = ''; }, { once: true });
-    }
+    if(!inp.value.trim()){ inp.style.borderColor='var(--error)'; valid=false; inp.addEventListener('input',function(){ inp.style.borderColor=''; },{once:true}); }
   });
-
-  var lugarFecha = document.getElementById('lugar_fecha');
-  var firmante   = document.getElementById('nombre_firmante');
-  [lugarFecha, firmante].forEach(function(inp) {
-    if (!inp.value.trim()) {
-      inp.style.borderColor = 'var(--error)';
-      valid = false;
-      inp.addEventListener('input', function(){ inp.style.borderColor = ''; }, { once: true });
-    }
+  var lf=document.getElementById('lugar_fecha'), nf=document.getElementById('nombre_firmante');
+  [lf,nf].forEach(function(inp){
+    if(!inp.value.trim()){ inp.style.borderColor='var(--error)'; valid=false; inp.addEventListener('input',function(){ inp.style.borderColor=''; },{once:true}); }
   });
+  if(!valid){ (document.querySelector('input[style*="var(--error)"]') || lf).scrollIntoView({behavior:'smooth',block:'center'}); return; }
 
-  if (!valid) {
-    var firstInvalid = document.querySelector('input[style*="var(--error)"]') || lugarFecha;
-    if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
+  var btn=document.getElementById('mainSubmitBtn');
+  btn.disabled=true;
+  document.getElementById('btnText').textContent='Verificando seguridad...';
+
+  function injectHidden(name, value) {
+    var old=form.querySelector('input[name="'+name+'"]'); if(old) old.remove();
+    var h=document.createElement('input'); h.type='hidden'; h.name=name; h.value=value; form.appendChild(h);
+  }
+  injectHidden('Lugar_Fecha', lf.value);
+  injectHidden('Firmante', nf.value);
+
+  function doSubmit(token) {
+    if(token) injectHidden('g-recaptcha-response', token);
+    form.submit();
   }
 
-  var btn = document.getElementById('mainSubmitBtn');
-  btn.disabled = true;
-  document.getElementById('btnText').textContent = '🔒 Verificando seguridad...';
-
-  // Si reCAPTCHA aún no cargó, intentar inicializar y reintentar en 1s
-  if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
-    document.getElementById('btnText').textContent = '⏳ Esperando reCAPTCHA...';
-    // Intentar forzar la inicialización
-    if (typeof grecaptcha !== 'undefined' && !recaptchaReady) {
-      onRecaptchaLoad();
+  // Ejecutar con polling de 100ms si aun no esta listo
+  function executeRecaptcha(attempts) {
+    attempts = attempts || 0;
+    if (typeof grecaptcha === 'undefined' || !recaptchaReady) {
+      if (attempts > 30) { // 3 segundos maximos
+        console.warn('reCAPTCHA no disponible, enviando sin token');
+        doSubmit(null);
+        return;
+      }
+      setTimeout(function(){ executeRecaptcha(attempts + 1); }, 100);
+      return;
     }
-    setTimeout(function() {
-      btn.disabled = false;
-      if (recaptchaReady) {
-        document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-        triggerFormSubmit();
-      } else {
-        document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-        alert('reCAPTCHA no disponible. Verifica tu conexión a internet y recarga la página.');
-      }
-    }, 1500);
-    return;
+    grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
+      .then(function(token){ doSubmit(token); })
+      .catch(function(err){ console.warn('reCAPTCHA error:', err); doSubmit(null); });
   }
-  grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_arrendamiento' })
-    .then(function(token) {
-      function injectField(name, value) {
-        var old = form.querySelector('input[name="' + name + '"]');
-        if (old) old.remove();
-        var inp = document.createElement('input');
-        inp.type = 'hidden';
-        inp.name = name;
-        inp.value = value;
-        form.appendChild(inp);
-      }
-
-      injectField('Lugar_y_Fecha_Elaboracion', lugarFecha.value);
-      injectField('Nombre_Firmante', firmante.value);
-      injectField('g-recaptcha-response', token);
-      injectField('reCAPTCHA_Score_Info', 'Token generado con reCAPTCHA v3 action:submit_arrendamiento');
-
-      // FIX: auto-name inputs — safe regex without literal newlines or unicode ranges
-      var counter = 0;
-      form.querySelectorAll('input:not([type=hidden]):not([name]), select:not([name]), textarea:not([name])').forEach(function(el) {
-        counter++;
-        var label = el.closest('.field-group') ? el.closest('.field-group').querySelector('.field-label') : null;
-        var raw = label ? label.textContent : '';
-        // FIX: replace asterisk and whitespace safely — no literal newlines in regex
-        var labelText = raw.replace(/\*/g, '').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\u00C0-\u024F]/g, '') || ('Campo_' + counter);
-        el.name = labelText || ('Campo_' + counter);
-      });
-
-      form.submit();
-    })
-    .catch(function(err) {
-      console.error('reCAPTCHA error:', err);
-      btn.disabled = false;
-      document.getElementById('btnText').textContent = 'Enviar Solicitud de Arrendamiento →';
-      alert('Error al verificar reCAPTCHA. Por favor recarga la página e intenta de nuevo.');
-    });
+  executeRecaptcha();
 }
 
-// ============================================================
+// =============================================================
+// RFC VALIDATION
+// =============================================================
+var RFC_RE = /^([A-ZÑ&]{3,4})\d{6}[A-Z\d]{3}$/i;
+function validateRFC(el) {
+  var v=el.value.toUpperCase().trim(); el.value=v;
+  var hint=el.parentElement.querySelector('.rfc-hint');
+  if(!hint){ hint=document.createElement('span'); hint.className='rfc-hint field-hint'; el.parentElement.appendChild(hint); }
+  if(!v.length){ el.classList.remove('rfc-valid','rfc-error'); hint.textContent=''; return; }
+  var ok=RFC_RE.test(v)&&(v.length===12||v.length===13);
+  el.classList.toggle('rfc-valid',ok); el.classList.toggle('rfc-error',!ok);
+  hint.classList.toggle('ok',ok); hint.classList.toggle('err',!ok);
+  hint.textContent=ok?'RFC válido':(v.length<12?v.length+'/13 chars':'Formato inválido');
+}
+
+// =============================================================
 // LADAS
-// ============================================================
+// =============================================================
 var LADAS = [
-  { region:"América del Norte", flag:"🇨🇦", name:"Canadá",         code:"+1"   },
-  { region:"América del Norte", flag:"🇲🇽", name:"México",         code:"+52"  },
-  { region:"América del Norte", flag:"🇺🇸", name:"Estados Unidos", code:"+1"   },
-  { region:"América Central",   flag:"🇧🇿", name:"Belice",         code:"+501" },
-  { region:"América Central",   flag:"🇨🇷", name:"Costa Rica",     code:"+506" },
-  { region:"América Central",   flag:"🇸🇻", name:"El Salvador",    code:"+503" },
-  { region:"América Central",   flag:"🇬🇹", name:"Guatemala",      code:"+502" },
-  { region:"América Central",   flag:"🇭🇳", name:"Honduras",       code:"+504" },
-  { region:"América Central",   flag:"🇳🇮", name:"Nicaragua",      code:"+505" },
-  { region:"América Central",   flag:"🇵🇦", name:"Panamá",         code:"+507" },
-  { region:"Caribe",            flag:"🇨🇺", name:"Cuba",           code:"+53"  },
-  { region:"Caribe",            flag:"🇩🇴", name:"Rep. Dominicana",code:"+1-809"},
-  { region:"Caribe",            flag:"🇭🇹", name:"Haití",          code:"+509" },
-  { region:"Caribe",            flag:"🇵🇷", name:"Puerto Rico",    code:"+1-787"},
-  { region:"América del Sur",   flag:"🇦🇷", name:"Argentina",      code:"+54"  },
-  { region:"América del Sur",   flag:"🇧🇴", name:"Bolivia",        code:"+591" },
-  { region:"América del Sur",   flag:"🇧🇷", name:"Brasil",         code:"+55"  },
-  { region:"América del Sur",   flag:"🇨🇱", name:"Chile",          code:"+56"  },
-  { region:"América del Sur",   flag:"🇨🇴", name:"Colombia",       code:"+57"  },
-  { region:"América del Sur",   flag:"🇪🇨", name:"Ecuador",        code:"+593" },
-  { region:"América del Sur",   flag:"🇬🇾", name:"Guyana",         code:"+592" },
-  { region:"América del Sur",   flag:"🇵🇾", name:"Paraguay",       code:"+595" },
-  { region:"América del Sur",   flag:"🇵🇪", name:"Perú",           code:"+51"  },
-  { region:"América del Sur",   flag:"🇸🇷", name:"Surinam",        code:"+597" },
-  { region:"América del Sur",   flag:"🇺🇾", name:"Uruguay",        code:"+598" },
-  { region:"América del Sur",   flag:"🇻🇪", name:"Venezuela",      code:"+58"  },
-  { region:"Europa",            flag:"🇩🇪", name:"Alemania",       code:"+49"  },
-  { region:"Europa",            flag:"🇦🇹", name:"Austria",        code:"+43"  },
-  { region:"Europa",            flag:"🇧🇪", name:"Bélgica",        code:"+32"  },
-  { region:"Europa",            flag:"🇧🇬", name:"Bulgaria",       code:"+359" },
-  { region:"Europa",            flag:"🇭🇷", name:"Croacia",        code:"+385" },
-  { region:"Europa",            flag:"🇩🇰", name:"Dinamarca",      code:"+45"  },
-  { region:"Europa",            flag:"🇸🇰", name:"Eslovaquia",     code:"+421" },
-  { region:"Europa",            flag:"🇸🇮", name:"Eslovenia",      code:"+386" },
-  { region:"Europa",            flag:"🇪🇸", name:"España",         code:"+34"  },
-  { region:"Europa",            flag:"🇪🇪", name:"Estonia",        code:"+372" },
-  { region:"Europa",            flag:"🇫🇮", name:"Finlandia",      code:"+358" },
-  { region:"Europa",            flag:"🇫🇷", name:"Francia",        code:"+33"  },
-  { region:"Europa",            flag:"🇬🇷", name:"Grecia",         code:"+30"  },
-  { region:"Europa",            flag:"🇭🇺", name:"Hungría",        code:"+36"  },
-  { region:"Europa",            flag:"🇮🇪", name:"Irlanda",        code:"+353" },
-  { region:"Europa",            flag:"🇮🇸", name:"Islandia",       code:"+354" },
-  { region:"Europa",            flag:"🇮🇹", name:"Italia",         code:"+39"  },
-  { region:"Europa",            flag:"🇱🇻", name:"Letonia",        code:"+371" },
-  { region:"Europa",            flag:"🇱🇮", name:"Liechtenstein",  code:"+423" },
-  { region:"Europa",            flag:"🇱🇹", name:"Lituania",       code:"+370" },
-  { region:"Europa",            flag:"🇱🇺", name:"Luxemburgo",     code:"+352" },
-  { region:"Europa",            flag:"🇲🇹", name:"Malta",          code:"+356" },
-  { region:"Europa",            flag:"🇳🇱", name:"Países Bajos",   code:"+31"  },
-  { region:"Europa",            flag:"🇵🇱", name:"Polonia",        code:"+48"  },
-  { region:"Europa",            flag:"🇵🇹", name:"Portugal",       code:"+351" },
-  { region:"Europa",            flag:"🇬🇧", name:"Reino Unido",    code:"+44"  },
-  { region:"Europa",            flag:"🇨🇿", name:"Rep. Checa",     code:"+420" },
-  { region:"Europa",            flag:"🇷🇴", name:"Rumanía",        code:"+40"  },
-  { region:"Europa",            flag:"🇷🇺", name:"Rusia",          code:"+7"   },
-  { region:"Europa",            flag:"🇨🇭", name:"Suiza",          code:"+41"  },
-  { region:"Europa",            flag:"🇸🇪", name:"Suecia",         code:"+46"  },
-  { region:"Europa",            flag:"🇺🇦", name:"Ucrania",        code:"+380" },
-  { region:"Asia",              flag:"🇸🇦", name:"Arabia Saudita", code:"+966" },
-  { region:"Asia",              flag:"🇨🇳", name:"China",          code:"+86"  },
-  { region:"Asia",              flag:"🇰🇷", name:"Corea del Sur",  code:"+82"  },
-  { region:"Asia",              flag:"🇦🇪", name:"Emiratos Árabes",code:"+971" },
-  { region:"Asia",              flag:"🇵🇭", name:"Filipinas",      code:"+63"  },
-  { region:"Asia",              flag:"🇮🇳", name:"India",          code:"+91"  },
-  { region:"Asia",              flag:"🇮🇩", name:"Indonesia",      code:"+62"  },
-  { region:"Asia",              flag:"🇮🇱", name:"Israel",         code:"+972" },
-  { region:"Asia",              flag:"🇯🇵", name:"Japón",          code:"+81"  },
-  { region:"Asia",              flag:"🇲🇾", name:"Malasia",        code:"+60"  },
-  { region:"Asia",              flag:"🇵🇰", name:"Pakistán",       code:"+92"  },
-  { region:"Asia",              flag:"🇸🇬", name:"Singapur",       code:"+65"  },
-  { region:"Asia",              flag:"🇹🇭", name:"Tailandia",      code:"+66"  },
-  { region:"Asia",              flag:"🇹🇷", name:"Turquía",        code:"+90"  },
-  { region:"Asia",              flag:"🇻🇳", name:"Vietnam",        code:"+84"  },
-  { region:"África",            flag:"🇿🇦", name:"Sudáfrica",      code:"+27"  },
-  { region:"África",            flag:"🇳🇬", name:"Nigeria",        code:"+234" },
-  { region:"África",            flag:"🇪🇬", name:"Egipto",         code:"+20"  },
-  { region:"África",            flag:"🇲🇦", name:"Marruecos",      code:"+212" },
-  { region:"África",            flag:"🇰🇪", name:"Kenia",          code:"+254" },
-  { region:"Oceanía",           flag:"🇦🇺", name:"Australia",      code:"+61"  },
-  { region:"Oceanía",           flag:"🇳🇿", name:"Nueva Zelanda",  code:"+64"  }
+  {r:'América del Norte',f:'MX',n:'México',c:'+52'},
+  {r:'América del Norte',f:'US',n:'EE.UU.',c:'+1'},
+  {r:'América del Norte',f:'CA',n:'Canadá',c:'+1'},
+  {r:'América Central',f:'GT',n:'Guatemala',c:'+502'},
+  {r:'América Central',f:'BZ',n:'Belice',c:'+501'},
+  {r:'América Central',f:'SV',n:'El Salvador',c:'+503'},
+  {r:'América Central',f:'HN',n:'Honduras',c:'+504'},
+  {r:'América Central',f:'NI',n:'Nicaragua',c:'+505'},
+  {r:'América Central',f:'CR',n:'Costa Rica',c:'+506'},
+  {r:'América Central',f:'PA',n:'Panamá',c:'+507'},
+  {r:'Caribe',f:'CU',n:'Cuba',c:'+53'},
+  {r:'Caribe',f:'DO',n:'Rep. Dominicana',c:'+1-809'},
+  {r:'Caribe',f:'HT',n:'Haití',c:'+509'},
+  {r:'Caribe',f:'PR',n:'Puerto Rico',c:'+1-787'},
+  {r:'América del Sur',f:'AR',n:'Argentina',c:'+54'},
+  {r:'América del Sur',f:'BO',n:'Bolivia',c:'+591'},
+  {r:'América del Sur',f:'BR',n:'Brasil',c:'+55'},
+  {r:'América del Sur',f:'CL',n:'Chile',c:'+56'},
+  {r:'América del Sur',f:'CO',n:'Colombia',c:'+57'},
+  {r:'América del Sur',f:'EC',n:'Ecuador',c:'+593'},
+  {r:'América del Sur',f:'PY',n:'Paraguay',c:'+595'},
+  {r:'América del Sur',f:'PE',n:'Perú',c:'+51'},
+  {r:'América del Sur',f:'UY',n:'Uruguay',c:'+598'},
+  {r:'América del Sur',f:'VE',n:'Venezuela',c:'+58'},
+  {r:'Europa',f:'DE',n:'Alemania',c:'+49'},
+  {r:'Europa',f:'ES',n:'España',c:'+34'},
+  {r:'Europa',f:'FR',n:'Francia',c:'+33'},
+  {r:'Europa',f:'GB',n:'Reino Unido',c:'+44'},
+  {r:'Europa',f:'IT',n:'Italia',c:'+39'},
+  {r:'Europa',f:'PT',n:'Portugal',c:'+351'},
+  {r:'Europa',f:'NL',n:'Países Bajos',c:'+31'},
+  {r:'Europa',f:'BE',n:'Bélgica',c:'+32'},
+  {r:'Europa',f:'CH',n:'Suiza',c:'+41'},
+  {r:'Europa',f:'SE',n:'Suecia',c:'+46'},
+  {r:'Europa',f:'NO',n:'Noruega',c:'+47'},
+  {r:'Europa',f:'PL',n:'Polonia',c:'+48'},
+  {r:'Europa',f:'RU',n:'Rusia',c:'+7'},
+  {r:'Asia',f:'CN',n:'China',c:'+86'},
+  {r:'Asia',f:'JP',n:'Japón',c:'+81'},
+  {r:'Asia',f:'KR',n:'Corea del Sur',c:'+82'},
+  {r:'Asia',f:'IN',n:'India',c:'+91'},
+  {r:'Asia',f:'IL',n:'Israel',c:'+972'},
+  {r:'Oceanía',f:'AU',n:'Australia',c:'+61'},
+  {r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
 ];
 
-function buildLadaOptions(selectEl) {
-  var regions = [];
-  LADAS.forEach(function(l) { if (regions.indexOf(l.region) === -1) regions.push(l.region); });
-  var html = '';
-  regions.forEach(function(region) {
-    var items = LADAS.filter(function(l){ return l.region === region; })
-                     .sort(function(a,b){ return a.name.localeCompare(b.name,'es'); });
-    html += '<optgroup label="── ' + region + ' ──">';
-    items.forEach(function(l) {
-      var sel = l.code === '+52' ? ' selected' : '';
-      html += '<option value="' + l.code + '"' + sel + '>' + l.flag + ' ' + l.name + ' ' + l.code + '</option>';
-    });
-    html += '</optgroup>';
-  });
-  selectEl.innerHTML = html;
+function flag(f) {
+  return f.split('').map(function(c){ return String.fromCodePoint(0x1F1E0-65+c.charCodeAt(0)); }).join('');
 }
 
-function updateTelCombined(uid) {
-  var lada = document.getElementById(uid + '_lada');
-  var num  = document.getElementById(uid + '_num');
-  var combined = document.getElementById(uid + '_combined');
-  if (lada && num && combined) {
-    combined.value = (lada.value + ' ' + num.value).trim();
-  }
+function buildLadaOptions(sel) {
+  var groups = {};
+  LADAS.forEach(function(l){ if(!groups[l.r]) groups[l.r]=[]; groups[l.r].push(l); });
+  Object.keys(groups).forEach(function(r) {
+    var og=document.createElement('optgroup'); og.label=r;
+    groups[r].forEach(function(l) {
+      var op=document.createElement('option');
+      op.value=l.c;
+      op.textContent=flag(l.f)+' '+l.n+' '+l.c;
+      if(l.f==='MX') op.selected=true;
+      og.appendChild(op);
+    });
+    sel.appendChild(og);
+  });
 }
 
 function initAllLadas() {
-  document.querySelectorAll('.lada-select').forEach(function(sel) {
-    buildLadaOptions(sel);
-  });
+  document.querySelectorAll('.lada-select').forEach(function(sel){ buildLadaOptions(sel); });
 }
 
-// ============================================================
-// COPOMEX API
-// ============================================================
-var COPOMEX_TOKEN = '36da398a-1848-44f3-a952-06c9bfb02cc8';
-var COPOMEX_URL   = 'https://api.copomex.com/query/info_cp/';
-var cpCache = {};
+function updateTelCombined(prefix) {
+  var lada=document.getElementById(prefix+'_lada');
+  var num=document.getElementById(prefix+'_num');
+  var out=document.getElementById(prefix+'_combined');
+  if(lada&&num&&out) out.value=(lada.value+' '+num.value).trim();
+}
 
-async function handleCPInput(input) {
-  var val = input.value.replace(/\D/g,'').slice(0,5);
-  input.value = val;
-  var uid = input.id;
-  var coloniaWrap   = document.getElementById('colonias-' + uid + '-wrap');
-  var coloniaSelect = document.getElementById('colonias-' + uid);
-  var hint          = document.getElementById('hint-' + uid);
+// =============================================================
+// COPOMEX
+// =============================================================
+var COPOMEX_TOKEN = '36da398a-1848-4082-8935-c96c22d79e12';
+var cpTimers = {};
 
-  coloniaWrap.style.display = 'none';
-  input.classList.remove('cp-valid','cp-error','cp-loading');
-  clearAutoFill(input);
-
-  if (val.length < 5) return;
-
-  if (cpCache[val]) {
-    renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, cpCache[val]);
-    return;
-  }
-
+function handleCPInput(input) {
+  var uid=input.id;
+  clearTimeout(cpTimers[uid]);
+  input.classList.remove('cp-valid','cp-error');
+  var wrap=document.getElementById('colonias-'+uid+'-wrap');
+  if(wrap) wrap.style.display='none';
+  if(input.value.length<5) return;
   input.classList.add('cp-loading');
-  if (hint) hint.innerHTML = '<span class="cp-spinner"></span> Consultando COPOMEX...';
-
-  try {
-    var res  = await fetch(COPOMEX_URL + val + '?type=simplified&token=' + COPOMEX_TOKEN);
-    var data = await res.json();
-    if (data.error) throw new Error(data.error_message || 'CP no encontrado');
-    cpCache[val] = data.response;
-    renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, data.response);
-  } catch(err) {
-    input.classList.remove('cp-loading');
-    input.classList.add('cp-error');
-    coloniaWrap.style.display = 'none';
-    if (hint) hint.innerHTML = '<span style="color:var(--error)">✗ ' + (err.message || 'CP no válido') + '</span>';
-  }
+  cpTimers[uid]=setTimeout(function(){ fetchCP(input,uid); },500);
 }
 
-function renderCPResult(uid, input, coloniaWrap, coloniaSelect, hint, response) {
-  input.classList.remove('cp-loading');
-  var colonias   = Array.isArray(response.asentamiento) ? response.asentamiento : [response.asentamiento];
-  var municipio  = response.municipio || '';
-  var estado     = response.estado    || '';
-  autoFillSiblings(input, municipio, estado);
-  coloniaSelect.innerHTML = '<option value="">-- Selecciona colonia --</option>';
-  colonias.slice().sort().forEach(function(col) {
-    var opt = document.createElement('option');
-    opt.value = col; opt.textContent = col;
-    coloniaSelect.appendChild(opt);
-  });
-  if (colonias.length === 1) {
-    coloniaSelect.value = colonias[0];
-    autoFillColonia(input, colonias[0]);
-  }
-  coloniaWrap.style.display = '';
-  input.classList.add('cp-valid');
-  var nCol = colonias.length;
-  if (hint) hint.innerHTML = '<span style="color:var(--success)">✓ ' + municipio + ', ' + estado + ' · ' + nCol + ' colonia' + (nCol > 1 ? 's' : '') + ' encontrada' + (nCol > 1 ? 's' : '') + '</span>';
-}
-
-function autoFillSiblings(cpInput, municipio, estado) {
-  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
-  if (!grid) return;
-  grid.querySelectorAll('input.field-input').forEach(function(inp) {
-    var ph = (inp.placeholder || '').toLowerCase();
-    if (ph === 'ciudad' && municipio) { inp.value = municipio; inp.classList.add('cp-autofilled'); inp.setAttribute('data-autofill','1'); }
-    if (ph === 'estado' && estado)    { inp.value = estado;    inp.classList.add('cp-autofilled'); inp.setAttribute('data-autofill','1'); }
-  });
-}
-
-function clearAutoFill(cpInput) {
-  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
-  if (!grid) return;
-  grid.querySelectorAll('[data-autofill="1"]').forEach(function(inp) {
-    inp.value = ''; inp.classList.remove('cp-autofilled'); inp.removeAttribute('data-autofill');
-  });
-  grid.querySelectorAll('.colonia-filled').forEach(function(inp) {
-    inp.value = ''; inp.classList.remove('colonia-filled');
-  });
+function fetchCP(input, uid) {
+  var cp=input.value.trim();
+  fetch('https://api.copomex.com/query/info_cp/'+cp+'?type=simplified&token='+COPOMEX_TOKEN)
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      input.classList.remove('cp-loading');
+      if(!data||data.error){ input.classList.add('cp-error'); return; }
+      input.classList.add('cp-valid');
+      var items=Array.isArray(data)?data:[data];
+      var colonias=[],ciudad='',estado='',municipio='';
+      items.forEach(function(d){
+        if(d.response){
+          if(d.response.asentamiento) colonias.push(d.response.asentamiento);
+          if(d.response.ciudad) ciudad=d.response.ciudad;
+          if(d.response.estado) estado=d.response.estado;
+          if(d.response.municipio) municipio=d.response.municipio;
+        }
+      });
+      var grid=input.closest('.field-grid')||input.closest('.section-body');
+      if(grid){
+        grid.querySelectorAll('input.field-input').forEach(function(el){
+          var ph=(el.placeholder||'').toLowerCase();
+          if(ph==='ciudad'){ el.value=ciudad||municipio; el.classList.add('cp-autofilled'); }
+          if(ph==='estado'){ el.value=estado; el.classList.add('cp-autofilled'); }
+        });
+      }
+      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
+      var sel=document.getElementById('colonias-'+uid);
+      var hint=document.getElementById('hint-'+uid);
+      if(selWrap&&sel){
+        sel.innerHTML='<option value="">-- Selecciona --</option>';
+        colonias.forEach(function(c){ var op=document.createElement('option'); op.value=c; op.textContent=c; sel.appendChild(op); });
+        selWrap.style.display='';
+        if(colonias.length===1){ sel.value=colonias[0]; }
+        if(hint) hint.textContent=colonias.length+' asentamiento(s)';
+      }
+    })
+    .catch(function(){ input.classList.remove('cp-loading'); input.classList.add('cp-error'); });
 }
 
 function onColoniaChange(select, uid) {
-  var cpInput = document.getElementById(uid);
-  if (cpInput) autoFillColonia(cpInput, select.value);
-}
-
-function autoFillColonia(cpInput, colonia) {
-  var grid = cpInput.closest('.field-grid') || cpInput.closest('.section-body');
-  if (!grid) return;
-  grid.querySelectorAll('input.field-input').forEach(function(inp) {
-    var ph = (inp.placeholder || '').toLowerCase();
-    if ((ph === 'colonia' || ph.includes('colonia') || ph.includes('fraccionamiento')) && !inp.closest('.cp-colonia-group')) {
-      inp.value = colonia;
-      inp.classList.add('colonia-filled');
+  var cp=document.getElementById(uid);
+  if(!cp) return;
+  var grid=cp.closest('.field-grid')||cp.closest('.section-body');
+  if(!grid) return;
+  grid.querySelectorAll('input.field-input').forEach(function(inp){
+    var ph=(inp.placeholder||'').toLowerCase();
+    if(ph==='colonia'||ph.includes('colonia')||ph.includes('fraccionamiento')){
+      inp.value=select.value;
     }
   });
 }
 
-// ============================================================
+// =============================================================
 // INIT
-// ========================================
+// =============================================================
 document.addEventListener('DOMContentLoaded', function() {
   initAllLadas();
-  var btn = document.getElementById('mainSubmitBtn');
-  if (btn) { btn.disabled = true; }
-  // Fallback por si onRecaptchaLoad ya fue llamado antes del DOMContentLoaded
-  setTimeout(initRecaptchaFallback, 800);
+  var btn=document.getElementById('mainSubmitBtn');
+  if(btn) btn.disabled=true;
 });
 </script>
+<!-- reCAPTCHA v3: cargado async con onload callback.
+     El script llama initRecaptcha() cuando el API esta lista.
+     initRecaptcha() ya esta definida en el JS inline de arriba. -->
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 </body>
 </html>
