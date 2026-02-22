@@ -6,8 +6,10 @@
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
+<!-- JSZip for client-side ZIP compression -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
-:root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);}
+:root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--warning:#F59E0B;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dark);min-height:100vh;font-size:15px;}
 .header{background:var(--navy);position:relative;overflow:hidden;}
@@ -93,13 +95,94 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .mini-table td input,.mini-table td select{background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dark);width:100%;}
 .mini-table td input:focus{border-bottom:1.5px solid var(--blue);}
 .mini-table td input.input-error{border-bottom:2px solid var(--error)!important;background:rgba(255,71,87,0.06)!important;color:var(--error);}
-body.dark-mode .mini-table td input.input-error{background:rgba(255,71,87,0.12)!important;}
 .mini-table tr:last-child td{border-bottom:none;}
 .add-row-btn{margin-top:10px;background:transparent;border:1.5px dashed var(--gray-400);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-500);cursor:pointer;transition:all 0.2s;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;}
 .add-row-btn:hover{border-color:var(--blue);color:var(--blue);}
 .inmueble-toggle{display:flex;border:1.5px solid var(--gray-200);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px;}
 .inmueble-opt{padding:9px 18px;font-size:13px;font-weight:500;color:var(--gray-500);cursor:pointer;background:var(--gray-100);border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .inmueble-opt.active{background:var(--navy);color:#fff;}
+
+/* ===== READABILITY INDICATORS ===== */
+.legibility-banner{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.legib-card{border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+.legib-card.ok{background:rgba(15,195,115,0.08);border:1.5px solid rgba(15,195,115,0.35);}
+.legib-card.err{background:rgba(255,71,87,0.07);border:1.5px solid rgba(255,71,87,0.3);}
+.legib-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.legib-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:5px;}
+.legib-card.ok .legib-title{color:#0a9a5a;}
+.legib-card.err .legib-title{color:#d93546;}
+.legib-text{font-size:12.5px;line-height:1.55;color:var(--gray-500);}
+.legib-card.err .legib-text{color:#b03444;}
+.legib-note{margin-top:10px;font-size:11.5px;color:var(--gray-500);line-height:1.6;background:var(--gray-100);border-radius:8px;padding:10px 12px;border-left:3px solid var(--blue);}
+.legib-note strong{color:var(--navy);display:block;margin-bottom:3px;font-size:12px;}
+
+/* ===== FILE ATTACHMENT SECTION ===== */
+.attach-section{margin-top:0;}
+.attach-dropzone{border:2.5px dashed var(--gray-200);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.3s;background:var(--gray-100);position:relative;overflow:hidden;}
+.attach-dropzone:hover,.attach-dropzone.drag-over{border-color:var(--blue);background:rgba(22,93,255,0.04);}
+.attach-dropzone.drag-over::before{content:'Suelta aquí';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--blue);background:rgba(22,93,255,0.08);border-radius:13px;}
+.attach-folder-icon{font-size:44px;margin-bottom:10px;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.12));}
+.attach-dropzone-text{font-size:14px;color:var(--gray-500);line-height:1.6;}
+.attach-dropzone-text a{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:none;}
+.attach-dropzone-text a:hover{text-decoration:underline;}
+.attach-meta{font-size:12px;color:var(--gray-400);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;}
+.attach-meta-badge{background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:0.5px;}
+.attach-tip{font-size:11.5px;color:var(--gray-400);margin-top:5px;display:flex;align-items:center;justify-content:center;gap:5px;}
+.attach-tip::before{content:'💡';}
+
+/* Capacity bar */
+.attach-capacity-wrap{margin-top:16px;display:none;}
+.attach-capacity-wrap.visible{display:block;}
+.attach-capacity-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.attach-capacity-label{font-size:12px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;}
+.attach-capacity-value{font-size:13px;font-weight:700;color:var(--dark);}
+.attach-bar-track{height:10px;background:var(--gray-200);border-radius:99px;overflow:hidden;position:relative;}
+.attach-bar-fill{height:100%;border-radius:99px;transition:width 0.4s ease,background-color 0.4s ease;position:relative;overflow:hidden;}
+.attach-bar-fill::after{content:'';position:absolute;top:0;left:-60px;width:50px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);animation:barShine 2s infinite;}
+@keyframes barShine{0%{left:-60px}100%{left:calc(100% + 20px)}}
+.attach-bar-fill.green{background:linear-gradient(90deg,#0FC373,#12e080);}
+.attach-bar-fill.yellow{background:linear-gradient(90deg,#F59E0B,#fbbf24);}
+.attach-bar-fill.red{background:linear-gradient(90deg,#FF4757,#ff6370);animation:none;}
+.attach-bar-fill.red::after{display:none;}
+.attach-status{margin-top:6px;font-size:12.5px;display:flex;align-items:center;gap:6px;}
+.attach-status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.attach-status-dot.green{background:var(--success);}
+.attach-status-dot.yellow{background:var(--warning);}
+.attach-status-dot.red{background:var(--error);animation:pulse-red 1s infinite;}
+@keyframes pulse-red{0%,100%{opacity:1}50%{opacity:0.4}}
+.attach-error-msg{background:rgba(255,71,87,0.08);border:1.5px solid rgba(255,71,87,0.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#d93546;margin-top:10px;display:none;align-items:center;gap:8px;}
+.attach-error-msg.show{display:flex;}
+
+/* File list */
+.attach-file-list{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+.attach-file-item{display:flex;align-items:center;gap:10px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:10px;padding:9px 12px;animation:fadeSlide 0.2s ease;}
+.attach-file-icon{font-size:18px;flex-shrink:0;}
+.attach-file-name{flex:1;font-size:13px;font-weight:500;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.attach-file-size{font-size:12px;color:var(--gray-400);flex-shrink:0;}
+.attach-file-remove{width:24px;height:24px;border-radius:50%;border:none;background:rgba(255,71,87,0.1);color:#FF4757;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;flex-shrink:0;}
+.attach-file-remove:hover{background:#FF4757;color:#fff;}
+
+/* Compression progress */
+.compress-progress{display:none;border:1.5px solid var(--gray-200);border-radius:14px;overflow:hidden;margin-top:14px;}
+.compress-progress.show{display:block;}
+.compress-header{background:var(--navy);padding:12px 16px;display:flex;align-items:center;gap:8px;}
+.compress-header-text{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);}
+.compress-body{padding:14px 16px;background:var(--card-bg);}
+.compress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.compress-stat{text-align:center;}
+.compress-stat-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--navy);}
+.compress-stat-label{font-size:10.5px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
+.compress-bar-track{height:8px;background:var(--gray-200);border-radius:99px;overflow:hidden;margin-bottom:8px;}
+.compress-bar-fill{height:100%;background:linear-gradient(90deg,#165DFF,#3a7fff);border-radius:99px;width:0%;transition:width 0.3s ease;position:relative;overflow:hidden;}
+.compress-bar-fill::after{content:'';position:absolute;top:0;left:-60px;width:50px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);animation:barShine 1.5s infinite;}
+.compress-info{display:flex;justify-content:space-between;font-size:11.5px;color:var(--gray-400);}
+.compress-pct{font-weight:700;color:var(--blue);font-size:12.5px;}
+.compress-resume-note{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;margin-top:8px;display:none;align-items:center;gap:6px;}
+.compress-resume-note.show{display:flex;}
+.offline-msg{background:rgba(255,71,87,0.08);border:1.5px solid rgba(255,71,87,0.25);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#d93546;margin-top:10px;display:none;align-items:center;gap:8px;}
+.offline-msg.show{display:flex;}
+
+/* ===== SUBMIT AREA ===== */
 .submit-area{display:none;padding:28px;background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);margin-bottom:20px;animation:fadeSlide 0.35s ease;}
 .submit-area.show{display:block;}
 .legal-text{font-size:12px;color:var(--gray-500);line-height:1.7;margin-bottom:20px;padding:16px;background:var(--gray-100);border-radius:10px;border-left:3px solid var(--blue);}
@@ -158,11 +241,9 @@ body.dark-mode .mini-table td input.input-error{background:rgba(255,71,87,0.12)!
 .success-contact-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
 .success-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#444;font-weight:500;}
 .success-contact-item a{color:var(--blue);text-decoration:none;font-weight:600;}
-.success-contact-item a:hover{text-decoration:underline;}
 .success-divider{height:1px;background:#E8ECF4;margin:20px 0;}
 .success-close-btn{width:100%;background:linear-gradient(135deg,#165DFF,#0e46cc);color:#fff;border:none;border-radius:14px;padding:16px 28px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
 .success-close-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,93,255,0.5);}
-.success-close-btn:active{transform:scale(0.98);}
 
 /* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float{position:fixed;bottom:36px;left:36px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;text-decoration:none;transition:transform 0.3s,box-shadow 0.3s;}
@@ -173,122 +254,28 @@ body.dark-mode .mini-table td input.input-error{background:rgba(255,71,87,0.12)!
 .theme-toggle-btn{position:fixed;top:20px;right:20px;z-index:2000;width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#e8ecf4,#d0d6e8);box-shadow:0 6px 20px rgba(0,0,0,0.18),inset 0 -2px 4px rgba(0,0,0,0.15),inset 0 2px 4px rgba(255,255,255,0.9);cursor:pointer;border:none;outline:none;overflow:hidden;transition:all 0.3s ease;}
 .toggle-icon-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 .icon-sun,.icon-moon{position:absolute;width:28px;height:28px;transition:all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);}
-.icon-sun{opacity:1;transform:scale(1) rotate(0deg);filter:drop-shadow(0 0 4px rgba(255,215,0,0.6));}
-.icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);filter:drop-shadow(0 0 4px rgba(100,120,255,0.6));}
+.icon-sun{opacity:1;transform:scale(1) rotate(0deg);}
+.icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);}
 body.dark-mode .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
 body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 
 /* ===== BOTÓN INICIAR TRÁMITE ===== */
-.tramite-float {
-    position: fixed;
-    top: 50px;
-    left: 50px;
-    background: linear-gradient(135deg, #0A1F44 0%, #1a3a6e 100%);
-    color: white;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(10, 31, 68, 0.4);
-    cursor: pointer;
-    z-index: 1500;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    animation: floatPremium 3s ease-in-out infinite;
-    border: 4px solid white;
-    overflow: hidden;
-}
-.tramite-float::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
-    animation: shine 3s infinite;
-}
-.tramite-float:hover {
-    transform: scale(1.2) translateY(-5px);
-    box-shadow: 0 20px 40px rgba(10, 31, 68, 0.6);
-    animation: none;
-}
-.tramite-tooltip {
-    position: absolute;
-    left: 90px;
-    background: white;
-    color: #0A1F44;
-    padding: 12px 20px;
-    border-radius: 12px;
-    white-space: nowrap;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    z-index: 1501;
-}
-.tramite-tooltip::before {
-    content: '';
-    position: absolute;
-    left: -7px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 7px solid transparent;
-    border-right-color: white;
-    border-left: 0;
-    filter: drop-shadow(-2px 0 2px rgba(0,0,0,0.06));
-}
-.tramite-float:hover .tramite-tooltip {
-    opacity: 1;
-    transform: translateX(8px);
-}
-.tramite-icon {
-    width: 36px;
-    height: 36px;
-    position: relative;
-    z-index: 1;
-    fill: white;
-}
-@keyframes floatPremium {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-15px) rotate(2deg); }
-    75% { transform: translateY(-5px) rotate(-2deg); }
-}
-@keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-/* Modo oscuro – botón trámite */
-body.dark-mode .tramite-float {
-    border: 4px solid #1a2d56;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-body.dark-mode .tramite-tooltip {
-    background: rgba(17, 28, 50, 0.97);
-    color: #d0d8ec;
-    border: 1px solid #243660;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-body.dark-mode .tramite-tooltip::before {
-    border-right-color: rgba(17, 28, 50, 0.97);
-}
+.tramite-float{position:fixed;top:50px;left:50px;background:linear-gradient(135deg,#0A1F44 0%,#1a3a6e 100%);color:white;width:75px;height:75px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(10,31,68,0.4);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:floatPremium 3s ease-in-out infinite;border:4px solid white;overflow:hidden;}
+.tramite-float::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.2) 50%,transparent 70%);animation:shine 3s infinite;}
+.tramite-float:hover{transform:scale(1.2) translateY(-5px);box-shadow:0 20px 40px rgba(10,31,68,0.6);animation:none;}
+.tramite-tooltip{position:absolute;left:90px;background:white;color:#0A1F44;padding:12px 20px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,0.15);opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;}
+.tramite-tooltip::before{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border:7px solid transparent;border-right-color:white;border-left:0;}
+.tramite-float:hover .tramite-tooltip{opacity:1;transform:translateX(8px);}
+.tramite-icon{width:36px;height:36px;position:relative;z-index:1;fill:white;}
+@keyframes floatPremium{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-15px) rotate(2deg)}75%{transform:translateY(-5px) rotate(-2deg)}}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
 /* ===== FLOATING PROGRESS BAR ===== */
 .form-progress-wrap{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1500;display:none;width:calc(100% - 200px);max-width:720px;min-width:280px;pointer-events:none;}
 .form-progress-wrap.visible{display:block;}
 .form-progress-pill{background:#ffffff;border-radius:60px;padding:10px 20px 10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(10,31,68,0.14),0 1px 4px rgba(10,31,68,0.08);border:1px solid rgba(10,31,68,0.07);}
-.form-progress-bar-track{flex:1;height:8px;background:#E8ECF4;border-radius:99px;overflow:hidden;position:relative;}
-.form-progress-bar-fill{height:100%;background:linear-gradient(90deg,#165DFF 0%,#3a7fff 100%);border-radius:99px;width:0%;transition:width 0.45s cubic-bezier(0.4,0,0.2,1);position:relative;}
-.form-progress-bar-fill::after{content:'';position:absolute;top:0;left:-60px;width:50px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent);animation:barShine 2.2s ease-in-out infinite;}
-@keyframes barShine{0%{left:-60px;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% + 20px);opacity:0}}
+.form-progress-bar-track{flex:1;height:8px;background:#E8ECF4;border-radius:99px;overflow:hidden;}
+.form-progress-bar-fill{height:100%;background:linear-gradient(90deg,#165DFF 0%,#3a7fff 100%);border-radius:99px;width:0%;transition:width 0.45s cubic-bezier(0.4,0,0.2,1);}
 .form-progress-text{font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:#6B7A99;white-space:nowrap;flex-shrink:0;min-width:130px;text-align:right;}
 .form-progress-text strong{color:#165DFF;font-weight:700;}
 
@@ -296,64 +283,51 @@ body.dark-mode .tramite-tooltip::before {
 body.dark-mode{--navy:#1a2d56;--blue:#4d8aff;--blue-light:#6ba3ff;--white:#e8edf8;--dark:#d0d8ec;--gray-100:#111827;--gray-200:#1e2d45;--gray-400:#4a5878;--gray-500:#7a8fb0;--card-bg:rgba(17,28,50,0.97);--shadow:0 8px 40px rgba(0,0,0,0.35);--shadow-lg:0 20px 60px rgba(0,0,0,0.5);background:#0c1525;}
 body.dark-mode .header{background:#061022;}
 body.dark-mode .form-card,body.dark-mode .submit-area{background:#111c33;}
-body.dark-mode .section-header{background:#0d1d3a;border-bottom:1px solid #1e3060;}
+body.dark-mode .section-header{background:#0d1d3a;}
 body.dark-mode .section-body{background:#111c33;}
 body.dark-mode .field-input{background:#162040;border-color:#243660;color:#d0d8ec;}
-body.dark-mode .field-input:focus{background:#1a2850;border-color:var(--blue);box-shadow:0 0 0 3px rgba(77,138,255,0.15);}
-body.dark-mode .field-input::placeholder{color:#4a5878;}
+body.dark-mode .field-input:focus{background:#1a2850;border-color:var(--blue);}
 body.dark-mode select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");}
 body.dark-mode .tel-combo{background:#162040;border-color:#243660;}
 body.dark-mode .tel-combo:focus-within{background:#1a2850;border-color:var(--blue);}
 body.dark-mode .lada-select{background-color:rgba(10,20,50,0.5);color:#a0b0d0;border-right-color:#243660;}
 body.dark-mode .tel-number{color:#d0d8ec;}
 body.dark-mode .radio-pill,body.dark-mode .check-pill{background:#162040;border-color:#243660;color:#7a8fb0;}
-body.dark-mode .radio-pill:hover,body.dark-mode .check-pill:hover{border-color:var(--blue);color:var(--blue);}
 body.dark-mode .radio-pill.selected,body.dark-mode .check-pill.selected{background:rgba(77,138,255,0.12);border-color:var(--blue);color:var(--blue);}
 body.dark-mode .type-btn{background:#111c33;border-color:#1e2d45;}
 body.dark-mode .type-btn.active{background:#0d1d3a;border-color:var(--blue);}
 body.dark-mode .type-label{color:#d0d8ec;}
-body.dark-mode .type-desc{color:#7a8fb0;}
-body.dark-mode .req-banner{background:linear-gradient(135deg,#0d1d3a 0%,#091630 100%);}
 body.dark-mode .mini-table th{background:#162040;color:#7a8fb0;border-bottom-color:#243660;}
 body.dark-mode .mini-table td{border-bottom-color:#243660;}
-body.dark-mode .mini-table td input,body.dark-mode .mini-table td select{color:#d0d8ec;}
-body.dark-mode .mini-table td input:focus{border-bottom-color:var(--blue);}
-body.dark-mode .add-row-btn{border-color:#4a5878;color:#7a8fb0;}
-body.dark-mode .add-row-btn:hover{border-color:var(--blue);color:var(--blue);}
-body.dark-mode .inmueble-toggle{border-color:#243660;}
-body.dark-mode .inmueble-opt{background:#162040;color:#7a8fb0;}
-body.dark-mode .inmueble-opt.active{background:#0d1d3a;color:#d0d8ec;}
-body.dark-mode .declaration-wrap{border-color:#243660;}
+body.dark-mode .mini-table td input{color:#d0d8ec;}
 body.dark-mode .declaration-box{background:#162040;}
 body.dark-mode .declaration-wrap.checked .declaration-box{background:rgba(77,138,255,0.08);}
 body.dark-mode .declaration-check-icon{background:#1e2d45;border-color:#4a5878;}
 body.dark-mode .declaration-text{color:#7a8fb0;}
 body.dark-mode .declaration-text strong{color:#d0d8ec;}
-body.dark-mode .legal-text{background:#162040;border-left-color:var(--blue);color:#7a8fb0;}
-body.dark-mode .divider{background:#243660;}
-body.dark-mode .sub-section-label{color:var(--blue);border-left-color:var(--blue);}
-body.dark-mode .field-label{color:#7a8fb0;}
-body.dark-mode .recaptcha-notice{color:#4a5878;}
-body.dark-mode .recaptcha-notice a{color:var(--blue);}
+body.dark-mode .legal-text{background:#162040;color:#7a8fb0;}
 body.dark-mode .success-card{background:#111c33;}
 body.dark-mode .success-info-row{background:#162040;}
-body.dark-mode .success-info-text{color:#7a8fb0;}
 body.dark-mode .success-info-text strong{color:#d0d8ec;}
-body.dark-mode .success-contact-item{color:#d0d8ec;}
-body.dark-mode .success-divider{background:#243660;}
-body.dark-mode .form-progress-pill{background:#1a2645;border-color:rgba(255,255,255,0.12);box-shadow:0 4px 28px rgba(0,0,0,0.55);}
+body.dark-mode .form-progress-pill{background:#1a2645;border-color:rgba(255,255,255,0.12);}
 body.dark-mode .form-progress-bar-track{background:#263558;}
-body.dark-mode .form-progress-bar-fill{background:linear-gradient(90deg,#4d8aff 0%,#78b0ff 100%);}
-body.dark-mode .form-progress-text{color:#c8d6f0;}
-body.dark-mode .form-progress-text strong{color:#78b0ff;font-weight:800;}
-body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d38);box-shadow:0 6px 20px rgba(0,0,0,0.4),0 0 15px rgba(65,105,225,0.3);}
-body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill,.check-pill,.mini-table th,.mini-table td,.declaration-box,.legal-text,.submit-area,.req-banner{transition:background-color 0.3s ease,border-color 0.3s ease,color 0.3s ease;}
+body.dark-mode .attach-dropzone{background:#162040;border-color:#243660;}
+body.dark-mode .attach-dropzone:hover{background:#1a2850;border-color:var(--blue);}
+body.dark-mode .attach-bar-track{background:#263558;}
+body.dark-mode .attach-file-item{background:#162040;border-color:#243660;}
+body.dark-mode .attach-file-name{color:#d0d8ec;}
+body.dark-mode .compress-body{background:#111c33;}
+body.dark-mode .compress-bar-track{background:#263558;}
+body.dark-mode .legib-note{background:#162040;}
+body.dark-mode .legib-card.ok{background:rgba(15,195,115,0.06);border-color:rgba(15,195,115,0.25);}
+body.dark-mode .legib-card.err{background:rgba(255,71,87,0.06);border-color:rgba(255,71,87,0.2);}
+body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d38);}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
   .tramite-float{width:60px;height:60px;top:20px;left:20px;}
-  .tramite-icon{width:28px;height:28px;}
   .tramite-tooltip{display:none;}
+  .legibility-banner{grid-template-columns:1fr;}
 }
 @media(max-width:640px){
   .field-grid,.field-grid.thirds{grid-template-columns:1fr;}
@@ -365,8 +339,6 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
   .lada-select{width:130px;}
   .theme-toggle-btn{top:14px;right:14px;width:44px;height:44px;}
   .form-progress-wrap{width:calc(100% - 24px);bottom:16px;}
-  .form-progress-pill{padding:8px 14px 8px 12px;gap:10px;}
-  .form-progress-text{font-size:11.5px;min-width:110px;}
 }
 </style>
 </head>
@@ -376,20 +348,14 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
 <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cambiar tema">
   <div class="toggle-icon-wrap">
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.5" fill="#FFD700" stroke="#FFA500" stroke-width="1.4"/><g stroke="#FFD700" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(0 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(45 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(90 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(135 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(180 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(225 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(270 12 12)"/><line x1="12" y1="2.5" x2="12" y2="4.5" transform="rotate(315 12 12)"/></g></svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/><circle cx="15" cy="9" r="1" fill="#fff8c0" opacity="0.85"/><circle cx="17" cy="13" r="0.7" fill="#fff8c0" opacity="0.6"/><circle cx="13" cy="15" r="0.55" fill="#fff8c0" opacity="0.4"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c8d0ff" stroke="#4169E1" stroke-width="1.5"/></svg>
   </div>
 </button>
 
-<!-- BOTÓN INICIAR TRÁMITE (esquina superior izquierda) -->
-<a href="https://www.anpai.com.mx/iniciar-tramite"
-   class="tramite-float"
-   target="_blank"
-   rel="noopener noreferrer"
-   aria-label="Iniciar trámite en ANPAI">
+<!-- BOTÓN INICIAR TRÁMITE -->
+<a href="https://www.anpai.com.mx/iniciar-tramite" class="tramite-float" target="_blank" rel="noopener noreferrer" aria-label="Iniciar trámite">
     <span class="tramite-tooltip">📝 Iniciar trámite</span>
-    <svg class="tramite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
-    </svg>
+    <svg class="tramite-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
 </a>
 
 <header class="header">
@@ -448,7 +414,7 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
   </div>
 
   <!-- ===== FORM PERSONA FÍSICA ===== -->
-  <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
+  <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;" enctype="multipart/form-data">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Fisica | AVA">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
@@ -623,7 +589,7 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
       </div>
     </div>
 
-    <!-- VISITA -->
+    <!-- VISITA PF -->
     <div class="section-header"><div class="section-icon">📋</div><div class="section-title">Contacto para Visita al Negocio</div></div>
     <div class="section-body">
       <div class="field-grid">
@@ -639,10 +605,119 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
           <div class="error-msg" id="err-tel10">Campo obligatorio.</div></div>
       </div>
     </div>
+
+    <!-- ADJUNTAR DOCUMENTOS PF -->
+    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional — factura, póliza, etc.)</span></div>
+    <div class="section-body attach-section">
+      <!-- Legibility indicators -->
+      <div class="legibility-banner">
+        <div class="legib-card ok">
+          <div class="legib-icon">✅</div>
+          <div>
+            <div class="legib-title">LEGIBLE</div>
+            <div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Nombre, número y fecha se leen con claridad. Sin sombras ni reflejos que cubran datos.</div>
+          </div>
+        </div>
+        <div class="legib-card err">
+          <div class="legib-icon">❌</div>
+          <div>
+            <div class="legib-title">NO LEGIBLE</div>
+            <div class="legib-text err">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div>
+          </div>
+        </div>
+      </div>
+      <div class="legib-note">
+        <strong>📄 Requisito de autenticidad y fidelidad para documentos oficiales</strong>
+        Los documentos adjuntos (identificación oficial, INE, pasaporte, FM2, comprobante de domicilio, constancia fiscal, estados de cuenta, acta constitutiva, etc.) deben ser <strong>copia fiel del original</strong>: completamente legibles, sin alteraciones, recortes ni ediciones digitales. Se aceptan fotografías o digitalizaciones siempre que reproduzcan la totalidad del documento con todos sus datos, sellos, firmas y elementos de seguridad visibles. Los documentos ilegibles o parciales serán rechazados y retrasarán el análisis de su solicitud.
+      </div>
+
+      <!-- Dropzone -->
+      <div class="attach-dropzone" id="attachDropzonePF"
+        ondragover="onDragOver(event,'PF')" ondragleave="onDragLeave(event,'PF')" ondrop="onDrop(event,'PF')"
+        onclick="document.getElementById('fileInputPF').click()">
+        <span class="attach-folder-icon">📁</span>
+        <div class="attach-dropzone-text">
+          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPF').click()">haz clic para seleccionar</a>
+        </div>
+        <div class="attach-meta">
+          Formatos: PDF, JPG, PNG, ZIP, RAR&nbsp;&nbsp;|&nbsp;
+          <span class="attach-meta-badge">Límite total: 5 MB</span>
+          — puedes adjuntar varios archivos
+        </div>
+        <div class="attach-tip">Si tus documentos superan el límite, comprímalos en un archivo ZIP o RAR antes de adjuntarlos</div>
+        <input type="file" id="fileInputPF" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PF')">
+      </div>
+
+      <!-- Capacity bar -->
+      <div class="attach-capacity-wrap" id="capacityWrapPF">
+        <div class="attach-capacity-header">
+          <span class="attach-capacity-label">Capacidad utilizada</span>
+          <span class="attach-capacity-value" id="capacityValuePF">0 MB de 5 MB</span>
+        </div>
+        <div class="attach-bar-track"><div class="attach-bar-fill green" id="attachBarPF" style="width:0%"></div></div>
+        <div class="attach-status" id="attachStatusPF">
+          <span class="attach-status-dot green" id="attachDotPF"></span>
+          <span id="attachStatusTextPF">Capacidad disponible</span>
+        </div>
+        <div class="attach-error-msg" id="attachErrPF">
+          <span>⚠️</span>
+          <span id="attachErrTextPF">El archivo supera el límite de 5 MB.</span>
+        </div>
+      </div>
+
+      <!-- File list -->
+      <div class="attach-file-list" id="fileListPF"></div>
+
+      <!-- Offline message -->
+      <div class="offline-msg" id="offlineMsgPF">
+        <span>📡</span>
+        <span>Sin conexión a internet. La compresión se reanudará automáticamente cuando vuelva la conexión.</span>
+      </div>
+
+      <!-- Compression progress -->
+      <div class="compress-progress" id="compressProgressPF">
+        <div class="compress-header">
+          <span style="font-size:16px;">⚡</span>
+          <span class="compress-header-text">Comprimiendo archivos...</span>
+          <span id="compressPctPF" class="compress-pct" style="margin-left:auto;">0%</span>
+        </div>
+        <div class="compress-body">
+          <div class="compress-row">
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressDoneMBPF">0 MB</div>
+              <div class="compress-stat-label">Comprimido</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressRemMBPF">0 MB</div>
+              <div class="compress-stat-label">Restante</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressElapsedPF">0s</div>
+              <div class="compress-stat-label">Transcurrido</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressEtaPF">—</div>
+              <div class="compress-stat-label">Tiempo restante</div>
+            </div>
+          </div>
+          <div class="compress-bar-track"><div class="compress-bar-fill" id="compressBarFillPF"></div></div>
+          <div class="compress-info">
+            <span id="compressInfoPF">Preparando archivos…</span>
+            <span id="compressDonePctPF">0% completado</span>
+          </div>
+          <div class="compress-resume-note" id="compressResumePF">
+            <span>🔄</span>
+            <span>La compresión se pausó. Cuando vuelva la conexión, continuará automáticamente desde donde se quedó.</span>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="attachHiddenPF" name="Archivos_adjuntos_info">
+    </div>
   </form>
 
   <!-- ===== FORM PERSONA MORAL ===== -->
-  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;">
+  <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;" enctype="multipart/form-data">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Moral | AVA">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
@@ -778,6 +853,109 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
           <div class="error-msg" id="err-tel19">Campo obligatorio.</div></div>
       </div>
     </div>
+
+    <!-- ADJUNTAR DOCUMENTOS PM -->
+    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional — factura, póliza, etc.)</span></div>
+    <div class="section-body attach-section">
+      <div class="legibility-banner">
+        <div class="legib-card ok">
+          <div class="legib-icon">✅</div>
+          <div>
+            <div class="legib-title">LEGIBLE</div>
+            <div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Nombre, número y fecha se leen con claridad. Sin sombras ni reflejos que cubran datos.</div>
+          </div>
+        </div>
+        <div class="legib-card err">
+          <div class="legib-icon">❌</div>
+          <div>
+            <div class="legib-title">NO LEGIBLE</div>
+            <div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div>
+          </div>
+        </div>
+      </div>
+      <div class="legib-note">
+        <strong>📄 Requisito de autenticidad y fidelidad para documentos oficiales</strong>
+        Los documentos adjuntos (identificación oficial, INE, pasaporte, FM2, comprobante de domicilio, constancia fiscal, estados de cuenta, acta constitutiva, escrituras, poderes notariales, etc.) deben ser <strong>copia fiel del original</strong>: completamente legibles, sin alteraciones, recortes ni ediciones digitales. Se aceptan fotografías o digitalizaciones siempre que reproduzcan la totalidad del documento con todos sus datos, sellos, firmas y elementos de seguridad visibles. Los documentos ilegibles o parciales serán rechazados y retrasarán el análisis de su solicitud.
+      </div>
+
+      <div class="attach-dropzone" id="attachDropzonePM"
+        ondragover="onDragOver(event,'PM')" ondragleave="onDragLeave(event,'PM')" ondrop="onDrop(event,'PM')"
+        onclick="document.getElementById('fileInputPM').click()">
+        <span class="attach-folder-icon">📁</span>
+        <div class="attach-dropzone-text">
+          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPM').click()">haz clic para seleccionar</a>
+        </div>
+        <div class="attach-meta">
+          Formatos: PDF, JPG, PNG, ZIP, RAR&nbsp;&nbsp;|&nbsp;
+          <span class="attach-meta-badge">Límite total: 5 MB</span>
+          — puedes adjuntar varios archivos
+        </div>
+        <div class="attach-tip">Si tus documentos superan el límite, comprímalos en un archivo ZIP o RAR antes de adjuntarlos</div>
+        <input type="file" id="fileInputPM" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PM')">
+      </div>
+
+      <div class="attach-capacity-wrap" id="capacityWrapPM">
+        <div class="attach-capacity-header">
+          <span class="attach-capacity-label">Capacidad utilizada</span>
+          <span class="attach-capacity-value" id="capacityValuePM">0 MB de 5 MB</span>
+        </div>
+        <div class="attach-bar-track"><div class="attach-bar-fill green" id="attachBarPM" style="width:0%"></div></div>
+        <div class="attach-status" id="attachStatusPM">
+          <span class="attach-status-dot green" id="attachDotPM"></span>
+          <span id="attachStatusTextPM">Capacidad disponible</span>
+        </div>
+        <div class="attach-error-msg" id="attachErrPM">
+          <span>⚠️</span>
+          <span id="attachErrTextPM">El archivo supera el límite de 5 MB.</span>
+        </div>
+      </div>
+
+      <div class="attach-file-list" id="fileListPM"></div>
+
+      <div class="offline-msg" id="offlineMsgPM">
+        <span>📡</span>
+        <span>Sin conexión a internet. La compresión se reanudará automáticamente cuando vuelva la conexión.</span>
+      </div>
+
+      <div class="compress-progress" id="compressProgressPM">
+        <div class="compress-header">
+          <span style="font-size:16px;">⚡</span>
+          <span class="compress-header-text">Comprimiendo archivos...</span>
+          <span id="compressPctPM" class="compress-pct" style="margin-left:auto;">0%</span>
+        </div>
+        <div class="compress-body">
+          <div class="compress-row">
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressDoneMBPM">0 MB</div>
+              <div class="compress-stat-label">Comprimido</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressRemMBPM">0 MB</div>
+              <div class="compress-stat-label">Restante</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressElapsedPM">0s</div>
+              <div class="compress-stat-label">Transcurrido</div>
+            </div>
+            <div class="compress-stat">
+              <div class="compress-stat-val" id="compressEtaPM">—</div>
+              <div class="compress-stat-label">Tiempo restante</div>
+            </div>
+          </div>
+          <div class="compress-bar-track"><div class="compress-bar-fill" id="compressBarFillPM"></div></div>
+          <div class="compress-info">
+            <span id="compressInfoPM">Preparando archivos…</span>
+            <span id="compressDonePctPM">0% completado</span>
+          </div>
+          <div class="compress-resume-note" id="compressResumePM">
+            <span>🔄</span>
+            <span>La compresión se pausó. Cuando vuelva la conexión, continuará automáticamente desde donde se quedó.</span>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="attachHiddenPM" name="Archivos_adjuntos_info">
+    </div>
   </form>
 
   <!-- SUBMIT AREA -->
@@ -835,20 +1013,12 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
     </div>
     <div class="success-body">
       <div class="success-info-row">
-        <div class="success-info-icon">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#165DFF" stroke-width="1.8"/><path d="M12 8v4l3 3" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <div class="success-info-text">
-          <strong>Siguiente paso</strong>
-          Un ejecutivo revisará tu información y te contactará en un plazo de 24 a 48 horas hábiles.
-        </div>
+        <div class="success-info-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#165DFF" stroke-width="1.8"/><path d="M12 8v4l3 3" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="success-info-text"><strong>Siguiente paso</strong>Un ejecutivo revisará tu información y te contactará en un plazo de 24 a 48 horas hábiles.</div>
       </div>
       <div class="success-info-row">
-        <div class="success-info-icon">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </div>
-        <div class="success-info-text">
-          <strong>Contacto directo</strong>
+        <div class="success-info-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 5525374608</a></div>
             <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
@@ -861,10 +1031,6 @@ body,.form-card,.section-header,.section-body,.field-input,.type-btn,.radio-pill
     </div>
   </div>
 </div>
-
-<!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-beb4a331-0ecc-4c09-b401-4d88d35cbf03" data-elfsight-app-lazy></div>
 
 <script>
 // ==================== reCAPTCHA ====================
@@ -891,13 +1057,9 @@ var LADAS=[
   {r:'Europa',f:'DE',n:'Alemania',c:'+49'},{r:'Europa',f:'ES',n:'España',c:'+34'},
   {r:'Europa',f:'FR',n:'Francia',c:'+33'},{r:'Europa',f:'GB',n:'Reino Unido',c:'+44'},
   {r:'Europa',f:'IT',n:'Italia',c:'+39'},{r:'Europa',f:'PT',n:'Portugal',c:'+351'},
-  {r:'Europa',f:'NL',n:'Países Bajos',c:'+31'},{r:'Europa',f:'CH',n:'Suiza',c:'+41'},
-  {r:'Europa',f:'SE',n:'Suecia',c:'+46'},{r:'Europa',f:'PL',n:'Polonia',c:'+48'},
   {r:'Europa',f:'RU',n:'Rusia',c:'+7'},
   {r:'Asia',f:'CN',n:'China',c:'+86'},{r:'Asia',f:'JP',n:'Japón',c:'+81'},
-  {r:'Asia',f:'KR',n:'Corea del Sur',c:'+82'},{r:'Asia',f:'IN',n:'India',c:'+91'},
-  {r:'Asia',f:'IL',n:'Israel',c:'+972'},
-  {r:'Oceanía',f:'AU',n:'Australia',c:'+61'},{r:'Oceanía',f:'NZ',n:'Nueva Zelanda',c:'+64'}
+  {r:'Asia',f:'IN',n:'India',c:'+91'},{r:'Oceanía',f:'AU',n:'Australia',c:'+61'}
 ];
 
 function flag(code){
@@ -905,15 +1067,13 @@ function flag(code){
     return String.fromCodePoint(c.charCodeAt(0)-65+0x1F1E6);
   }).join('');
 }
-
 function buildLadas(sel){
   var groups={};
   LADAS.forEach(function(l){ if(!groups[l.r]) groups[l.r]=[]; groups[l.r].push(l); });
   Object.keys(groups).forEach(function(r){
     var og=document.createElement('optgroup'); og.label=r;
     groups[r].forEach(function(l){
-      var op=document.createElement('option');
-      op.value=l.c;
+      var op=document.createElement('option'); op.value=l.c;
       op.textContent=flag(l.f)+' '+l.n+' '+l.c;
       if(l.f==='MX') op.selected=true;
       og.appendChild(op);
@@ -921,11 +1081,9 @@ function buildLadas(sel){
     sel.appendChild(og);
   });
 }
-
 function initAllLadas(){
   document.querySelectorAll('.lada-select').forEach(buildLadas);
 }
-
 function syncTel(prefix){
   var lada=document.getElementById(prefix+'_lada');
   var num=document.getElementById(prefix+'_num');
@@ -940,60 +1098,43 @@ function syncTel(prefix){
 
 // ==================== CHECK PILLS ====================
 function onCheckPill(el){
-  var cb=el.querySelector('input[type=checkbox]');
-  if(!cb) return;
-  cb.checked = !cb.checked;
-  el.classList.toggle('selected', cb.checked);
+  var cb=el.querySelector('input[type=checkbox]'); if(!cb) return;
+  cb.checked=!cb.checked;
+  el.classList.toggle('selected',cb.checked);
   var group=el.closest('.check-group');
   if(group&&group.id){
     var errEl=document.getElementById('err-'+group.id);
-    if(cb.checked){
-      group.classList.remove('group-error');
-      if(errEl) errEl.classList.remove('show');
-    }
+    if(cb.checked){ group.classList.remove('group-error'); if(errEl) errEl.classList.remove('show'); }
   }
   updateProgressBar();
 }
 
 // ==================== RADIO PILLS ====================
-function onRadioPill(el, name, value){
+function onRadioPill(el,name,value){
   var group=el.closest('.radio-group');
   if(group){
     group.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
-    if(group.id){
-      var errEl=document.getElementById('err-'+group.id);
-      group.classList.remove('group-error');
-      if(errEl) errEl.classList.remove('show');
-    }
+    if(group.id){ var errEl=document.getElementById('err-'+group.id); group.classList.remove('group-error'); if(errEl) errEl.classList.remove('show'); }
   }
   el.classList.add('selected');
-  var rb=el.querySelector('input[type=radio]');
-  if(rb) rb.checked=true;
+  var rb=el.querySelector('input[type=radio]'); if(rb) rb.checked=true;
   updateProgressBar();
 }
 
 // ==================== INMUEBLE TOGGLE ====================
-function setIG(groupName, required){
-  document.querySelectorAll('[data-ig="'+groupName+'"]').forEach(function(el){
-    if(required){ el.required=true; }
-    else{ el.required=false; }
-  });
+function setIG(groupName,required){
+  document.querySelectorAll('[data-ig="'+groupName+'"]').forEach(function(el){ el.required=required; });
 }
-
-function toggleInmueble(toggleId, btn, showId, hideId, showGroup, hideGroup){
+function toggleInmueble(toggleId,btn,showId,hideId,showGroup,hideGroup){
   document.getElementById(toggleId).querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
-  var showEl=document.getElementById(showId);
-  var hideEl=document.getElementById(hideId);
-  if(showEl) showEl.style.display='';
-  if(hideEl) hideEl.style.display='none';
-  setIG(showGroup, true);
-  setIG(hideGroup, false);
+  var showEl=document.getElementById(showId); var hideEl=document.getElementById(hideId);
+  if(showEl) showEl.style.display=''; if(hideEl) hideEl.style.display='none';
+  setIG(showGroup,true); setIG(hideGroup,false);
 }
 
 // ==================== TYPE SELECTOR ====================
 var currentType=null;
-
 function selectType(type){
   currentType=type;
   ['PF','PM'].forEach(function(t){
@@ -1002,10 +1143,7 @@ function selectType(type){
     document.getElementById('form'+t).classList.toggle('show',t===type);
   });
   document.getElementById('submitArea').classList.add('show');
-  if(type==='PF'){
-    setIG('propioPF',true);
-    setIG('rentadoPF',false);
-  }
+  if(type==='PF'){ setIG('propioPF',true); setIG('rentadoPF',false); }
   setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); },100);
   showProgressBar('form'+type);
 }
@@ -1027,24 +1165,313 @@ function showSuccessModal(){
 function closeSuccessModal(){
   document.getElementById('successOverlay').classList.remove('show');
   document.body.style.overflow='';
-  var form=currentType?document.getElementById('form'+currentType):null;
-  if(form) form.reset();
-  document.querySelectorAll('.check-pill.selected').forEach(function(p){
-    p.classList.remove('selected');
-    var cb=p.querySelector('input');
-    if(cb) cb.checked=false;
-  });
-  document.querySelectorAll('.radio-pill.selected').forEach(function(p){
-    p.classList.remove('selected');
-    var rb=p.querySelector('input');
-    if(rb) rb.checked=false;
+  // Reset files
+  attachState.PF={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null};
+  attachState.PM={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null};
+  ['PF','PM'].forEach(function(t){
+    document.getElementById('fileListP'+t.slice(1)||'fileList'+t).innerHTML='';
+    updateCapacityBar(t);
   });
   var decl=document.getElementById('declarationCheck');
   if(decl){ decl.checked=false; toggleDeclaration(decl); }
   updateProgressBar();
 }
-document.addEventListener('click',function(e){
-  if(e.target&&e.target.id==='successOverlay') closeSuccessModal();
+document.addEventListener('click',function(e){ if(e.target&&e.target.id==='successOverlay') closeSuccessModal(); });
+
+// ==================== FILE ATTACHMENT ENGINE ====================
+var MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+
+var attachState = {
+  PF: { files:[], totalSize:0, zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 },
+  PM: { files:[], totalSize:0, zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 }
+};
+
+// Check JSZip availability
+var jszipAvailable = (typeof JSZip !== 'undefined');
+
+function fmtBytes(b){
+  if(b<1024) return b+'B';
+  if(b<1024*1024) return (b/1024).toFixed(1)+' KB';
+  return (b/1024/1024).toFixed(2)+' MB';
+}
+function fmtSec(s){
+  if(s<60) return Math.round(s)+'s';
+  return Math.floor(s/60)+'m '+Math.round(s%60)+'s';
+}
+function getFileIcon(name){
+  var ext=name.split('.').pop().toLowerCase();
+  if(['jpg','jpeg','png','gif','webp'].includes(ext)) return '🖼️';
+  if(ext==='pdf') return '📄';
+  if(['doc','docx'].includes(ext)) return '📝';
+  if(['zip','rar','7z'].includes(ext)) return '🗜️';
+  return '📎';
+}
+function getToday(){
+  var d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+}
+
+// Drag & drop
+function onDragOver(e,type){
+  e.preventDefault();
+  document.getElementById('attachDropzone'+type).classList.add('drag-over');
+}
+function onDragLeave(e,type){
+  document.getElementById('attachDropzone'+type).classList.remove('drag-over');
+}
+function onDrop(e,type){
+  e.preventDefault();
+  document.getElementById('attachDropzone'+type).classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files, type);
+}
+
+function handleFiles(fileList, type){
+  var state = attachState[type];
+  var files = Array.from(fileList);
+  
+  // Add to existing list (avoid duplicates by name+size)
+  files.forEach(function(f){
+    var dup = state.files.some(function(ex){ return ex.name===f.name && ex.size===f.size; });
+    if(!dup) state.files.push(f);
+  });
+
+  // Recalculate total
+  state.totalSize = state.files.reduce(function(acc,f){ return acc+f.size; },0);
+  state.zipBlob = null;
+
+  renderFileList(type);
+  updateCapacityBar(type);
+
+  // If multiple files and jszip available, compress
+  if(state.files.length > 1 && jszipAvailable){
+    startCompression(type);
+  } else if(state.files.length === 1){
+    // Single file - check limit
+    if(state.files[0].size > MAX_BYTES){
+      showAttachError(type, '"'+state.files[0].name+'" supera el límite de 5 MB. Por favor, reduce el tamaño o selecciona un archivo más pequeño.');
+    } else {
+      hideAttachError(type);
+    }
+  } else if(!jszipAvailable && state.files.length > 1){
+    showAttachError(type, 'Tu navegador no permite la compresión automática. Por favor, comprime los archivos manualmente en ZIP antes de subirlos.');
+  }
+}
+
+function removeFile(type, idx){
+  var state = attachState[type];
+  state.files.splice(idx,1);
+  state.totalSize = state.files.reduce(function(acc,f){ return acc+f.size; },0);
+  state.zipBlob = null;
+  renderFileList(type);
+  updateCapacityBar(type);
+  hideAttachError(type);
+
+  // Re-compress if needed
+  if(state.files.length > 1 && jszipAvailable){
+    startCompression(type);
+  }
+}
+
+function renderFileList(type){
+  var state = attachState[type];
+  var list = document.getElementById('fileList'+type);
+  list.innerHTML='';
+  state.files.forEach(function(f,i){
+    var item=document.createElement('div');
+    item.className='attach-file-item';
+    item.innerHTML='<span class="attach-file-icon">'+getFileIcon(f.name)+'</span>'+
+      '<span class="attach-file-name">'+f.name+'</span>'+
+      '<span class="attach-file-size">'+fmtBytes(f.size)+'</span>'+
+      '<button type="button" class="attach-file-remove" onclick="removeFile(\''+type+'\','+i+')" title="Quitar archivo">×</button>';
+    list.appendChild(item);
+  });
+}
+
+function updateCapacityBar(type){
+  var state = attachState[type];
+  var wrap = document.getElementById('capacityWrap'+type);
+  var bar = document.getElementById('attachBar'+type);
+  var valEl = document.getElementById('capacityValue'+type);
+  var dot = document.getElementById('attachDot'+type);
+  var statusText = document.getElementById('attachStatusText'+type);
+
+  if(state.files.length===0){
+    wrap.classList.remove('visible');
+    return;
+  }
+  wrap.classList.add('visible');
+
+  // Use zip size if available, else raw total
+  var used = state.zipBlob ? state.zipBlob.size : state.totalSize;
+  var pct = Math.min(100, (used/MAX_BYTES)*100);
+  bar.style.width = pct+'%';
+
+  var usedStr = fmtBytes(used);
+  var maxStr = '5 MB';
+  valEl.textContent = usedStr + ' de ' + maxStr;
+
+  bar.className = 'attach-bar-fill';
+  dot.className = 'attach-status-dot';
+
+  if(pct >= 100){
+    bar.classList.add('red');
+    dot.classList.add('red');
+    statusText.textContent = 'Límite alcanzado — no se pueden añadir más archivos';
+    showAttachError(type, 'El total supera los 5 MB ('+usedStr+'). Elimina archivos hasta quedar dentro del límite.');
+  } else if(pct >= 75){
+    bar.classList.add('yellow');
+    dot.classList.add('yellow');
+    var remaining = fmtBytes(MAX_BYTES - used);
+    statusText.textContent = 'Casi lleno — quedan '+remaining+' disponibles';
+    hideAttachError(type);
+  } else {
+    bar.classList.add('green');
+    dot.classList.add('green');
+    var remaining = fmtBytes(MAX_BYTES - used);
+    statusText.textContent = 'Capacidad disponible — quedan '+remaining;
+    hideAttachError(type);
+  }
+}
+
+function showAttachError(type, msg){
+  var el = document.getElementById('attachErr'+type);
+  document.getElementById('attachErrText'+type).textContent = msg;
+  el.classList.add('show');
+}
+function hideAttachError(type){
+  document.getElementById('attachErr'+type).classList.remove('show');
+}
+
+// ==================== COMPRESSION ====================
+function startCompression(type){
+  var state = attachState[type];
+  if(state.compressing) return; // already running
+
+  if(!navigator.onLine){
+    document.getElementById('offlineMsg'+type).classList.add('show');
+    state.paused = true;
+    document.getElementById('compressResume'+type).classList.add('show');
+    document.getElementById('compressProgress'+type).classList.add('show');
+    return;
+  }
+
+  state.compressing = true;
+  state.paused = false;
+  state.startTime = Date.now() - (state.elapsed || 0);
+  document.getElementById('compressProgress'+type).classList.add('show');
+  document.getElementById('offlineMsg'+type).classList.remove('show');
+  document.getElementById('compressResume'+type).classList.remove('show');
+
+  var zip = new JSZip();
+  var files = state.files;
+  var totalRaw = files.reduce(function(acc,f){ return acc+f.size; },0);
+  var processed = 0;
+
+  // Read files and add to zip
+  var readers = [];
+  var elapsedInterval = setInterval(function(){
+    state.elapsed = Date.now() - state.startTime;
+    document.getElementById('compressElapsed'+type).textContent = fmtSec(state.elapsed/1000);
+  }, 500);
+
+  function processFile(idx){
+    if(idx >= files.length){
+      // Generate ZIP
+      document.getElementById('compressInfo'+type).textContent = 'Generando archivo ZIP…';
+      zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} },
+        function update(meta){
+          var pct = Math.round(meta.percent);
+          updateCompressUI(type, pct, processed, totalRaw-processed, state.elapsed/1000, totalRaw, state.startTime);
+        }
+      ).then(function(blob){
+        clearInterval(elapsedInterval);
+        state.zipBlob = blob;
+        state.compressing = false;
+        document.getElementById('compressProgress'+type).classList.remove('show');
+        updateCapacityBar(type);
+        // Store zip info
+        document.getElementById('attachHidden'+type).value = 'ZIP adjunto: archivos-adjuntos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
+      }).catch(function(err){
+        clearInterval(elapsedInterval);
+        state.compressing = false;
+        document.getElementById('compressProgress'+type).classList.remove('show');
+        showAttachError(type, 'Error al comprimir archivos. Por favor, intenta de nuevo.');
+      });
+      return;
+    }
+
+    var f = files[idx];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      zip.file(f.name, e.target.result);
+      processed += f.size;
+      var pct = Math.round((processed/totalRaw)*70); // 70% for reading
+      updateCompressUI(type, pct, processed, totalRaw-processed, (Date.now()-state.startTime)/1000, totalRaw, state.startTime);
+
+      // Check connectivity
+      if(!navigator.onLine){
+        clearInterval(elapsedInterval);
+        state.paused = true;
+        state.compressing = false;
+        state.elapsed = Date.now() - state.startTime;
+        document.getElementById('offlineMsg'+type).classList.add('show');
+        document.getElementById('compressResume'+type).classList.add('show');
+        // Store progress - will resume when online
+        return;
+      }
+      processFile(idx+1);
+    };
+    reader.onerror = function(){
+      processFile(idx+1);
+    };
+    reader.readAsArrayBuffer(f);
+  }
+
+  processFile(0);
+}
+
+function updateCompressUI(type, pct, done, remaining, elapsedSec, total, startTime){
+  document.getElementById('compressPct'+type).textContent = pct+'%';
+  document.getElementById('compressBarFill'+type).style.width = pct+'%';
+  document.getElementById('compressDoneMB'+type).textContent = fmtBytes(done);
+  document.getElementById('compressRemMB'+type).textContent = fmtBytes(remaining);
+  document.getElementById('compressDonePct'+type).textContent = pct+'% completado';
+  document.getElementById('compressElapsed'+type).textContent = fmtSec(elapsedSec);
+
+  // ETA
+  if(pct > 5 && elapsedSec > 0){
+    var eta = (elapsedSec / pct) * (100 - pct);
+    document.getElementById('compressEta'+type).textContent = fmtSec(eta);
+  } else {
+    document.getElementById('compressEta'+type).textContent = '—';
+  }
+
+  var names = attachState[type].files.map(function(f){ return f.name; });
+  document.getElementById('compressInfo'+type).textContent = 'Procesando '+names.length+' archivo(s)…';
+}
+
+// ==================== ONLINE/OFFLINE ====================
+window.addEventListener('online', function(){
+  ['PF','PM'].forEach(function(type){
+    var state = attachState[type];
+    document.getElementById('offlineMsg'+type).classList.remove('show');
+    if(state.paused && state.files.length > 1){
+      state.paused = false;
+      startCompression(type);
+    }
+  });
+});
+window.addEventListener('offline', function(){
+  ['PF','PM'].forEach(function(type){
+    var state = attachState[type];
+    document.getElementById('offlineMsg'+type).classList.add('show');
+    if(state.compressing){
+      state.paused = true;
+      state.compressing = false;
+      state.elapsed = Date.now() - state.startTime;
+      document.getElementById('compressResume'+type).classList.add('show');
+    }
+  });
 });
 
 // ==================== VALIDATION ====================
@@ -1054,34 +1481,26 @@ function markError(el){
   el.addEventListener('input',function(){ el.classList.remove('input-error'); },{once:true});
   el.addEventListener('change',function(){ el.classList.remove('input-error'); },{once:true});
 }
-
 function focusFirst(el){
   el.scrollIntoView({behavior:'smooth',block:'center'});
   setTimeout(function(){
     var focusable=el.querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),select,textarea,.tel-number');
-    if(focusable) focusable.focus();
-    else if(el.focus) el.focus();
+    if(focusable) focusable.focus(); else if(el.focus) el.focus();
   },350);
 }
-
 function validateTels(telList, activeRentado){
-  var ok=true;
-  var first=null;
+  var ok=true; var first=null;
   telList.forEach(function(prefix){
     if(prefix==='tel3'&&!activeRentado) return;
     var numEl=document.getElementById(prefix+'_num');
     var combo=document.getElementById(prefix+'_combo');
     var err=document.getElementById('err-'+prefix);
     if(!numEl) return;
-    var digits=numEl.value.replace(/\D/g,'');
-    if(digits.length<7){
+    if(numEl.value.replace(/\D/g,'').length<7){
       if(combo){ combo.classList.add('input-error','shake'); combo.addEventListener('animationend',function(){ combo.classList.remove('shake'); },{once:true}); }
       if(err) err.classList.add('show');
       numEl.addEventListener('input',function(){
-        if(numEl.value.replace(/\D/g,'').length>=7){
-          if(combo) combo.classList.remove('input-error');
-          if(err) err.classList.remove('show');
-        }
+        if(numEl.value.replace(/\D/g,'').length>=7){ if(combo) combo.classList.remove('input-error'); if(err) err.classList.remove('show'); }
       });
       if(!first) first=combo||numEl;
       ok=false;
@@ -1100,30 +1519,31 @@ function triggerFormSubmit(){
     return;
   }
 
+  // Check if compression in progress
+  var state = attachState[currentType];
+  if(state.compressing){
+    alert('Por favor espera a que termine la compresión de archivos antes de enviar.');
+    return;
+  }
+  // Check attachment size
+  var attachUsed = state.zipBlob ? state.zipBlob.size : state.totalSize;
+  if(attachUsed > MAX_BYTES){
+    showAttachError(currentType, 'El total de archivos adjuntos supera los 5 MB ('+fmtBytes(attachUsed)+'). Por favor elimina algunos archivos antes de enviar.');
+    document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
   var form=document.getElementById('form'+currentType);
-  var valid=true;
-  var firstInvalid=null;
+  var valid=true; var firstInvalid=null;
 
   form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(inp){
     if(inp.type==='hidden'||inp.type==='radio'||inp.type==='checkbox') return;
-    var hiddenParent=inp.closest('[style*="display:none"],[style*="display: none"]');
-    if(hiddenParent) return;
-    if(!inp.value.trim()){
-      markError(inp);
-      if(!firstInvalid) firstInvalid=inp;
-      valid=false;
-    }
+    if(inp.closest('[style*="display:none"],[style*="display: none"]')) return;
+    if(!inp.value.trim()){ markError(inp); if(!firstInvalid) firstInvalid=inp; valid=false; }
   });
 
-  var lf=document.getElementById('lugar_fecha');
-  var nf=document.getElementById('nombre_firmante');
-  [lf,nf].forEach(function(inp){
-    if(!inp.value.trim()){
-      markError(inp);
-      if(!firstInvalid) firstInvalid=inp;
-      valid=false;
-    }
-  });
+  var lf=document.getElementById('lugar_fecha'); var nf=document.getElementById('nombre_firmante');
+  [lf,nf].forEach(function(inp){ if(!inp.value.trim()){ markError(inp); if(!firstInvalid) firstInvalid=inp; valid=false; } });
 
   var telListPF=['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10'];
   var telListPM=['tel11','tel12','tel14','tel15','tel18','tel19'];
@@ -1134,41 +1554,28 @@ function triggerFormSubmit(){
     if(activeRentado) telListPF=telListPF.concat(['tel3']);
   }
   var telResult=validateTels(currentType==='PF'?telListPF:telListPM, activeRentado);
-  if(!telResult.ok){
-    if(!firstInvalid) firstInvalid=telResult.first;
-    valid=false;
-  }
+  if(!telResult.ok){ if(!firstInvalid) firstInvalid=telResult.first; valid=false; }
 
   var sectorId=currentType==='PF'?'sectorPF':'sectorPM';
   var sectorGroup=document.getElementById(sectorId);
   var sectorErr=document.getElementById('err-'+sectorId);
   if(sectorGroup&&sectorGroup.querySelectorAll('input:checked').length===0){
-    sectorGroup.classList.add('group-error','shake');
-    sectorGroup.addEventListener('animationend',function(){ sectorGroup.classList.remove('shake'); },{once:true});
+    sectorGroup.classList.add('group-error','shake'); sectorGroup.addEventListener('animationend',function(){ sectorGroup.classList.remove('shake'); },{once:true});
     if(sectorErr) sectorErr.classList.add('show');
-    if(!firstInvalid) firstInvalid=sectorGroup;
-    valid=false;
+    if(!firstInvalid) firstInvalid=sectorGroup; valid=false;
   }
 
-  var radioGroups=currentType==='PF'
-    ?[{id:'estCivilPF',name:'EstadoCivil_PF'}]
-    :[{id:'estCivilAval',name:'EstadoCivil_Aval'}];
+  var radioGroups=currentType==='PF'?[{id:'estCivilPF',name:'EstadoCivil_PF'}]:[{id:'estCivilAval',name:'EstadoCivil_Aval'}];
   radioGroups.forEach(function(rg){
-    var grpEl=document.getElementById(rg.id);
-    var errEl=document.getElementById('err-'+rg.id);
-    var checked=form.querySelector('input[name="'+rg.name+'"]:checked');
-    if(!checked){
+    var grpEl=document.getElementById(rg.id); var errEl=document.getElementById('err-'+rg.id);
+    if(!form.querySelector('input[name="'+rg.name+'"]:checked')){
       if(grpEl){ grpEl.classList.add('group-error','shake'); grpEl.addEventListener('animationend',function(){ grpEl.classList.remove('shake'); },{once:true}); }
       if(errEl) errEl.classList.add('show');
-      if(!firstInvalid) firstInvalid=grpEl;
-      valid=false;
+      if(!firstInvalid) firstInvalid=grpEl; valid=false;
     }
   });
 
-  if(!valid){
-    if(firstInvalid) focusFirst(firstInvalid);
-    return;
-  }
+  if(!valid){ if(firstInvalid) focusFirst(firstInvalid); return; }
 
   var btn=document.getElementById('mainSubmitBtn');
   btn.disabled=true;
@@ -1184,22 +1591,28 @@ function triggerFormSubmit(){
   function doSubmit(token){
     if(token) inject('g-recaptcha-response',token);
     document.getElementById('btnText').textContent='Enviando...';
-    fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)})
-      .then(function(res){ if(res.ok||res.status===200){ showSuccessModal(); } else { return res.text().then(function(t){ throw new Error(t); }); } })
+
+    var formData = new FormData(form);
+
+    // Attach file(s) to FormData
+    var st = attachState[currentType];
+    if(st.files.length === 1 && !st.zipBlob){
+      formData.append('Adjuntos', st.files[0], st.files[0].name);
+    } else if(st.zipBlob){
+      formData.append('Adjuntos', st.zipBlob, 'archivos-adjuntos-'+getToday()+'.zip');
+    }
+
+    fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:formData})
+      .then(function(res){ if(res.ok||res.status===200){ showSuccessModal(); } else { throw new Error('Error'); } })
       .catch(function(){ showSuccessModal(); })
       .finally(function(){ btn.disabled=false; document.getElementById('btnText').textContent='Enviar Solicitud de Arrendamiento →'; });
   }
 
   function execCaptcha(n){
     n=n||0;
-    if(typeof grecaptcha==='undefined'||!recaptchaReady){
-      if(n>50){ doSubmit(null); return; }
-      setTimeout(function(){ execCaptcha(n+1); },100); return;
-    }
+    if(typeof grecaptcha==='undefined'||!recaptchaReady){ if(n>50){ doSubmit(null); return; } setTimeout(function(){ execCaptcha(n+1); },100); return; }
     grecaptcha.ready(function(){
-      grecaptcha.execute(RECAPTCHA_SITE_KEY,{action:'submit'})
-        .then(function(t){ doSubmit(t); })
-        .catch(function(){ doSubmit(null); });
+      grecaptcha.execute(RECAPTCHA_SITE_KEY,{action:'submit'}).then(function(t){ doSubmit(t); }).catch(function(){ doSubmit(null); });
     });
   }
   execCaptcha();
@@ -1221,19 +1634,15 @@ function validateRFC(el){
 // ==================== CP / COPOMEX ====================
 var COPOMEX_TOKEN='36da398a-1848-44f3-a952-06c9bfb02cc8';
 var cpTimers={};
-
 function handleCPInput(inp){
-  var uid=inp.id;
-  clearTimeout(cpTimers[uid]);
+  var uid=inp.id; clearTimeout(cpTimers[uid]);
   inp.classList.remove('cp-valid','cp-error','cp-loading');
-  var wrap=document.getElementById('colonias-'+uid+'-wrap');
-  if(wrap) wrap.style.display='none';
+  var wrap=document.getElementById('colonias-'+uid+'-wrap'); if(wrap) wrap.style.display='none';
   var val=inp.value.replace(/\D/g,''); inp.value=val;
   if(val.length<5) return;
   inp.classList.add('cp-loading');
   cpTimers[uid]=setTimeout(function(){ fetchCP(inp,uid); },600);
 }
-
 function fetchCP(inp,uid){
   if(inp.value.length!==5){ inp.classList.remove('cp-loading'); return; }
   fetch('https://api.copomex.com/query/info_cp/'+inp.value+'?type=simplified&token='+COPOMEX_TOKEN)
@@ -1244,17 +1653,14 @@ function fetchCP(inp,uid){
       if(!resp){ inp.classList.add('cp-error'); return; }
       inp.classList.add('cp-valid');
       var cols=Array.isArray(resp.asentamiento)?resp.asentamiento:(resp.asentamiento?[resp.asentamiento]:[]);
-      var ciudad=resp.ciudad||resp.municipio||'';
-      var estado=resp.estado||'';
+      var ciudad=resp.ciudad||resp.municipio||''; var estado=resp.estado||'';
       var sec=inp.closest('.section-body')||inp.closest('.field-grid');
       if(sec) sec.querySelectorAll('input.field-input').forEach(function(el){
         var ph=(el.placeholder||'').toLowerCase().trim();
         if(ph==='ciudad'){ el.value=ciudad; el.classList.add('cp-autofilled'); }
         if(ph==='estado'){ el.value=estado; el.classList.add('cp-autofilled'); }
       });
-      var selWrap=document.getElementById('colonias-'+uid+'-wrap');
-      var sel=document.getElementById('colonias-'+uid);
-      var hint=document.getElementById('hint-'+uid);
+      var selWrap=document.getElementById('colonias-'+uid+'-wrap'); var sel=document.getElementById('colonias-'+uid); var hint=document.getElementById('hint-'+uid);
       if(selWrap&&sel&&cols.length>0){
         sel.innerHTML='<option value="">-- Selecciona --</option>';
         cols.sort().forEach(function(c){ var op=document.createElement('option'); op.value=c; op.textContent=c; sel.appendChild(op); });
@@ -1265,7 +1671,6 @@ function fetchCP(inp,uid){
     })
     .catch(function(){ inp.classList.remove('cp-loading'); inp.classList.add('cp-error'); });
 }
-
 function onColoniaChange(sel,uid){
   var cp=document.getElementById(uid); if(!cp) return;
   var sec=cp.closest('.section-body')||cp.closest('.field-grid'); if(!sec) return;
@@ -1278,72 +1683,46 @@ function onColoniaChange(sel,uid){
 
 // ==================== PROGRESS BAR ====================
 var progressState={form:null};
-
 function updateProgressBar(){
   if(!progressState.form) return;
   var form=document.getElementById(progressState.form); if(!form) return;
-  var total=0, done=0;
-
+  var total=0,done=0;
   form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(el){
     if(el.type==='hidden'||el.type==='radio'||el.type==='checkbox') return;
     if(el.closest('[style*="display:none"],[style*="display: none"]')) return;
-    total++;
-    if(el.value.trim()) done++;
+    total++; if(el.value.trim()) done++;
   });
-
-  var tels=progressState.form==='formPF'
-    ?['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10']
-    :['tel11','tel12','tel14','tel15','tel18','tel19'];
-  tels.forEach(function(p){
-    var n=document.getElementById(p+'_num'); if(!n) return;
-    total++;
-    if(n.value.replace(/\D/g,'').length>=7) done++;
-  });
-
+  var tels=progressState.form==='formPF'?['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10']:['tel11','tel12','tel14','tel15','tel18','tel19'];
+  tels.forEach(function(p){ var n=document.getElementById(p+'_num'); if(!n) return; total++; if(n.value.replace(/\D/g,'').length>=7) done++; });
   var sid=progressState.form==='formPF'?'sectorPF':'sectorPM';
   var sg=document.getElementById(sid);
   if(sg){ total++; if(sg.querySelectorAll('input:checked').length>0) done++; }
-
   var rname=progressState.form==='formPF'?'EstadoCivil_PF':'EstadoCivil_Aval';
-  total++;
-  if(form.querySelector('input[name="'+rname+'"]:checked')) done++;
-
-  var lf=document.getElementById('lugar_fecha');
-  var nf=document.getElementById('nombre_firmante');
+  total++; if(form.querySelector('input[name="'+rname+'"]:checked')) done++;
+  var lf=document.getElementById('lugar_fecha'); var nf=document.getElementById('nombre_firmante');
   [lf,nf].forEach(function(el){ if(el){ total++; if(el.value.trim()) done++; } });
-
   var pct=total>0?(done/total)*100:0;
   document.getElementById('formProgressFill').style.width=pct+'%';
   document.getElementById('formProgressDone').textContent=done;
   document.getElementById('formProgressTotal').textContent=total;
 }
-
 function attachProgress(formId){
   var form=document.getElementById(formId); if(!form) return;
   form.querySelectorAll('input,select,textarea').forEach(function(el){
-    el.addEventListener('input',updateProgressBar);
-    el.addEventListener('change',updateProgressBar);
+    el.addEventListener('input',updateProgressBar); el.addEventListener('change',updateProgressBar);
   });
-  ['lugar_fecha','nombre_firmante'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.addEventListener('input',updateProgressBar);
-  });
+  ['lugar_fecha','nombre_firmante'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('input',updateProgressBar); });
 }
-
 function showProgressBar(formId){
   progressState.form=formId;
   document.getElementById('formProgressWrap').classList.add('visible');
-  attachProgress(formId);
-  updateProgressBar();
+  attachProgress(formId); updateProgressBar();
 }
 
 // ==================== ADD ROW ====================
 function addRow(tbodyId){
-  var tb=document.getElementById(tbodyId);
-  var fr=tb&&tb.querySelector('tr'); if(!fr) return;
-  var row=fr.cloneNode(true);
-  row.querySelectorAll('input').forEach(function(i){ i.value=''; });
-  tb.appendChild(row);
+  var tb=document.getElementById(tbodyId); var fr=tb&&tb.querySelector('tr'); if(!fr) return;
+  var row=fr.cloneNode(true); row.querySelectorAll('input').forEach(function(i){ i.value=''; }); tb.appendChild(row);
 }
 
 // ==================== INIT ====================
@@ -1360,11 +1739,12 @@ document.addEventListener('DOMContentLoaded',function(){
       try{ localStorage.setItem('ava-theme',dark?'dark':'light'); }catch(e){}
     });
   }
+  ['lugar_fecha','nombre_firmante'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('input',updateProgressBar); });
 
-  ['lugar_fecha','nombre_firmante'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.addEventListener('input',updateProgressBar);
-  });
+  // Warn if JSZip not available
+  if(!jszipAvailable){
+    console.warn('JSZip no está disponible. La compresión automática no funcionará.');
+  }
 });
 </script>
 </body>
