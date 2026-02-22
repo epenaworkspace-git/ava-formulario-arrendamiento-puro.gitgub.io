@@ -1112,18 +1112,105 @@ function showSuccessModal(){
   document.getElementById('successOverlay').classList.add('show');
   document.body.style.overflow='hidden';
 }
+
+// ── FIX 2: full form reset when user returns from success modal ──
+function resetForm(type){
+  var form=document.getElementById('form'+type);
+  if(!form) return;
+
+  // 1. Clear all standard inputs / selects / textareas (skip hidden & system fields)
+  form.querySelectorAll('input:not([type=hidden]),select,textarea').forEach(function(el){
+    if(el.type==='checkbox'||el.type==='radio'){ el.checked=false; }
+    else if(el.tagName==='SELECT'){ el.selectedIndex=0; }
+    else { el.value=''; }
+    // Remove validation state classes
+    el.classList.remove('input-error','rfc-valid','rfc-error','cp-valid','cp-error','cp-loading','cp-autofilled');
+  });
+
+  // 2. Remove any RFC hint spans added dynamically
+  form.querySelectorAll('.rfc-hint').forEach(function(el){ el.textContent=''; });
+
+  // 3. Reset radio pills — deselect all
+  form.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
+
+  // 4. Reset check pills — deselect all
+  form.querySelectorAll('.check-pill').forEach(function(p){ p.classList.remove('selected'); });
+
+  // 5. Reset sector error messages
+  form.querySelectorAll('.error-msg').forEach(function(el){ el.classList.remove('show'); });
+  form.querySelectorAll('.check-group,.radio-group').forEach(function(el){ el.classList.remove('group-error'); });
+
+  // 6. Reset tel number fields (the visible inputs)
+  form.querySelectorAll('.tel-number').forEach(function(el){ el.value=''; });
+  form.querySelectorAll('.tel-combo').forEach(function(el){ el.classList.remove('input-error'); });
+
+  // 7. Remove dynamically added extra rows from tables (keep only first 2)
+  ['tblClientesPF','tblProveedoresPF','tblDirectivosPF','tblEquiposPF',
+   'tblClientesPM','tblProveedoresPM','tblDirectivosPM','tblEquiposPM',
+   'tblAccionistas'].forEach(function(id){
+    var tb=document.getElementById(id); if(!tb) return;
+    var rows=tb.querySelectorAll('tr');
+    rows.forEach(function(row,i){ if(i>=2) row.remove(); });
+    // Clear remaining rows
+    tb.querySelectorAll('input').forEach(function(inp){ inp.value=''; inp.classList.remove('input-error'); });
+  });
+
+  // 8. Reset inmueble toggle back to "Propio" (PF only)
+  if(type==='PF'){
+    var toggle=document.getElementById('inmuebleFiscalPF');
+    if(toggle){
+      toggle.querySelectorAll('.inmueble-opt').forEach(function(b){ b.classList.remove('active'); });
+      var first=toggle.querySelector('.inmueble-opt'); if(first) first.classList.add('active');
+    }
+    var propioDiv=document.getElementById('fiscalPropioDetails');
+    var rentadoDiv=document.getElementById('fiscalRentadoDetails');
+    if(propioDiv) propioDiv.style.display='';
+    if(rentadoDiv) rentadoDiv.style.display='none';
+    setIG('propioPF',true); setIG('rentadoPF',false);
+  }
+
+  // 9. Reset cónyuge required state
+  toggleConyuge(type,false);
+
+  // 10. Reset colonia dropdowns
+  ['cp1','cp2','cp3'].forEach(function(id){
+    var wrap=document.getElementById('colonias-'+id+'-wrap'); if(wrap) wrap.style.display='none';
+    var hint=document.getElementById('hint-'+id); if(hint) hint.textContent='';
+  });
+}
+
 function closeSuccessModal(){
   document.getElementById('successOverlay').classList.remove('show');
   document.body.style.overflow='';
-  // Reset files
+
+  // Reset both forms fully
   ['PF','PM'].forEach(function(t){
+    resetForm(t);
+    // Reset attachment engine state
     attachState[t]={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0};
     var fl=document.getElementById('fileList'+t); if(fl) fl.innerHTML='';
+    // Hide compression panel if still visible
+    var cp=document.getElementById('compressProgress'+t); if(cp) cp.classList.remove('show');
+    var om=document.getElementById('offlineMsg'+t); if(om) om.classList.remove('show');
     updateCapacityBar(t);
   });
+
+  // Reset lugar/fecha and firmante fields (outside the forms)
+  var lf=document.getElementById('lugar_fecha'); if(lf){ lf.value=''; lf.classList.remove('input-error'); }
+  var nf=document.getElementById('nombre_firmante'); if(nf){ nf.value=''; nf.classList.remove('input-error'); }
+
+  // Reset declaration checkbox
   var decl=document.getElementById('declarationCheck');
   if(decl){ decl.checked=false; toggleDeclaration(decl); }
+
+  // Reset motivational modal flags so they fire again on next fill
+  motivShown={25:false,50:false,75:false,100:false};
+  lastPct=0;
+
   updateProgressBar();
+
+  // Scroll back to top
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click',function(e){ if(e.target&&e.target.id==='successOverlay') closeSuccessModal(); });
 
@@ -1210,21 +1297,57 @@ function updateCapacityBar(type){
   var rtCount=document.getElementById('attachCount'+type);
   var rtWeight=document.getElementById('attachWeight'+type);
   var limitExc=document.getElementById('attachLimitExc'+type);
-  if(state.files.length===0){ wrap.classList.remove('visible'); if(rtStats) rtStats.style.display='none'; if(limitExc) limitExc.style.display='none'; return; }
+
+  if(state.files.length===0){
+    wrap.classList.remove('visible');
+    if(rtStats) rtStats.style.display='none';
+    if(limitExc) limitExc.style.display='none';
+    return;
+  }
   wrap.classList.add('visible');
-  var used=state.zipBlob?state.zipBlob.size:state.totalSize;
-  var pct=Math.min(100,(used/MAX_BYTES)*100);
-  bar.style.width=pct+'%';
-  var usedStr=fmtBytes(used);
-  valEl.textContent=usedStr+' de 5 MB';
-  bar.className='attach-bar-fill';
-  dot.className='attach-status-dot';
-  if(rtStats) rtStats.style.display='flex';
-  if(rtCount) rtCount.textContent=state.files.length;
-  if(rtWeight) rtWeight.textContent=usedStr;
-  if(pct>=100){ bar.classList.add('red'); dot.classList.add('red'); statusText.textContent='Límite alcanzado'; showAttachError(type,'El total supera los 5 MB ('+usedStr+'). Elimina archivos.'); if(limitExc) limitExc.style.display='block'; }
-  else if(pct>=75){ bar.classList.add('yellow'); dot.classList.add('yellow'); statusText.textContent='Casi lleno — quedan '+fmtBytes(MAX_BYTES-used); hideAttachError(type); if(limitExc) limitExc.style.display='none'; }
-  else { bar.classList.add('green'); dot.classList.add('green'); statusText.textContent='Capacidad disponible — quedan '+fmtBytes(MAX_BYTES-used); hideAttachError(type); if(limitExc) limitExc.style.display='none'; }
+
+  // ── FIX 1: use compressed size when available; fall back to raw only while compressing ──
+  // If compression is still running, show raw size with a "(comprimiendo…)" note.
+  // Once zipBlob exists, always use the compressed byte count.
+  var isCompressing = state.compressing;
+  var used = state.zipBlob ? state.zipBlob.size : state.totalSize;
+  var usedStr = fmtBytes(used) + (isCompressing && !state.zipBlob ? ' (comprimiendo…)' : '');
+
+  // Bar width: mapped 0–5 MB → 0–100%
+  var pct = Math.min(100, (used / MAX_BYTES) * 100);
+  bar.style.width = pct + '%';
+  valEl.textContent = usedStr + ' de 5 MB';
+
+  bar.className = 'attach-bar-fill';
+  dot.className = 'attach-status-dot';
+  if(rtStats) rtStats.style.display = 'flex';
+  if(rtCount) rtCount.textContent = state.files.length;
+  if(rtWeight) rtWeight.textContent = usedStr;
+
+  // ── Thresholds: verde <4 MB | amarillo 4–5 MB | rojo ≥5 MB ──
+  var YELLOW_BYTES = 4 * 1024 * 1024; // 4 MB
+  if(used >= MAX_BYTES){
+    // 🔴 Rojo — límite superado
+    bar.classList.add('red');
+    dot.classList.add('red');
+    statusText.textContent = 'Límite alcanzado — elimina archivos';
+    showAttachError(type, 'El total comprimido supera los 5 MB (' + fmtBytes(used) + '). Por favor elimina archivos.');
+    if(limitExc) limitExc.style.display = 'block';
+  } else if(used >= YELLOW_BYTES){
+    // 🟡 Amarillo — entre 4 y 5 MB
+    bar.classList.add('yellow');
+    dot.classList.add('yellow');
+    statusText.textContent = 'Casi lleno — quedan ' + fmtBytes(MAX_BYTES - used);
+    hideAttachError(type);
+    if(limitExc) limitExc.style.display = 'none';
+  } else {
+    // 🟢 Verde — menos de 4 MB
+    bar.classList.add('green');
+    dot.classList.add('green');
+    statusText.textContent = 'Capacidad disponible — quedan ' + fmtBytes(MAX_BYTES - used);
+    hideAttachError(type);
+    if(limitExc) limitExc.style.display = 'none';
+  }
 }
 function showAttachError(type,msg){ var el=document.getElementById('attachErr'+type); document.getElementById('attachErrText'+type).textContent=msg; el.classList.add('show'); }
 function hideAttachError(type){ document.getElementById('attachErr'+type).classList.remove('show'); }
