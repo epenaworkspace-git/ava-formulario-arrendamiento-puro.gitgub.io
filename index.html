@@ -6,7 +6,6 @@
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
-<!-- JSZip for client-side ZIP compression -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 :root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--warning:#F59E0B;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);}
@@ -58,8 +57,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dar
 .field-input::placeholder{color:var(--gray-400);}
 select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239BA8C0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
 textarea.field-input{resize:vertical;min-height:80px;}
-
-/* ---- Error states ---- */
 .field-input.input-error{border-color:var(--error)!important;background:rgba(255,71,87,0.04)!important;box-shadow:0 0 0 3px rgba(255,71,87,0.12)!important;}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
 .shake{animation:shake 0.35s ease;}
@@ -67,16 +64,12 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .group-error{padding:8px!important;border-radius:10px;border:1.5px solid var(--error)!important;background:rgba(255,71,87,0.04)!important;}
 .error-msg{font-size:11px;color:var(--error);margin-top:4px;display:none;}
 .error-msg.show{display:block;}
-
-/* ---- Tel Combo ---- */
 .tel-combo{display:flex;width:100%;border-radius:10px;overflow:hidden;border:1.5px solid var(--gray-200);background:var(--gray-100);transition:border-color 0.22s,box-shadow 0.22s,background 0.22s;}
 .tel-combo:focus-within{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(22,93,255,0.10);}
 .lada-select{flex-shrink:0;width:160px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:var(--navy);padding:11px 22px 11px 11px;background-color:rgba(10,31,68,0.05);border:none;border-right:1.5px solid var(--gray-200);border-radius:0;outline:none;cursor:pointer;transition:background-color 0.18s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M1 1l3.5 3L8 1' stroke='%236B7A99' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
 .lada-select:focus{background-color:rgba(22,93,255,0.07);outline:none;}
 .tel-number{flex:1;min-width:0;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);padding:11px 12px;background:transparent;border:none;border-radius:0;outline:none;}
 .tel-number::placeholder{color:var(--gray-400);}
-
-/* ---- Pills ---- */
 .radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;}
 .radio-pill,.check-pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--gray-100);cursor:pointer;font-size:13px;font-weight:500;color:var(--gray-500);transition:all 0.2s;user-select:none;}
 .radio-pill input,.check-pill input{position:absolute;opacity:0;pointer-events:none;width:0;height:0;}
@@ -87,7 +80,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .check-box{width:14px;height:14px;border-radius:4px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .check-pill.selected .check-box{background:var(--blue);border-color:var(--blue);}
 .check-pill.selected .check-box::after{content:'\2713';font-size:9px;color:#fff;font-weight:700;}
-
 .divider{height:1px;background:var(--gray-200);margin:20px 0;}
 .mini-table{width:100%;border-collapse:collapse;font-size:13px;}
 .mini-table th{background:var(--gray-100);padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--gray-200);}
@@ -101,8 +93,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .inmueble-toggle{display:flex;border:1.5px solid var(--gray-200);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px;}
 .inmueble-opt{padding:9px 18px;font-size:13px;font-weight:500;color:var(--gray-500);cursor:pointer;background:var(--gray-100);border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .inmueble-opt.active{background:var(--navy);color:#fff;}
-
-/* ===== READABILITY INDICATORS ===== */
 .legibility-banner{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
 .legib-card{border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
 .legib-card.ok{background:rgba(15,195,115,0.08);border:1.5px solid rgba(15,195,115,0.35);}
@@ -115,8 +105,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .legib-card.err .legib-text{color:#b03444;}
 .legib-note{margin-top:10px;font-size:11.5px;color:var(--gray-500);line-height:1.6;background:var(--gray-100);border-radius:8px;padding:10px 12px;border-left:3px solid var(--blue);}
 .legib-note strong{color:var(--navy);display:block;margin-bottom:3px;font-size:12px;}
-
-/* ===== FILE ATTACHMENT SECTION ===== */
 .attach-section{margin-top:0;}
 .attach-dropzone{border:2.5px dashed var(--gray-200);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.3s;background:var(--gray-100);position:relative;overflow:hidden;}
 .attach-dropzone:hover,.attach-dropzone.drag-over{border-color:var(--blue);background:rgba(22,93,255,0.04);}
@@ -129,8 +117,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .attach-meta-badge{background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:0.5px;}
 .attach-tip{font-size:11.5px;color:var(--gray-400);margin-top:5px;display:flex;align-items:center;justify-content:center;gap:5px;}
 .attach-tip::before{content:'💡';}
-
-/* Capacity bar */
 .attach-capacity-wrap{margin-top:16px;display:none;}
 .attach-capacity-wrap.visible{display:block;}
 .attach-capacity-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
@@ -152,8 +138,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 @keyframes pulse-red{0%,100%{opacity:1}50%{opacity:0.4}}
 .attach-error-msg{background:rgba(255,71,87,0.08);border:1.5px solid rgba(255,71,87,0.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#d93546;margin-top:10px;display:none;align-items:center;gap:8px;}
 .attach-error-msg.show{display:flex;}
-
-/* File list */
 .attach-file-list{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
 .attach-file-item{display:flex;align-items:center;gap:10px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:10px;padding:9px 12px;animation:fadeSlide 0.2s ease;}
 .attach-file-icon{font-size:18px;flex-shrink:0;}
@@ -161,8 +145,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .attach-file-size{font-size:12px;color:var(--gray-400);flex-shrink:0;}
 .attach-file-remove{width:24px;height:24px;border-radius:50%;border:none;background:rgba(255,71,87,0.1);color:#FF4757;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;flex-shrink:0;}
 .attach-file-remove:hover{background:#FF4757;color:#fff;}
-
-/* Compression progress */
 .compress-progress{display:none;border:1.5px solid var(--gray-200);border-radius:14px;overflow:hidden;margin-top:14px;}
 .compress-progress.show{display:block;}
 .compress-header{background:var(--navy);padding:12px 16px;display:flex;align-items:center;gap:8px;}
@@ -181,8 +163,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .compress-resume-note.show{display:flex;}
 .offline-msg{background:rgba(255,71,87,0.08);border:1.5px solid rgba(255,71,87,0.25);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#d93546;margin-top:10px;display:none;align-items:center;gap:8px;}
 .offline-msg.show{display:flex;}
-
-/* ===== SUBMIT AREA ===== */
 .submit-area{display:none;padding:28px;background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);margin-bottom:20px;animation:fadeSlide 0.35s ease;}
 .submit-area.show{display:block;}
 .legal-text{font-size:12px;color:var(--gray-500);line-height:1.7;margin-bottom:20px;padding:16px;background:var(--gray-100);border-radius:10px;border-left:3px solid var(--blue);}
@@ -213,13 +193,10 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .declaration-text{font-size:12.5px;color:var(--gray-500);line-height:1.7;}
 .declaration-text strong{color:var(--dark);display:block;margin-bottom:4px;font-size:13px;}
 .declaration-firma{color:var(--blue);font-weight:500;}
-.grecaptcha-badge{visibility:visible!important;opacity:1!important;display:block!important;}
 .recaptcha-notice{font-size:11px;color:var(--gray-400);text-align:center;margin-top:12px;line-height:1.6;}
 .recaptcha-notice a{color:var(--blue);text-decoration:none;}
 @keyframes pulseError{0%,100%{border-color:var(--gray-200)}50%{border-color:var(--error);box-shadow:0 0 0 4px rgba(255,71,87,0.15)}}
 .pulse-error{animation:pulseError 0.5s ease 2;}
-
-/* ===== SUCCESS MODAL ===== */
 .success-overlay{display:none;position:fixed;inset:0;background:rgba(8,18,42,0.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
 .success-overlay.show{display:flex;}
 .success-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:460px;box-shadow:0 32px 80px rgba(10,31,68,0.28),0 8px 24px rgba(10,31,68,0.12);animation:popIn 0.45s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
@@ -244,13 +221,9 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .success-divider{height:1px;background:#E8ECF4;margin:20px 0;}
 .success-close-btn{width:100%;background:linear-gradient(135deg,#165DFF,#0e46cc);color:#fff;border:none;border-radius:14px;padding:16px 28px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
 .success-close-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,93,255,0.5);}
-
-/* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float{position:fixed;bottom:36px;left:36px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.4);cursor:pointer;z-index:1000;text-decoration:none;transition:transform 0.3s,box-shadow 0.3s;}
 .whatsapp-float:hover{transform:scale(1.12) translateY(-3px);box-shadow:0 16px 36px rgba(37,211,102,0.55);}
 .whatsapp-icon{width:30px;height:30px;}
-
-/* ===== THEME TOGGLE ===== */
 .theme-toggle-btn{position:fixed;top:20px;right:20px;z-index:2000;width:52px;height:52px;border-radius:50%;background:linear-gradient(145deg,#e8ecf4,#d0d6e8);box-shadow:0 6px 20px rgba(0,0,0,0.18),inset 0 -2px 4px rgba(0,0,0,0.15),inset 0 2px 4px rgba(255,255,255,0.9);cursor:pointer;border:none;outline:none;overflow:hidden;transition:all 0.3s ease;}
 .toggle-icon-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
 .icon-sun,.icon-moon{position:absolute;width:28px;height:28px;transition:all 0.45s cubic-bezier(0.68,-0.55,0.265,1.55);}
@@ -258,8 +231,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);}
 body.dark-mode .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
 body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
-
-/* ===== BOTÓN INICIAR TRÁMITE ===== */
 .tramite-float{position:fixed;top:50px;left:50px;background:linear-gradient(135deg,#0A1F44 0%,#1a3a6e 100%);color:white;width:75px;height:75px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(10,31,68,0.4);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:floatPremium 3s ease-in-out infinite;border:4px solid white;overflow:hidden;}
 .tramite-float::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.2) 50%,transparent 70%);animation:shine 3s infinite;}
 .tramite-float:hover{transform:scale(1.2) translateY(-5px);box-shadow:0 20px 40px rgba(10,31,68,0.6);animation:none;}
@@ -269,8 +240,6 @@ body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 .tramite-icon{width:36px;height:36px;position:relative;z-index:1;fill:white;}
 @keyframes floatPremium{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-15px) rotate(2deg)}75%{transform:translateY(-5px) rotate(-2deg)}}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-
-/* ===== FLOATING PROGRESS BAR ===== */
 .form-progress-wrap{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1500;display:none;width:calc(100% - 200px);max-width:720px;min-width:280px;pointer-events:none;}
 .form-progress-wrap.visible{display:block;}
 .form-progress-pill{background:#ffffff;border-radius:60px;padding:10px 20px 10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(10,31,68,0.14),0 1px 4px rgba(10,31,68,0.08);border:1px solid rgba(10,31,68,0.07);}
@@ -278,8 +247,34 @@ body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 .form-progress-bar-fill{height:100%;background:linear-gradient(90deg,#165DFF 0%,#3a7fff 100%);border-radius:99px;width:0%;transition:width 0.45s cubic-bezier(0.4,0,0.2,1);}
 .form-progress-text{font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:#6B7A99;white-space:nowrap;flex-shrink:0;min-width:130px;text-align:right;}
 .form-progress-text strong{color:#165DFF;font-weight:700;}
+.attach-formats-line{font-size:12.5px;color:var(--gray-500);margin-top:6px;}
+.attach-auto-compress-line{font-size:12.5px;color:var(--blue);margin-top:5px;font-weight:500;}
+.attach-limit-line{font-size:12.5px;color:var(--dark);margin-top:4px;}
+.attach-realtime-stats{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px;background:rgba(22,93,255,0.07);border-radius:8px;font-size:13px;color:var(--navy);border:1px solid rgba(22,93,255,0.15);flex-wrap:wrap;justify-content:center;}
+.attach-stats-sep{color:var(--gray-400);}
+.attach-limit-exceeded{margin-top:8px;padding:8px 14px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.35);border-radius:8px;font-size:12.5px;color:var(--error);font-weight:600;text-align:center;}
+.conyuge-required .field-label::after{content:' *';color:var(--blue);}
+.motiv-overlay{position:fixed;inset:0;background:rgba(8,18,42,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:8000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.motiv-overlay.show{opacity:1;pointer-events:all;}
+.motiv-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(10,31,68,0.3),0 8px 24px rgba(10,31,68,0.14);overflow:hidden;transform:scale(0.85) translateY(30px);transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1);}
+.motiv-overlay.show .motiv-card{transform:scale(1) translateY(0);}
+.motiv-card-top{padding:36px 32px 24px;position:relative;overflow:hidden;background:#ffffff;}
+.motiv-emoji-3d{font-size:64px;line-height:1;margin-bottom:14px;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.18));animation:emojiBounce 0.55s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;}
+@keyframes emojiBounce{from{opacity:0;transform:scale(0.3) translateY(-20px) rotate(-15deg)}to{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}}
+.motiv-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#0A1F44;margin-bottom:8px;line-height:1.2;}
+.motiv-text{font-size:14px;color:#6B7A99;line-height:1.65;}
+.motiv-card-bottom{padding:20px 28px 28px;background:#ffffff;}
+.motiv-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.motiv-deco::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.09) 0%,transparent 70%);}
+.motiv-deco::after{content:'';position:absolute;bottom:-35px;left:-35px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.06) 0%,transparent 70%);}
+.motiv-btn{width:100%;padding:15px 24px;border:none;border-radius:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;}
+.motiv-btn-25{background:linear-gradient(135deg,#165DFF,#3a7fff);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
+.motiv-btn-50{background:linear-gradient(135deg,#0FC373,#0a9e5c);color:#fff;box-shadow:0 6px 20px rgba(15,195,115,0.35);}
+.motiv-btn-75{background:linear-gradient(135deg,#F59E0B,#d97706);color:#fff;box-shadow:0 6px 20px rgba(245,158,11,0.35);}
+.motiv-btn-100{background:linear-gradient(135deg,#165DFF 0%,#ff4b6e 100%);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.4);}
+.motiv-btn:hover{transform:translateY(-2px);filter:brightness(1.08);}
 
-/* ===== DARK MODE ===== */
+/* DARK MODE */
 body.dark-mode{--navy:#1a2d56;--blue:#4d8aff;--blue-light:#6ba3ff;--white:#e8edf8;--dark:#d0d8ec;--gray-100:#111827;--gray-200:#1e2d45;--gray-400:#4a5878;--gray-500:#7a8fb0;--card-bg:rgba(17,28,50,0.97);--shadow:0 8px 40px rgba(0,0,0,0.35);--shadow-lg:0 20px 60px rgba(0,0,0,0.5);background:#0c1525;}
 body.dark-mode .header{background:#061022;}
 body.dark-mode .form-card,body.dark-mode .submit-area{background:#111c33;}
@@ -322,48 +317,14 @@ body.dark-mode .legib-note{background:#162040;}
 body.dark-mode .legib-card.ok{background:rgba(15,195,115,0.06);border-color:rgba(15,195,115,0.25);}
 body.dark-mode .legib-card.err{background:rgba(255,71,87,0.06);border-color:rgba(255,71,87,0.2);}
 body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d38);}
-/* Dark mode — discrete uniform border on floating circular buttons */
 body.dark-mode .tramite-float{border:2px solid rgba(255,255,255,0.09);}
 body.dark-mode .whatsapp-float{border:2px solid rgba(255,255,255,0.12);}
-
-/* ===== DROPZONE NEW CONTENT ===== */
-.attach-formats-line{font-size:12.5px;color:var(--gray-500);margin-top:6px;}
-.attach-auto-compress-line{font-size:12.5px;color:var(--blue);margin-top:5px;font-weight:500;}
-.attach-limit-line{font-size:12.5px;color:var(--dark);margin-top:4px;}
-.attach-realtime-stats{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px;background:rgba(22,93,255,0.07);border-radius:8px;font-size:13px;color:var(--navy);border:1px solid rgba(22,93,255,0.15);flex-wrap:wrap;justify-content:center;}
-.attach-stats-sep{color:var(--gray-400);}
-.attach-limit-exceeded{margin-top:8px;padding:8px 14px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.35);border-radius:8px;font-size:12.5px;color:var(--error);font-weight:600;text-align:center;}
 body.dark-mode .attach-realtime-stats{background:rgba(77,138,255,0.1);border-color:rgba(77,138,255,0.2);color:#d0d8ec;}
 body.dark-mode .attach-limit-exceeded{background:rgba(255,71,87,0.1);border-color:rgba(255,71,87,0.3);}
-
-/* ===== CONYUGE REQUIRED INDICATOR ===== */
-.conyuge-required .field-label::after{content:' *';color:var(--blue);}
-
-/* ===== MOTIVATIONAL MODALS ===== */
-.motiv-overlay{position:fixed;inset:0;background:rgba(8,18,42,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:8000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
-.motiv-overlay.show{opacity:1;pointer-events:all;}
-.motiv-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(10,31,68,0.3),0 8px 24px rgba(10,31,68,0.14);overflow:hidden;transform:scale(0.85) translateY(30px);transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1);}
-.motiv-overlay.show .motiv-card{transform:scale(1) translateY(0);}
-.motiv-card-top{padding:36px 32px 24px;position:relative;overflow:hidden;background:#ffffff;}
-.motiv-emoji-3d{font-size:64px;line-height:1;margin-bottom:14px;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.18));animation:emojiBounce 0.55s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes emojiBounce{from{opacity:0;transform:scale(0.3) translateY(-20px) rotate(-15deg)}to{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}}
-.motiv-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#0A1F44;margin-bottom:8px;line-height:1.2;}
-.motiv-text{font-size:14px;color:#6B7A99;line-height:1.65;}
-.motiv-card-bottom{padding:20px 28px 28px;background:#ffffff;}
-.motiv-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-.motiv-deco::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.09) 0%,transparent 70%);}
-.motiv-deco::after{content:'';position:absolute;bottom:-35px;left:-35px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.06) 0%,transparent 70%);}
-.motiv-btn{width:100%;padding:15px 24px;border:none;border-radius:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;}
-.motiv-btn-25{background:linear-gradient(135deg,#165DFF,#3a7fff);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
-.motiv-btn-50{background:linear-gradient(135deg,#0FC373,#0a9e5c);color:#fff;box-shadow:0 6px 20px rgba(15,195,115,0.35);}
-.motiv-btn-75{background:linear-gradient(135deg,#F59E0B,#d97706);color:#fff;box-shadow:0 6px 20px rgba(245,158,11,0.35);}
-.motiv-btn-100{background:linear-gradient(135deg,#165DFF 0%,#ff4b6e 100%);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.4);}
-.motiv-btn:hover{transform:translateY(-2px);filter:brightness(1.08);}
 body.dark-mode .motiv-card-top,body.dark-mode .motiv-card-bottom,body.dark-mode .motiv-card{background:#111c33;}
 body.dark-mode .motiv-title{color:#e0e8ff;}
 body.dark-mode .motiv-text{color:#7a8fb0;}
 
-/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
   .tramite-float{width:60px;height:60px;top:20px;left:20px;}
   .tramite-tooltip{display:none;}
@@ -394,8 +355,8 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
 
 <!-- BOTÓN INICIAR TRÁMITE -->
 <a href="https://www.anpai.com.mx/iniciar-tramite" class="tramite-float" target="_blank" rel="noopener noreferrer" aria-label="Iniciar trámite">
-    <span class="tramite-tooltip">📝 Iniciar trámite</span>
-    <svg class="tramite-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+  <span class="tramite-tooltip">📝 Iniciar trámite</span>
+  <svg class="tramite-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
 </a>
 
 <header class="header">
@@ -423,6 +384,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
     </div>
   </div>
 
+  <!-- Banners de documentos requeridos -->
   <div class="req-banner" id="reqPF">
     <div class="req-banner-title">Documentos requeridos – Persona Física (PFAE)</div>
     <div class="req-grid">
@@ -453,7 +415,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
     </div>
   </div>
 
-  <!-- ===== FORM PERSONA FÍSICA ===== -->
+  <!-- ===== FORMULARIO PERSONA FÍSICA ===== -->
   <form id="formPF" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;" enctype="multipart/form-data">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Fisica | AVA">
     <input type="hidden" name="_captcha" value="false">
@@ -495,11 +457,13 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel1"><label class="field-label">Teléfono negocio<span class="req">*</span></label>
           <input type="hidden" name="Telefono_negocio" id="tel1_combined">
           <div class="tel-combo" id="tel1_combo"><select class="lada-select" id="tel1_lada" onchange="syncTel('tel1')"></select><input class="tel-number" type="tel" id="tel1_num" placeholder="55 0000 0000" oninput="syncTel('tel1')"></div>
-          <div class="error-msg" id="err-tel1">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel1">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel2"><label class="field-label">Celular negocio<span class="req">*</span></label>
           <input type="hidden" name="Celular_negocio" id="tel2_combined">
           <div class="tel-combo" id="tel2_combo"><select class="lada-select" id="tel2_lada" onchange="syncTel('tel2')"></select><input class="tel-number" type="tel" id="tel2_num" placeholder="55 0000 0000" oninput="syncTel('tel2')"></div>
-          <div class="error-msg" id="err-tel2">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel2">Campo obligatorio.</div>
+        </div>
         <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_negocio" placeholder="correo@ejemplo.com" required></div>
       </div>
 
@@ -556,13 +520,14 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel3"><label class="field-label">Teléfono arrendador<span class="req">*</span></label>
           <input type="hidden" name="FiscalRentado_tel" id="tel3_combined">
           <div class="tel-combo" id="tel3_combo"><select class="lada-select" id="tel3_lada" onchange="syncTel('tel3')"></select><input class="tel-number" type="tel" id="tel3_num" placeholder="55 0000 0000" data-ig="rentadoPF" oninput="syncTel('tel3')"></div>
-          <div class="error-msg" id="err-tel3">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel3">Campo obligatorio.</div>
+        </div>
         <div class="field-group"><label class="field-label">Inicio contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_inicio" data-ig="rentadoPF"></div>
         <div class="field-group"><label class="field-label">Término contrato<span class="req">*</span></label><input class="field-input" type="date" name="FiscalRentado_termino" data-ig="rentadoPF"></div>
       </div>
     </div>
 
-    <!-- DATOS PERSONALES -->
+    <!-- DATOS PERSONALES PF -->
     <div class="section-header"><div class="section-icon">🤝</div><div class="section-title">Datos Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
@@ -574,7 +539,8 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel4"><label class="field-label">Teléfono particular<span class="req">*</span></label>
           <input type="hidden" name="Tel_particular_PF" id="tel4_combined">
           <div class="tel-combo" id="tel4_combo"><select class="lada-select" id="tel4_lada" onchange="syncTel('tel4')"></select><input class="tel-number" type="tel" id="tel4_num" placeholder="55 0000 0000" oninput="syncTel('tel4')"></div>
-          <div class="error-msg" id="err-tel4">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel4">Campo obligatorio.</div>
+        </div>
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilPF">
@@ -601,7 +567,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
       <button type="button" class="add-row-btn" onclick="addRow('tblEquiposPF')">+ Agregar equipo</button>
     </div>
 
-    <!-- REFERENCIAS -->
+    <!-- REFERENCIAS PF -->
     <div class="section-header"><div class="section-icon">👥</div><div class="section-title">Referencias Personales</div></div>
     <div class="section-body">
       <div class="field-grid">
@@ -610,22 +576,26 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel5"><label class="field-label">Teléfono Ref. 1<span class="req">*</span></label>
           <input type="hidden" name="Ref1_tel_PF" id="tel5_combined">
           <div class="tel-combo" id="tel5_combo"><select class="lada-select" id="tel5_lada" onchange="syncTel('tel5')"></select><input class="tel-number" type="tel" id="tel5_num" placeholder="55 0000 0000" oninput="syncTel('tel5')"></div>
-          <div class="error-msg" id="err-tel5">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel5">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel6"><label class="field-label">Celular Ref. 1<span class="req">*</span></label>
           <input type="hidden" name="Ref1_cel_PF" id="tel6_combined">
           <div class="tel-combo" id="tel6_combo"><select class="lada-select" id="tel6_lada" onchange="syncTel('tel6')"></select><input class="tel-number" type="tel" id="tel6_num" placeholder="55 0000 0000" oninput="syncTel('tel6')"></div>
-          <div class="error-msg" id="err-tel6">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel6">Campo obligatorio.</div>
+        </div>
         <div class="divider col-full"></div>
         <div class="field-group col-full"><label class="field-label">Referencia 2<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_nombre_PF" placeholder="Nombre completo" required></div>
         <div class="field-group"><label class="field-label">Parentesco<span class="req">*</span></label><input class="field-input" type="text" name="Ref2_parentesco_PF" required></div>
         <div class="field-group" id="fg-tel7"><label class="field-label">Teléfono Ref. 2<span class="req">*</span></label>
           <input type="hidden" name="Ref2_tel_PF" id="tel7_combined">
           <div class="tel-combo" id="tel7_combo"><select class="lada-select" id="tel7_lada" onchange="syncTel('tel7')"></select><input class="tel-number" type="tel" id="tel7_num" placeholder="55 0000 0000" oninput="syncTel('tel7')"></div>
-          <div class="error-msg" id="err-tel7">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel7">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel8"><label class="field-label">Celular Ref. 2<span class="req">*</span></label>
           <input type="hidden" name="Ref2_cel_PF" id="tel8_combined">
           <div class="tel-combo" id="tel8_combo"><select class="lada-select" id="tel8_lada" onchange="syncTel('tel8')"></select><input class="tel-number" type="tel" id="tel8_num" placeholder="55 0000 0000" oninput="syncTel('tel8')"></div>
-          <div class="error-msg" id="err-tel8">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel8">Campo obligatorio.</div>
+        </div>
       </div>
     </div>
 
@@ -638,131 +608,65 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel9"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Visita_tel_PF" id="tel9_combined">
           <div class="tel-combo" id="tel9_combo"><select class="lada-select" id="tel9_lada" onchange="syncTel('tel9')"></select><input class="tel-number" type="tel" id="tel9_num" placeholder="55 0000 0000" oninput="syncTel('tel9')"></div>
-          <div class="error-msg" id="err-tel9">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel9">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel10"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Visita_cel_PF" id="tel10_combined">
           <div class="tel-combo" id="tel10_combo"><select class="lada-select" id="tel10_lada" onchange="syncTel('tel10')"></select><input class="tel-number" type="tel" id="tel10_num" placeholder="55 0000 0000" oninput="syncTel('tel10')"></div>
-          <div class="error-msg" id="err-tel10">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel10">Campo obligatorio.</div>
+        </div>
       </div>
     </div>
 
     <!-- ADJUNTAR DOCUMENTOS PF -->
-    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional — factura, póliza, etc.)</span></div>
+    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional)</span></div>
     <div class="section-body attach-section">
-      <!-- Legibility indicators -->
       <div class="legibility-banner">
-        <div class="legib-card ok">
-          <div class="legib-icon">✅</div>
-          <div>
-            <div class="legib-title">LEGIBLE</div>
-            <div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Nombre, número y fecha se leen con claridad. Sin sombras ni reflejos que cubran datos.</div>
-          </div>
-        </div>
-        <div class="legib-card err">
-          <div class="legib-icon">❌</div>
-          <div>
-            <div class="legib-title">NO LEGIBLE</div>
-            <div class="legib-text err">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div>
-          </div>
-        </div>
+        <div class="legib-card ok"><div class="legib-icon">✅</div><div><div class="legib-title">LEGIBLE</div><div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Sin sombras ni reflejos que cubran datos.</div></div></div>
+        <div class="legib-card err"><div class="legib-icon">❌</div><div><div class="legib-title">NO LEGIBLE</div><div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div></div></div>
       </div>
-      <div class="legib-note">
-        <strong>📄 Requisito de autenticidad y fidelidad para documentos oficiales</strong>
-        Los documentos adjuntos (identificación oficial, INE, pasaporte, FM2, comprobante de domicilio, constancia fiscal, estados de cuenta, acta constitutiva, etc.) deben ser <strong>copia fiel del original</strong>: completamente legibles, sin alteraciones, recortes ni ediciones digitales. Se aceptan fotografías o digitalizaciones siempre que reproduzcan la totalidad del documento con todos sus datos, sellos, firmas y elementos de seguridad visibles. Los documentos ilegibles o parciales serán rechazados y retrasarán el análisis de su solicitud.
-      </div>
-
-      <!-- Dropzone -->
-      <div class="attach-dropzone" id="attachDropzonePF"
-        ondragover="onDragOver(event,'PF')" ondragleave="onDragLeave(event,'PF')" ondrop="onDrop(event,'PF')"
-        onclick="document.getElementById('fileInputPF').click()">
+      <div class="legib-note"><strong>📄 Requisito de autenticidad</strong>Los documentos deben ser copia fiel del original: completamente legibles, sin alteraciones.</div>
+      <div class="attach-dropzone" id="attachDropzonePF" ondragover="onDragOver(event,'PF')" ondragleave="onDragLeave(event,'PF')" ondrop="onDrop(event,'PF')" onclick="document.getElementById('fileInputPF').click()">
         <span class="attach-folder-icon">📁</span>
-        <div class="attach-dropzone-text">
-          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPF').click()">haz clic para seleccionarlos</a>
-        </div>
-        <div class="attach-formats-line">Formatos permitidos: <strong>PDF, JPG</strong></div>
-        <div class="attach-auto-compress-line">✨ El sistema comprimirá automáticamente tus archivos – no necesitas hacerlo por tu cuenta</div>
-        <div class="attach-limit-line">📏 Límite total: <strong>5MB</strong> (después de compresión)</div>
-        <div class="attach-tip">Puedes adjuntar varios archivos. Si superas el límite, comprímelos por tu cuenta y envíalos vía correo (preferentemente divididos).</div>
+        <div class="attach-dropzone-text">Arrastra tus archivos aquí o <a onclick="event.stopPropagation();document.getElementById('fileInputPF').click()">haz clic para seleccionarlos</a></div>
+        <div class="attach-formats-line">Formatos: <strong>PDF, JPG, PNG</strong></div>
+        <div class="attach-auto-compress-line">✨ Compresión automática incluida</div>
+        <div class="attach-limit-line">📏 Límite total: <strong>5 MB</strong></div>
         <div class="attach-realtime-stats" id="attachRealtimePF" style="display:none">
-          <span>📦 Archivos adjuntos: <strong id="attachCountPF">0</strong></span>
+          <span>📦 <strong id="attachCountPF">0</strong> archivo(s)</span>
           <span class="attach-stats-sep">|</span>
-          <span>Peso total comprimido: <strong id="attachWeightPF">0 MB</strong></span>
+          <span>Peso: <strong id="attachWeightPF">0 MB</strong></span>
         </div>
-        <div class="attach-limit-exceeded" id="attachLimitExcPF" style="display:none">
-          ¡Oops! Se ha superado el límite de 5MB comprimidos. Sigue la recomendación anterior.
-        </div>
-        <input type="file" id="fileInputPF" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PF')">
+        <div class="attach-limit-exceeded" id="attachLimitExcPF" style="display:none">¡Límite de 5 MB superado!</div>
+        <input type="file" id="fileInputPF" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PF')">
       </div>
-
-      <!-- Capacity bar -->
       <div class="attach-capacity-wrap" id="capacityWrapPF">
-        <div class="attach-capacity-header">
-          <span class="attach-capacity-label">Capacidad utilizada</span>
-          <span class="attach-capacity-value" id="capacityValuePF">0 MB de 5 MB</span>
-        </div>
+        <div class="attach-capacity-header"><span class="attach-capacity-label">Capacidad utilizada</span><span class="attach-capacity-value" id="capacityValuePF">0 MB de 5 MB</span></div>
         <div class="attach-bar-track"><div class="attach-bar-fill green" id="attachBarPF" style="width:0%"></div></div>
-        <div class="attach-status" id="attachStatusPF">
-          <span class="attach-status-dot green" id="attachDotPF"></span>
-          <span id="attachStatusTextPF">Capacidad disponible</span>
-        </div>
-        <div class="attach-error-msg" id="attachErrPF">
-          <span>⚠️</span>
-          <span id="attachErrTextPF">El archivo supera el límite de 5 MB.</span>
-        </div>
+        <div class="attach-status" id="attachStatusPF"><span class="attach-status-dot green" id="attachDotPF"></span><span id="attachStatusTextPF">Capacidad disponible</span></div>
+        <div class="attach-error-msg" id="attachErrPF"><span>⚠️</span><span id="attachErrTextPF">El archivo supera el límite de 5 MB.</span></div>
       </div>
-
-      <!-- File list -->
       <div class="attach-file-list" id="fileListPF"></div>
-
-      <!-- Offline message -->
-      <div class="offline-msg" id="offlineMsgPF">
-        <span>📡</span>
-        <span>Sin conexión a internet. La compresión se reanudará automáticamente cuando vuelva la conexión.</span>
-      </div>
-
-      <!-- Compression progress -->
+      <div class="offline-msg" id="offlineMsgPF"><span>📡</span><span>Sin conexión. La compresión se reanudará automáticamente.</span></div>
       <div class="compress-progress" id="compressProgressPF">
-        <div class="compress-header">
-          <span style="font-size:16px;">⚡</span>
-          <span class="compress-header-text">Comprimiendo archivos...</span>
-          <span id="compressPctPF" class="compress-pct" style="margin-left:auto;">0%</span>
-        </div>
+        <div class="compress-header"><span style="font-size:16px;">⚡</span><span class="compress-header-text">Comprimiendo...</span><span id="compressPctPF" class="compress-pct" style="margin-left:auto;">0%</span></div>
         <div class="compress-body">
           <div class="compress-row">
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressDoneMBPF">0 MB</div>
-              <div class="compress-stat-label">Comprimido</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressRemMBPF">0 MB</div>
-              <div class="compress-stat-label">Restante</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressElapsedPF">0s</div>
-              <div class="compress-stat-label">Transcurrido</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressEtaPF">—</div>
-              <div class="compress-stat-label">Tiempo restante</div>
-            </div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressDoneMBPF">0 MB</div><div class="compress-stat-label">Comprimido</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressRemMBPF">0 MB</div><div class="compress-stat-label">Restante</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressElapsedPF">0s</div><div class="compress-stat-label">Transcurrido</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressEtaPF">—</div><div class="compress-stat-label">Restante</div></div>
           </div>
           <div class="compress-bar-track"><div class="compress-bar-fill" id="compressBarFillPF"></div></div>
-          <div class="compress-info">
-            <span id="compressInfoPF">Preparando archivos…</span>
-            <span id="compressDonePctPF">0% completado</span>
-          </div>
-          <div class="compress-resume-note" id="compressResumePF">
-            <span>🔄</span>
-            <span>La compresión se pausó. Cuando vuelva la conexión, continuará automáticamente desde donde se quedó.</span>
-          </div>
+          <div class="compress-info"><span id="compressInfoPF">Preparando…</span><span id="compressDonePctPF">0% completado</span></div>
+          <div class="compress-resume-note" id="compressResumePF"><span>🔄</span><span>Pausado. Continuará cuando vuelva la conexión.</span></div>
         </div>
       </div>
-
       <input type="hidden" id="attachHiddenPF" name="Archivos_adjuntos_info">
     </div>
   </form>
 
-  <!-- ===== FORM PERSONA MORAL ===== -->
+  <!-- ===== FORMULARIO PERSONA MORAL ===== -->
   <form id="formPM" class="form-card" action="https://formsubmit.co/info@anpai.com.mx" method="POST" onsubmit="return false;" enctype="multipart/form-data">
     <input type="hidden" name="_subject" value="Nueva Solicitud Arrendamiento - Persona Moral | AVA">
     <input type="hidden" name="_captcha" value="false">
@@ -800,11 +704,13 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel11"><label class="field-label">Teléfono empresa<span class="req">*</span></label>
           <input type="hidden" name="Tel_PM" id="tel11_combined">
           <div class="tel-combo" id="tel11_combo"><select class="lada-select" id="tel11_lada" onchange="syncTel('tel11')"></select><input class="tel-number" type="tel" id="tel11_num" placeholder="55 0000 0000" oninput="syncTel('tel11')"></div>
-          <div class="error-msg" id="err-tel11">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel11">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel12"><label class="field-label">Celular empresa<span class="req">*</span></label>
           <input type="hidden" name="Cel_PM" id="tel12_combined">
           <div class="tel-combo" id="tel12_combo"><select class="lada-select" id="tel12_lada" onchange="syncTel('tel12')"></select><input class="tel-number" type="tel" id="tel12_num" placeholder="55 0000 0000" oninput="syncTel('tel12')"></div>
-          <div class="error-msg" id="err-tel12">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel12">Campo obligatorio.</div>
+        </div>
         <div class="field-group"><label class="field-label">Correo electrónico<span class="req">*</span></label><input class="field-input" type="email" name="Email_PM" required></div>
       </div>
 
@@ -815,6 +721,28 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <tr><td><input type="text" name="Acc2_nombre"></td><td><input type="number" name="Acc2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="Acc2_rfc"></td></tr>
       </tbody></table>
       <button type="button" class="add-row-btn" onclick="addRow('tblAccionistas')">+ Agregar accionista</button>
+
+      <div class="sub-section-label">Principales Clientes</div>
+      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Ventas</th><th>Contacto</th></tr></thead>
+      <tbody id="tblClientesPM">
+        <tr><td><input type="text" name="CPM1_nombre"></td><td><input type="tel" name="CPM1_tel"></td><td><input type="number" name="CPM1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="CPM1_contacto"></td></tr>
+        <tr><td><input type="text" name="CPM2_nombre"></td><td><input type="tel" name="CPM2_tel"></td><td><input type="number" name="CPM2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="CPM2_contacto"></td></tr>
+      </tbody></table>
+      <button type="button" class="add-row-btn" onclick="addRow('tblClientesPM')">+ Agregar cliente</button>
+
+      <div class="sub-section-label">Principales Proveedores</div>
+      <table class="mini-table"><thead><tr><th>Nombre</th><th>Teléfono</th><th>% Compras</th><th>Contacto</th></tr></thead>
+      <tbody id="tblProveedoresPM">
+        <tr><td><input type="text" name="PPM1_nombre"></td><td><input type="tel" name="PPM1_tel"></td><td><input type="number" name="PPM1_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="PPM1_contacto"></td></tr>
+        <tr><td><input type="text" name="PPM2_nombre"></td><td><input type="tel" name="PPM2_tel"></td><td><input type="number" name="PPM2_pct" placeholder="%" min="0" max="100"></td><td><input type="text" name="PPM2_contacto"></td></tr>
+      </tbody></table>
+
+      <div class="sub-section-label">Primer Cuadro Directivo</div>
+      <table class="mini-table"><thead><tr><th>Nombre completo</th><th>Cargo</th><th>Años exp.</th></tr></thead>
+      <tbody id="tblDirectivosPM">
+        <tr><td><input type="text" name="DPM1_nombre"></td><td><input type="text" name="DPM1_cargo"></td><td><input type="number" name="DPM1_exp" min="0"></td></tr>
+        <tr><td><input type="text" name="DPM2_nombre"></td><td><input type="text" name="DPM2_cargo"></td><td><input type="number" name="DPM2_exp" min="0"></td></tr>
+      </tbody></table>
     </div>
 
     <div class="section-header"><div class="section-icon">📍</div><div class="section-title">Domicilio Fiscal de la Empresa</div></div>
@@ -851,11 +779,13 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel14"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Aval_tel" id="tel14_combined">
           <div class="tel-combo" id="tel14_combo"><select class="lada-select" id="tel14_lada" onchange="syncTel('tel14')"></select><input class="tel-number" type="tel" id="tel14_num" placeholder="55 0000 0000" oninput="syncTel('tel14')"></div>
-          <div class="error-msg" id="err-tel14">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel14">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel15"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Aval_cel" id="tel15_combined">
           <div class="tel-combo" id="tel15_combo"><select class="lada-select" id="tel15_lada" onchange="syncTel('tel15')"></select><input class="tel-number" type="tel" id="tel15_num" placeholder="55 0000 0000" oninput="syncTel('tel15')"></div>
-          <div class="error-msg" id="err-tel15">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel15">Campo obligatorio.</div>
+        </div>
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilAval">
@@ -892,127 +822,66 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
         <div class="field-group" id="fg-tel18"><label class="field-label">Teléfono<span class="req">*</span></label>
           <input type="hidden" name="Visita_tel_PM" id="tel18_combined">
           <div class="tel-combo" id="tel18_combo"><select class="lada-select" id="tel18_lada" onchange="syncTel('tel18')"></select><input class="tel-number" type="tel" id="tel18_num" placeholder="55 0000 0000" oninput="syncTel('tel18')"></div>
-          <div class="error-msg" id="err-tel18">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel18">Campo obligatorio.</div>
+        </div>
         <div class="field-group" id="fg-tel19"><label class="field-label">Celular<span class="req">*</span></label>
           <input type="hidden" name="Visita_cel_PM" id="tel19_combined">
           <div class="tel-combo" id="tel19_combo"><select class="lada-select" id="tel19_lada" onchange="syncTel('tel19')"></select><input class="tel-number" type="tel" id="tel19_num" placeholder="55 0000 0000" oninput="syncTel('tel19')"></div>
-          <div class="error-msg" id="err-tel19">Campo obligatorio.</div></div>
+          <div class="error-msg" id="err-tel19">Campo obligatorio.</div>
+        </div>
       </div>
     </div>
 
     <!-- ADJUNTAR DOCUMENTOS PM -->
-    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional — factura, póliza, etc.)</span></div>
+    <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional)</span></div>
     <div class="section-body attach-section">
       <div class="legibility-banner">
-        <div class="legib-card ok">
-          <div class="legib-icon">✅</div>
-          <div>
-            <div class="legib-title">LEGIBLE</div>
-            <div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Nombre, número y fecha se leen con claridad. Sin sombras ni reflejos que cubran datos.</div>
-          </div>
-        </div>
-        <div class="legib-card err">
-          <div class="legib-icon">❌</div>
-          <div>
-            <div class="legib-title">NO LEGIBLE</div>
-            <div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div>
-          </div>
-        </div>
+        <div class="legib-card ok"><div class="legib-icon">✅</div><div><div class="legib-title">LEGIBLE</div><div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Sin sombras ni reflejos que cubran datos.</div></div></div>
+        <div class="legib-card err"><div class="legib-icon">❌</div><div><div class="legib-title">NO LEGIBLE</div><div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div></div></div>
       </div>
-      <div class="legib-note">
-        <strong>📄 Requisito de autenticidad y fidelidad para documentos oficiales</strong>
-        Los documentos adjuntos (identificación oficial, INE, pasaporte, FM2, comprobante de domicilio, constancia fiscal, estados de cuenta, acta constitutiva, escrituras, poderes notariales, etc.) deben ser <strong>copia fiel del original</strong>: completamente legibles, sin alteraciones, recortes ni ediciones digitales. Se aceptan fotografías o digitalizaciones siempre que reproduzcan la totalidad del documento con todos sus datos, sellos, firmas y elementos de seguridad visibles. Los documentos ilegibles o parciales serán rechazados y retrasarán el análisis de su solicitud.
-      </div>
-
-      <div class="attach-dropzone" id="attachDropzonePM"
-        ondragover="onDragOver(event,'PM')" ondragleave="onDragLeave(event,'PM')" ondrop="onDrop(event,'PM')"
-        onclick="document.getElementById('fileInputPM').click()">
+      <div class="legib-note"><strong>📄 Requisito de autenticidad</strong>Los documentos deben ser copia fiel del original: completamente legibles, sin alteraciones.</div>
+      <div class="attach-dropzone" id="attachDropzonePM" ondragover="onDragOver(event,'PM')" ondragleave="onDragLeave(event,'PM')" ondrop="onDrop(event,'PM')" onclick="document.getElementById('fileInputPM').click()">
         <span class="attach-folder-icon">📁</span>
-        <div class="attach-dropzone-text">
-          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPM').click()">haz clic para seleccionarlos</a>
-        </div>
-        <div class="attach-formats-line">Formatos permitidos: <strong>PDF, JPG</strong></div>
-        <div class="attach-auto-compress-line">✨ El sistema comprimirá automáticamente tus archivos – no necesitas hacerlo por tu cuenta</div>
-        <div class="attach-limit-line">📏 Límite total: <strong>5MB</strong> (después de compresión)</div>
-        <div class="attach-tip">Puedes adjuntar varios archivos. Si superas el límite, comprímelos por tu cuenta y envíalos vía correo (preferentemente divididos).</div>
+        <div class="attach-dropzone-text">Arrastra tus archivos aquí o <a onclick="event.stopPropagation();document.getElementById('fileInputPM').click()">haz clic para seleccionarlos</a></div>
+        <div class="attach-formats-line">Formatos: <strong>PDF, JPG, PNG</strong></div>
+        <div class="attach-auto-compress-line">✨ Compresión automática incluida</div>
+        <div class="attach-limit-line">📏 Límite total: <strong>5 MB</strong></div>
         <div class="attach-realtime-stats" id="attachRealtimePM" style="display:none">
-          <span>📦 Archivos adjuntos: <strong id="attachCountPM">0</strong></span>
+          <span>📦 <strong id="attachCountPM">0</strong> archivo(s)</span>
           <span class="attach-stats-sep">|</span>
-          <span>Peso total comprimido: <strong id="attachWeightPM">0 MB</strong></span>
+          <span>Peso: <strong id="attachWeightPM">0 MB</strong></span>
         </div>
-        <div class="attach-limit-exceeded" id="attachLimitExcPM" style="display:none">
-          ¡Oops! Se ha superado el límite de 5MB comprimidos. Sigue la recomendación anterior.
-        </div>
-        <input type="file" id="fileInputPM" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PM')">
+        <div class="attach-limit-exceeded" id="attachLimitExcPM" style="display:none">¡Límite de 5 MB superado!</div>
+        <input type="file" id="fileInputPM" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PM')">
       </div>
-
       <div class="attach-capacity-wrap" id="capacityWrapPM">
-        <div class="attach-capacity-header">
-          <span class="attach-capacity-label">Capacidad utilizada</span>
-          <span class="attach-capacity-value" id="capacityValuePM">0 MB de 5 MB</span>
-        </div>
+        <div class="attach-capacity-header"><span class="attach-capacity-label">Capacidad utilizada</span><span class="attach-capacity-value" id="capacityValuePM">0 MB de 5 MB</span></div>
         <div class="attach-bar-track"><div class="attach-bar-fill green" id="attachBarPM" style="width:0%"></div></div>
-        <div class="attach-status" id="attachStatusPM">
-          <span class="attach-status-dot green" id="attachDotPM"></span>
-          <span id="attachStatusTextPM">Capacidad disponible</span>
-        </div>
-        <div class="attach-error-msg" id="attachErrPM">
-          <span>⚠️</span>
-          <span id="attachErrTextPM">El archivo supera el límite de 5 MB.</span>
-        </div>
+        <div class="attach-status" id="attachStatusPM"><span class="attach-status-dot green" id="attachDotPM"></span><span id="attachStatusTextPM">Capacidad disponible</span></div>
+        <div class="attach-error-msg" id="attachErrPM"><span>⚠️</span><span id="attachErrTextPM">El archivo supera el límite de 5 MB.</span></div>
       </div>
-
       <div class="attach-file-list" id="fileListPM"></div>
-
-      <div class="offline-msg" id="offlineMsgPM">
-        <span>📡</span>
-        <span>Sin conexión a internet. La compresión se reanudará automáticamente cuando vuelva la conexión.</span>
-      </div>
-
+      <div class="offline-msg" id="offlineMsgPM"><span>📡</span><span>Sin conexión. La compresión se reanudará automáticamente.</span></div>
       <div class="compress-progress" id="compressProgressPM">
-        <div class="compress-header">
-          <span style="font-size:16px;">⚡</span>
-          <span class="compress-header-text">Comprimiendo archivos...</span>
-          <span id="compressPctPM" class="compress-pct" style="margin-left:auto;">0%</span>
-        </div>
+        <div class="compress-header"><span style="font-size:16px;">⚡</span><span class="compress-header-text">Comprimiendo...</span><span id="compressPctPM" class="compress-pct" style="margin-left:auto;">0%</span></div>
         <div class="compress-body">
           <div class="compress-row">
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressDoneMBPM">0 MB</div>
-              <div class="compress-stat-label">Comprimido</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressRemMBPM">0 MB</div>
-              <div class="compress-stat-label">Restante</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressElapsedPM">0s</div>
-              <div class="compress-stat-label">Transcurrido</div>
-            </div>
-            <div class="compress-stat">
-              <div class="compress-stat-val" id="compressEtaPM">—</div>
-              <div class="compress-stat-label">Tiempo restante</div>
-            </div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressDoneMBPM">0 MB</div><div class="compress-stat-label">Comprimido</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressRemMBPM">0 MB</div><div class="compress-stat-label">Restante</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressElapsedPM">0s</div><div class="compress-stat-label">Transcurrido</div></div>
+            <div class="compress-stat"><div class="compress-stat-val" id="compressEtaPM">—</div><div class="compress-stat-label">Restante</div></div>
           </div>
           <div class="compress-bar-track"><div class="compress-bar-fill" id="compressBarFillPM"></div></div>
-          <div class="compress-info">
-            <span id="compressInfoPM">Preparando archivos…</span>
-            <span id="compressDonePctPM">0% completado</span>
-          </div>
-          <div class="compress-resume-note" id="compressResumePM">
-            <span>🔄</span>
-            <span>La compresión se pausó. Cuando vuelva la conexión, continuará automáticamente desde donde se quedó.</span>
-          </div>
+          <div class="compress-info"><span id="compressInfoPM">Preparando…</span><span id="compressDonePctPM">0% completado</span></div>
+          <div class="compress-resume-note" id="compressResumePM"><span>🔄</span><span>Pausado. Continuará cuando vuelva la conexión.</span></div>
         </div>
       </div>
-
       <input type="hidden" id="attachHiddenPM" name="Archivos_adjuntos_info">
     </div>
   </form>
 
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
-
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
       <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo"></div>
@@ -1026,7 +895,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
           </div>
           <div class="declaration-text">
             <strong>Declaración de veracidad y autenticidad</strong>
-            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada es auténtica. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad otorgando a esta acción el mismo valor jurídico que mi firma autógrafa, de conformidad con el artículo 89 del Código de Comercio y la NOM-151-SCFI-2016.</span>
+            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada es auténtica. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad otorgando a esta acción el mismo valor jurídico que mi firma autógrafa.</span>
           </div>
         </div>
       </label>
@@ -1034,7 +903,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
     <button type="button" id="mainSubmitBtn" class="submit-btn" onclick="triggerFormSubmit()" disabled>
       <span id="btnText">Confirma la declaración para enviar</span>
     </button>
-    <p class="recaptcha-notice">Protegido por <a href="https://policies.google.com/privacy" target="_blank">reCAPTCHA</a> de Google. <a href="https://policies.google.com/terms" target="_blank">Términos de Servicio</a>.</p>
+    <p class="recaptcha-notice">Protegido por <a href="https://policies.google.com/privacy" target="_blank">reCAPTCHA</a> de Google.</p>
   </div>
 </main>
 
@@ -1051,81 +920,39 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
   <svg class="whatsapp-icon" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
 </a>
 
-<!-- MOTIVATIONAL MODALS (25%, 50%, 75%, 100%) -->
+<!-- MOTIVATIONAL MODALS -->
 <div class="motiv-overlay" id="motivModal25">
-  <div class="motiv-card">
-    <div class="motiv-card-top">
-      <div class="motiv-deco"></div>
-      <span class="motiv-emoji-3d">✨</span>
-      <div class="motiv-title">¡Ya vas por un cuarto! 🚀</div>
-      <div class="motiv-text">25% listo – bienvenido al camino 🎯<br>¡Sigue así!</div>
-    </div>
-    <div class="motiv-card-bottom">
-      <button class="motiv-btn motiv-btn-25" onclick="closeMotivModal('motivModal25')">¡Adelante! →</button>
-    </div>
-  </div>
+  <div class="motiv-card"><div class="motiv-card-top"><div class="motiv-deco"></div><span class="motiv-emoji-3d">✨</span><div class="motiv-title">¡Ya vas por un cuarto! 🚀</div><div class="motiv-text">25% listo – ¡sigue así!</div></div><div class="motiv-card-bottom"><button class="motiv-btn motiv-btn-25" onclick="closeMotivModal('motivModal25')">¡Adelante! →</button></div></div>
 </div>
 <div class="motiv-overlay" id="motivModal50">
-  <div class="motiv-card">
-    <div class="motiv-card-top">
-      <div class="motiv-deco"></div>
-      <span class="motiv-emoji-3d">📈</span>
-      <div class="motiv-title">¡Mitad del camino! 🎉</div>
-      <div class="motiv-text">50% hecho – ¡estás volando! 🤩<br>¡No te detengas!</div>
-    </div>
-    <div class="motiv-card-bottom">
-      <button class="motiv-btn motiv-btn-50" onclick="closeMotivModal('motivModal50')">¡Vamos por todo! →</button>
-    </div>
-  </div>
+  <div class="motiv-card"><div class="motiv-card-top"><div class="motiv-deco"></div><span class="motiv-emoji-3d">📈</span><div class="motiv-title">¡Mitad del camino! 🎉</div><div class="motiv-text">50% hecho – ¡estás volando!</div></div><div class="motiv-card-bottom"><button class="motiv-btn motiv-btn-50" onclick="closeMotivModal('motivModal50')">¡Vamos por todo! →</button></div></div>
 </div>
 <div class="motiv-overlay" id="motivModal75">
-  <div class="motiv-card">
-    <div class="motiv-card-top">
-      <div class="motiv-deco"></div>
-      <span class="motiv-emoji-3d">🔥</span>
-      <div class="motiv-title">¡Ya casi llegas! ⚡</div>
-      <div class="motiv-text">75% listo – estás muy cerca 🎊<br>¡Último empuje!</div>
-    </div>
-    <div class="motiv-card-bottom">
-      <button class="motiv-btn motiv-btn-75" onclick="closeMotivModal('motivModal75')">¡Ya falta poco! →</button>
-    </div>
-  </div>
+  <div class="motiv-card"><div class="motiv-card-top"><div class="motiv-deco"></div><span class="motiv-emoji-3d">🔥</span><div class="motiv-title">¡Ya casi llegas! ⚡</div><div class="motiv-text">75% listo – ¡último empuje!</div></div><div class="motiv-card-bottom"><button class="motiv-btn motiv-btn-75" onclick="closeMotivModal('motivModal75')">¡Ya falta poco! →</button></div></div>
 </div>
 <div class="motiv-overlay" id="motivModal100">
-  <div class="motiv-card">
-    <div class="motiv-card-top">
-      <div class="motiv-deco"></div>
-      <span class="motiv-emoji-3d">🥳</span>
-      <div class="motiv-title">¡LO LOGRASTE! 🎊</div>
-      <div class="motiv-text">100% listo – solo falta enviar 🎯<br>¡Hazlo realidad!</div>
-    </div>
-    <div class="motiv-card-bottom">
-      <button class="motiv-btn motiv-btn-100" onclick="closeMotivModal('motivModal100');document.getElementById('mainSubmitBtn').scrollIntoView({behavior:'smooth',block:'center'})">¡Enviar ahora! 🚀</button>
-    </div>
-  </div>
+  <div class="motiv-card"><div class="motiv-card-top"><div class="motiv-deco"></div><span class="motiv-emoji-3d">🥳</span><div class="motiv-title">¡LO LOGRASTE! 🎊</div><div class="motiv-text">100% listo – solo falta enviar.</div></div><div class="motiv-card-bottom"><button class="motiv-btn motiv-btn-100" onclick="closeMotivModal('motivModal100');document.getElementById('mainSubmitBtn').scrollIntoView({behavior:'smooth',block:'center'})">¡Enviar ahora! 🚀</button></div></div>
 </div>
 
 <!-- SUCCESS MODAL -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-header">
-      <div class="success-checkmark">
-        <svg viewBox="0 0 36 36" fill="none"><path d="M7 18l7 7L29 11" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      <div class="success-checkmark"><svg viewBox="0 0 36 36" fill="none"><path d="M7 18l7 7L29 11" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="success-title">¡Solicitud Enviada!</div>
       <div class="success-subtitle">Arrendamiento Puro · AVA</div>
     </div>
     <div class="success-body">
       <div class="success-info-row">
         <div class="success-info-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#165DFF" stroke-width="1.8"/><path d="M12 8v4l3 3" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-        <div class="success-info-text"><strong>Siguiente paso</strong>Un ejecutivo revisará tu información y te contactará en un plazo de 24 a 48 horas hábiles.</div>
+        <div class="success-info-text"><strong>Siguiente paso</strong>Un ejecutivo revisará tu información y te contactará en 24 a 48 horas hábiles.</div>
       </div>
       <div class="success-info-row">
-        <div class="success-info-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="success-info-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.19 12.9 19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#165DFF" stroke-width="1.8" stroke-linecap="round"/></svg></div>
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
-            <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 5525374608</a></div>
-            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#afc6c1c9c0efcec1dfcec681ccc0c281c2d7"><span class="__cf_email__" data-cfemail="51383f373e11303f2130387f323e3c7f3c29">[email&#160;protected]</span></a></div>
+            <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
+            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1136,7 +963,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ==================== reCAPTCHA ====================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
@@ -1165,11 +992,8 @@ var LADAS=[
   {r:'Asia',f:'CN',n:'China',c:'+86'},{r:'Asia',f:'JP',n:'Japón',c:'+81'},
   {r:'Asia',f:'IN',n:'India',c:'+91'},{r:'Oceanía',f:'AU',n:'Australia',c:'+61'}
 ];
-
 function flag(code){
-  return Array.from(code.toUpperCase()).map(function(c){
-    return String.fromCodePoint(c.charCodeAt(0)-65+0x1F1E6);
-  }).join('');
+  return Array.from(code.toUpperCase()).map(function(c){ return String.fromCodePoint(c.charCodeAt(0)-65+0x1F1E6); }).join('');
 }
 function buildLadas(sel){
   var groups={};
@@ -1225,23 +1049,23 @@ function onRadioPill(el,name,value){
   updateProgressBar();
 }
 
-// ==================== CONYUGE CONDITIONAL REQUIRED ====================
+// ==================== CONYUGE ====================
 function toggleConyuge(type, required){
-  var suffix = type === 'PF' ? '_PF' : '_PM';
-  var nameEl = document.getElementById('conyuge_nombre'+suffix);
-  var rfcEl  = document.getElementById('conyuge_rfc'+suffix);
-  var nameFg = document.getElementById('fg-conyuge-nombre-'+type);
-  var rfcFg  = document.getElementById('fg-conyuge-rfc-'+type);
+  var suffix = type==='PF' ? '_PF' : '_PM';
+  var nameEl=document.getElementById('conyuge_nombre'+suffix);
+  var rfcEl=document.getElementById('conyuge_rfc'+suffix);
+  var nameFg=document.getElementById('fg-conyuge-nombre-'+type);
+  var rfcFg=document.getElementById('fg-conyuge-rfc-'+type);
   if(!nameEl||!rfcEl) return;
   if(required){
-    nameEl.required = true; rfcEl.required = true;
+    nameEl.required=true; rfcEl.required=true;
     if(nameFg) nameFg.classList.add('conyuge-required');
-    if(rfcFg)  rfcFg.classList.add('conyuge-required');
+    if(rfcFg) rfcFg.classList.add('conyuge-required');
   } else {
-    nameEl.required = false; rfcEl.required = false;
+    nameEl.required=false; rfcEl.required=false;
     nameEl.classList.remove('input-error'); rfcEl.classList.remove('input-error');
     if(nameFg) nameFg.classList.remove('conyuge-required');
-    if(rfcFg)  rfcFg.classList.remove('conyuge-required');
+    if(rfcFg) rfcFg.classList.remove('conyuge-required');
   }
 }
 
@@ -1292,10 +1116,9 @@ function closeSuccessModal(){
   document.getElementById('successOverlay').classList.remove('show');
   document.body.style.overflow='';
   // Reset files
-  attachState.PF={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null};
-  attachState.PM={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null};
   ['PF','PM'].forEach(function(t){
-    document.getElementById('fileListP'+t.slice(1)||'fileList'+t).innerHTML='';
+    attachState[t]={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0};
+    var fl=document.getElementById('fileList'+t); if(fl) fl.innerHTML='';
     updateCapacityBar(t);
   });
   var decl=document.getElementById('declarationCheck');
@@ -1305,20 +1128,17 @@ function closeSuccessModal(){
 document.addEventListener('click',function(e){ if(e.target&&e.target.id==='successOverlay') closeSuccessModal(); });
 
 // ==================== FILE ATTACHMENT ENGINE ====================
-var MAX_BYTES = 5 * 1024 * 1024; // 5 MB
-
+var MAX_BYTES = 5*1024*1024;
 var attachState = {
-  PF: { files:[], totalSize:0, zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 },
-  PM: { files:[], totalSize:0, zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 }
+  PF:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0},
+  PM:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0}
 };
-
-// Check JSZip availability
-var jszipAvailable = (typeof JSZip !== 'undefined');
+var jszipAvailable=(typeof JSZip!=='undefined');
 
 function fmtBytes(b){
   if(b<1024) return b+'B';
-  if(b<1024*1024) return (b/1024).toFixed(1)+' KB';
-  return (b/1024/1024).toFixed(2)+' MB';
+  if(b<1048576) return (b/1024).toFixed(1)+' KB';
+  return (b/1048576).toFixed(2)+' MB';
 }
 function fmtSec(s){
   if(s<60) return Math.round(s)+'s';
@@ -1336,283 +1156,148 @@ function getToday(){
   var d=new Date();
   return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
 }
+function onDragOver(e,type){ e.preventDefault(); document.getElementById('attachDropzone'+type).classList.add('drag-over'); }
+function onDragLeave(e,type){ document.getElementById('attachDropzone'+type).classList.remove('drag-over'); }
+function onDrop(e,type){ e.preventDefault(); document.getElementById('attachDropzone'+type).classList.remove('drag-over'); handleFiles(e.dataTransfer.files,type); }
 
-// Drag & drop
-function onDragOver(e,type){
-  e.preventDefault();
-  document.getElementById('attachDropzone'+type).classList.add('drag-over');
-}
-function onDragLeave(e,type){
-  document.getElementById('attachDropzone'+type).classList.remove('drag-over');
-}
-function onDrop(e,type){
-  e.preventDefault();
-  document.getElementById('attachDropzone'+type).classList.remove('drag-over');
-  handleFiles(e.dataTransfer.files, type);
-}
-
-function handleFiles(fileList, type){
-  var state = attachState[type];
-  var files = Array.from(fileList);
-  
-  // Add to existing list (avoid duplicates by name+size)
+function handleFiles(fileList,type){
+  var state=attachState[type];
+  var files=Array.from(fileList);
   files.forEach(function(f){
-    var dup = state.files.some(function(ex){ return ex.name===f.name && ex.size===f.size; });
+    var dup=state.files.some(function(ex){ return ex.name===f.name&&ex.size===f.size; });
     if(!dup) state.files.push(f);
   });
-
-  // Recalculate total
-  state.totalSize = state.files.reduce(function(acc,f){ return acc+f.size; },0);
-  state.zipBlob = null;
-
+  state.totalSize=state.files.reduce(function(acc,f){ return acc+f.size; },0);
+  state.zipBlob=null;
   renderFileList(type);
   updateCapacityBar(type);
-
-  // If multiple files and jszip available, compress
-  if(state.files.length > 1 && jszipAvailable){
-    startCompression(type);
-  } else if(state.files.length === 1){
-    // Single file - check limit
-    if(state.files[0].size > MAX_BYTES){
-      showAttachError(type, '"'+state.files[0].name+'" supera el límite de 5 MB. Por favor, reduce el tamaño o selecciona un archivo más pequeño.');
-    } else {
-      hideAttachError(type);
-    }
-  } else if(!jszipAvailable && state.files.length > 1){
-    showAttachError(type, 'Tu navegador no permite la compresión automática. Por favor, comprime los archivos manualmente en ZIP antes de subirlos.');
+  if(state.files.length>1&&jszipAvailable){ startCompression(type); }
+  else if(state.files.length===1){
+    if(state.files[0].size>MAX_BYTES) showAttachError(type,'"'+state.files[0].name+'" supera el límite de 5 MB.');
+    else hideAttachError(type);
+  } else if(!jszipAvailable&&state.files.length>1){
+    showAttachError(type,'Tu navegador no permite compresión automática. Por favor, comprime los archivos manualmente.');
   }
 }
-
-function removeFile(type, idx){
-  var state = attachState[type];
+function removeFile(type,idx){
+  var state=attachState[type];
   state.files.splice(idx,1);
-  state.totalSize = state.files.reduce(function(acc,f){ return acc+f.size; },0);
-  state.zipBlob = null;
-  renderFileList(type);
-  updateCapacityBar(type);
-  hideAttachError(type);
-
-  // Re-compress if needed
-  if(state.files.length > 1 && jszipAvailable){
-    startCompression(type);
-  }
+  state.totalSize=state.files.reduce(function(acc,f){ return acc+f.size; },0);
+  state.zipBlob=null;
+  renderFileList(type); updateCapacityBar(type); hideAttachError(type);
+  if(state.files.length>1&&jszipAvailable) startCompression(type);
 }
-
 function renderFileList(type){
-  var state = attachState[type];
-  var list = document.getElementById('fileList'+type);
-  list.innerHTML='';
+  var state=attachState[type];
+  var list=document.getElementById('fileList'+type); list.innerHTML='';
   state.files.forEach(function(f,i){
-    var item=document.createElement('div');
-    item.className='attach-file-item';
+    var item=document.createElement('div'); item.className='attach-file-item';
     item.innerHTML='<span class="attach-file-icon">'+getFileIcon(f.name)+'</span>'+
       '<span class="attach-file-name">'+f.name+'</span>'+
       '<span class="attach-file-size">'+fmtBytes(f.size)+'</span>'+
-      '<button type="button" class="attach-file-remove" onclick="removeFile(\''+type+'\','+i+')" title="Quitar archivo">×</button>';
+      '<button type="button" class="attach-file-remove" onclick="removeFile(\''+type+'\','+i+')" title="Quitar">×</button>';
     list.appendChild(item);
   });
 }
-
 function updateCapacityBar(type){
-  var state = attachState[type];
-  var wrap = document.getElementById('capacityWrap'+type);
-  var bar = document.getElementById('attachBar'+type);
-  var valEl = document.getElementById('capacityValue'+type);
-  var dot = document.getElementById('attachDot'+type);
-  var statusText = document.getElementById('attachStatusText'+type);
-
-  // Update real-time stats inside dropzone
-  var rtStats = document.getElementById('attachRealtime'+type);
-  var rtCount = document.getElementById('attachCount'+type);
-  var rtWeight = document.getElementById('attachWeight'+type);
-  var limitExc = document.getElementById('attachLimitExc'+type);
-
-  if(state.files.length === 0){
-    wrap.classList.remove('visible');
-    if(rtStats) rtStats.style.display='none';
-    if(limitExc) limitExc.style.display='none';
-    return;
-  }
+  var state=attachState[type];
+  var wrap=document.getElementById('capacityWrap'+type);
+  var bar=document.getElementById('attachBar'+type);
+  var valEl=document.getElementById('capacityValue'+type);
+  var dot=document.getElementById('attachDot'+type);
+  var statusText=document.getElementById('attachStatusText'+type);
+  var rtStats=document.getElementById('attachRealtime'+type);
+  var rtCount=document.getElementById('attachCount'+type);
+  var rtWeight=document.getElementById('attachWeight'+type);
+  var limitExc=document.getElementById('attachLimitExc'+type);
+  if(state.files.length===0){ wrap.classList.remove('visible'); if(rtStats) rtStats.style.display='none'; if(limitExc) limitExc.style.display='none'; return; }
   wrap.classList.add('visible');
-
-  // Use zip size if available, else raw total
-  var used = state.zipBlob ? state.zipBlob.size : state.totalSize;
-  var pct = Math.min(100, (used/MAX_BYTES)*100);
-  bar.style.width = pct+'%';
-
-  var usedStr = fmtBytes(used);
-  var maxStr = '5 MB';
-  valEl.textContent = usedStr + ' de ' + maxStr;
-
-  bar.className = 'attach-bar-fill';
-  dot.className = 'attach-status-dot';
-
-  // Realtime stats in dropzone
-  if(rtStats){ rtStats.style.display='flex'; }
-  if(rtCount){ rtCount.textContent = state.files.length; }
-  if(rtWeight){ rtWeight.textContent = usedStr; }
-
-  if(pct >= 100){
-    bar.classList.add('red');
-    dot.classList.add('red');
-    statusText.textContent = 'Límite alcanzado — no se pueden añadir más archivos';
-    showAttachError(type, 'El total supera los 5 MB ('+usedStr+'). Elimina archivos hasta quedar dentro del límite.');
-    if(limitExc) limitExc.style.display='block';
-  } else if(pct >= 75){
-    bar.classList.add('yellow');
-    dot.classList.add('yellow');
-    var remaining = fmtBytes(MAX_BYTES - used);
-    statusText.textContent = 'Casi lleno — quedan '+remaining+' disponibles';
-    hideAttachError(type);
-    if(limitExc) limitExc.style.display='none';
-  } else {
-    bar.classList.add('green');
-    dot.classList.add('green');
-    var remaining = fmtBytes(MAX_BYTES - used);
-    statusText.textContent = 'Capacidad disponible — quedan '+remaining;
-    hideAttachError(type);
-    if(limitExc) limitExc.style.display='none';
-  }
+  var used=state.zipBlob?state.zipBlob.size:state.totalSize;
+  var pct=Math.min(100,(used/MAX_BYTES)*100);
+  bar.style.width=pct+'%';
+  var usedStr=fmtBytes(used);
+  valEl.textContent=usedStr+' de 5 MB';
+  bar.className='attach-bar-fill';
+  dot.className='attach-status-dot';
+  if(rtStats) rtStats.style.display='flex';
+  if(rtCount) rtCount.textContent=state.files.length;
+  if(rtWeight) rtWeight.textContent=usedStr;
+  if(pct>=100){ bar.classList.add('red'); dot.classList.add('red'); statusText.textContent='Límite alcanzado'; showAttachError(type,'El total supera los 5 MB ('+usedStr+'). Elimina archivos.'); if(limitExc) limitExc.style.display='block'; }
+  else if(pct>=75){ bar.classList.add('yellow'); dot.classList.add('yellow'); statusText.textContent='Casi lleno — quedan '+fmtBytes(MAX_BYTES-used); hideAttachError(type); if(limitExc) limitExc.style.display='none'; }
+  else { bar.classList.add('green'); dot.classList.add('green'); statusText.textContent='Capacidad disponible — quedan '+fmtBytes(MAX_BYTES-used); hideAttachError(type); if(limitExc) limitExc.style.display='none'; }
 }
-
-function showAttachError(type, msg){
-  var el = document.getElementById('attachErr'+type);
-  document.getElementById('attachErrText'+type).textContent = msg;
-  el.classList.add('show');
-}
-function hideAttachError(type){
-  document.getElementById('attachErr'+type).classList.remove('show');
-}
+function showAttachError(type,msg){ var el=document.getElementById('attachErr'+type); document.getElementById('attachErrText'+type).textContent=msg; el.classList.add('show'); }
+function hideAttachError(type){ document.getElementById('attachErr'+type).classList.remove('show'); }
 
 // ==================== COMPRESSION ====================
 function startCompression(type){
-  var state = attachState[type];
-  if(state.compressing) return; // already running
-
-  if(!navigator.onLine){
-    document.getElementById('offlineMsg'+type).classList.add('show');
-    state.paused = true;
-    document.getElementById('compressResume'+type).classList.add('show');
-    document.getElementById('compressProgress'+type).classList.add('show');
-    return;
-  }
-
-  state.compressing = true;
-  state.paused = false;
-  state.startTime = Date.now() - (state.elapsed || 0);
+  var state=attachState[type];
+  if(state.compressing) return;
+  if(!navigator.onLine){ document.getElementById('offlineMsg'+type).classList.add('show'); state.paused=true; document.getElementById('compressResume'+type).classList.add('show'); document.getElementById('compressProgress'+type).classList.add('show'); return; }
+  state.compressing=true; state.paused=false; state.startTime=Date.now()-(state.elapsed||0);
   document.getElementById('compressProgress'+type).classList.add('show');
   document.getElementById('offlineMsg'+type).classList.remove('show');
   document.getElementById('compressResume'+type).classList.remove('show');
-
-  var zip = new JSZip();
-  var files = state.files;
-  var totalRaw = files.reduce(function(acc,f){ return acc+f.size; },0);
-  var processed = 0;
-
-  // Read files and add to zip
-  var readers = [];
-  var elapsedInterval = setInterval(function(){
-    state.elapsed = Date.now() - state.startTime;
-    document.getElementById('compressElapsed'+type).textContent = fmtSec(state.elapsed/1000);
-  }, 500);
-
+  var zip=new JSZip();
+  var files=state.files;
+  var totalRaw=files.reduce(function(acc,f){ return acc+f.size; },0);
+  var processed=0;
+  var elapsedInterval=setInterval(function(){ state.elapsed=Date.now()-state.startTime; document.getElementById('compressElapsed'+type).textContent=fmtSec(state.elapsed/1000); },500);
   function processFile(idx){
-    if(idx >= files.length){
-      // Generate ZIP
-      document.getElementById('compressInfo'+type).textContent = 'Generando archivo ZIP…';
-      zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} },
-        function update(meta){
-          var pct = Math.round(meta.percent);
-          updateCompressUI(type, pct, processed, totalRaw-processed, state.elapsed/1000, totalRaw, state.startTime);
-        }
-      ).then(function(blob){
+    if(idx>=files.length){
+      document.getElementById('compressInfo'+type).textContent='Generando ZIP…';
+      zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}},function update(meta){
+        var pct=Math.round(meta.percent);
+        updateCompressUI(type,pct,processed,totalRaw-processed,state.elapsed/1000,totalRaw,state.startTime);
+      }).then(function(blob){
         clearInterval(elapsedInterval);
-        state.zipBlob = blob;
-        state.compressing = false;
+        state.zipBlob=blob; state.compressing=false;
         document.getElementById('compressProgress'+type).classList.remove('show');
         updateCapacityBar(type);
-        // Store zip info
-        document.getElementById('attachHidden'+type).value = 'ZIP adjunto: archivos-adjuntos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
-      }).catch(function(err){
-        clearInterval(elapsedInterval);
-        state.compressing = false;
-        document.getElementById('compressProgress'+type).classList.remove('show');
-        showAttachError(type, 'Error al comprimir archivos. Por favor, intenta de nuevo.');
-      });
+        document.getElementById('attachHidden'+type).value='ZIP: archivos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
+      }).catch(function(){ clearInterval(elapsedInterval); state.compressing=false; document.getElementById('compressProgress'+type).classList.remove('show'); showAttachError(type,'Error al comprimir. Intenta de nuevo.'); });
       return;
     }
-
-    var f = files[idx];
-    var reader = new FileReader();
-    reader.onload = function(e){
-      zip.file(f.name, e.target.result);
-      processed += f.size;
-      var pct = Math.round((processed/totalRaw)*70); // 70% for reading
-      updateCompressUI(type, pct, processed, totalRaw-processed, (Date.now()-state.startTime)/1000, totalRaw, state.startTime);
-
-      // Check connectivity
-      if(!navigator.onLine){
-        clearInterval(elapsedInterval);
-        state.paused = true;
-        state.compressing = false;
-        state.elapsed = Date.now() - state.startTime;
-        document.getElementById('offlineMsg'+type).classList.add('show');
-        document.getElementById('compressResume'+type).classList.add('show');
-        // Store progress - will resume when online
-        return;
-      }
+    var f=files[idx];
+    var reader=new FileReader();
+    reader.onload=function(e){
+      zip.file(f.name,e.target.result);
+      processed+=f.size;
+      var pct=Math.round((processed/totalRaw)*70);
+      updateCompressUI(type,pct,processed,totalRaw-processed,(Date.now()-state.startTime)/1000,totalRaw,state.startTime);
+      if(!navigator.onLine){ clearInterval(elapsedInterval); state.paused=true; state.compressing=false; state.elapsed=Date.now()-state.startTime; document.getElementById('offlineMsg'+type).classList.add('show'); document.getElementById('compressResume'+type).classList.add('show'); return; }
       processFile(idx+1);
     };
-    reader.onerror = function(){
-      processFile(idx+1);
-    };
+    reader.onerror=function(){ processFile(idx+1); };
     reader.readAsArrayBuffer(f);
   }
-
   processFile(0);
 }
-
-function updateCompressUI(type, pct, done, remaining, elapsedSec, total, startTime){
-  document.getElementById('compressPct'+type).textContent = pct+'%';
-  document.getElementById('compressBarFill'+type).style.width = pct+'%';
-  document.getElementById('compressDoneMB'+type).textContent = fmtBytes(done);
-  document.getElementById('compressRemMB'+type).textContent = fmtBytes(remaining);
-  document.getElementById('compressDonePct'+type).textContent = pct+'% completado';
-  document.getElementById('compressElapsed'+type).textContent = fmtSec(elapsedSec);
-
-  // ETA
-  if(pct > 5 && elapsedSec > 0){
-    var eta = (elapsedSec / pct) * (100 - pct);
-    document.getElementById('compressEta'+type).textContent = fmtSec(eta);
-  } else {
-    document.getElementById('compressEta'+type).textContent = '—';
-  }
-
-  var names = attachState[type].files.map(function(f){ return f.name; });
-  document.getElementById('compressInfo'+type).textContent = 'Procesando '+names.length+' archivo(s)…';
+function updateCompressUI(type,pct,done,remaining,elapsedSec,total,startTime){
+  document.getElementById('compressPct'+type).textContent=pct+'%';
+  document.getElementById('compressBarFill'+type).style.width=pct+'%';
+  document.getElementById('compressDoneMB'+type).textContent=fmtBytes(done);
+  document.getElementById('compressRemMB'+type).textContent=fmtBytes(remaining);
+  document.getElementById('compressDonePct'+type).textContent=pct+'% completado';
+  document.getElementById('compressElapsed'+type).textContent=fmtSec(elapsedSec);
+  if(pct>5&&elapsedSec>0){ var eta=(elapsedSec/pct)*(100-pct); document.getElementById('compressEta'+type).textContent=fmtSec(eta); }
+  else{ document.getElementById('compressEta'+type).textContent='—'; }
+  document.getElementById('compressInfo'+type).textContent='Procesando '+attachState[type].files.length+' archivo(s)…';
 }
 
 // ==================== ONLINE/OFFLINE ====================
-window.addEventListener('online', function(){
+window.addEventListener('online',function(){
   ['PF','PM'].forEach(function(type){
-    var state = attachState[type];
+    var state=attachState[type];
     document.getElementById('offlineMsg'+type).classList.remove('show');
-    if(state.paused && state.files.length > 1){
-      state.paused = false;
-      startCompression(type);
-    }
+    if(state.paused&&state.files.length>1){ state.paused=false; startCompression(type); }
   });
 });
-window.addEventListener('offline', function(){
+window.addEventListener('offline',function(){
   ['PF','PM'].forEach(function(type){
-    var state = attachState[type];
+    var state=attachState[type];
     document.getElementById('offlineMsg'+type).classList.add('show');
-    if(state.compressing){
-      state.paused = true;
-      state.compressing = false;
-      state.elapsed = Date.now() - state.startTime;
-      document.getElementById('compressResume'+type).classList.add('show');
-    }
+    if(state.compressing){ state.paused=true; state.compressing=false; state.elapsed=Date.now()-state.startTime; document.getElementById('compressResume'+type).classList.add('show'); }
   });
 });
 
@@ -1630,7 +1315,7 @@ function focusFirst(el){
     if(focusable) focusable.focus(); else if(el.focus) el.focus();
   },350);
 }
-function validateTels(telList, activeRentado){
+function validateTels(telList,activeRentado){
   var ok=true; var first=null;
   telList.forEach(function(prefix){
     if(prefix==='tel3'&&!activeRentado) return;
@@ -1641,14 +1326,12 @@ function validateTels(telList, activeRentado){
     if(numEl.value.replace(/\D/g,'').length<7){
       if(combo){ combo.classList.add('input-error','shake'); combo.addEventListener('animationend',function(){ combo.classList.remove('shake'); },{once:true}); }
       if(err) err.classList.add('show');
-      numEl.addEventListener('input',function(){
-        if(numEl.value.replace(/\D/g,'').length>=7){ if(combo) combo.classList.remove('input-error'); if(err) err.classList.remove('show'); }
-      });
+      numEl.addEventListener('input',function(){ if(numEl.value.replace(/\D/g,'').length>=7){ if(combo) combo.classList.remove('input-error'); if(err) err.classList.remove('show'); } });
       if(!first) first=combo||numEl;
       ok=false;
     }
   });
-  return {ok:ok, first:first};
+  return {ok:ok,first:first};
 }
 
 // ==================== SUBMIT ====================
@@ -1660,44 +1343,28 @@ function triggerFormSubmit(){
     if(dw){ dw.scrollIntoView({behavior:'smooth',block:'center'}); dw.classList.add('pulse-error'); setTimeout(function(){ dw.classList.remove('pulse-error'); },1000); }
     return;
   }
-
-  // Check if compression in progress
-  var state = attachState[currentType];
-  if(state.compressing){
-    alert('Por favor espera a que termine la compresión de archivos antes de enviar.');
-    return;
-  }
-  // Check attachment size
-  var attachUsed = state.zipBlob ? state.zipBlob.size : state.totalSize;
-  if(attachUsed > MAX_BYTES){
-    showAttachError(currentType, 'El total de archivos adjuntos supera los 5 MB ('+fmtBytes(attachUsed)+'). Por favor elimina algunos archivos antes de enviar.');
-    document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-
+  var state=attachState[currentType];
+  if(state.compressing){ alert('Espera a que termine la compresión de archivos.'); return; }
+  var attachUsed=state.zipBlob?state.zipBlob.size:state.totalSize;
+  if(attachUsed>MAX_BYTES){ showAttachError(currentType,'El total supera los 5 MB ('+fmtBytes(attachUsed)+'). Elimina archivos.'); document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'}); return; }
   var form=document.getElementById('form'+currentType);
   var valid=true; var firstInvalid=null;
-
   form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(inp){
     if(inp.type==='hidden'||inp.type==='radio'||inp.type==='checkbox') return;
     if(inp.closest('[style*="display:none"],[style*="display: none"]')) return;
     if(!inp.value.trim()){ markError(inp); if(!firstInvalid) firstInvalid=inp; valid=false; }
   });
-
   var lf=document.getElementById('lugar_fecha'); var nf=document.getElementById('nombre_firmante');
   [lf,nf].forEach(function(inp){ if(!inp.value.trim()){ markError(inp); if(!firstInvalid) firstInvalid=inp; valid=false; } });
-
-  var telListPF=['tel1','tel2','tel4','tel5','tel6','tel7','tel8','tel9','tel10'];
+  var telListPF=['tel1','tel2','tel3','tel4','tel5','tel6','tel7','tel8','tel9','tel10'];
   var telListPM=['tel11','tel12','tel14','tel15','tel18','tel19'];
   var activeRentado=false;
   if(currentType==='PF'){
     var rentSec=document.getElementById('fiscalRentadoDetails');
     activeRentado=rentSec&&rentSec.style.display!=='none';
-    if(activeRentado) telListPF=telListPF.concat(['tel3']);
   }
-  var telResult=validateTels(currentType==='PF'?telListPF:telListPM, activeRentado);
+  var telResult=validateTels(currentType==='PF'?telListPF:telListPM,activeRentado);
   if(!telResult.ok){ if(!firstInvalid) firstInvalid=telResult.first; valid=false; }
-
   var sectorId=currentType==='PF'?'sectorPF':'sectorPM';
   var sectorGroup=document.getElementById(sectorId);
   var sectorErr=document.getElementById('err-'+sectorId);
@@ -1706,7 +1373,6 @@ function triggerFormSubmit(){
     if(sectorErr) sectorErr.classList.add('show');
     if(!firstInvalid) firstInvalid=sectorGroup; valid=false;
   }
-
   var radioGroups=currentType==='PF'?[{id:'estCivilPF',name:'EstadoCivil_PF'}]:[{id:'estCivilAval',name:'EstadoCivil_Aval'}];
   radioGroups.forEach(function(rg){
     var grpEl=document.getElementById(rg.id); var errEl=document.getElementById('err-'+rg.id);
@@ -1716,40 +1382,28 @@ function triggerFormSubmit(){
       if(!firstInvalid) firstInvalid=grpEl; valid=false;
     }
   });
-
   if(!valid){ if(firstInvalid) focusFirst(firstInvalid); return; }
-
   var btn=document.getElementById('mainSubmitBtn');
   btn.disabled=true;
   document.getElementById('btnText').textContent='Verificando seguridad...';
-
   function inject(name,val){
     var old=form.querySelector('input[name="'+name+'"]'); if(old) old.remove();
     var h=document.createElement('input'); h.type='hidden'; h.name=name; h.value=val; form.appendChild(h);
   }
   inject('Lugar_Fecha',lf.value);
   inject('Firmante',nf.value);
-
   function doSubmit(token){
     if(token) inject('g-recaptcha-response',token);
     document.getElementById('btnText').textContent='Enviando...';
-
-    var formData = new FormData(form);
-
-    // Attach file(s) to FormData
-    var st = attachState[currentType];
-    if(st.files.length === 1 && !st.zipBlob){
-      formData.append('Adjuntos', st.files[0], st.files[0].name);
-    } else if(st.zipBlob){
-      formData.append('Adjuntos', st.zipBlob, 'archivos-adjuntos-'+getToday()+'.zip');
-    }
-
+    var formData=new FormData(form);
+    var st=attachState[currentType];
+    if(st.files.length===1&&!st.zipBlob){ formData.append('Adjuntos',st.files[0],st.files[0].name); }
+    else if(st.zipBlob){ formData.append('Adjuntos',st.zipBlob,'archivos-'+getToday()+'.zip'); }
     fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:formData})
       .then(function(res){ if(res.ok||res.status===200){ showSuccessModal(); } else { throw new Error('Error'); } })
       .catch(function(){ showSuccessModal(); })
       .finally(function(){ btn.disabled=false; document.getElementById('btnText').textContent='Enviar Solicitud de Arrendamiento →'; });
   }
-
   function execCaptcha(n){
     n=n||0;
     if(typeof grecaptcha==='undefined'||!recaptchaReady){ if(n>50){ doSubmit(null); return; } setTimeout(function(){ execCaptcha(n+1); },100); return; }
@@ -1849,24 +1503,16 @@ function updateProgressBar(){
   document.getElementById('formProgressFill').style.width=pct+'%';
   document.getElementById('formProgressDone').textContent=done;
   document.getElementById('formProgressTotal').textContent=total;
-
-  // Motivational milestones — only trigger when crossing threshold going up
-  if(pct >= 100 && lastPct < 100 && !motivShown[100]){ motivShown[100]=true; setTimeout(function(){ showMotivModal('motivModal100'); },400); }
-  else if(pct >= 75 && lastPct < 75 && !motivShown[75]){ motivShown[75]=true; setTimeout(function(){ showMotivModal('motivModal75'); },400); }
-  else if(pct >= 50 && lastPct < 50 && !motivShown[50]){ motivShown[50]=true; setTimeout(function(){ showMotivModal('motivModal50'); },400); }
-  else if(pct >= 25 && lastPct < 25 && !motivShown[25]){ motivShown[25]=true; setTimeout(function(){ showMotivModal('motivModal25'); },400); }
-  lastPct = pct;
+  if(pct>=100&&lastPct<100&&!motivShown[100]){ motivShown[100]=true; setTimeout(function(){ showMotivModal('motivModal100'); },400); }
+  else if(pct>=75&&lastPct<75&&!motivShown[75]){ motivShown[75]=true; setTimeout(function(){ showMotivModal('motivModal75'); },400); }
+  else if(pct>=50&&lastPct<50&&!motivShown[50]){ motivShown[50]=true; setTimeout(function(){ showMotivModal('motivModal50'); },400); }
+  else if(pct>=25&&lastPct<25&&!motivShown[25]){ motivShown[25]=true; setTimeout(function(){ showMotivModal('motivModal25'); },400); }
+  lastPct=pct;
 }
-function showMotivModal(id){
-  document.getElementById(id).classList.add('show');
-  document.body.style.overflow='hidden';
-}
+function showMotivModal(id){ document.getElementById(id).classList.add('show'); document.body.style.overflow='hidden'; }
 function closeMotivModal(id){
   document.getElementById(id).classList.remove('show');
-  // Only restore scroll if no other modal is open
-  var anyOpen = ['motivModal25','motivModal50','motivModal75','motivModal100','successOverlay'].some(function(mid){
-    var el=document.getElementById(mid); return el && el.classList.contains('show');
-  });
+  var anyOpen=['motivModal25','motivModal50','motivModal75','motivModal100','successOverlay'].some(function(mid){ var el=document.getElementById(mid); return el&&el.classList.contains('show'); });
   if(!anyOpen) document.body.style.overflow='';
 }
 function attachProgress(formId){
@@ -1893,11 +1539,16 @@ document.addEventListener('DOMContentLoaded',function(){
   initAllLadas();
   document.getElementById('mainSubmitBtn').disabled=true;
 
-  // Theme — force light mode on load, dark is opt-in only
+  // Theme toggle — starts in light mode
   var themeBtn=document.getElementById('themeToggleBtn');
-  try{ localStorage.removeItem('ava-theme'); }catch(e){}
   document.body.classList.remove('dark-mode');
   if(themeBtn){
     themeBtn.addEventListener('click',function(){
       var dark=document.body.classList.toggle('dark-mode');
-      try{ localStorage.setItem('ava-theme',dark?'dark':'light');
+      try{ localStorage.setItem('ava-theme',dark?'dark':'light'); }catch(e){}
+    });
+  }
+});
+</script>
+</body>
+</html>
