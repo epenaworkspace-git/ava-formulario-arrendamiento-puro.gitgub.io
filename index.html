@@ -322,6 +322,46 @@ body.dark-mode .legib-note{background:#162040;}
 body.dark-mode .legib-card.ok{background:rgba(15,195,115,0.06);border-color:rgba(15,195,115,0.25);}
 body.dark-mode .legib-card.err{background:rgba(255,71,87,0.06);border-color:rgba(255,71,87,0.2);}
 body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d38);}
+/* Dark mode — discrete uniform border on floating circular buttons */
+body.dark-mode .tramite-float{border:2px solid rgba(255,255,255,0.09);}
+body.dark-mode .whatsapp-float{border:2px solid rgba(255,255,255,0.12);}
+
+/* ===== DROPZONE NEW CONTENT ===== */
+.attach-formats-line{font-size:12.5px;color:var(--gray-500);margin-top:6px;}
+.attach-auto-compress-line{font-size:12.5px;color:var(--blue);margin-top:5px;font-weight:500;}
+.attach-limit-line{font-size:12.5px;color:var(--dark);margin-top:4px;}
+.attach-realtime-stats{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px;background:rgba(22,93,255,0.07);border-radius:8px;font-size:13px;color:var(--navy);border:1px solid rgba(22,93,255,0.15);flex-wrap:wrap;justify-content:center;}
+.attach-stats-sep{color:var(--gray-400);}
+.attach-limit-exceeded{margin-top:8px;padding:8px 14px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.35);border-radius:8px;font-size:12.5px;color:var(--error);font-weight:600;text-align:center;}
+body.dark-mode .attach-realtime-stats{background:rgba(77,138,255,0.1);border-color:rgba(77,138,255,0.2);color:#d0d8ec;}
+body.dark-mode .attach-limit-exceeded{background:rgba(255,71,87,0.1);border-color:rgba(255,71,87,0.3);}
+
+/* ===== CONYUGE REQUIRED INDICATOR ===== */
+.conyuge-required .field-label::after{content:' *';color:var(--blue);}
+
+/* ===== MOTIVATIONAL MODALS ===== */
+.motiv-overlay{position:fixed;inset:0;background:rgba(8,18,42,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:8000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.motiv-overlay.show{opacity:1;pointer-events:all;}
+.motiv-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(10,31,68,0.3),0 8px 24px rgba(10,31,68,0.14);overflow:hidden;transform:scale(0.85) translateY(30px);transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1);}
+.motiv-overlay.show .motiv-card{transform:scale(1) translateY(0);}
+.motiv-card-top{padding:36px 32px 24px;position:relative;overflow:hidden;background:#ffffff;}
+.motiv-emoji-3d{font-size:64px;line-height:1;margin-bottom:14px;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.18));animation:emojiBounce 0.55s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;}
+@keyframes emojiBounce{from{opacity:0;transform:scale(0.3) translateY(-20px) rotate(-15deg)}to{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}}
+.motiv-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#0A1F44;margin-bottom:8px;line-height:1.2;}
+.motiv-text{font-size:14px;color:#6B7A99;line-height:1.65;}
+.motiv-card-bottom{padding:20px 28px 28px;background:#ffffff;}
+.motiv-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.motiv-deco::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.09) 0%,transparent 70%);}
+.motiv-deco::after{content:'';position:absolute;bottom:-35px;left:-35px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(22,93,255,0.06) 0%,transparent 70%);}
+.motiv-btn{width:100%;padding:15px 24px;border:none;border-radius:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;}
+.motiv-btn-25{background:linear-gradient(135deg,#165DFF,#3a7fff);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.35);}
+.motiv-btn-50{background:linear-gradient(135deg,#0FC373,#0a9e5c);color:#fff;box-shadow:0 6px 20px rgba(15,195,115,0.35);}
+.motiv-btn-75{background:linear-gradient(135deg,#F59E0B,#d97706);color:#fff;box-shadow:0 6px 20px rgba(245,158,11,0.35);}
+.motiv-btn-100{background:linear-gradient(135deg,#165DFF 0%,#ff4b6e 100%);color:#fff;box-shadow:0 6px 20px rgba(22,93,255,0.4);}
+.motiv-btn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+body.dark-mode .motiv-card-top,body.dark-mode .motiv-card-bottom,body.dark-mode .motiv-card{background:#111c33;}
+body.dark-mode .motiv-title{color:#e0e8ff;}
+body.dark-mode .motiv-text{color:#7a8fb0;}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
@@ -538,16 +578,16 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilPF">
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Sep')"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Man')"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Soltero')"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Divorciado')"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Viudo')"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Sep');toggleConyuge('PF',true)"><input type="radio" name="EstadoCivil_PF" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Casado-Man');toggleConyuge('PF',true)"><input type="radio" name="EstadoCivil_PF" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Soltero');toggleConyuge('PF',false)"><input type="radio" name="EstadoCivil_PF" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Divorciado');toggleConyuge('PF',false)"><input type="radio" name="EstadoCivil_PF" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_PF','Viudo');toggleConyuge('PF',false)"><input type="radio" name="EstadoCivil_PF" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
           </div>
           <div class="error-msg" id="err-estCivilPF">Selecciona el estado civil.</div>
         </div>
-        <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Conyuge_nombre_PF"></div>
-        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Conyuge_RFC_PF" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+        <div class="field-group" id="fg-conyuge-nombre-PF"><label class="field-label" id="lbl-conyuge-nombre-PF">Nombre del cónyuge</label><input class="field-input" type="text" id="conyuge_nombre_PF" name="Conyuge_nombre_PF"></div>
+        <div class="field-group" id="fg-conyuge-rfc-PF"><label class="field-label" id="lbl-conyuge-rfc-PF">RFC del cónyuge</label><input class="field-input" type="text" id="conyuge_rfc_PF" name="Conyuge_RFC_PF" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
     </div>
 
@@ -637,14 +677,20 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
         onclick="document.getElementById('fileInputPF').click()">
         <span class="attach-folder-icon">📁</span>
         <div class="attach-dropzone-text">
-          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPF').click()">haz clic para seleccionar</a>
+          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPF').click()">haz clic para seleccionarlos</a>
         </div>
-        <div class="attach-meta">
-          Formatos: PDF, JPG, PNG, ZIP, RAR&nbsp;&nbsp;|&nbsp;
-          <span class="attach-meta-badge">Límite total: 5 MB</span>
-          — puedes adjuntar varios archivos
+        <div class="attach-formats-line">Formatos permitidos: <strong>PDF, JPG</strong></div>
+        <div class="attach-auto-compress-line">✨ El sistema comprimirá automáticamente tus archivos – no necesitas hacerlo por tu cuenta</div>
+        <div class="attach-limit-line">📏 Límite total: <strong>5MB</strong> (después de compresión)</div>
+        <div class="attach-tip">Puedes adjuntar varios archivos. Si superas el límite, comprímelos por tu cuenta y envíalos vía correo (preferentemente divididos).</div>
+        <div class="attach-realtime-stats" id="attachRealtimePF" style="display:none">
+          <span>📦 Archivos adjuntos: <strong id="attachCountPF">0</strong></span>
+          <span class="attach-stats-sep">|</span>
+          <span>Peso total comprimido: <strong id="attachWeightPF">0 MB</strong></span>
         </div>
-        <div class="attach-tip">Si tus documentos superan el límite, comprímalos en un archivo ZIP o RAR antes de adjuntarlos</div>
+        <div class="attach-limit-exceeded" id="attachLimitExcPF" style="display:none">
+          ¡Oops! Se ha superado el límite de 5MB comprimidos. Sigue la recomendación anterior.
+        </div>
         <input type="file" id="fileInputPF" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PF')">
       </div>
 
@@ -813,16 +859,16 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
         <div class="field-group col-full">
           <label class="field-label">Estado civil<span class="req">*</span></label>
           <div class="radio-group" id="estCivilAval">
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Sep')"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Man')"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Soltero')"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Divorciado')"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
-            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Viudo')"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Sep');toggleConyuge('PM',true)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Sep"><div class="radio-dot"></div>Casado(a) Sep. bienes</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Casado-Man');toggleConyuge('PM',true)"><input type="radio" name="EstadoCivil_Aval" value="Casado-Man"><div class="radio-dot"></div>Casado(a) Mancomunados</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Soltero');toggleConyuge('PM',false)"><input type="radio" name="EstadoCivil_Aval" value="Soltero"><div class="radio-dot"></div>Soltero(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Divorciado');toggleConyuge('PM',false)"><input type="radio" name="EstadoCivil_Aval" value="Divorciado"><div class="radio-dot"></div>Divorciado(a)</div>
+            <div class="radio-pill" onclick="onRadioPill(this,'EstadoCivil_Aval','Viudo');toggleConyuge('PM',false)"><input type="radio" name="EstadoCivil_Aval" value="Viudo"><div class="radio-dot"></div>Viudo(a)</div>
           </div>
           <div class="error-msg" id="err-estCivilAval">Selecciona el estado civil.</div>
         </div>
-        <div class="field-group"><label class="field-label">Nombre del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_nombre"></div>
-        <div class="field-group"><label class="field-label">RFC del cónyuge</label><input class="field-input" type="text" name="Aval_conyuge_RFC" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
+        <div class="field-group" id="fg-conyuge-nombre-PM"><label class="field-label" id="lbl-conyuge-nombre-PM">Nombre del cónyuge</label><input class="field-input" type="text" id="conyuge_nombre_PM" name="Aval_conyuge_nombre"></div>
+        <div class="field-group" id="fg-conyuge-rfc-PM"><label class="field-label" id="lbl-conyuge-rfc-PM">RFC del cónyuge</label><input class="field-input" type="text" id="conyuge_rfc_PM" name="Aval_conyuge_RFC" oninput="validateRFC(this)" onblur="validateRFC(this)" maxlength="13"></div>
       </div>
 
       <div class="sub-section-label">Domicilio Particular del Aval</div>
@@ -883,14 +929,20 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
         onclick="document.getElementById('fileInputPM').click()">
         <span class="attach-folder-icon">📁</span>
         <div class="attach-dropzone-text">
-          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPM').click()">haz clic para seleccionar</a>
+          Arrastra tus archivos aquí o <a onclick="event.stopPropagation(); document.getElementById('fileInputPM').click()">haz clic para seleccionarlos</a>
         </div>
-        <div class="attach-meta">
-          Formatos: PDF, JPG, PNG, ZIP, RAR&nbsp;&nbsp;|&nbsp;
-          <span class="attach-meta-badge">Límite total: 5 MB</span>
-          — puedes adjuntar varios archivos
+        <div class="attach-formats-line">Formatos permitidos: <strong>PDF, JPG</strong></div>
+        <div class="attach-auto-compress-line">✨ El sistema comprimirá automáticamente tus archivos – no necesitas hacerlo por tu cuenta</div>
+        <div class="attach-limit-line">📏 Límite total: <strong>5MB</strong> (después de compresión)</div>
+        <div class="attach-tip">Puedes adjuntar varios archivos. Si superas el límite, comprímelos por tu cuenta y envíalos vía correo (preferentemente divididos).</div>
+        <div class="attach-realtime-stats" id="attachRealtimePM" style="display:none">
+          <span>📦 Archivos adjuntos: <strong id="attachCountPM">0</strong></span>
+          <span class="attach-stats-sep">|</span>
+          <span>Peso total comprimido: <strong id="attachWeightPM">0 MB</strong></span>
         </div>
-        <div class="attach-tip">Si tus documentos superan el límite, comprímalos en un archivo ZIP o RAR antes de adjuntarlos</div>
+        <div class="attach-limit-exceeded" id="attachLimitExcPM" style="display:none">
+          ¡Oops! Se ha superado el límite de 5MB comprimidos. Sigue la recomendación anterior.
+        </div>
         <input type="file" id="fileInputPM" multiple accept=".pdf,.jpg,.jpeg,.png,.zip,.rar,.doc,.docx,.txt" style="display:none" onchange="handleFiles(this.files,'PM')">
       </div>
 
@@ -960,9 +1012,7 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
 
   <!-- SUBMIT AREA -->
   <div class="submit-area" id="submitArea">
-    <div class="legal-text">
-      Declaro bajo protesta de decir verdad que toda la información manifestada en esta solicitud es verdadera y de mi entero conocimiento. Autorizo a AB&amp;C Leasing de Mexico, S.A.P.I. de C.V., Financiera Bepensa S.A. de C.V. SOFOM E.R., y Bepensa Leasing SA de CV para verificar la información proporcionada. Aviso de Privacidad: <strong><a href="https://www.anpai.com.mx" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">www.anpai.com.mx</a></strong> | <strong>info@anpai.com.mx</strong>
-    </div>
+
     <div class="field-grid" style="margin-bottom:20px">
       <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
       <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo"></div>
@@ -1001,6 +1051,60 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
   <svg class="whatsapp-icon" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.92-2.207-.24-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.675-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.436 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/></svg>
 </a>
 
+<!-- MOTIVATIONAL MODALS (25%, 50%, 75%, 100%) -->
+<div class="motiv-overlay" id="motivModal25">
+  <div class="motiv-card">
+    <div class="motiv-card-top">
+      <div class="motiv-deco"></div>
+      <span class="motiv-emoji-3d">✨</span>
+      <div class="motiv-title">¡Ya vas por un cuarto! 🚀</div>
+      <div class="motiv-text">25% listo – bienvenido al camino 🎯<br>¡Sigue así!</div>
+    </div>
+    <div class="motiv-card-bottom">
+      <button class="motiv-btn motiv-btn-25" onclick="closeMotivModal('motivModal25')">¡Adelante! →</button>
+    </div>
+  </div>
+</div>
+<div class="motiv-overlay" id="motivModal50">
+  <div class="motiv-card">
+    <div class="motiv-card-top">
+      <div class="motiv-deco"></div>
+      <span class="motiv-emoji-3d">📈</span>
+      <div class="motiv-title">¡Mitad del camino! 🎉</div>
+      <div class="motiv-text">50% hecho – ¡estás volando! 🤩<br>¡No te detengas!</div>
+    </div>
+    <div class="motiv-card-bottom">
+      <button class="motiv-btn motiv-btn-50" onclick="closeMotivModal('motivModal50')">¡Vamos por todo! →</button>
+    </div>
+  </div>
+</div>
+<div class="motiv-overlay" id="motivModal75">
+  <div class="motiv-card">
+    <div class="motiv-card-top">
+      <div class="motiv-deco"></div>
+      <span class="motiv-emoji-3d">🔥</span>
+      <div class="motiv-title">¡Ya casi llegas! ⚡</div>
+      <div class="motiv-text">75% listo – estás muy cerca 🎊<br>¡Último empuje!</div>
+    </div>
+    <div class="motiv-card-bottom">
+      <button class="motiv-btn motiv-btn-75" onclick="closeMotivModal('motivModal75')">¡Ya falta poco! →</button>
+    </div>
+  </div>
+</div>
+<div class="motiv-overlay" id="motivModal100">
+  <div class="motiv-card">
+    <div class="motiv-card-top">
+      <div class="motiv-deco"></div>
+      <span class="motiv-emoji-3d">🥳</span>
+      <div class="motiv-title">¡LO LOGRASTE! 🎊</div>
+      <div class="motiv-text">100% listo – solo falta enviar 🎯<br>¡Hazlo realidad!</div>
+    </div>
+    <div class="motiv-card-bottom">
+      <button class="motiv-btn motiv-btn-100" onclick="closeMotivModal('motivModal100');document.getElementById('mainSubmitBtn').scrollIntoView({behavior:'smooth',block:'center'})">¡Enviar ahora! 🚀</button>
+    </div>
+  </div>
+</div>
+
 <!-- SUCCESS MODAL -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
@@ -1021,7 +1125,7 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 5525374608</a></div>
-            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
+            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#afc6c1c9c0efcec1dfcec681ccc0c281c2d7"><span class="__cf_email__" data-cfemail="51383f373e11303f2130387f323e3c7f3c29">[email&#160;protected]</span></a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1032,7 +1136,7 @@ body.dark-mode .theme-toggle-btn{background:linear-gradient(145deg,#1e2d50,#0f1d
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ==================== reCAPTCHA ====================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
@@ -1121,6 +1225,26 @@ function onRadioPill(el,name,value){
   updateProgressBar();
 }
 
+// ==================== CONYUGE CONDITIONAL REQUIRED ====================
+function toggleConyuge(type, required){
+  var suffix = type === 'PF' ? '_PF' : '_PM';
+  var nameEl = document.getElementById('conyuge_nombre'+suffix);
+  var rfcEl  = document.getElementById('conyuge_rfc'+suffix);
+  var nameFg = document.getElementById('fg-conyuge-nombre-'+type);
+  var rfcFg  = document.getElementById('fg-conyuge-rfc-'+type);
+  if(!nameEl||!rfcEl) return;
+  if(required){
+    nameEl.required = true; rfcEl.required = true;
+    if(nameFg) nameFg.classList.add('conyuge-required');
+    if(rfcFg)  rfcFg.classList.add('conyuge-required');
+  } else {
+    nameEl.required = false; rfcEl.required = false;
+    nameEl.classList.remove('input-error'); rfcEl.classList.remove('input-error');
+    if(nameFg) nameFg.classList.remove('conyuge-required');
+    if(rfcFg)  rfcFg.classList.remove('conyuge-required');
+  }
+}
+
 // ==================== INMUEBLE TOGGLE ====================
 function setIG(groupName,required){
   document.querySelectorAll('[data-ig="'+groupName+'"]').forEach(function(el){ el.required=required; });
@@ -1137,6 +1261,8 @@ function toggleInmueble(toggleId,btn,showId,hideId,showGroup,hideGroup){
 var currentType=null;
 function selectType(type){
   currentType=type;
+  motivShown={25:false,50:false,75:false,100:false};
+  lastPct=0;
   ['PF','PM'].forEach(function(t){
     document.getElementById('btn'+t).classList.toggle('active',t===type);
     document.getElementById('req'+t).classList.toggle('show',t===type);
@@ -1295,8 +1421,16 @@ function updateCapacityBar(type){
   var dot = document.getElementById('attachDot'+type);
   var statusText = document.getElementById('attachStatusText'+type);
 
-  if(state.files.length===0){
+  // Update real-time stats inside dropzone
+  var rtStats = document.getElementById('attachRealtime'+type);
+  var rtCount = document.getElementById('attachCount'+type);
+  var rtWeight = document.getElementById('attachWeight'+type);
+  var limitExc = document.getElementById('attachLimitExc'+type);
+
+  if(state.files.length === 0){
     wrap.classList.remove('visible');
+    if(rtStats) rtStats.style.display='none';
+    if(limitExc) limitExc.style.display='none';
     return;
   }
   wrap.classList.add('visible');
@@ -1313,23 +1447,31 @@ function updateCapacityBar(type){
   bar.className = 'attach-bar-fill';
   dot.className = 'attach-status-dot';
 
+  // Realtime stats in dropzone
+  if(rtStats){ rtStats.style.display='flex'; }
+  if(rtCount){ rtCount.textContent = state.files.length; }
+  if(rtWeight){ rtWeight.textContent = usedStr; }
+
   if(pct >= 100){
     bar.classList.add('red');
     dot.classList.add('red');
     statusText.textContent = 'Límite alcanzado — no se pueden añadir más archivos';
     showAttachError(type, 'El total supera los 5 MB ('+usedStr+'). Elimina archivos hasta quedar dentro del límite.');
+    if(limitExc) limitExc.style.display='block';
   } else if(pct >= 75){
     bar.classList.add('yellow');
     dot.classList.add('yellow');
     var remaining = fmtBytes(MAX_BYTES - used);
     statusText.textContent = 'Casi lleno — quedan '+remaining+' disponibles';
     hideAttachError(type);
+    if(limitExc) limitExc.style.display='none';
   } else {
     bar.classList.add('green');
     dot.classList.add('green');
     var remaining = fmtBytes(MAX_BYTES - used);
     statusText.textContent = 'Capacidad disponible — quedan '+remaining;
     hideAttachError(type);
+    if(limitExc) limitExc.style.display='none';
   }
 }
 
@@ -1683,6 +1825,8 @@ function onColoniaChange(sel,uid){
 
 // ==================== PROGRESS BAR ====================
 var progressState={form:null};
+var motivShown={25:false,50:false,75:false,100:false};
+var lastPct=0;
 function updateProgressBar(){
   if(!progressState.form) return;
   var form=document.getElementById(progressState.form); if(!form) return;
@@ -1701,10 +1845,29 @@ function updateProgressBar(){
   total++; if(form.querySelector('input[name="'+rname+'"]:checked')) done++;
   var lf=document.getElementById('lugar_fecha'); var nf=document.getElementById('nombre_firmante');
   [lf,nf].forEach(function(el){ if(el){ total++; if(el.value.trim()) done++; } });
-  var pct=total>0?(done/total)*100:0;
+  var pct=total>0?Math.floor((done/total)*100):0;
   document.getElementById('formProgressFill').style.width=pct+'%';
   document.getElementById('formProgressDone').textContent=done;
   document.getElementById('formProgressTotal').textContent=total;
+
+  // Motivational milestones — only trigger when crossing threshold going up
+  if(pct >= 100 && lastPct < 100 && !motivShown[100]){ motivShown[100]=true; setTimeout(function(){ showMotivModal('motivModal100'); },400); }
+  else if(pct >= 75 && lastPct < 75 && !motivShown[75]){ motivShown[75]=true; setTimeout(function(){ showMotivModal('motivModal75'); },400); }
+  else if(pct >= 50 && lastPct < 50 && !motivShown[50]){ motivShown[50]=true; setTimeout(function(){ showMotivModal('motivModal50'); },400); }
+  else if(pct >= 25 && lastPct < 25 && !motivShown[25]){ motivShown[25]=true; setTimeout(function(){ showMotivModal('motivModal25'); },400); }
+  lastPct = pct;
+}
+function showMotivModal(id){
+  document.getElementById(id).classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeMotivModal(id){
+  document.getElementById(id).classList.remove('show');
+  // Only restore scroll if no other modal is open
+  var anyOpen = ['motivModal25','motivModal50','motivModal75','motivModal100','successOverlay'].some(function(mid){
+    var el=document.getElementById(mid); return el && el.classList.contains('show');
+  });
+  if(!anyOpen) document.body.style.overflow='';
 }
 function attachProgress(formId){
   var form=document.getElementById(formId); if(!form) return;
@@ -1730,22 +1893,11 @@ document.addEventListener('DOMContentLoaded',function(){
   initAllLadas();
   document.getElementById('mainSubmitBtn').disabled=true;
 
-  // Theme
+  // Theme — force light mode on load, dark is opt-in only
   var themeBtn=document.getElementById('themeToggleBtn');
-  try{ if(localStorage.getItem('ava-theme')==='dark') document.body.classList.add('dark-mode'); }catch(e){}
+  try{ localStorage.removeItem('ava-theme'); }catch(e){}
+  document.body.classList.remove('dark-mode');
   if(themeBtn){
     themeBtn.addEventListener('click',function(){
       var dark=document.body.classList.toggle('dark-mode');
-      try{ localStorage.setItem('ava-theme',dark?'dark':'light'); }catch(e){}
-    });
-  }
-  ['lugar_fecha','nombre_firmante'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('input',updateProgressBar); });
-
-  // Warn if JSZip not available
-  if(!jszipAvailable){
-    console.warn('JSZip no está disponible. La compresión automática no funcionará.');
-  }
-});
-</script>
-</body>
-</html>
+      try{ localStorage.setItem('ava-theme',dark?'dark':'light');
