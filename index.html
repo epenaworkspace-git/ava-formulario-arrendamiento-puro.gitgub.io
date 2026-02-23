@@ -1735,12 +1735,11 @@ document.addEventListener('DOMContentLoaded',function(){
   initAllLadas();
   document.getElementById('mainSubmitBtn').disabled=true;
 
-  // FIX 6: localStorage puede lanzar SecurityError en algunos contextos; se envuelve en try/catch
-  var themeBtn=document.getElementById('themeToggleBtn');
-  var savedTheme = 'light';
-  try { savedTheme = localStorage.getItem('ava-theme') || 'light'; } catch(e){}
-  if(savedTheme === 'dark') document.body.classList.add('dark-mode');
+  // Siempre inicia en modo claro — el usuario elige si cambia manualmente
+  document.body.classList.remove('dark-mode');
+  try { localStorage.removeItem('ava-theme'); } catch(e){}
 
+  var themeBtn=document.getElementById('themeToggleBtn');
   if(themeBtn){
     themeBtn.addEventListener('click',function(){
       var dark=document.body.classList.toggle('dark-mode');
