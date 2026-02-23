@@ -1187,7 +1187,7 @@ function closeSuccessModal(){
   ['PF','PM'].forEach(function(t){
     resetForm(t);
     // Reset attachment engine state
-    attachState[t]={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0};
+    attachState[t]={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,aborted:false,startTime:null,elapsed:0};
     var fl=document.getElementById('fileList'+t); if(fl) fl.innerHTML='';
     // Hide compression panel if still visible
     var cp=document.getElementById('compressProgress'+t); if(cp) cp.classList.remove('show');
@@ -1217,8 +1217,8 @@ document.addEventListener('click',function(e){ if(e.target&&e.target.id==='succe
 // ==================== FILE ATTACHMENT ENGINE ====================
 var MAX_BYTES = 5*1024*1024;
 var attachState = {
-  PF:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0},
-  PM:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0}
+  PF:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,aborted:false,startTime:null,elapsed:0},
+  PM:{files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,aborted:false,startTime:null,elapsed:0}
 };
 var jszipAvailable=(typeof JSZip!=='undefined');
 
@@ -1249,30 +1249,31 @@ function onDrop(e,type){ e.preventDefault(); document.getElementById('attachDrop
 
 function handleFiles(fileList,type){
   var state=attachState[type];
-  var files=Array.from(fileList);
-  files.forEach(function(f){
+  // Abort any running compression before adding new files
+  if(state.compressing){ state.aborted=true; }
+  Array.from(fileList).forEach(function(f){
     var dup=state.files.some(function(ex){ return ex.name===f.name&&ex.size===f.size; });
     if(!dup) state.files.push(f);
   });
-  state.totalSize=state.files.reduce(function(acc,f){ return acc+f.size; },0);
+  // Invalidate previous zip — bar shows "comprimiendo" until new zip is ready
   state.zipBlob=null;
   renderFileList(type);
   updateCapacityBar(type);
-  if(state.files.length>1&&jszipAvailable){ startCompression(type); }
-  else if(state.files.length===1){
-    if(state.files[0].size>MAX_BYTES) showAttachError(type,'"'+state.files[0].name+'" supera el límite de 5 MB.');
-    else hideAttachError(type);
-  } else if(!jszipAvailable&&state.files.length>1){
-    showAttachError(type,'Tu navegador no permite compresión automática. Por favor, comprime los archivos manualmente.');
+  if(!jszipAvailable){
+    showAttachError(type,'Tu navegador no soporta compresión automática. Comprime los archivos manualmente en ZIP.');
+    return;
   }
+  if(state.files.length>=1){ startCompression(type); }
 }
 function removeFile(type,idx){
   var state=attachState[type];
+  if(state.compressing){ state.aborted=true; }
   state.files.splice(idx,1);
-  state.totalSize=state.files.reduce(function(acc,f){ return acc+f.size; },0);
   state.zipBlob=null;
-  renderFileList(type); updateCapacityBar(type); hideAttachError(type);
-  if(state.files.length>1&&jszipAvailable) startCompression(type);
+  renderFileList(type);
+  updateCapacityBar(type);
+  hideAttachError(type);
+  if(state.files.length>=1&&jszipAvailable){ startCompression(type); }
 }
 function renderFileList(type){
   var state=attachState[type];
@@ -1298,55 +1299,72 @@ function updateCapacityBar(type){
   var rtWeight=document.getElementById('attachWeight'+type);
   var limitExc=document.getElementById('attachLimitExc'+type);
 
+  // No files — reset everything and hide bar
   if(state.files.length===0){
     wrap.classList.remove('visible');
     if(rtStats) rtStats.style.display='none';
     if(limitExc) limitExc.style.display='none';
+    if(bar){ bar.className='attach-bar-fill green'; bar.style.width='0%'; }
+    if(valEl) valEl.textContent='0 MB de 5 MB';
+    hideAttachError(type);
     return;
   }
+
   wrap.classList.add('visible');
+  if(rtStats) rtStats.style.display='flex';
+  if(rtCount) rtCount.textContent=state.files.length;
 
-  // ── FIX 1: use compressed size when available; fall back to raw only while compressing ──
-  // If compression is still running, show raw size with a "(comprimiendo…)" note.
-  // Once zipBlob exists, always use the compressed byte count.
-  var isCompressing = state.compressing;
-  var used = state.zipBlob ? state.zipBlob.size : state.totalSize;
-  var usedStr = fmtBytes(used) + (isCompressing && !state.zipBlob ? ' (comprimiendo…)' : '');
+  // ── RULE: ONLY the ZIP size matters. Everything else is ignored. ──
+  // While compression is running: show a neutral "comprimiendo" state.
+  // Only when zipBlob exists do we evaluate the semaphore.
+  if(!state.zipBlob){
+    // Compression pending or in progress — neutral grey state
+    bar.className='attach-bar-fill green';
+    bar.style.width='0%';
+    dot.className='attach-status-dot green';
+    var compMsg=state.compressing ? 'Comprimiendo archivos…' : 'En espera de compresión…';
+    statusText.textContent=compMsg;
+    valEl.textContent='— de 5 MB (ZIP pendiente)';
+    if(rtWeight) rtWeight.textContent='—';
+    if(limitExc) limitExc.style.display='none';
+    hideAttachError(type);
+    return;
+  }
 
-  // Bar width: mapped 0–5 MB → 0–100%
-  var pct = Math.min(100, (used / MAX_BYTES) * 100);
-  bar.style.width = pct + '%';
-  valEl.textContent = usedStr + ' de 5 MB';
+  // ZIP exists — evaluate ONLY its size
+  var zipSize=state.zipBlob.size;
+  var zipStr=fmtBytes(zipSize);
+  var pct=Math.min(100,(zipSize/MAX_BYTES)*100);
 
-  bar.className = 'attach-bar-fill';
-  dot.className = 'attach-status-dot';
-  if(rtStats) rtStats.style.display = 'flex';
-  if(rtCount) rtCount.textContent = state.files.length;
-  if(rtWeight) rtWeight.textContent = usedStr;
+  bar.style.width=pct+'%';
+  valEl.textContent=zipStr+' de 5 MB (ZIP comprimido)';
+  if(rtWeight) rtWeight.textContent=zipStr;
 
-  // ── Thresholds: verde <4 MB | amarillo 4–5 MB | rojo ≥5 MB ──
-  var YELLOW_BYTES = 4 * 1024 * 1024; // 4 MB
-  if(used >= MAX_BYTES){
-    // 🔴 Rojo — límite superado
+  bar.className='attach-bar-fill';
+  dot.className='attach-status-dot';
+
+  var YELLOW_BYTES=4*1024*1024; // 4 MB
+  if(zipSize>=MAX_BYTES){
+    // 🔴 Rojo — ZIP >= 5 MB
     bar.classList.add('red');
     dot.classList.add('red');
-    statusText.textContent = 'Límite alcanzado — elimina archivos';
-    showAttachError(type, 'El total comprimido supera los 5 MB (' + fmtBytes(used) + '). Por favor elimina archivos.');
-    if(limitExc) limitExc.style.display = 'block';
-  } else if(used >= YELLOW_BYTES){
-    // 🟡 Amarillo — entre 4 y 5 MB
+    statusText.textContent='ZIP supera 5 MB — elimina archivos';
+    showAttachError(type,'El ZIP comprimido pesa '+zipStr+' y supera el límite de 5 MB. Elimina algunos archivos.');
+    if(limitExc) limitExc.style.display='block';
+  } else if(zipSize>=YELLOW_BYTES){
+    // 🟡 Amarillo — ZIP entre 4 MB y 5 MB
     bar.classList.add('yellow');
     dot.classList.add('yellow');
-    statusText.textContent = 'Casi lleno — quedan ' + fmtBytes(MAX_BYTES - used);
+    statusText.textContent='Casi lleno — quedan '+fmtBytes(MAX_BYTES-zipSize)+' en el ZIP';
     hideAttachError(type);
-    if(limitExc) limitExc.style.display = 'none';
+    if(limitExc) limitExc.style.display='none';
   } else {
-    // 🟢 Verde — menos de 4 MB
+    // 🟢 Verde — ZIP < 4 MB
     bar.classList.add('green');
     dot.classList.add('green');
-    statusText.textContent = 'Capacidad disponible — quedan ' + fmtBytes(MAX_BYTES - used);
+    statusText.textContent='ZIP listo — quedan '+fmtBytes(MAX_BYTES-zipSize)+' disponibles';
     hideAttachError(type);
-    if(limitExc) limitExc.style.display = 'none';
+    if(limitExc) limitExc.style.display='none';
   }
 }
 function showAttachError(type,msg){ var el=document.getElementById('attachErr'+type); document.getElementById('attachErrText'+type).textContent=msg; el.classList.add('show'); }
@@ -1355,43 +1373,105 @@ function hideAttachError(type){ document.getElementById('attachErr'+type).classL
 // ==================== COMPRESSION ====================
 function startCompression(type){
   var state=attachState[type];
-  if(state.compressing) return;
-  if(!navigator.onLine){ document.getElementById('offlineMsg'+type).classList.add('show'); state.paused=true; document.getElementById('compressResume'+type).classList.add('show'); document.getElementById('compressProgress'+type).classList.add('show'); return; }
-  state.compressing=true; state.paused=false; state.startTime=Date.now()-(state.elapsed||0);
+  // If already compressing, flag abort and wait — the running instance will re-start
+  if(state.compressing){ state.aborted=true; return; }
+  if(!navigator.onLine){
+    document.getElementById('offlineMsg'+type).classList.add('show');
+    state.paused=true;
+    document.getElementById('compressResume'+type).classList.add('show');
+    document.getElementById('compressProgress'+type).classList.add('show');
+    return;
+  }
+
+  // Capture the file list at this moment (snapshot)
+  var files=state.files.slice();
+  if(files.length===0) return;
+
+  state.compressing=true;
+  state.aborted=false;
+  state.paused=false;
+  state.elapsed=0;
+  state.startTime=Date.now();
+
+  // Show compression panel immediately
   document.getElementById('compressProgress'+type).classList.add('show');
   document.getElementById('offlineMsg'+type).classList.remove('show');
   document.getElementById('compressResume'+type).classList.remove('show');
+  updateCapacityBar(type); // show "comprimiendo…" state in the capacity bar
+
   var zip=new JSZip();
-  var files=state.files;
   var totalRaw=files.reduce(function(acc,f){ return acc+f.size; },0);
   var processed=0;
-  var elapsedInterval=setInterval(function(){ state.elapsed=Date.now()-state.startTime; document.getElementById('compressElapsed'+type).textContent=fmtSec(state.elapsed/1000); },500);
+
+  var elapsedInterval=setInterval(function(){
+    if(!state.compressing){ clearInterval(elapsedInterval); return; }
+    state.elapsed=Date.now()-state.startTime;
+    document.getElementById('compressElapsed'+type).textContent=fmtSec(state.elapsed/1000);
+  },200);
+
   function processFile(idx){
-    if(idx>=files.length){
-      document.getElementById('compressInfo'+type).textContent='Generando ZIP…';
-      zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}},function update(meta){
-        var pct=Math.round(meta.percent);
-        updateCompressUI(type,pct,processed,totalRaw-processed,state.elapsed/1000,totalRaw,state.startTime);
-      }).then(function(blob){
-        clearInterval(elapsedInterval);
-        state.zipBlob=blob; state.compressing=false;
-        document.getElementById('compressProgress'+type).classList.remove('show');
-        updateCapacityBar(type);
-        document.getElementById('attachHidden'+type).value='ZIP: archivos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
-      }).catch(function(){ clearInterval(elapsedInterval); state.compressing=false; document.getElementById('compressProgress'+type).classList.remove('show'); showAttachError(type,'Error al comprimir. Intenta de nuevo.'); });
+    // Abort if user changed the file list
+    if(state.aborted){
+      clearInterval(elapsedInterval);
+      state.compressing=false;
+      document.getElementById('compressProgress'+type).classList.remove('show');
+      // Re-start with the updated file list
+      if(state.files.length>=1) startCompression(type);
       return;
     }
+    if(idx>=files.length){
+      document.getElementById('compressInfo'+type).textContent='Generando ZIP…';
+      zip.generateAsync(
+        {type:'blob',compression:'DEFLATE',compressionOptions:{level:6}},
+        function update(meta){
+          if(state.aborted) return;
+          var pct=Math.round(meta.percent);
+          updateCompressUI(type,pct,processed,0,(Date.now()-state.startTime)/1000,totalRaw);
+        }
+      ).then(function(blob){
+        clearInterval(elapsedInterval);
+        state.compressing=false;
+        if(state.aborted){
+          // File list changed during generateAsync — restart
+          document.getElementById('compressProgress'+type).classList.remove('show');
+          if(state.files.length>=1) startCompression(type);
+          return;
+        }
+        state.zipBlob=blob;
+        document.getElementById('compressProgress'+type).classList.remove('show');
+        // NOW evaluate the semaphore — only ZIP size counts
+        updateCapacityBar(type);
+        document.getElementById('attachHidden'+type).value='ZIP: archivos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
+      }).catch(function(){
+        clearInterval(elapsedInterval);
+        state.compressing=false;
+        document.getElementById('compressProgress'+type).classList.remove('show');
+        showAttachError(type,'Error al comprimir archivos. Intenta de nuevo.');
+      });
+      return;
+    }
+
     var f=files[idx];
     var reader=new FileReader();
     reader.onload=function(e){
+      if(state.aborted){ clearInterval(elapsedInterval); state.compressing=false; document.getElementById('compressProgress'+type).classList.remove('show'); if(state.files.length>=1) startCompression(type); return; }
       zip.file(f.name,e.target.result);
       processed+=f.size;
+      // Phase 1: reading files = 0–70% of bar
       var pct=Math.round((processed/totalRaw)*70);
-      updateCompressUI(type,pct,processed,totalRaw-processed,(Date.now()-state.startTime)/1000,totalRaw,state.startTime);
-      if(!navigator.onLine){ clearInterval(elapsedInterval); state.paused=true; state.compressing=false; state.elapsed=Date.now()-state.startTime; document.getElementById('offlineMsg'+type).classList.add('show'); document.getElementById('compressResume'+type).classList.add('show'); return; }
-      processFile(idx+1);
+      updateCompressUI(type,pct,processed,totalRaw-processed,(Date.now()-state.startTime)/1000,totalRaw);
+      if(!navigator.onLine){
+        clearInterval(elapsedInterval);
+        state.paused=true; state.compressing=false;
+        state.elapsed=Date.now()-state.startTime;
+        document.getElementById('offlineMsg'+type).classList.add('show');
+        document.getElementById('compressResume'+type).classList.add('show');
+        return;
+      }
+      // Use setTimeout to yield to UI thread so the bar repaints
+      setTimeout(function(){ processFile(idx+1); },0);
     };
-    reader.onerror=function(){ processFile(idx+1); };
+    reader.onerror=function(){ setTimeout(function(){ processFile(idx+1); },0); };
     reader.readAsArrayBuffer(f);
   }
   processFile(0);
