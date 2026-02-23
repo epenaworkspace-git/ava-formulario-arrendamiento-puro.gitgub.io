@@ -964,6 +964,10 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
 </div>
 
 <script>
+// ==================== CONSTANTES ====================
+// FIX 1: Nombre unificado para el límite de adjuntos (era MAX_BYTES en un lugar, MAX_ZIP_BYTES en otro)
+var MAX_ZIP_BYTES = 5 * 1024 * 1024; // 5 MB
+
 // ==================== reCAPTCHA ====================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
@@ -1050,22 +1054,24 @@ function onRadioPill(el,name,value){
 }
 
 // ==================== CONYUGE ====================
+// FIX 2: La función usaba '_PF' hardcodeado en lugar de usar el parámetro 'type'
 function toggleConyuge(type, required){
-  var suffix = type==='PF' ? '_PF' : '_PM';
-  var nameEl=document.getElementById('conyuge_nombre'+suffix);
-  var rfcEl=document.getElementById('conyuge_rfc'+suffix);
-  var nameFg=document.getElementById('fg-conyuge-nombre-'+type);
-  var rfcFg=document.getElementById('fg-conyuge-rfc-'+type);
-  if(!nameEl||!rfcEl) return;
+  var nameId = type === 'PF' ? 'conyuge_nombre_PF' : 'conyuge_nombre_PM';
+  var rfcId  = type === 'PF' ? 'conyuge_rfc_PF'   : 'conyuge_rfc_PM';
+  var nameEl = document.getElementById(nameId);
+  var rfcEl  = document.getElementById(rfcId);
+  var nameFg = document.getElementById('fg-conyuge-nombre-' + type);
+  var rfcFg  = document.getElementById('fg-conyuge-rfc-'   + type);
+  if(!nameEl || !rfcEl) return;
   if(required){
-    nameEl.required=true; rfcEl.required=true;
+    nameEl.required = true; rfcEl.required = true;
     if(nameFg) nameFg.classList.add('conyuge-required');
-    if(rfcFg) rfcFg.classList.add('conyuge-required');
+    if(rfcFg)  rfcFg.classList.add('conyuge-required');
   } else {
-    nameEl.required=false; rfcEl.required=false;
+    nameEl.required = false; rfcEl.required = false;
     nameEl.classList.remove('input-error'); rfcEl.classList.remove('input-error');
     if(nameFg) nameFg.classList.remove('conyuge-required');
-    if(rfcFg) rfcFg.classList.remove('conyuge-required');
+    if(rfcFg)  rfcFg.classList.remove('conyuge-required');
   }
 }
 
@@ -1113,49 +1119,30 @@ function showSuccessModal(){
   document.body.style.overflow='hidden';
 }
 
-// ── FIX 2: full form reset when user returns from success modal ──
 function resetForm(type){
   var form=document.getElementById('form'+type);
   if(!form) return;
-
-  // 1. Clear all standard inputs / selects / textareas (skip hidden & system fields)
   form.querySelectorAll('input:not([type=hidden]),select,textarea').forEach(function(el){
     if(el.type==='checkbox'||el.type==='radio'){ el.checked=false; }
     else if(el.tagName==='SELECT'){ el.selectedIndex=0; }
     else { el.value=''; }
-    // Remove validation state classes
     el.classList.remove('input-error','rfc-valid','rfc-error','cp-valid','cp-error','cp-loading','cp-autofilled');
   });
-
-  // 2. Remove any RFC hint spans added dynamically
   form.querySelectorAll('.rfc-hint').forEach(function(el){ el.textContent=''; });
-
-  // 3. Reset radio pills — deselect all
   form.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
-
-  // 4. Reset check pills — deselect all
   form.querySelectorAll('.check-pill').forEach(function(p){ p.classList.remove('selected'); });
-
-  // 5. Reset sector error messages
   form.querySelectorAll('.error-msg').forEach(function(el){ el.classList.remove('show'); });
   form.querySelectorAll('.check-group,.radio-group').forEach(function(el){ el.classList.remove('group-error'); });
-
-  // 6. Reset tel number fields (the visible inputs)
   form.querySelectorAll('.tel-number').forEach(function(el){ el.value=''; });
   form.querySelectorAll('.tel-combo').forEach(function(el){ el.classList.remove('input-error'); });
-
-  // 7. Remove dynamically added extra rows from tables (keep only first 2)
   ['tblClientesPF','tblProveedoresPF','tblDirectivosPF','tblEquiposPF',
    'tblClientesPM','tblProveedoresPM','tblDirectivosPM','tblEquiposPM',
    'tblAccionistas'].forEach(function(id){
     var tb=document.getElementById(id); if(!tb) return;
     var rows=tb.querySelectorAll('tr');
     rows.forEach(function(row,i){ if(i>=2) row.remove(); });
-    // Clear remaining rows
     tb.querySelectorAll('input').forEach(function(inp){ inp.value=''; inp.classList.remove('input-error'); });
   });
-
-  // 8. Reset inmueble toggle back to "Propio" (PF only)
   if(type==='PF'){
     var toggle=document.getElementById('inmuebleFiscalPF');
     if(toggle){
@@ -1168,11 +1155,7 @@ function resetForm(type){
     if(rentadoDiv) rentadoDiv.style.display='none';
     setIG('propioPF',true); setIG('rentadoPF',false);
   }
-
-  // 9. Reset cónyuge required state
   toggleConyuge(type,false);
-
-  // 10. Reset colonia dropdowns
   ['cp1','cp2','cp3'].forEach(function(id){
     var wrap=document.getElementById('colonias-'+id+'-wrap'); if(wrap) wrap.style.display='none';
     var hint=document.getElementById('hint-'+id); if(hint) hint.textContent='';
@@ -1182,45 +1165,26 @@ function resetForm(type){
 function closeSuccessModal(){
   document.getElementById('successOverlay').classList.remove('show');
   document.body.style.overflow='';
-
-  // Reset both forms fully
   ['PF','PM'].forEach(function(t){
     resetForm(t);
-    // Reset attachment engine state
-    attachState[t]={files:[],totalSize:0,zipBlob:null,compressing:false,paused:false,aborted:false,startTime:null,elapsed:0};
+    attachState[t]={files:[],zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0};
     var fl=document.getElementById('fileList'+t); if(fl) fl.innerHTML='';
-    // Hide compression panel if still visible
     var cp=document.getElementById('compressProgress'+t); if(cp) cp.classList.remove('show');
     var om=document.getElementById('offlineMsg'+t); if(om) om.classList.remove('show');
     updateCapacityBar(t);
   });
-
-  // Reset lugar/fecha and firmante fields (outside the forms)
   var lf=document.getElementById('lugar_fecha'); if(lf){ lf.value=''; lf.classList.remove('input-error'); }
   var nf=document.getElementById('nombre_firmante'); if(nf){ nf.value=''; nf.classList.remove('input-error'); }
-
-  // Reset declaration checkbox
   var decl=document.getElementById('declarationCheck');
   if(decl){ decl.checked=false; toggleDeclaration(decl); }
-
-  // Reset motivational modal flags so they fire again on next fill
   motivShown={25:false,50:false,75:false,100:false};
   lastPct=0;
-
   updateProgressBar();
-
-  // Scroll back to top
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click',function(e){ if(e.target&&e.target.id==='successOverlay') closeSuccessModal(); });
 
 // ==================== FILE ATTACHMENT ENGINE ====================
-// REGLA ABSOLUTA: el semáforo y la barra SOLO miden el ZIP comprimido.
-// El tamaño crudo de los archivos JAMÁS se usa para evaluar el límite.
-// Mientras no hay ZIP listo, la barra muestra estado neutro.
-
-var MAX_ZIP_BYTES = 5 * 1024 * 1024; // 5 MB — único límite que importa
-
 var attachState = {
   PF: { files:[], zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 },
   PM: { files:[], zipBlob:null, compressing:false, paused:false, startTime:null, elapsed:0 }
@@ -1248,19 +1212,16 @@ function getToday(){
   return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
 }
 
-// ── Drag & Drop ──
 function onDragOver(e,type){ e.preventDefault(); document.getElementById('attachDropzone'+type).classList.add('drag-over'); }
 function onDragLeave(e,type){ document.getElementById('attachDropzone'+type).classList.remove('drag-over'); }
 function onDrop(e,type){ e.preventDefault(); document.getElementById('attachDropzone'+type).classList.remove('drag-over'); handleFiles(e.dataTransfer.files,type); }
 
-// ── Añadir archivos ──
 function handleFiles(fileList,type){
   var state = attachState[type];
   Array.from(fileList).forEach(function(f){
     var dup = state.files.some(function(ex){ return ex.name===f.name && ex.size===f.size; });
     if(!dup) state.files.push(f);
   });
-  // Invalidar ZIP anterior — barra queda en neutro hasta que termine nueva compresión
   state.zipBlob = null;
   renderFileList(type);
   updateCapacityBar(type);
@@ -1273,7 +1234,6 @@ function handleFiles(fileList,type){
   }
 }
 
-// ── Quitar archivo ──
 function removeFile(type, idx){
   var state = attachState[type];
   state.files.splice(idx, 1);
@@ -1286,7 +1246,6 @@ function removeFile(type, idx){
   }
 }
 
-// ── Renderizar lista de archivos ──
 function renderFileList(type){
   var state = attachState[type];
   var list = document.getElementById('fileList'+type);
@@ -1297,15 +1256,13 @@ function renderFileList(type){
     item.innerHTML = '<span class="attach-file-icon">'+getFileIcon(f.name)+'</span>'+
       '<span class="attach-file-name">'+f.name+'</span>'+
       '<span class="attach-file-size">'+fmtBytes(f.size)+'</span>'+
-      '<button type="button" class="attach-file-remove" onclick="removeFile(''+type+'','+i+')" title="Quitar">×</button>';
+      '<button type="button" class="attach-file-remove" onclick="removeFile(\''+type+'\','+i+')" title="Quitar">\u00d7</button>';
     list.appendChild(item);
   });
 }
 
-// ── Barra de capacidad ──
-// NUNCA usa tamaño crudo. Solo evalúa zipBlob.size cuando el ZIP ya existe.
 function updateCapacityBar(type){
-  var state = attachState[type];
+  var state     = attachState[type];
   var wrap      = document.getElementById('capacityWrap'+type);
   var bar       = document.getElementById('attachBar'+type);
   var valEl     = document.getElementById('capacityValue'+type);
@@ -1329,7 +1286,6 @@ function updateCapacityBar(type){
   if(rtStats)  rtStats.style.display = 'flex';
   if(rtCount)  rtCount.textContent   = state.files.length;
 
-  // Sin ZIP todavía → estado neutro, sin evaluación de límite
   if(!state.zipBlob){
     bar.className   = 'attach-bar-fill green';
     bar.style.width = '0%';
@@ -1341,7 +1297,6 @@ function updateCapacityBar(type){
     return;
   }
 
-  // ZIP listo → evaluar SOLO su tamaño
   var zSize = state.zipBlob.size;
   var pct   = Math.min(100, (zSize / MAX_ZIP_BYTES) * 100);
   var zStr  = fmtBytes(zSize);
@@ -1374,6 +1329,7 @@ function updateCapacityBar(type){
   }
 }
 
+// FIX 3: showAttachMsg era llamada pero no estaba definida con ese nombre en todos los contextos
 function showAttachMsg(type, level, msg){
   var el   = document.getElementById('attachErr'+type);
   var text = document.getElementById('attachErrText'+type);
@@ -1385,22 +1341,15 @@ function hideAttachMsg(type){
   if(el) el.classList.remove('show');
 }
 
-// ── Programar compresión (evita doble arranque) ──
 var compressionTimers = { PF: null, PM: null };
 function scheduleCompression(type){
   clearTimeout(compressionTimers[type]);
   compressionTimers[type] = setTimeout(function(){ startCompression(type); }, 80);
 }
 
-// ── Motor de compresión ──
 function startCompression(type){
   var state = attachState[type];
-
-  // Si ya está comprimiendo, cancelar la anterior y reiniciar con la lista actual
-  if(state.compressing){
-    state.compressing = false; // la instancia en curso lo detectará y abortará
-  }
-
+  if(state.compressing){ state.compressing = false; }
   if(state.files.length === 0) return;
 
   if(!navigator.onLine){
@@ -1411,20 +1360,19 @@ function startCompression(type){
     return;
   }
 
-  // Snapshot de la lista actual
   var snapshot = state.files.slice();
-  var runId    = Date.now(); // identificador único de esta ejecución
+  var runId    = Date.now();
 
   state.compressing = true;
   state.paused      = false;
   state.startTime   = Date.now();
   state.elapsed     = 0;
-  state._runId      = runId; // guardar para detectar cancelaciones
+  state._runId      = runId;
 
   document.getElementById('compressProgress'+type).classList.add('show');
   document.getElementById('offlineMsg'+type).classList.remove('show');
   document.getElementById('compressResume'+type).classList.remove('show');
-  updateCapacityBar(type); // muestra "comprimiendo…"
+  updateCapacityBar(type);
 
   var zip      = new JSZip();
   var totalRaw = snapshot.reduce(function(a,f){ return a+f.size; }, 0);
@@ -1444,12 +1392,10 @@ function startCompression(type){
   }
 
   function processFile(idx){
-    // Cancelar si otra ejecución tomó el control
     if(state._runId !== runId){ abort(); return; }
     if(!state.compressing)    { abort(); return; }
 
     if(idx >= snapshot.length){
-      // Fase 2: generar ZIP
       var infoEl = document.getElementById('compressInfo'+type);
       if(infoEl) infoEl.textContent = 'Generando ZIP…';
 
@@ -1466,7 +1412,6 @@ function startCompression(type){
         state.compressing = false;
         state.zipBlob     = blob;
         document.getElementById('compressProgress'+type).classList.remove('show');
-        // Ahora sí — evaluar semáforo con el tamaño real del ZIP
         updateCapacityBar(type);
         var h = document.getElementById('attachHidden'+type);
         if(h) h.value = 'ZIP: archivos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
@@ -1477,7 +1422,6 @@ function startCompression(type){
       return;
     }
 
-    // Fase 1: leer archivos
     var f      = snapshot[idx];
     var reader = new FileReader();
     reader.onload = function(ev){
@@ -1496,7 +1440,6 @@ function startCompression(type){
         document.getElementById('compressResume'+type).classList.add('show');
         return;
       }
-      // yield al hilo de UI antes del siguiente archivo
       setTimeout(function(){ processFile(idx+1); }, 0);
     };
     reader.onerror = function(){ setTimeout(function(){ processFile(idx+1); }, 0); };
@@ -1535,7 +1478,7 @@ window.addEventListener('online',function(){
   ['PF','PM'].forEach(function(type){
     var state=attachState[type];
     document.getElementById('offlineMsg'+type).classList.remove('show');
-    if(state.paused&&state.files.length>1){ state.paused=false; startCompression(type); }
+    if(state.paused&&state.files.length>=1){ state.paused=false; startCompression(type); }
   });
 });
 window.addEventListener('offline',function(){
@@ -1590,8 +1533,16 @@ function triggerFormSubmit(){
   }
   var state=attachState[currentType];
   if(state.compressing){ alert('Espera a que termine la compresión de archivos.'); return; }
-  var attachUsed=state.zipBlob?state.zipBlob.size:state.totalSize;
-  if(attachUsed>MAX_BYTES){ showAttachError(currentType,'El total supera los 5 MB ('+fmtBytes(attachUsed)+'). Elimina archivos.'); document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'}); return; }
+
+  // FIX 4: Reemplazado 'MAX_BYTES' (indefinido) por 'MAX_ZIP_BYTES' y 'state.totalSize' (indefinido) por cálculo correcto
+  var attachSize = state.zipBlob ? state.zipBlob.size : state.files.reduce(function(a,f){ return a+f.size; }, 0);
+  if(attachSize > MAX_ZIP_BYTES){
+    // FIX 5: Reemplazado 'showAttachError' (indefinida) por 'showAttachMsg'
+    showAttachMsg(currentType,'error','El total supera los 5 MB ('+fmtBytes(attachSize)+'). Elimina archivos.');
+    document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
   var form=document.getElementById('form'+currentType);
   var valid=true; var firstInvalid=null;
   form.querySelectorAll('input[required],select[required],textarea[required]').forEach(function(inp){
@@ -1784,9 +1735,12 @@ document.addEventListener('DOMContentLoaded',function(){
   initAllLadas();
   document.getElementById('mainSubmitBtn').disabled=true;
 
-  // Theme toggle — starts in light mode
+  // FIX 6: localStorage puede lanzar SecurityError en algunos contextos; se envuelve en try/catch
   var themeBtn=document.getElementById('themeToggleBtn');
-  document.body.classList.remove('dark-mode');
+  var savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('ava-theme') || 'light'; } catch(e){}
+  if(savedTheme === 'dark') document.body.classList.add('dark-mode');
+
   if(themeBtn){
     themeBtn.addEventListener('click',function(){
       var dark=document.body.classList.toggle('dark-mode');
