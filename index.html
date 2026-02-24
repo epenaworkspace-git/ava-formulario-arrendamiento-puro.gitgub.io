@@ -8,7 +8,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
-:root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--warning:#F59E0B;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);}
+:root{--navy:#0A1F44;--blue:#165DFF;--blue-light:#3a7fff;--white:#FFFFFF;--dark:#333333;--gray-100:#F4F6FB;--gray-200:#E8ECF4;--gray-400:#9BA8C0;--gray-500:#6B7A99;--success:#0FC373;--warning:#F59E0B;--error:#FF4757;--card-bg:rgba(255,255,255,0.97);--shadow:0 8px 40px rgba(10,31,68,0.10);--shadow-lg:0 20px 60px rgba(10,31,68,0.16);--p:#0A1F44;--a:#165DFF;--bd:#E0E0E0;--bg:#F8FAFC;--mid:#666;--lt:#999;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dark);min-height:100vh;font-size:15px;}
 .header{background:var(--navy);position:relative;overflow:hidden;}
@@ -197,6 +197,45 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .recaptcha-notice a{color:var(--blue);text-decoration:none;}
 @keyframes pulseError{0%,100%{border-color:var(--gray-200)}50%{border-color:var(--error);box-shadow:0 0 0 4px rgba(255,71,87,0.15)}}
 .pulse-error{animation:pulseError 0.5s ease 2;}
+
+/* ══════════════════════════════════════════
+   RESUMEN DE SOLICITUD – estilos
+══════════════════════════════════════════ */
+.sumbox{background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 2px 16px rgba(10,31,68,.07);transition:background 0.3s ease,border-color 0.3s ease;}
+.sum-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.35rem .9rem;background:linear-gradient(135deg,var(--navy) 0%,#0e2a60 100%);position:relative;overflow:hidden;}
+.sum-header::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(91,142,255,.25) 0%,transparent 70%);pointer-events:none;}
+.sum-header-left{display:flex;align-items:center;gap:.65rem;position:relative;z-index:1;}
+.sum-header-icon{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sum-header-icon svg{width:17px;height:17px;fill:#fff;}
+.sum-ttl{font-size:.82rem;font-weight:800;color:#fff;letter-spacing:.07em;text-transform:uppercase;}
+.sum-ttl-sub{font-size:.68rem;color:rgba(255,255,255,.55);font-weight:400;margin-top:.1rem;}
+.sum-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(15,195,115,.18);border:1px solid rgba(15,195,115,.4);border-radius:99px;padding:.26rem .72rem;font-size:.68rem;font-weight:700;color:#6eeabb;letter-spacing:.04em;text-transform:uppercase;position:relative;z-index:1;}
+.sum-badge-dot{width:6px;height:6px;border-radius:50%;background:#0FC373;animation:pulseDot 2s ease-in-out infinite;}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.sum-body{/* contenido generado por JS */}
+.sum-group{padding:.9rem 1.35rem;}
+.sum-group+.sum-group{border-top:1px solid #EEF2F7;}
+.sum-group-label{display:flex;align-items:center;gap:.45rem;margin-bottom:.7rem;}
+.sum-group-label-icon{font-size:.88rem;}
+.sum-group-label-text{font-size:.68rem;font-weight:800;color:var(--a);letter-spacing:.1em;text-transform:uppercase;}
+.sum-row{display:flex;align-items:baseline;gap:.5rem;font-size:.8rem;line-height:1.9;}
+.sum-k{color:var(--mid);font-weight:500;min-width:148px;flex-shrink:0;font-size:.77rem;}
+.sum-v{color:#1a1a2e;font-weight:600;font-size:.82rem;word-break:break-word;}
+.sum-v--empty{color:var(--lt);font-weight:400;font-style:italic;}
+.sum-chip{display:inline-block;background:rgba(22,93,255,.08);color:var(--a);border:1px solid rgba(22,93,255,.2);border-radius:6px;padding:.1rem .55rem;font-size:.75rem;font-weight:600;}
+.sum-chip--files{background:rgba(15,195,115,.08);color:#0a9a5a;border-color:rgba(15,195,115,.25);}
+.sum-chip--amount{background:rgba(245,158,11,.08);color:#b45309;border-color:rgba(245,158,11,.25);}
+.sum-footer{padding:.75rem 1.35rem;border-top:1px solid #EEF2F7;background:#F8FAFC;display:flex;align-items:flex-start;gap:.6rem;}
+.sum-footer-icon{font-size:.9rem;flex-shrink:0;margin-top:.1rem;}
+.sum-footer-text{font-size:.75rem;color:var(--mid);line-height:1.6;}
+.sum-footer-text strong{color:var(--navy);display:block;margin-bottom:.15rem;}
+/* Skeleton */
+.sum-skeleton-row{display:flex;gap:.75rem;padding:.35rem 0;}
+.sum-skeleton-k,.sum-skeleton-v{height:12px;border-radius:6px;background:linear-gradient(90deg,#f0f2f8 25%,#e4e8f4 50%,#f0f2f8 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+.sum-skeleton-k{width:110px;flex-shrink:0;}
+.sum-skeleton-v{flex:1;max-width:220px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
 .success-overlay{display:none;position:fixed;inset:0;background:rgba(8,18,42,0.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
 .success-overlay.show{display:flex;}
 .success-card{background:#ffffff;border-radius:28px;padding:0;text-align:center;width:100%;max-width:460px;box-shadow:0 32px 80px rgba(10,31,68,0.28),0 8px 24px rgba(10,31,68,0.12);animation:popIn 0.45s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
@@ -324,6 +363,19 @@ body.dark-mode .attach-limit-exceeded{background:rgba(255,71,87,0.1);border-colo
 body.dark-mode .motiv-card-top,body.dark-mode .motiv-card-bottom,body.dark-mode .motiv-card{background:#111c33;}
 body.dark-mode .motiv-title{color:#e0e8ff;}
 body.dark-mode .motiv-text{color:#7a8fb0;}
+/* Dark mode – resumen */
+body.dark-mode .sumbox{background:#111f3a;border-color:#1e2d50;}
+body.dark-mode .sum-group+.sum-group{border-top-color:#1e2d50;}
+body.dark-mode .sum-group-label-text{color:#6ba3ff;}
+body.dark-mode .sum-k{color:#4a5878;}
+body.dark-mode .sum-v{color:#c8d6f0;}
+body.dark-mode .sum-v--empty{color:#3a4e70;}
+body.dark-mode .sum-footer{border-top-color:#1e2d50;background:#0e1a30;}
+body.dark-mode .sum-footer-text{color:#4a5878;}
+body.dark-mode .sum-footer-text strong{color:#c8d6f0;}
+body.dark-mode .sum-chip{background:rgba(22,93,255,.15);color:#6ba3ff;border-color:rgba(22,93,255,.3);}
+body.dark-mode .sum-chip--files{background:rgba(15,195,115,.12);color:#6eeabb;border-color:rgba(15,195,115,.3);}
+body.dark-mode .sum-chip--amount{background:rgba(245,158,11,.12);color:#fcd34d;border-color:rgba(245,158,11,.3);}
 
 @media(max-width:768px){
   .tramite-float{width:60px;height:60px;top:20px;left:20px;}
@@ -340,6 +392,16 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
   .lada-select{width:130px;}
   .theme-toggle-btn{top:14px;right:14px;width:44px;height:44px;}
   .form-progress-wrap{width:calc(100% - 24px);bottom:16px;}
+}
+@media(max-width:600px){
+  .sum-header{padding:.85rem 1rem;flex-wrap:wrap;gap:.5rem;}
+  .sum-group{padding:.75rem 1rem;}
+  .sum-footer{padding:.75rem 1rem;}
+  .sum-ttl{font-size:.78rem;}
+  .sum-badge{font-size:.63rem;padding:.2rem .55rem;}
+  .sum-row{flex-direction:column;gap:.04rem;line-height:1.55;padding:.12rem 0;}
+  .sum-k{min-width:unset;font-size:.72rem;color:var(--a);}
+  .sum-v{font-size:.8rem;}
 }
 </style>
 </head>
@@ -880,12 +942,46 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
     </div>
   </form>
 
-  <!-- SUBMIT AREA -->
+  <!-- ══════════════════════════════════════════
+       SUBMIT AREA – con RESUMEN + DECLARACIÓN
+  ══════════════════════════════════════════ -->
   <div class="submit-area" id="submitArea">
-    <div class="field-grid" style="margin-bottom:20px">
-      <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA"></div>
-      <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo"></div>
+
+    <!-- Lugar / Firmante -->
+    <div class="field-grid" style="margin-bottom:24px">
+      <div class="field-group"><label class="field-label">Lugar y fecha de elaboración<span class="req">*</span></label><input class="field-input" id="lugar_fecha" type="text" placeholder="Ciudad, DD/MM/AAAA" oninput="updateProgressBar();buildSummary()"></div>
+      <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo" oninput="updateProgressBar();buildSummary()"></div>
     </div>
+
+    <!-- ═══ RESUMEN DE SOLICITUD ═══ -->
+    <div class="sumbox" id="sumBox" style="display:none">
+      <div class="sum-header">
+        <div class="sum-header-left">
+          <div class="sum-header-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+          </div>
+          <div>
+            <div class="sum-ttl">Resumen de Solicitud</div>
+            <div class="sum-ttl-sub">Revisa tus datos antes de enviar</div>
+          </div>
+        </div>
+        <div class="sum-badge" id="sumBadge">
+          <span class="sum-badge-dot"></span>
+          Listo
+        </div>
+      </div>
+      <div class="sum-body" id="sumCont"></div>
+      <div class="sum-footer">
+        <span class="sum-footer-icon">ℹ️</span>
+        <p class="sum-footer-text">
+          <strong>Verifica la información antes de enviar.</strong>
+          Si detectas algún error, desplázate al campo correspondiente y corrígelo.
+        </p>
+      </div>
+    </div>
+    <!-- ═══ FIN RESUMEN ═══ -->
+
+    <!-- DECLARACIÓN -->
     <div class="declaration-wrap" id="declarationWrap">
       <label class="declaration-label">
         <input type="checkbox" id="declarationCheck" onchange="toggleDeclaration(this)">
@@ -895,11 +991,12 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
           </div>
           <div class="declaration-text">
             <strong>Declaración de veracidad y autenticidad</strong>
-            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada es auténtica. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad otorgando a esta acción el mismo valor jurídico que mi firma autógrafa.</span>
+            Bajo protesta de decir verdad, declaro que toda la información y documentación proporcionada es auténtica. <span class="declaration-firma">Al marcar esta casilla, manifiesto mi conformidad otorgando a esta acción el mismo valor jurídico que mi firma autógrafa, de conformidad con el artículo 89 del Código de Comercio y la NOM-151-SCFI-2016.</span>
           </div>
         </div>
       </label>
     </div>
+
     <button type="button" id="mainSubmitBtn" class="submit-btn" onclick="triggerFormSubmit()" disabled>
       <span id="btnText">Confirma la declaración para enviar</span>
     </button>
@@ -965,8 +1062,7 @@ body.dark-mode .motiv-text{color:#7a8fb0;}
 
 <script>
 // ==================== CONSTANTES ====================
-// FIX 1: Nombre unificado para el límite de adjuntos (era MAX_BYTES en un lugar, MAX_ZIP_BYTES en otro)
-var MAX_ZIP_BYTES = 5 * 1024 * 1024; // 5 MB
+var MAX_ZIP_BYTES = 5 * 1024 * 1024;
 
 // ==================== reCAPTCHA ====================
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
@@ -1026,6 +1122,7 @@ function syncTel(prefix){
   if(combo) combo.classList.remove('input-error');
   if(err) err.classList.remove('show');
   updateProgressBar();
+  buildSummary();
 }
 
 // ==================== CHECK PILLS ====================
@@ -1039,6 +1136,7 @@ function onCheckPill(el){
     if(cb.checked){ group.classList.remove('group-error'); if(errEl) errEl.classList.remove('show'); }
   }
   updateProgressBar();
+  buildSummary();
 }
 
 // ==================== RADIO PILLS ====================
@@ -1051,10 +1149,10 @@ function onRadioPill(el,name,value){
   el.classList.add('selected');
   var rb=el.querySelector('input[type=radio]'); if(rb) rb.checked=true;
   updateProgressBar();
+  buildSummary();
 }
 
 // ==================== CONYUGE ====================
-// FIX 2: La función usaba '_PF' hardcodeado en lugar de usar el parámetro 'type'
 function toggleConyuge(type, required){
   var nameId = type === 'PF' ? 'conyuge_nombre_PF' : 'conyuge_nombre_PM';
   var rfcId  = type === 'PF' ? 'conyuge_rfc_PF'   : 'conyuge_rfc_PM';
@@ -1085,6 +1183,7 @@ function toggleInmueble(toggleId,btn,showId,hideId,showGroup,hideGroup){
   var showEl=document.getElementById(showId); var hideEl=document.getElementById(hideId);
   if(showEl) showEl.style.display=''; if(hideEl) hideEl.style.display='none';
   setIG(showGroup,true); setIG(hideGroup,false);
+  buildSummary();
 }
 
 // ==================== TYPE SELECTOR ====================
@@ -1102,6 +1201,7 @@ function selectType(type){
   if(type==='PF'){ setIG('propioPF',true); setIG('rentadoPF',false); }
   setTimeout(function(){ document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'}); },100);
   showProgressBar('form'+type);
+  buildSummary();
 }
 
 // ==================== DECLARATION ====================
@@ -1180,6 +1280,7 @@ function closeSuccessModal(){
   motivShown={25:false,50:false,75:false,100:false};
   lastPct=0;
   updateProgressBar();
+  var sb=document.getElementById('sumBox'); if(sb) sb.style.display='none';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click',function(e){ if(e.target&&e.target.id==='successOverlay') closeSuccessModal(); });
@@ -1225,6 +1326,7 @@ function handleFiles(fileList,type){
   state.zipBlob = null;
   renderFileList(type);
   updateCapacityBar(type);
+  buildSummary();
   if(state.files.length >= 1){
     if(typeof JSZip !== 'undefined'){
       scheduleCompression(type);
@@ -1241,6 +1343,7 @@ function removeFile(type, idx){
   renderFileList(type);
   hideAttachMsg(type);
   updateCapacityBar(type);
+  buildSummary();
   if(state.files.length >= 1 && typeof JSZip !== 'undefined'){
     scheduleCompression(type);
   }
@@ -1329,7 +1432,6 @@ function updateCapacityBar(type){
   }
 }
 
-// FIX 3: showAttachMsg era llamada pero no estaba definida con ese nombre en todos los contextos
 function showAttachMsg(type, level, msg){
   var el   = document.getElementById('attachErr'+type);
   var text = document.getElementById('attachErrText'+type);
@@ -1413,6 +1515,7 @@ function startCompression(type){
         state.zipBlob     = blob;
         document.getElementById('compressProgress'+type).classList.remove('show');
         updateCapacityBar(type);
+        buildSummary();
         var h = document.getElementById('attachHidden'+type);
         if(h) h.value = 'ZIP: archivos-'+getToday()+'.zip ('+fmtBytes(blob.size)+')';
       }).catch(function(){
@@ -1534,10 +1637,8 @@ function triggerFormSubmit(){
   var state=attachState[currentType];
   if(state.compressing){ alert('Espera a que termine la compresión de archivos.'); return; }
 
-  // FIX 4: Reemplazado 'MAX_BYTES' (indefinido) por 'MAX_ZIP_BYTES' y 'state.totalSize' (indefinido) por cálculo correcto
   var attachSize = state.zipBlob ? state.zipBlob.size : state.files.reduce(function(a,f){ return a+f.size; }, 0);
   if(attachSize > MAX_ZIP_BYTES){
-    // FIX 5: Reemplazado 'showAttachError' (indefinida) por 'showAttachMsg'
     showAttachMsg(currentType,'error','El total supera los 5 MB ('+fmtBytes(attachSize)+'). Elimina archivos.');
     document.getElementById('attachDropzone'+currentType).scrollIntoView({behavior:'smooth',block:'center'});
     return;
@@ -1621,6 +1722,7 @@ function validateRFC(el){
   el.classList.toggle('rfc-valid',ok); el.classList.toggle('rfc-error',!ok);
   hint.classList.toggle('ok',ok); hint.classList.toggle('err',!ok);
   hint.textContent=ok?'RFC válido':(v.length<12?v.length+'/13 chars':'Formato inválido');
+  buildSummary();
 }
 
 // ==================== CP / COPOMEX ====================
@@ -1660,6 +1762,7 @@ function fetchCP(inp,uid){
         if(cols.length===1){ sel.value=cols[0]; onColoniaChange(sel,uid); }
         if(hint) hint.textContent=cols.length+' colonia(s)';
       }
+      buildSummary();
     })
     .catch(function(){ inp.classList.remove('cp-loading'); inp.classList.add('cp-error'); });
 }
@@ -1671,6 +1774,172 @@ function onColoniaChange(sel,uid){
     var ph=(inp.placeholder||'').toLowerCase();
     if(ph==='colonia'||ph.includes('colonia')){ inp.value=v; inp.dispatchEvent(new Event('input')); }
   });
+  buildSummary();
+}
+
+// ==================== BUILD SUMMARY ====================
+function gv(id){
+  var el=document.getElementById(id); return el?el.value.trim():'';
+}
+function fv(name){
+  var el=document.querySelector('[name="'+name+'"]'); return el?el.value.trim():'';
+}
+function buildSummary(){
+  if(!currentType) return;
+  var sumBox=document.getElementById('sumBox');
+  var sumCont=document.getElementById('sumCont');
+  if(!sumBox||!sumCont) return;
+
+  function makeRow(label,value,chipClass){
+    var empty=!value||!String(value).trim()||value==='N/A';
+    var valHtml;
+    if(empty){ valHtml='<span class="sum-v sum-v--empty">—</span>'; }
+    else if(chipClass){ valHtml='<span class="sum-chip '+chipClass+'">'+value+'</span>'; }
+    else { valHtml='<span class="sum-v">'+value+'</span>'; }
+    return '<div class="sum-row"><span class="sum-k">'+label+':</span>'+valHtml+'</div>';
+  }
+
+  function makeGroup(emoji,titulo,filas){
+    if(!filas.trim()) return '';
+    return '<div class="sum-group">'
+         +'<div class="sum-group-label">'
+         +'<span class="sum-group-label-icon">'+emoji+'</span>'
+         +'<span class="sum-group-label-text">'+titulo+'</span>'
+         +'</div>'+filas+'</div>';
+  }
+
+  var html='';
+
+  if(currentType==='PF'){
+    // Negocio
+    var sector=[];
+    document.querySelectorAll('#sectorPF input:checked').forEach(function(cb){ sector.push(cb.value); });
+    html+=makeGroup('💼','Datos del Negocio / PFAE',
+      makeRow('Cliente',fv('Nombre_cliente'))+
+      makeRow('RFC',fv('RFC'))+
+      makeRow('Actividad',fv('Actividad_principal'))+
+      makeRow('Nombre comercial',fv('Nombre_comercial'))+
+      makeRow('Sector',sector.join(', '),'sum-chip')+
+      makeRow('Empleados',fv('Num_empleados'))+
+      makeRow('CLABE',fv('CLABE'))+
+      makeRow('Banco',fv('Banco'))+
+      makeRow('Email negocio',fv('Email_negocio'))
+    );
+    // Domicilio fiscal
+    var fiscalDir=[fv('Fiscal_calle'),fv('Fiscal_noext')].filter(Boolean).join(' #');
+    html+=makeGroup('📍','Domicilio Fiscal',
+      makeRow('Dirección',fiscalDir)+
+      makeRow('Colonia',fv('Fiscal_colonia'))+
+      makeRow('C.P.',fv('Fiscal_cp'))+
+      makeRow('Ciudad',fv('Fiscal_ciudad'))+
+      makeRow('Estado',fv('Fiscal_estado'))
+    );
+    // Datos personales
+    var estCivil=document.querySelector('#estCivilPF input:checked');
+    html+=makeGroup('🤝','Datos Personales',
+      makeRow('Nacimiento',fv('Nacimiento_PF'))+
+      makeRow('Profesión',fv('Profesion_PF'))+
+      makeRow('Puesto',fv('Puesto_PF'))+
+      makeRow('Estado civil',estCivil?estCivil.value:'')+
+      makeRow('Email personal',fv('Email_PF'))
+    );
+    // Equipos
+    var eq1desc=fv('Eq1_desc'); var eq1valor=fv('Eq1_valor'); var eq1plazo=fv('Eq1_plazo');
+    if(eq1desc||eq1valor){
+      html+=makeGroup('🚗','Equipo / Vehículo Solicitado',
+        makeRow('Descripción',eq1desc)+
+        makeRow('Valor',eq1valor?'$'+eq1valor:'','sum-chip--amount')+
+        makeRow('Plazo',eq1plazo)
+      );
+    }
+    // Referencias
+    html+=makeGroup('👥','Referencias',
+      makeRow('Referencia 1',fv('Ref1_nombre_PF'))+
+      makeRow('Ref. 2',fv('Ref2_nombre_PF'))
+    );
+    // Visita
+    html+=makeGroup('📋','Contacto Visita',
+      makeRow('Nombre',fv('Visita_nombre_PF'))+
+      makeRow('Puesto',fv('Visita_puesto_PF'))
+    );
+  } else {
+    // PM – Empresa
+    var sectorPM=[];
+    document.querySelectorAll('#sectorPM input:checked').forEach(function(cb){ sectorPM.push(cb.value); });
+    html+=makeGroup('🏢','Datos de la Empresa',
+      makeRow('Razón social',fv('RazonSocial'))+
+      makeRow('RFC',fv('RFC_PM'))+
+      makeRow('Actividad',fv('Actividad_PM'))+
+      makeRow('Nombre comercial',fv('NombreComercial_PM'))+
+      makeRow('Sector',sectorPM.join(', '),'sum-chip')+
+      makeRow('Empleados',fv('Empleados_PM'))+
+      makeRow('CLABE',fv('CLABE_PM'))+
+      makeRow('Banco',fv('Banco_PM'))+
+      makeRow('Email empresa',fv('Email_PM'))
+    );
+    // Domicilio fiscal PM
+    var fiscalDirPM=[fv('FiscalPM_calle'),fv('FiscalPM_noext')].filter(Boolean).join(' #');
+    html+=makeGroup('📍','Domicilio Fiscal',
+      makeRow('Dirección',fiscalDirPM)+
+      makeRow('Colonia',fv('FiscalPM_colonia'))+
+      makeRow('C.P.',fv('FiscalPM_cp'))+
+      makeRow('Ciudad',fv('FiscalPM_ciudad'))+
+      makeRow('Estado',fv('FiscalPM_estado'))
+    );
+    // Equipos PM
+    var eq1PM=fv('Eq1PM_desc'); var eq1PMvalor=fv('Eq1PM_valor'); var eq1PMplazo=fv('Eq1PM_plazo');
+    if(eq1PM||eq1PMvalor){
+      html+=makeGroup('🚗','Equipo / Vehículo Solicitado',
+        makeRow('Descripción',eq1PM)+
+        makeRow('Valor',eq1PMvalor?'$'+eq1PMvalor:'','sum-chip--amount')+
+        makeRow('Plazo',eq1PMplazo)
+      );
+    }
+    // Aval
+    var estCivilAval=document.querySelector('#estCivilAval input:checked');
+    html+=makeGroup('🤝','Accionista / Aval',
+      makeRow('Nombre',fv('Aval_nombre'))+
+      makeRow('RFC',fv('Aval_RFC'))+
+      makeRow('Cargo',fv('Aval_puesto'))+
+      makeRow('Estado civil',estCivilAval?estCivilAval.value:'')+
+      makeRow('Email',fv('Aval_email'))
+    );
+    // Domicilio aval
+    var avalDir=[fv('AvalDom_calle'),fv('AvalDom_noext')].filter(Boolean).join(' #');
+    html+=makeGroup('📍','Domicilio del Aval',
+      makeRow('Dirección',avalDir)+
+      makeRow('Colonia',fv('AvalDom_colonia'))+
+      makeRow('C.P.',fv('AvalDom_cp'))+
+      makeRow('Ciudad',fv('AvalDom_ciudad'))+
+      makeRow('Estado',fv('AvalDom_estado'))
+    );
+    // Visita PM
+    html+=makeGroup('📋','Contacto Visita',
+      makeRow('Nombre',fv('Visita_nombre_PM'))+
+      makeRow('Puesto',fv('Visita_puesto_PM'))
+    );
+  }
+
+  // Archivos adjuntos (común)
+  var st=attachState[currentType];
+  var archivos=st.files.length;
+  var zipInfo=st.zipBlob?fmtBytes(st.zipBlob.size):'Pendiente';
+  var archivosStr=archivos>0?archivos+' archivo(s) — ZIP: '+zipInfo:'Sin archivos adjuntos';
+  html+=makeGroup('📎','Documentos Adjuntos',
+    makeRow('Archivos',archivosStr,archivos>0?'sum-chip--files':'')
+  );
+
+  // Firmante
+  var lf=gv('lugar_fecha'); var nf=gv('nombre_firmante');
+  if(lf||nf){
+    html+=makeGroup('✍️','Firmante',
+      makeRow('Lugar y fecha',lf)+
+      makeRow('Nombre',nf)
+    );
+  }
+
+  sumCont.innerHTML=html;
+  sumBox.style.display='';
 }
 
 // ==================== PROGRESS BAR ====================
@@ -1714,9 +1983,10 @@ function closeMotivModal(id){
 function attachProgress(formId){
   var form=document.getElementById(formId); if(!form) return;
   form.querySelectorAll('input,select,textarea').forEach(function(el){
-    el.addEventListener('input',updateProgressBar); el.addEventListener('change',updateProgressBar);
+    el.addEventListener('input',function(){ updateProgressBar(); buildSummary(); });
+    el.addEventListener('change',function(){ updateProgressBar(); buildSummary(); });
   });
-  ['lugar_fecha','nombre_firmante'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('input',updateProgressBar); });
+  ['lugar_fecha','nombre_firmante'].forEach(function(id){ var el=document.getElementById(id); if(el){ el.addEventListener('input',function(){ updateProgressBar(); buildSummary(); }); } });
 }
 function showProgressBar(formId){
   progressState.form=formId;
@@ -1735,7 +2005,6 @@ document.addEventListener('DOMContentLoaded',function(){
   initAllLadas();
   document.getElementById('mainSubmitBtn').disabled=true;
 
-  // Siempre inicia en modo claro — el usuario elige si cambia manualmente
   document.body.classList.remove('dark-mode');
   try { localStorage.removeItem('ava-theme'); } catch(e){}
 
