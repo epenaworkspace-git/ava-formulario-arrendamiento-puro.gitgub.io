@@ -269,16 +269,28 @@ body.dark-mode .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
 body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 
 /* ── BOTÓN TRÁMITE FLOTANTE ── */
-.tramite-float{position:fixed;top:50px;left:50px;background:linear-gradient(135deg,#0A1F44 0%,#1a3a6e 100%);color:white;width:75px;height:75px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(10,31,68,0.4);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:floatPremium 3s ease-in-out infinite;border:4px solid white;overflow:hidden;}
+.tramite-float{position:fixed;top:50%;left:28px;transform:translateY(-50%);background:linear-gradient(135deg,#0A1F44 0%,#1a3a6e 100%);color:white;width:75px;height:75px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(10,31,68,0.4);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:floatPremium 3s ease-in-out infinite;border:4px solid white;overflow:hidden;}
 .tramite-float::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.2) 50%,transparent 70%);animation:shine 3s infinite;}
-.tramite-float:hover{transform:scale(1.2) translateY(-5px);box-shadow:0 20px 40px rgba(10,31,68,0.6);animation:none;}
+.tramite-float:hover{transform:translateY(calc(-50% - 5px)) scale(1.2);box-shadow:0 20px 40px rgba(10,31,68,0.6);animation:none;}
 .tramite-tooltip{position:absolute;left:90px;background:white;color:#0A1F44;padding:12px 20px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,0.15);opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;}
 .tramite-tooltip::before{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border:7px solid transparent;border-right-color:white;border-left:0;}
 .tramite-float:hover .tramite-tooltip{opacity:1;transform:translateX(8px);}
 .tramite-icon{width:36px;height:36px;position:relative;z-index:1;fill:white;}
-@keyframes floatPremium{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-15px) rotate(2deg)}75%{transform:translateY(-5px) rotate(-2deg)}}
+@keyframes floatPremium{0%,100%{transform:translateY(-50%) rotate(0deg)}25%{transform:translateY(calc(-50% - 12px)) rotate(2deg)}75%{transform:translateY(calc(-50% - 4px)) rotate(-2deg)}}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
+
+/* ── BOTÓN DESCARGA DOCUMENTOS ─────────────────────── */
+.descarga-float{position:fixed;top:calc(50% + 96px);left:28px;background:linear-gradient(135deg,#0FC373 0%,#0a9e5c 100%);color:white;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(15,195,115,0.45);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:descargaFloat 3.5s ease-in-out infinite 0.8s;border:3.5px solid white;overflow:hidden;}
+.descarga-float::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.25) 50%,transparent 70%);animation:shine 3.5s infinite 0.8s;}
+.descarga-float:hover{transform:scale(1.18) translateY(-4px);box-shadow:0 18px 36px rgba(15,195,115,0.65);animation:none;}
+.descarga-tooltip{position:absolute;left:82px;background:white;color:#0a7a45;padding:11px 18px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,0.14);opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;}
+.descarga-tooltip::before{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border:7px solid transparent;border-right-color:white;border-left:0;}
+.descarga-float:hover .descarga-tooltip{opacity:1;transform:translateX(8px);}
+.descarga-icon{width:30px;height:30px;position:relative;z-index:1;fill:white;}
+@keyframes descargaFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-10px) rotate(-2deg)}75%{transform:translateY(-4px) rotate(2deg)}}
+body.dark-mode .descarga-float{border:2px solid rgba(255,255,255,0.12);}
+@media(max-width:768px){.descarga-float{width:52px;height:52px;top:calc(50% + 72px);left:16px;}.descarga-tooltip{display:none;}}
 .form-progress-wrap{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:1500;display:none;width:calc(100% - 200px);max-width:720px;min-width:280px;pointer-events:none;}
 .form-progress-wrap.visible{display:block;}
 .form-progress-pill{background:#ffffff;border-radius:60px;padding:10px 20px 10px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(10,31,68,0.14),0 1px 4px rgba(10,31,68,0.08);border:1px solid rgba(10,31,68,0.07);}
@@ -469,7 +481,7 @@ body.dark-mode .spotlight-callout-desc{color:#4a5878;}
 body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#263660);}
 
 @media(max-width:768px){
-  .tramite-float{width:60px;height:60px;top:20px;left:20px;}
+  .tramite-float{width:60px;height:60px;top:50%;left:16px;transform:translateY(-50%);}
   .tramite-tooltip{display:none;}
   .legibility-banner{grid-template-columns:1fr;}
   .spotlight-callout{width:230px;padding:18px 20px;}
@@ -483,7 +495,19 @@ body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#2
   .main{padding:24px 14px 80px;}
   .lada-select{width:130px;}
   .theme-toggle-btn{top:14px;right:14px;width:44px;height:44px;}
-  .form-progress-wrap{width:calc(100% - 24px);bottom:16px;}
+  
+/* ── BOTÓN DESCARGA DOCUMENTOS ─────────────────────── */
+.descarga-float{position:fixed;top:calc(50% + 96px);left:28px;background:linear-gradient(135deg,#0FC373 0%,#0a9e5c 100%);color:white;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(15,195,115,0.45);cursor:pointer;z-index:1500;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);text-decoration:none;animation:descargaFloat 3.5s ease-in-out infinite 0.8s;border:3.5px solid white;overflow:hidden;}
+.descarga-float::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.25) 50%,transparent 70%);animation:shine 3.5s infinite 0.8s;}
+.descarga-float:hover{transform:scale(1.18) translateY(-4px);box-shadow:0 18px 36px rgba(15,195,115,0.65);animation:none;}
+.descarga-tooltip{position:absolute;left:82px;background:white;color:#0a7a45;padding:11px 18px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,0.14);opacity:0;pointer-events:none;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;}
+.descarga-tooltip::before{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border:7px solid transparent;border-right-color:white;border-left:0;}
+.descarga-float:hover .descarga-tooltip{opacity:1;transform:translateX(8px);}
+.descarga-icon{width:30px;height:30px;position:relative;z-index:1;fill:white;}
+@keyframes descargaFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-10px) rotate(-2deg)}75%{transform:translateY(-4px) rotate(2deg)}}
+body.dark-mode .descarga-float{border:2px solid rgba(255,255,255,0.12);}
+@media(max-width:768px){.descarga-float{width:52px;height:52px;top:calc(50% + 72px);left:16px;}.descarga-tooltip{display:none;}}
+.form-progress-wrap{width:calc(100% - 24px);bottom:16px;}
   .welcome-card{border-radius:24px;}
   .welcome-card-head{padding:32px 24px 28px;}
   .welcome-card-body{padding:24px 22px 28px;}
@@ -516,10 +540,20 @@ body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#2
 <!-- ══════════════════════════════════════════════
      BOTÓN FLOTANTE INICIAR TRÁMITE
 ══════════════════════════════════════════════ -->
-<a href="https://www.anpai.com.mx/iniciar-tramite" class="tramite-float" id="tramiteBtn" target="_blank" rel="noopener noreferrer" aria-label="Iniciar trámite en ANPAI">
+<a href="https://www.anpai.com.mx/iniciar-tramite" class="tramite-float" id="tramiteBtn" target="_blank" rel="noopener noreferrer" aria-label="Iniciar trámite en AVA">
   <span class="tramite-tooltip">📝 Iniciar trámite</span>
   <svg class="tramite-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+  </svg>
+</a>
+
+<!-- ══════════════════════════════════════════════════════
+     BOTÓN FLOTANTE — DESCARGA DE DOCUMENTOS
+══════════════════════════════════════════════════════ -->
+<a href="https://www.anpai.com.mx/iniciar-tramite" class="descarga-float" id="descargaBtn" target="_blank" rel="noopener noreferrer" aria-label="Descargar documentos AVA">
+  <span class="descarga-tooltip">📥 Descargar documentos</span>
+  <svg class="descarga-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
   </svg>
 </a>
 
@@ -627,7 +661,7 @@ body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#2
   <div class="spotlight-callout arrow-left" id="spotlightCallout">
     <div class="spotlight-callout-tag">📥 Descarga de documentos</div>
     <div class="spotlight-callout-title">¡Aquí está el botón!</div>
-    <div class="spotlight-callout-desc">Haz clic en este botón para acceder al portal de ANPAI y descargar toda la documentación necesaria para llenarla de forma manual.</div>
+    <div class="spotlight-callout-desc">Haz clic en este botón para acceder al portal de AVA y descargar toda la documentación necesaria para llenarla de forma manual.</div>
     <div class="spotlight-cursor-hint">
       <div class="spotlight-cursor-anim">
         <svg viewBox="0 0 14 14"><path d="M3 1l8 6-4.5 1L5 12z"/></svg>
@@ -1199,7 +1233,7 @@ body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#2
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
-            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
+            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#462f28202906272836272f6825292b682b3e"><span class="__cf_email__" data-cfemail="f49d9a929bb4959a84959dda979b99da998c">[email&#160;protected]</span></a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1210,7 +1244,7 @@ body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#2
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CONSTANTES ──
 var MAX_ZIP_BYTES = 5 * 1024 * 1024;
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
@@ -1358,7 +1392,7 @@ document.addEventListener('DOMContentLoaded',function(){initAllLadas();});
   /* ── 5. Spotlight sobre el botón tramite ──────────── */
   function showSpotlight() {
     var ov  = document.getElementById('spotlightOverlay');
-    var btn = document.querySelector('.tramite-float');
+    var btn = document.getElementById('descargaBtn');
     if (!ov || !btn) return;
 
     positionSpotlight(btn);
@@ -1489,14 +1523,12 @@ document.addEventListener('DOMContentLoaded',function(){initAllLadas();});
     document.body.style.overflow = '';
   };
 
-  /* ── 7. Init al DOMContentLoaded ──────────────────── */
+  /* ── 7. Init al DOMContentLoaded ─────────�── */
   document.addEventListener('DOMContentLoaded', function() {
-    // Delay ligero para que la página "llegue" antes del modal
     setTimeout(showWelcomeModal, 650);
   });
 
 })();
-
 </script>
 </body>
 </html>
