@@ -5,47 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════════════════════════
-   VARIABLES Y ESTILOS BASE
+   VARIABLES GLOBALES Y TOKENS DE DISEÑO
    ═══════════════════════════════════════════════════════════════ */
-:root{
-  --navy:#0A1F44; --blue:#165DFF; --blue-light:#3a7fff; --white:#FFFFFF;
-  --dark:#333333; --gray-100:#F4F6FB; --gray-200:#E8ECF4; --gray-400:#9BA8C0;
-  --gray-500:#6B7A99; --success:#0FC373; --warning:#F59E0B; --error:#FF4757;
-  --card-bg:rgba(255,255,255,0.97); --shadow:0 8px 40px rgba(10,31,68,0.10);
+:root {
+  --navy: #0A1F44; --blue: #165DFF; --blue-light: #3a7fff; --white: #FFFFFF;
+  --dark: #333333; --gray-100: #F4F6FB; --gray-200: #E8ECF4; --gray-400: #9BA8C0;
+  --gray-500: #6B7A99; --success: #0FC373; --warning: #F59E0B; --error: #FF4757;
+  --card-bg: rgba(255,255,255,0.97); --shadow: 0 8px 40px rgba(10,31,68,0.10);
   --font-display: 'Outfit', sans-serif; /* Nueva fuente para el resumen */
-  --ok: #0FC373; --warn: #F59E0B; --neutral: #9CA3AF;
+  --radius: 14px;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dark);min-height:100vh;font-size:15px;}
 
-/* HEADER Y ESTRUCTURA */
-.header{background:var(--navy);position:relative;overflow:hidden;}
-.header-inner{max-width:900px;margin:0 auto;padding:36px 32px 32px;position:relative;z-index:2;}
-.logo-text{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1;}
-.logo-text span{color:var(--blue);}
-.main{max-width:900px;margin:0 auto;padding:36px 20px 100px;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--dark); min-height: 100vh; font-size: 15px; }
+
+/* HEADER */
+.header { background: var(--navy); position: relative; overflow: hidden; }
+.header-inner { max-width: 900px; margin: 0 auto; padding: 36px 32px 32px; position: relative; z-index: 2; }
+.logo-text { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
+.logo-text span { color: var(--blue); }
+.header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-top: 18px; }
+
+/* MAIN LAYOUT */
+.main { max-width: 900px; margin: 0 auto; padding: 36px 20px 100px; }
 
 /* FORM CARDS */
-.form-card{background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;display:none;animation:fadeSlide 0.35s ease;}
-.form-card.show{display:block;}
-@keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.section-header{background:var(--navy);padding:18px 28px;display:flex;align-items:center;gap:12px;}
-.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--white);}
-.section-body{padding:28px;}
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;}
-.field-input{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;width:100%;text-transform:uppercase;}
+.form-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 24px; overflow: hidden; animation: fadeSlide 0.35s ease; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.section-header { background: var(--navy); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); }
+.section-body { padding: 28px; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.7px; }
+.field-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 11px 14px; text-transform: uppercase; outline: none; transition: all 0.2s; }
+.field-input:focus { border-color: var(--blue); background: #fff; }
 
 /* ═══════════════════════════════════════════════════════════════
-   NUEVA ARQUITECTURA SECCIÓN RESUMEN
+   NUEVA ARQUITECTURA SECCIÓN RESUMEN (SUMBOX)
    ═══════════════════════════════════════════════════════════════ */
 .sumbox {
   background: var(--card-bg);
   border: 1.5px solid var(--gray-200);
-  border-radius: 14px;
+  border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
   margin-bottom: 24px;
@@ -67,7 +73,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dar
   border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
   text-transform: uppercase; position: relative; z-index: 1; transition: all .3s;
 }
-.sum-badge.pending { background: rgba(156,163,175,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.sum-badge.pending { background: rgba(156,163,175,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
 .sum-badge.ok { background: rgba(15,195,115,0.2); color: #0FC373; border: 1px solid rgba(15,195,115,0.3); }
 
 /* Filas de Datos */
@@ -88,6 +94,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dar
   padding: 3px 10px; border-radius: 6px; background: var(--gray-100);
   border: 1px solid var(--gray-200); font-size: 12px; font-weight: 600; color: var(--navy);
 }
+
+/* SUBMIT BUTTON */
+.submit-area { background: var(--card-bg); border-radius: 20px; padding: 28px; box-shadow: var(--shadow); }
+.submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; border-radius: 12px; padding: 16px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 16px; }
+.submit-btn:hover { background: var(--navy); transform: translateY(-2px); }
 </style>
 </head>
 <body>
@@ -95,24 +106,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dar
 <header class="header">
   <div class="header-inner">
     <div class="logo-text">AVA<span>.</span></div>
-    <div class="header-title">Solicitud de <span>Arrendamiento</span></div>
+    <div class="header-title">Solicitud de <span>Arrendamiento Puro</span></div>
   </div>
 </header>
 
 <main class="main">
-  <div class="form-card show" id="card-datos">
+  <div class="form-card">
     <div class="section-header">
-      <span class="section-title">01. Datos del Solicitante</span>
+      <span class="section-title">01. Información General</span>
     </div>
     <div class="section-body">
       <div class="field-grid">
         <div class="field-group">
-          <label class="field-label">Nombre Completo</label>
-          <input type="text" class="field-input" id="in-nombre" placeholder="Ej. Juan Pérez" oninput="syncSummary()">
+          <label class="field-label">Nombre / Razón Social</label>
+          <input type="text" class="field-input" id="in-nombre" placeholder="Ej. Juan Pérez" oninput="updateSummary()">
         </div>
         <div class="field-group">
           <label class="field-label">RFC</label>
-          <input type="text" class="field-input" id="in-rfc" placeholder="ABCD123456" oninput="syncSummary()">
+          <input type="text" class="field-input" id="in-rfc" placeholder="ABCD123456" maxlength="13" oninput="updateSummary()">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tipo de Persona</label>
+          <select class="field-input" id="in-tipo" onchange="updateSummary()">
+            <option value="Física">Persona Física</option>
+            <option value="Moral">Persona Moral</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Teléfono</label>
+          <input type="tel" class="field-input" id="in-tel" placeholder="55 1234 5678" oninput="updateSummary()">
         </div>
       </div>
     </div>
@@ -128,63 +150,72 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--dar
     
     <div class="sum-body">
       <div class="sum-row">
-        <span class="sum-label">Nombre</span>
+        <span class="sum-label">Titular</span>
         <span id="sum-nombre" class="sum-val empty">No proporcionado</span>
       </div>
       <div class="sum-row">
-        <span class="sum-label">RFC</span>
+        <span class="sum-label">Identificación</span>
         <span id="sum-rfc" class="sum-val empty">No proporcionado</span>
       </div>
       <div class="sum-row">
-        <span class="sum-label">Vehículo</span>
-        <span id="sum-vehiculo" class="sum-val"><span class="val-chip">Nuevo</span> — Toyota 2024</span>
+        <span class="sum-label">Configuración</span>
+        <span id="sum-config" class="sum-val">
+          <span class="val-chip" id="sum-tipo-chip">Persona Física</span>
+        </span>
+      </div>
+      <div class="sum-row">
+        <span class="sum-label">Contacto</span>
+        <span id="sum-tel" class="sum-val empty">—</span>
       </div>
     </div>
   </div>
 
-  <div class="submit-area show">
-    <button class="submit-btn" id="btn-submit">Enviar Solicitud</button>
+  <div class="submit-area">
+    <button class="submit-btn">Enviar Expediente Digital</button>
   </div>
 </main>
 
 <script>
 /**
- * Sincroniza los datos del formulario con el nuevo componente de resumen
+ * Sincronización en tiempo real con la arquitectura de filas del resumen
  */
-function syncSummary() {
-  const nombre = document.getElementById('in-nombre').value;
-  const rfc = document.getElementById('in-rfc').value;
-  
-  // Actualizar Nombre
-  const elNombre = document.getElementById('sum-nombre');
-  if(nombre.trim()) {
-    elNombre.textContent = nombre;
-    elNombre.classList.remove('empty');
-  } else {
-    elNombre.textContent = "No proporcionado";
-    elNombre.classList.add('empty');
-  }
+function updateSummary() {
+  const fields = [
+    { id: 'in-nombre', sumId: 'sum-nombre', fallback: 'No proporcionado' },
+    { id: 'in-rfc',    sumId: 'sum-rfc',    fallback: 'No proporcionado' },
+    { id: 'in-tel',    sumId: 'sum-tel',    fallback: '—' }
+  ];
 
-  // Actualizar RFC
-  const elRfc = document.getElementById('sum-rfc');
-  if(rfc.trim()) {
-    elRfc.textContent = rfc;
-    elRfc.classList.remove('empty');
-  } else {
-    elRfc.textContent = "No proporcionado";
-    elRfc.classList.add('empty');
-  }
+  fields.forEach(field => {
+    const val = document.getElementById(field.id).value.trim();
+    const el = document.getElementById(field.sumId);
+    if(val) {
+      el.textContent = val;
+      el.classList.remove('empty');
+    } else {
+      el.textContent = field.fallback;
+      el.classList.add('empty');
+    }
+  });
+
+  // Actualizar Chip de Tipo
+  document.getElementById('sum-tipo-chip').textContent = document.getElementById('in-tipo').value;
 
   // Actualizar Badge de Estado
+  const isComplete = document.getElementById('in-nombre').value && document.getElementById('in-rfc').value;
   const badge = document.getElementById('sum-status');
-  if(nombre && rfc) {
+  
+  if(isComplete) {
     badge.textContent = "Listo para enviar";
     badge.className = "sum-badge ok";
   } else {
-    badge.textContent = "Incompleto";
+    badge.textContent = "Pendiente";
     badge.className = "sum-badge pending";
   }
 }
+
+// Inicializar estado del resumen
+window.onload = updateSummary;
 </script>
 
 </body>
