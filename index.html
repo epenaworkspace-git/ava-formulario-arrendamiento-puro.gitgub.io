@@ -5,217 +5,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVA – Formulario Arrendamiento Puro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV&onload=initRecaptcha" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 <style>
 /* ═══════════════════════════════════════════════════════════════
-   VARIABLES GLOBALES Y TOKENS DE DISEÑO
+   TOKENS DE DISEÑO Y VARIABLES GLOBALES
    ═══════════════════════════════════════════════════════════════ */
 :root {
   --navy: #0A1F44; --blue: #165DFF; --blue-light: #3a7fff; --white: #FFFFFF;
   --dark: #333333; --gray-100: #F4F6FB; --gray-200: #E8ECF4; --gray-400: #9BA8C0;
   --gray-500: #6B7A99; --success: #0FC373; --warning: #F59E0B; --error: #FF4757;
   --card-bg: rgba(255,255,255,0.97); --shadow: 0 8px 40px rgba(10,31,68,0.10);
-  --font-display: 'Outfit', sans-serif; /* Nueva fuente para el resumen */
+  --font-display: 'Outfit', sans-serif; --font-body: 'DM Sans', sans-serif;
   --radius: 14px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--gray-100); color: var(--dark); min-height: 100vh; font-size: 15px; }
+body { font-family: var(--font-body); background: var(--gray-100); color: var(--dark); min-height: 100vh; font-size: 15px; }
 
-/* HEADER */
+/* ── HEADER ── */
 .header { background: var(--navy); position: relative; overflow: hidden; }
 .header-inner { max-width: 900px; margin: 0 auto; padding: 36px 32px 32px; position: relative; z-index: 2; }
 .logo-text { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
 .logo-text span { color: var(--blue); }
 .header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); margin-top: 18px; }
 
-/* MAIN LAYOUT */
-.main { max-width: 900px; margin: 0 auto; padding: 36px 20px 100px; }
+/* ── SELECTOR DE TIPO ── */
+.type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 30px auto; max-width: 900px; padding: 0 20px; }
+.type-btn { background: var(--card-bg); border: 2px solid var(--gray-200); border-radius: 16px; padding: 24px 20px; cursor: pointer; transition: 0.25s; box-shadow: var(--shadow); }
+.type-btn.active { border-color: var(--blue); background: var(--navy); color: #fff; }
+.type-label { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; display: block; }
+.type-desc { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+.type-btn.active .type-desc { color: rgba(255,255,255,0.55); }
 
-/* FORM CARDS */
-.form-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 24px; overflow: hidden; animation: fadeSlide 0.35s ease; }
+/* ── FORM CARDS ── */
+.main { max-width: 900px; margin: 0 auto; padding: 0 20px 100px; }
+.form-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; display: none; animation: fadeSlide 0.35s ease; }
+.form-card.show { display: block; }
 @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-.section-header { background: var(--navy); padding: 18px 28px; display: flex; align-items: center; gap: 12px; }
-.section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); }
+
+.section-header { background: var(--navy); padding: 18px 28px; display: flex; align-items: center; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
 .section-body { padding: 28px; }
+
+/* ── INPUTS ── */
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.col-full { grid-column: 1 / -1; }
 .field-group { display: flex; flex-direction: column; gap: 6px; }
-.field-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.7px; }
-.field-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 11px 14px; text-transform: uppercase; outline: none; transition: all 0.2s; }
+.field-label { font-size: 12px; font-weight: 500; color: var(--gray-500); text-transform: uppercase; }
+.field-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 10px; padding: 11px 14px; font-size: 14px; text-transform: uppercase; outline: none; transition: 0.2s; }
 .field-input:focus { border-color: var(--blue); background: #fff; }
+input[type="email"] { text-transform: none; }
 
-/* ═══════════════════════════════════════════════════════════════
-   NUEVA ARQUITECTURA SECCIÓN RESUMEN (SUMBOX)
-   ═══════════════════════════════════════════════════════════════ */
-.sumbox {
-  background: var(--card-bg);
-  border: 1.5px solid var(--gray-200);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  margin-bottom: 24px;
-}
-.sum-hd {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px; background: var(--navy); position: relative; overflow: hidden;
-}
-.sum-hd::before {
-  content: ''; position: absolute; top: -28px; right: -28px; width: 110px; height: 110px;
-  border-radius: 50%; background: radial-gradient(circle, rgba(91,142,255,0.2) 0%, transparent 70%);
-}
-.sum-hd-left { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
-.sum-ttl { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
+/* ── MINI TABLAS ── */
+.mini-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.mini-table th { background: var(--gray-100); padding: 9px 12px; text-align: left; font-size: 11px; color: var(--gray-500); border-bottom: 1px solid var(--gray-200); }
+.mini-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-200); }
 
-/* Badge de Estado */
-.sum-badge {
-  display: flex; align-items: center; gap: 6px; padding: 5px 12px;
-  border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-  text-transform: uppercase; position: relative; z-index: 1; transition: all .3s;
-}
-.sum-badge.pending { background: rgba(156,163,175,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-.sum-badge.ok { background: rgba(15,195,115,0.2); color: #0FC373; border: 1px solid rgba(15,195,115,0.3); }
+/* ── COMPONENTE SUMBOX (RESUMEN) ── */
+.sumbox { background: var(--white); border: 1.5px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin: 30px 0; }
+.sum-hd { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--navy); position: relative; }
+.sum-ttl { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+.sum-badge { padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.sum-badge.pending { background: rgba(156,163,175,0.2); color: #fff; }
+.sum-badge.ok { background: rgba(15,195,115,0.2); color: #0FC373; }
 
-/* Filas de Datos */
 .sum-body { padding: 8px 0; }
-.sum-row {
-  display: grid; grid-template-columns: 140px 1fr; align-items: baseline;
-  padding: 12px 20px; border-bottom: 1px solid var(--gray-100); transition: background .2s;
-}
-.sum-row:last-child { border-bottom: none; }
-.sum-row:hover { background: rgba(22,93,255,0.02); }
-.sum-label { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; }
-.sum-val { font-size: 14px; font-weight: 500; color: var(--navy); line-height: 1.4; }
-.sum-val.empty { color: var(--gray-400); font-style: italic; font-size: 13px; }
+.sum-row { display: grid; grid-template-columns: 160px 1fr; padding: 12px 20px; border-bottom: 1px solid var(--gray-100); }
+.sum-label { font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; }
+.sum-val { font-size: 14px; color: var(--navy); font-weight: 500; }
+.sum-val.empty { color: var(--gray-400); font-style: italic; }
 
-/* Chips para valores especiales */
-.val-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 3px 10px; border-radius: 6px; background: var(--gray-100);
-  border: 1px solid var(--gray-200); font-size: 12px; font-weight: 600; color: var(--navy);
-}
-
-/* SUBMIT BUTTON */
-.submit-area { background: var(--card-bg); border-radius: 20px; padding: 28px; box-shadow: var(--shadow); }
-.submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; border-radius: 12px; padding: 16px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 16px; }
-.submit-btn:hover { background: var(--navy); transform: translateY(-2px); }
+/* ── DROPZONE / ZIP / ATTACH ── */
+.attach-dropzone { border: 2.5px dashed var(--gray-200); border-radius: 16px; padding: 30px; text-align: center; background: var(--gray-100); cursor: pointer; }
+.submit-area { background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: var(--shadow); }
+.submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 18px; border-radius: 12px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="header-inner">
-    <div class="logo-text">AVA<span>.</span></div>
-    <div class="header-title">Solicitud de <span>Arrendamiento Puro</span></div>
-  </div>
+    <div class="header-inner">
+        <div class="logo-text">AVA<span>.</span></div>
+        <div class="header-title">Solicitud de <span>Arrendamiento Puro</span></div>
+    </div>
 </header>
 
+<div class="type-selector">
+    <button class="type-btn active" id="btn-fisica" onclick="setFormType('Fisica')">
+        <span class="type-label">Persona Física</span>
+        <span class="type-desc">Incluye actividad empresarial</span>
+    </button>
+    <button class="type-btn" id="btn-moral" onclick="setFormType('Moral')">
+        <span class="type-label">Persona Moral</span>
+        <span class="type-desc">Empresas y organizaciones</span>
+    </button>
+</div>
+
 <main class="main">
-  <div class="form-card">
-    <div class="section-header">
-      <span class="section-title">01. Información General</span>
+    <div class="form-card show">
+        <div class="section-header"><span class="section-title">01. Identificación del Cliente</span></div>
+        <div class="section-body">
+            <div class="field-grid">
+                <div class="field-group col-full">
+                    <label class="field-label" id="lbl-nombre">Nombre Completo</label>
+                    <input type="text" class="field-input" id="in-nombre" placeholder="Nombre completo" oninput="sync()">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">RFC</label>
+                    <input type="text" class="field-input" id="in-rfc" maxlength="13" oninput="sync()">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">CURP / Registro</label>
+                    <input type="text" class="field-input" id="in-curp" oninput="sync()">
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="section-body">
-      <div class="field-grid">
-        <div class="field-group">
-          <label class="field-label">Nombre / Razón Social</label>
-          <input type="text" class="field-input" id="in-nombre" placeholder="Ej. Juan Pérez" oninput="updateSummary()">
-        </div>
-        <div class="field-group">
-          <label class="field-label">RFC</label>
-          <input type="text" class="field-input" id="in-rfc" placeholder="ABCD123456" maxlength="13" oninput="updateSummary()">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tipo de Persona</label>
-          <select class="field-input" id="in-tipo" onchange="updateSummary()">
-            <option value="Física">Persona Física</option>
-            <option value="Moral">Persona Moral</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Teléfono</label>
-          <input type="tel" class="field-input" id="in-tel" placeholder="55 1234 5678" oninput="updateSummary()">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="sumbox">
-    <div class="sum-hd">
-      <div class="sum-hd-left">
-        <span class="sum-ttl">Resumen de Solicitud</span>
-      </div>
-      <div id="sum-status" class="sum-badge pending">Pendiente</div>
+    <div class="form-card show">
+        <div class="section-header"><span class="section-title">02. Domicilio Fiscal</span></div>
+        <div class="section-body">
+            <div class="field-grid">
+                <div class="field-group col-full">
+                    <label class="field-label">Calle y Número</label>
+                    <input type="text" class="field-input" id="in-calle" oninput="sync()">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Código Postal</label>
+                    <input type="text" class="field-input" id="in-cp" oninput="sync()">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Ciudad / Estado</label>
+                    <input type="text" class="field-input" id="in-ciudad" oninput="sync()">
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="sum-body">
-      <div class="sum-row">
-        <span class="sum-label">Titular</span>
-        <span id="sum-nombre" class="sum-val empty">No proporcionado</span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-label">Identificación</span>
-        <span id="sum-rfc" class="sum-val empty">No proporcionado</span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-label">Configuración</span>
-        <span id="sum-config" class="sum-val">
-          <span class="val-chip" id="sum-tipo-chip">Persona Física</span>
-        </span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-label">Contacto</span>
-        <span id="sum-tel" class="sum-val empty">—</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="submit-area">
-    <button class="submit-btn">Enviar Expediente Digital</button>
-  </div>
+    <div class="sumbox">
+        <div class="sum-hd">
+            <div class="sum-ttl">Resumen de Solicitud</div>
+            <div id="sum-status" class="sum-badge pending">Incompleto</div>
+        </div>
+        <div class="sum-body">
+            <div class="sum-row">
+                <span class="sum-label">Titular</span>
+                <span id="sum-nombre" class="sum-val empty">No especificado</span>
+            </div>
+            <div class="sum-row">
+                <span class="sum-label">RFC</span>
+                <span id="sum-rfc-val" class="sum-val empty">Sin RFC</span>
+            </div>
+            <div class="sum-row">
+                <span class="sum-label">Ubicación</span>
+                <span id="sum-domicilio" class="sum-val empty">Sin dirección</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="submit-area show">
+        <button class="submit-btn" id="btn-final" onclick="validateAndSend()">Enviar Solicitud Completa</button>
+    </div>
 </main>
 
 <script>
-/**
- * Sincronización en tiempo real con la arquitectura de filas del resumen
+/** * LÓGICA DE SINCRONIZACIÓN Y TIPO
  */
-function updateSummary() {
-  const fields = [
-    { id: 'in-nombre', sumId: 'sum-nombre', fallback: 'No proporcionado' },
-    { id: 'in-rfc',    sumId: 'sum-rfc',    fallback: 'No proporcionado' },
-    { id: 'in-tel',    sumId: 'sum-tel',    fallback: '—' }
-  ];
+let currentType = 'Fisica';
 
-  fields.forEach(field => {
-    const val = document.getElementById(field.id).value.trim();
-    const el = document.getElementById(field.sumId);
-    if(val) {
-      el.textContent = val;
-      el.classList.remove('empty');
-    } else {
-      el.textContent = field.fallback;
-      el.classList.add('empty');
-    }
-  });
-
-  // Actualizar Chip de Tipo
-  document.getElementById('sum-tipo-chip').textContent = document.getElementById('in-tipo').value;
-
-  // Actualizar Badge de Estado
-  const isComplete = document.getElementById('in-nombre').value && document.getElementById('in-rfc').value;
-  const badge = document.getElementById('sum-status');
-  
-  if(isComplete) {
-    badge.textContent = "Listo para enviar";
-    badge.className = "sum-badge ok";
-  } else {
-    badge.textContent = "Pendiente";
-    badge.className = "sum-badge pending";
-  }
+function setFormType(type) {
+    currentType = type;
+    document.getElementById('btn-fisica').classList.toggle('active', type === 'Fisica');
+    document.getElementById('btn-moral').classList.toggle('active', type === 'Moral');
+    document.getElementById('lbl-nombre').textContent = (type === 'Fisica') ? 'Nombre Completo' : 'Razón Social';
+    sync();
 }
 
-// Inicializar estado del resumen
-window.onload = updateSummary;
+function sync() {
+    const nombre = document.getElementById('in-nombre').value;
+    const rfc = document.getElementById('in-rfc').value;
+    const calle = document.getElementById('in-calle').value;
+
+    // Actualizar Sumbox
+    const elNombre = document.getElementById('sum-nombre');
+    if(nombre) { elNombre.textContent = nombre; elNombre.classList.remove('empty'); }
+    else { elNombre.textContent = "No especificado"; elNombre.classList.add('empty'); }
+
+    const elRfc = document.getElementById('sum-rfc-val');
+    if(rfc) { elRfc.textContent = rfc; elRfc.classList.remove('empty'); }
+    else { elRfc.textContent = "Sin RFC"; elRfc.classList.add('empty'); }
+
+    const elDom = document.getElementById('sum-domicilio');
+    if(calle) { elDom.textContent = calle; elDom.classList.remove('empty'); }
+    else { elDom.textContent = "Sin dirección"; elDom.classList.add('empty'); }
+
+    // Estado del Badge
+    const badge = document.getElementById('sum-status');
+    if(nombre && rfc.length >= 12) {
+        badge.textContent = "Listo";
+        badge.className = "sum-badge ok";
+    } else {
+        badge.textContent = "Incompleto";
+        badge.className = "sum-badge pending";
+    }
+}
+
+function validateAndSend() {
+    // Aquí se integra la lógica de reCAPTCHA y ZIP original
+    alert("Validando datos y procesando archivos...");
+}
+
+window.onload = sync;
 </script>
 
 </body>
