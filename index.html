@@ -210,8 +210,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 /* ── RESUMEN — nuevo diseño ── */
 .sumbox{background:#fff;border:1.5px solid #D8E0F0;border-radius:14px;overflow:hidden;margin-bottom:24px;box-shadow:0 4px 24px rgba(10,31,68,.10);transition:background .3s,border-color .3s;animation:sumboxReveal .4s ease forwards;}
 @keyframes sumboxReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-/* Encabezado */
 .sum-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--navy);position:relative;overflow:hidden;transition:background .3s;}
 .sum-hd::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(91,142,255,.25) 0%,transparent 70%);pointer-events:none;}
 .sum-hd-left{display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
@@ -219,8 +217,6 @@ textarea.field-input{resize:vertical;min-height:80px;}
 .sum-hd-icon svg{width:16px;height:16px;fill:#fff;}
 .sum-ttl{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:.07em;text-transform:uppercase;}
 .sum-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;}
-
-/* Badge de estado — 3 variantes */
 .sum-badge{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:5px 13px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;transition:background .4s ease,border-color .4s ease,color .4s ease;}
 .sum-badge.pending{background:rgba(107,114,128,.15);border:1px solid rgba(107,114,128,.35);color:#9CA3AF;}
 .sum-badge.pending .badge-dot{background:#9CA3AF;animation:blink-gray 2s ease-in-out infinite;}
@@ -232,29 +228,19 @@ textarea.field-input{resize:vertical;min-height:80px;}
 @keyframes blink-gray{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.8)}}
 @keyframes blink-amber{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.75)}}
 @keyframes blink-green{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.85)}}
-
-/* Grupos de datos */
 .sum-grp{padding:12px 20px;}
 .sum-grp+.sum-grp{border-top:1px solid #EEF2F7;}
 .sum-grp-lbl{display:flex;align-items:center;gap:7px;margin-bottom:8px;}
 .sum-grp-lbl-ico{font-size:14px;}
 .sum-grp-lbl-txt{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;}
-
-/* Filas clave–valor */
 .sum-row{display:flex;align-items:baseline;gap:8px;font-size:13px;line-height:1.9;}
 .sum-k{color:var(--gray-500);font-weight:500;min-width:148px;flex-shrink:0;font-size:12px;}
 .sum-v{color:#1a1a2e;font-weight:600;word-break:break-word;text-transform:uppercase;transition:color .3s;}
 .sum-v.empty{color:var(--gray-400);font-weight:400;font-style:italic;text-transform:none;}
-
-/* Chips */
 .sum-chip{display:inline-flex;align-items:center;background:rgba(22,93,255,.08);color:var(--blue);border:1px solid rgba(22,93,255,.18);border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;}
 .sum-chip.files{background:rgba(15,195,115,.09);color:#0a7a49;border-color:rgba(15,195,115,.25);}
-
-/* Flash de actualización */
 @keyframes rowFlash{0%{background:rgba(22,93,255,.08)}100%{background:transparent}}
 .sum-row.row-updated{animation:rowFlash .6s ease forwards;border-radius:6px;}
-
-/* Footer */
 .sum-footer{border-top:1px solid #EEF2F7;padding:11px 20px;background:#F8FAFC;display:flex;align-items:flex-start;gap:8px;transition:background .3s;}
 .sum-footer-txt{font-size:12px;color:var(--gray-500);line-height:1.6;}
 .sum-footer-txt strong{color:var(--navy);}
@@ -466,7 +452,7 @@ body.dark-mode .icon-moon{opacity:1;transform:scale(1) rotate(0deg);}
 .success-close-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,93,255,0.5);}
 
 /* ══════════════════════════════════════════
-   DARK MODE — COMPLETO + FIXES CONTRASTE
+   DARK MODE
    ══════════════════════════════════════════ */
 body.dark-mode{--navy:#1a2d56;--blue:#4d8aff;--blue-light:#6ba3ff;--white:#e8edf8;--dark:#d0d8ec;--gray-100:#111827;--gray-200:#1e2d45;--gray-400:#4a5878;--gray-500:#7a8fb0;--card-bg:rgba(17,28,50,0.97);--shadow:0 8px 40px rgba(0,0,0,0.35);--shadow-lg:0 20px 60px rgba(0,0,0,0.5);background:#0c1525;}
 body.dark-mode .header{background:#061022;}
@@ -540,45 +526,27 @@ body.dark-mode .spotlight-callout.arrow-bottom::before{border-top-color:#111c33;
 body.dark-mode .spotlight-callout-title{color:#e0e8ff;}
 body.dark-mode .spotlight-callout-desc{color:#4a5878;}
 body.dark-mode .spotlight-close-btn{background:linear-gradient(135deg,#1e2d50,#263660);}
-
-/* ══ DARK MODE — FIXES CONTRASTE BARRAS PROGRESO Y COMPRESIÓN ══ */
-/* Barra de progreso flotante */
 body.dark-mode .form-progress-pill{background:#1a2645;border-color:rgba(255,255,255,0.12);}
 body.dark-mode .form-progress-bar-track{background:#263558;}
 body.dark-mode .form-progress-text{color:#b0c4e8;}
 body.dark-mode .form-progress-text strong{color:#6ba3ff;}
-
-/* Barra de compresión — header */
 body.dark-mode .compress-header{background:#0d1d3a;}
 body.dark-mode .compress-header-text{color:#e0e8ff;}
 body.dark-mode .compress-pct{color:#6ba3ff;}
-
-/* Barra de compresión — estadísticas */
 body.dark-mode .compress-stat-val{color:#c8d6f0;}
 body.dark-mode .compress-stat-label{color:#7a8fb0;}
-
-/* Barra de compresión — info inferior */
 body.dark-mode .compress-info{color:#7a8fb0;}
-body.dark-mode #compressInfoPF,
-body.dark-mode #compressInfoPM{color:#9ab0d0;}
-body.dark-mode #compressDonePctPF,
-body.dark-mode #compressDonePctPM{color:#6ba3ff;}
-
-/* Capacidad adjuntos */
+body.dark-mode #compressInfoPF,body.dark-mode #compressInfoPM{color:#9ab0d0;}
+body.dark-mode #compressDonePctPF,body.dark-mode #compressDonePctPM{color:#6ba3ff;}
 body.dark-mode .attach-capacity-label{color:#9ab0d0;}
 body.dark-mode .attach-capacity-value{color:#c8d6f0;}
 body.dark-mode .attach-status{color:#9ab0d0;}
-body.dark-mode #attachStatusTextPF,
-body.dark-mode #attachStatusTextPM{color:#9ab0d0;}
-
-/* Textos dropzone */
+body.dark-mode #attachStatusTextPF,body.dark-mode #attachStatusTextPM{color:#9ab0d0;}
 body.dark-mode .attach-formats-line{color:#7a8fb0;}
 body.dark-mode .attach-auto-compress-line{color:#6ba3ff;}
 body.dark-mode .attach-limit-line{color:#b0c4e8;}
 body.dark-mode .attach-dropzone-text{color:#7a8fb0;}
 body.dark-mode .attach-dropzone-text a{color:#6ba3ff;}
-
-/* Nota legib en dark */
 body.dark-mode .legib-note{color:#9ab0d0;}
 body.dark-mode .legib-note strong{color:#c8d6f0;}
 body.dark-mode .legib-text{color:#7a8fb0;}
@@ -691,7 +659,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
   <div class="spotlight-callout arrow-left" id="spotlightCallout">
     <div class="spotlight-callout-tag">📥 Descarga de documentos</div>
     <div class="spotlight-callout-title">¡Aquí está el botón!</div>
-    <div class="spotlight-callout-desc">Haz clic en este botón verde para acceder al portal de AVA y descargar toda la documentación necesaria para llenarla de forma manual.</div>
+    <div class="spotlight-callout-desc">Haz clic en este botón dorado para acceder al portal de AVA y descargar toda la documentación necesaria para llenarla de forma manual.</div>
     <div class="spotlight-cursor-hint"><div class="spotlight-cursor-anim"><svg viewBox="0 0 14 14"><path d="M3 1l8 6-4.5 1L5 12z" fill="white"/></svg></div>Haz clic para ir al portal</div>
     <button class="spotlight-close-btn" onclick="closeSpotlight()">Entendido, cerrar guía ✓</button>
   </div>
@@ -937,12 +905,9 @@ body.dark-mode .legib-text{color:#7a8fb0;}
         </div>
       </div>
     </div>
-    <!-- ADJUNTAR DOCUMENTOS PF — nota de autenticidad ARRIBA de las tarjetas -->
     <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional)</span></div>
     <div class="section-body attach-section">
-      <!-- ① NOTA DE AUTENTICIDAD — ahora va PRIMERO -->
       <div class="legib-note"><strong>📄 Requisito de autenticidad</strong>Los documentos deben ser copia fiel del original: completamente legibles, sin alteraciones.</div>
-      <!-- ② TARJETAS LEGIBLE / NO LEGIBLE -->
       <div class="legibility-banner">
         <div class="legib-card ok"><div class="legib-icon">✅</div><div><div class="legib-title">LEGIBLE</div><div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Sin sombras ni reflejos que cubran datos.</div></div></div>
         <div class="legib-card err"><div class="legib-icon">❌</div><div><div class="legib-title">NO LEGIBLE</div><div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div></div></div>
@@ -1140,12 +1105,9 @@ body.dark-mode .legib-text{color:#7a8fb0;}
         </div>
       </div>
     </div>
-    <!-- ADJUNTAR DOCUMENTOS PM — nota de autenticidad ARRIBA de las tarjetas -->
     <div class="section-header"><div class="section-icon">📎</div><div class="section-title">Adjuntar Documentos</div><span style="margin-left:8px;font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;">(opcional)</span></div>
     <div class="section-body attach-section">
-      <!-- ① NOTA DE AUTENTICIDAD — ahora va PRIMERO -->
       <div class="legib-note"><strong>📄 Requisito de autenticidad</strong>Los documentos deben ser copia fiel del original: completamente legibles, sin alteraciones.</div>
-      <!-- ② TARJETAS LEGIBLE / NO LEGIBLE -->
       <div class="legibility-banner">
         <div class="legib-card ok"><div class="legib-icon">✅</div><div><div class="legib-title">LEGIBLE</div><div class="legib-text">Foto nítida, bien iluminada, encuadre completo. Sin sombras ni reflejos que cubran datos.</div></div></div>
         <div class="legib-card err"><div class="legib-icon">❌</div><div><div class="legib-title">NO LEGIBLE</div><div class="legib-text">Imagen borrosa, oscura, con dedos tapando datos, o recortada. No puede procesarse.</div></div></div>
@@ -1197,7 +1159,6 @@ body.dark-mode .legib-text{color:#7a8fb0;}
       <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo" oninput="updateProgressBar();buildSummary()"></div>
     </div>
     <div class="sumbox" id="sumBox" style="display:none">
-      <!-- Encabezado con badge de estado -->
       <div class="sum-hd">
         <div class="sum-hd-left">
           <div class="sum-hd-icon">
@@ -1213,9 +1174,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
           <span id="sumBadgeTxt">Pendiente</span>
         </div>
       </div>
-      <!-- Cuerpo — grupos generados por buildSummary() -->
       <div id="sumCont"></div>
-      <!-- Footer informativo -->
       <div class="sum-footer">
         <span style="font-size:16px">ℹ️</span>
         <p class="sum-footer-txt"><strong>Verifica la información antes de enviar.</strong> Si detectas algún error, desplázate al campo correspondiente y corrígelo.</p>
@@ -1272,7 +1231,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
-            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#afc6c1c9c0efcec1dfcec681ccc0c281c2d7"><span class="__cf_email__" data-cfemail="a8c1c6cec7e8c9c6d8c9c186cbc7c586c5d0">[email&#160;protected]</span></a></div>
+            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1283,7 +1242,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 var MAX_ZIP_BYTES = 5 * 1024 * 1024;
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
@@ -1452,8 +1411,6 @@ function buildSummary(){
   if(nf&&nf.value.trim())hasData=true;
   if(!hasData){sb.style.display='none';return;}
   sb.style.display='block';
-
-  /* Calcular estado del badge */
   var reqInputs=form.querySelectorAll('input[required]:not([type=hidden]):not([type=radio]):not([type=checkbox]),select[required],textarea[required]');
   var totalReq=reqInputs.length+2;
   var doneReq=0;
@@ -1468,8 +1425,6 @@ function buildSummary(){
   if(pctDone>=100){setBadgeState('ok');}
   else if(pctDone>0){setBadgeState('warn');}
   else{setBadgeState('pending');}
-
-  /* Construir grupos */
   var groups=[];
   var g={label:'Información general',icon:'📋',rows:[]};
   form.querySelectorAll('input[type=text]:not([type=hidden]),input[type=email],input[type=number],input[type=date],select,textarea').forEach(function(inp){
@@ -1546,6 +1501,7 @@ function closeMotivModal(id){var el=document.getElementById(id);if(el)el.classLi
 
 function addRow(tbodyId){var tb=document.getElementById(tbodyId);if(!tb)return;var rows=tb.querySelectorAll('tr');var last=rows[rows.length-1];if(!last)return;var clone=last.cloneNode(true);clone.querySelectorAll('input').forEach(function(inp){var n=inp.name.replace(/\d+/,function(m){return parseInt(m,10)+1;});inp.name=n;inp.value='';inp.classList.remove('input-error');});tb.appendChild(clone);}
 
+// ── THEME TOGGLE ──
 (function(){
   var btn=document.getElementById('themeToggleBtn');
   if(!btn)return;
@@ -1557,6 +1513,7 @@ function addRow(tbodyId){var tb=document.getElementById(tbodyId);if(!tb)return;v
   });
 })();
 
+// ── PARTÍCULAS DEL MODAL DE BIENVENIDA ──
 (function(){
   document.addEventListener('DOMContentLoaded',function(){
     var container=document.getElementById('welcomeParticles');
@@ -1578,68 +1535,143 @@ function addRow(tbodyId){var tb=document.getElementById(tbodyId);if(!tb)return;v
 document.addEventListener('DOMContentLoaded',function(){initAllLadas();});
 </script>
 
+<!-- ══════════════════════════════════════════════════════
+     MÓDULO DE MODALES DE BIENVENIDA Y SPOTLIGHT
+     — REPARADO: se añade showWelcomeModal() en DOMContentLoaded
+                 y se completa el event listener de closeSpotlight
+     ══════════════════════════════════════════════════════ -->
 <script>
 (function() {
   'use strict';
+
+  // ── Mostrar modal de bienvenida al cargar la página ──
   function showWelcomeModal() {
     var ov = document.getElementById('welcomeModalOverlay');
     if (!ov) return;
-    requestAnimationFrame(function() { ov.classList.add('show'); document.body.style.overflow = 'hidden'; });
+    requestAnimationFrame(function() {
+      ov.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
   }
+
   window.closeWelcomeModal = function() {
     var ov = document.getElementById('welcomeModalOverlay');
     if (ov) ov.classList.remove('show');
     document.body.style.overflow = '';
   };
-  window.chooseRouteForm = function() { closeWelcomeModal(); };
-  window.chooseRouteDownload = function() { closeWelcomeModal(); setTimeout(function() { showSpotlight(); }, 400); };
+
+  window.chooseRouteForm = function() {
+    closeWelcomeModal();
+  };
+
+  window.chooseRouteDownload = function() {
+    closeWelcomeModal();
+    setTimeout(function() { showSpotlight(); }, 400);
+  };
+
+  // ── Spotlight ──
   function showSpotlight() {
     var ov  = document.getElementById('spotlightOverlay');
     var btn = document.getElementById('descargaBtn');
     if (!ov || !btn) return;
     positionSpotlight(btn);
-    requestAnimationFrame(function() { ov.classList.add('show'); document.body.style.overflow = 'hidden'; });
-    var resizeHandler = function() { if (!ov.classList.contains('show')) { window.removeEventListener('resize', resizeHandler); return; } positionSpotlight(btn); };
+    requestAnimationFrame(function() {
+      ov.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+    var resizeHandler = function() {
+      if (!ov.classList.contains('show')) { window.removeEventListener('resize', resizeHandler); return; }
+      positionSpotlight(btn);
+    };
     window.addEventListener('resize', resizeHandler);
   }
+
   function positionSpotlight(btn) {
     var rect = btn.getBoundingClientRect();
     var cx = rect.left + rect.width / 2;
-    var cy = rect.top + rect.height / 2;
+    var cy = rect.top  + rect.height / 2;
     var holeSize = Math.max(rect.width, rect.height) + 32;
+
     var hole = document.getElementById('spotlightHole');
-    if (hole) { hole.style.left = cx + 'px'; hole.style.top = cy + 'px'; hole.style.width = holeSize + 'px'; hole.style.height = holeSize + 'px'; }
-    var callout = document.getElementById('spotlightCallout');
+    if (hole) {
+      hole.style.left   = cx + 'px';
+      hole.style.top    = cy + 'px';
+      hole.style.width  = holeSize + 'px';
+      hole.style.height = holeSize + 'px';
+    }
+
+    var callout   = document.getElementById('spotlightCallout');
     var arrowHead = document.getElementById('spotlightArrowHead');
     if (!callout) return;
+
     var cw = 280, ch = 170, margin = 24;
     var spaceRight = window.innerWidth - (rect.right + margin);
     var calloutLeft, calloutTop, arrowClass;
     var trailX1, trailY1, trailX2, trailY2, ahx, ahy;
+
     if (spaceRight >= cw + 20) {
-      calloutLeft = rect.right + margin; calloutTop = cy - ch / 2; arrowClass = 'arrow-left';
-      trailX1 = rect.right + 4; trailY1 = cy; trailX2 = rect.right + margin - 4; trailY2 = cy; ahx = trailX2; ahy = trailY2;
+      calloutLeft = rect.right + margin;
+      calloutTop  = cy - ch / 2;
+      arrowClass  = 'arrow-left';
+      trailX1 = rect.right + 4;  trailY1 = cy;
+      trailX2 = rect.right + margin - 4; trailY2 = cy;
+      ahx = trailX2; ahy = trailY2;
     } else {
-      calloutLeft = cx - cw / 2; calloutTop = rect.bottom + margin; arrowClass = 'arrow-top';
-      trailX1 = cx; trailY1 = rect.bottom + 4; trailX2 = cx; trailY2 = rect.bottom + margin - 4; ahx = trailX2; ahy = trailY2;
+      calloutLeft = cx - cw / 2;
+      calloutTop  = rect.bottom + margin;
+      arrowClass  = 'arrow-top';
+      trailX1 = cx; trailY1 = rect.bottom + 4;
+      trailX2 = cx; trailY2 = rect.bottom + margin - 4;
+      ahx = trailX2; ahy = trailY2;
     }
-    calloutLeft = Math.max(12, Math.min(calloutLeft, window.innerWidth - cw - 12));
-    calloutTop = Math.max(12, Math.min(calloutTop, window.innerHeight - ch - 12));
-    callout.style.left = calloutLeft + 'px'; callout.style.top = calloutTop + 'px';
-    callout.className = 'spotlight-callout'; callout.classList.add(arrowClass);
-    var svg = document.getElementById('spotlightTrailSVG');
+
+    calloutLeft = Math.max(12, Math.min(calloutLeft, window.innerWidth  - cw - 12));
+    calloutTop  = Math.max(12, Math.min(calloutTop,  window.innerHeight - ch - 12));
+
+    callout.style.left = calloutLeft + 'px';
+    callout.style.top  = calloutTop  + 'px';
+    callout.className  = 'spotlight-callout';
+    callout.classList.add(arrowClass);
+
+    var svg  = document.getElementById('spotlightTrailSVG');
     var path = document.getElementById('spotlightTrailPath');
-    if (svg && path) { svg.setAttribute('width', window.innerWidth); svg.setAttribute('height', window.innerHeight); path.setAttribute('d', 'M'+trailX1+','+trailY1+' L'+trailX2+','+trailY2); }
-    if (arrowHead) { arrowHead.style.left = (ahx - 10) + 'px'; arrowHead.style.top = (ahy - 10) + 'px'; }
+    if (svg && path) {
+      svg.setAttribute('width',  window.innerWidth);
+      svg.setAttribute('height', window.innerHeight);
+      path.setAttribute('d', 'M'+trailX1+','+trailY1+' L'+trailX2+','+trailY2);
+    }
+    if (arrowHead) {
+      arrowHead.style.left = (ahx - 10) + 'px';
+      arrowHead.style.top  = (ahy - 10) + 'px';
+    }
   }
+
   window.closeSpotlight = function() {
     var ov = document.getElementById('spotlightOverlay');
     if (ov) ov.classList.remove('show');
     document.body.style.overflow = '';
   };
+
+  // Cerrar spotlight al hacer clic fuera del callout y fuera del botón de descarga
   document.addEventListener('click', function(e) {
     var ov = document.getElementById('spotlightOverlay');
     if (!ov || !ov.classList.contains('show')) return;
-    var callout = document.getElementById('spotlightCallout');
-    var btn = document.getElementById('descargaBtn');
-    if (
+    var callout   = document.getElementById('spotlightCallout');
+    var btn       = document.getElementById('descargaBtn');
+    var isCallout = callout && callout.contains(e.target);
+    var isBtn     = btn     && btn.contains(e.target);
+    if (!isCallout && !isBtn) {
+      window.closeSpotlight();
+    }
+  });
+
+  // ── Lanzar el modal al cargar el DOM ──
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(showWelcomeModal, 300); // pequeña pausa para que el layout termine de renderizar
+  });
+
+})();
+</script>
+
+</body>
+</html>
