@@ -207,35 +207,57 @@ textarea.field-input{resize:vertical;min-height:80px;}
 @keyframes pulseError{0%,100%{border-color:var(--gray-200)}50%{border-color:var(--error);box-shadow:0 0 0 4px rgba(255,71,87,0.15)}}
 .pulse-error{animation:pulseError 0.5s ease 2;}
 
-/* RESUMEN */
-.sumbox{background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 2px 16px rgba(10,31,68,.07);transition:background 0.3s ease,border-color 0.3s ease;}
-.sum-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.35rem .9rem;background:linear-gradient(135deg,var(--navy) 0%,#0e2a60 100%);position:relative;overflow:hidden;}
-.sum-header::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(91,142,255,.25) 0%,transparent 70%);pointer-events:none;}
-.sum-header-left{display:flex;align-items:center;gap:.65rem;position:relative;z-index:1;}
-.sum-header-icon{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sum-header-icon svg{width:17px;height:17px;fill:#fff;}
-.sum-ttl{font-size:.82rem;font-weight:800;color:#fff;letter-spacing:.07em;text-transform:uppercase;}
-.sum-ttl-sub{font-size:.68rem;color:rgba(255,255,255,.55);font-weight:400;margin-top:.1rem;}
-.sum-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(15,195,115,.18);border:1px solid rgba(15,195,115,.4);border-radius:99px;padding:.26rem .72rem;font-size:.68rem;font-weight:700;color:#6eeabb;letter-spacing:.04em;text-transform:uppercase;position:relative;z-index:1;}
-.sum-badge-dot{width:6px;height:6px;border-radius:50%;background:#0FC373;animation:pulseDot 2s ease-in-out infinite;}
-@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
-.sum-body{}
-.sum-group{padding:.9rem 1.35rem;}
-.sum-group+.sum-group{border-top:1px solid #EEF2F7;}
-.sum-group-label{display:flex;align-items:center;gap:.45rem;margin-bottom:.7rem;}
-.sum-group-label-icon{font-size:.88rem;}
-.sum-group-label-text{font-size:.68rem;font-weight:800;color:var(--a);letter-spacing:.1em;text-transform:uppercase;}
-.sum-row{display:flex;align-items:baseline;gap:.5rem;font-size:.8rem;line-height:1.9;}
-.sum-k{color:var(--mid);font-weight:500;min-width:148px;flex-shrink:0;font-size:.77rem;}
-.sum-v{color:#1a1a2e;font-weight:600;font-size:.82rem;word-break:break-word;}
-.sum-v--empty{color:var(--lt);font-weight:400;font-style:italic;}
-.sum-chip{display:inline-block;background:rgba(22,93,255,.08);color:var(--a);border:1px solid rgba(22,93,255,.2);border-radius:6px;padding:.1rem .55rem;font-size:.75rem;font-weight:600;}
-.sum-chip--files{background:rgba(15,195,115,.08);color:#0a9a5a;border-color:rgba(15,195,115,.25);}
-.sum-chip--amount{background:rgba(245,158,11,.08);color:#b45309;border-color:rgba(245,158,11,.25);}
-.sum-footer{padding:.75rem 1.35rem;border-top:1px solid #EEF2F7;background:#F8FAFC;display:flex;align-items:flex-start;gap:.6rem;}
-.sum-footer-icon{font-size:.9rem;flex-shrink:0;margin-top:.1rem;}
-.sum-footer-text{font-size:.75rem;color:var(--mid);line-height:1.6;}
-.sum-footer-text strong{color:var(--navy);display:block;margin-bottom:.15rem;}
+/* ── RESUMEN — nuevo diseño ── */
+.sumbox{background:#fff;border:1.5px solid #D8E0F0;border-radius:14px;overflow:hidden;margin-bottom:24px;box-shadow:0 4px 24px rgba(10,31,68,.10);transition:background .3s,border-color .3s;animation:sumboxReveal .4s ease forwards;}
+@keyframes sumboxReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Encabezado */
+.sum-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--navy);position:relative;overflow:hidden;transition:background .3s;}
+.sum-hd::before{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(91,142,255,.25) 0%,transparent 70%);pointer-events:none;}
+.sum-hd-left{display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
+.sum-hd-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sum-hd-icon svg{width:16px;height:16px;fill:#fff;}
+.sum-ttl{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:.07em;text-transform:uppercase;}
+.sum-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;}
+
+/* Badge de estado — 3 variantes */
+.sum-badge{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:5px 13px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;transition:background .4s ease,border-color .4s ease,color .4s ease;}
+.sum-badge.pending{background:rgba(107,114,128,.15);border:1px solid rgba(107,114,128,.35);color:#9CA3AF;}
+.sum-badge.pending .badge-dot{background:#9CA3AF;animation:blink-gray 2s ease-in-out infinite;}
+.sum-badge.warn{background:rgba(245,158,11,.16);border:1px solid rgba(245,158,11,.4);color:#fcd34d;}
+.sum-badge.warn .badge-dot{background:#F59E0B;animation:blink-amber 1.4s ease-in-out infinite;}
+.sum-badge.ok{background:rgba(15,195,115,.18);border:1px solid rgba(15,195,115,.4);color:#6eeabb;}
+.sum-badge.ok .badge-dot{background:#0FC373;animation:blink-green 2s ease-in-out infinite;}
+.badge-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+@keyframes blink-gray{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.8)}}
+@keyframes blink-amber{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.75)}}
+@keyframes blink-green{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.85)}}
+
+/* Grupos de datos */
+.sum-grp{padding:12px 20px;}
+.sum-grp+.sum-grp{border-top:1px solid #EEF2F7;}
+.sum-grp-lbl{display:flex;align-items:center;gap:7px;margin-bottom:8px;}
+.sum-grp-lbl-ico{font-size:14px;}
+.sum-grp-lbl-txt{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;}
+
+/* Filas clave–valor */
+.sum-row{display:flex;align-items:baseline;gap:8px;font-size:13px;line-height:1.9;}
+.sum-k{color:var(--gray-500);font-weight:500;min-width:148px;flex-shrink:0;font-size:12px;}
+.sum-v{color:#1a1a2e;font-weight:600;word-break:break-word;text-transform:uppercase;transition:color .3s;}
+.sum-v.empty{color:var(--gray-400);font-weight:400;font-style:italic;text-transform:none;}
+
+/* Chips */
+.sum-chip{display:inline-flex;align-items:center;background:rgba(22,93,255,.08);color:var(--blue);border:1px solid rgba(22,93,255,.18);border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;}
+.sum-chip.files{background:rgba(15,195,115,.09);color:#0a7a49;border-color:rgba(15,195,115,.25);}
+
+/* Flash de actualización */
+@keyframes rowFlash{0%{background:rgba(22,93,255,.08)}100%{background:transparent}}
+.sum-row.row-updated{animation:rowFlash .6s ease forwards;border-radius:6px;}
+
+/* Footer */
+.sum-footer{border-top:1px solid #EEF2F7;padding:11px 20px;background:#F8FAFC;display:flex;align-items:flex-start;gap:8px;transition:background .3s;}
+.sum-footer-txt{font-size:12px;color:var(--gray-500);line-height:1.6;}
+.sum-footer-txt strong{color:var(--navy);}
 
 /* BOTONES FLOTANTES */
 .tramite-float {
@@ -495,17 +517,17 @@ body.dark-mode .motiv-card-top,body.dark-mode .motiv-card-bottom,body.dark-mode 
 body.dark-mode .motiv-title{color:#e0e8ff;}
 body.dark-mode .motiv-text{color:#7a8fb0;}
 body.dark-mode .sumbox{background:#111f3a;border-color:#1e2d50;}
-body.dark-mode .sum-group+.sum-group{border-top-color:#1e2d50;}
-body.dark-mode .sum-group-label-text{color:#6ba3ff;}
+body.dark-mode .sum-hd{background:#0d1d3a;}
+body.dark-mode .sum-grp+.sum-grp{border-top-color:#1e2d50;}
+body.dark-mode .sum-grp-lbl-txt{color:#6ba3ff;}
 body.dark-mode .sum-k{color:#4a5878;}
 body.dark-mode .sum-v{color:#c8d6f0;}
-body.dark-mode .sum-v--empty{color:#3a4e70;}
+body.dark-mode .sum-v.empty{color:#3a4e70;}
 body.dark-mode .sum-footer{border-top-color:#1e2d50;background:#0e1a30;}
-body.dark-mode .sum-footer-text{color:#4a5878;}
-body.dark-mode .sum-footer-text strong{color:#c8d6f0;}
+body.dark-mode .sum-footer-txt{color:#4a5878;}
+body.dark-mode .sum-footer-txt strong{color:#c8d6f0;}
 body.dark-mode .sum-chip{background:rgba(22,93,255,.15);color:#6ba3ff;border-color:rgba(22,93,255,.3);}
-body.dark-mode .sum-chip--files{background:rgba(15,195,115,.12);color:#6eeabb;border-color:rgba(15,195,115,.3);}
-body.dark-mode .sum-chip--amount{background:rgba(245,158,11,.12);color:#fcd34d;border-color:rgba(245,158,11,.3);}
+body.dark-mode .sum-chip.files{background:rgba(15,195,115,.12);color:#6eeabb;border-color:rgba(15,195,115,.3);}
 body.dark-mode .welcome-card{background:linear-gradient(145deg,#111c33,#0e1a30);}
 body.dark-mode .welcome-route{background:#162040;}
 body.dark-mode .welcome-route-name{color:#d0d8ec;}
@@ -584,12 +606,10 @@ body.dark-mode .legib-text{color:#7a8fb0;}
   .welcome-route-ico{width:44px;height:44px;font-size:20px;}
 }
 @media(max-width:600px){
-  .sum-header{padding:.85rem 1rem;flex-wrap:wrap;gap:.5rem;}
-  .sum-group{padding:.75rem 1rem;}
   .sum-footer{padding:.75rem 1rem;}
-  .sum-row{flex-direction:column;gap:.04rem;line-height:1.55;padding:.12rem 0;}
-  .sum-k{min-width:unset;font-size:.72rem;color:var(--a);}
-  .sum-v{font-size:.8rem;}
+  .sum-k{min-width:110px;}
+  .sum-grp{padding:10px 14px;}
+  .sum-hd{padding:12px 14px;}
 }
 </style>
 </head>
@@ -1177,15 +1197,29 @@ body.dark-mode .legib-text{color:#7a8fb0;}
       <div class="field-group"><label class="field-label">Nombre del firmante<span class="req">*</span></label><input class="field-input" id="nombre_firmante" type="text" placeholder="Nombre completo" oninput="updateProgressBar();buildSummary()"></div>
     </div>
     <div class="sumbox" id="sumBox" style="display:none">
-      <div class="sum-header">
-        <div class="sum-header-left">
-          <div class="sum-header-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" fill="#fff"/></svg></div>
-          <div><div class="sum-ttl">Resumen de Solicitud</div><div class="sum-ttl-sub">Revisa tus datos antes de enviar</div></div>
+      <!-- Encabezado con badge de estado -->
+      <div class="sum-hd">
+        <div class="sum-hd-left">
+          <div class="sum-hd-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          </div>
+          <div>
+            <div class="sum-ttl">Resumen de Solicitud</div>
+            <div class="sum-sub">Revisa tus datos antes de enviar</div>
+          </div>
         </div>
-        <div class="sum-badge" id="sumBadge"><span class="sum-badge-dot"></span>Listo</div>
+        <div class="sum-badge pending" id="sumBadge">
+          <span class="badge-dot"></span>
+          <span id="sumBadgeTxt">Pendiente</span>
+        </div>
       </div>
-      <div class="sum-body" id="sumCont"></div>
-      <div class="sum-footer"><span class="sum-footer-icon">ℹ️</span><p class="sum-footer-text"><strong>Verifica la información antes de enviar.</strong>Si detectas algún error, desplázate al campo correspondiente y corrígelo.</p></div>
+      <!-- Cuerpo — grupos generados por buildSummary() -->
+      <div id="sumCont"></div>
+      <!-- Footer informativo -->
+      <div class="sum-footer">
+        <span style="font-size:16px">ℹ️</span>
+        <p class="sum-footer-txt"><strong>Verifica la información antes de enviar.</strong> Si detectas algún error, desplázate al campo correspondiente y corrígelo.</p>
+      </div>
     </div>
     <div class="declaration-wrap" id="declarationWrap">
       <label class="declaration-label">
@@ -1238,7 +1272,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
-            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
+            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#afc6c1c9c0efcec1dfcec681ccc0c281c2d7"><span class="__cf_email__" data-cfemail="a8c1c6cec7e8c9c6d8c9c186cbc7c586c5d0">[email&#160;protected]</span></a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1249,7 +1283,7 @@ body.dark-mode .legib-text{color:#7a8fb0;}
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var MAX_ZIP_BYTES = 5 * 1024 * 1024;
 var RECAPTCHA_SITE_KEY = '6Lc9zGUsAAAAAG2K5TAav3VrS9obGfFqXO5cnOkV';
 var recaptchaReady = false;
@@ -1392,6 +1426,16 @@ function handleCPInput(inp){var cp=inp.value.replace(/\D/g,'').slice(0,5);inp.va
 function fillCP(fieldId,rows,inp){inp.classList.remove('cp-loading');var wrap=document.getElementById('colonias-'+fieldId+'-wrap');var sel=document.getElementById('colonias-'+fieldId);var hint=document.getElementById('hint-'+fieldId);if(!rows||rows.length===0){inp.classList.add('cp-error');if(hint)hint.textContent='C.P. no encontrado';return;}inp.classList.add('cp-valid');if(wrap)wrap.style.display='';if(sel){sel.innerHTML='<option value="">-- Selecciona --</option>';rows.forEach(function(r){var op=document.createElement('option');op.value=r.d_asenta;op.textContent=r.d_asenta;sel.appendChild(op);});if(rows.length===1){sel.value=rows[0].d_asenta;onColoniaChange(sel,fieldId);}}if(hint)hint.textContent=rows.length+' asentamiento(s) encontrado(s)';}
 function onColoniaChange(sel,cpId){var row=null;var cp=document.getElementById(cpId);if(!cp)return;var val=cp.value;if(cpCache[val]){row=cpCache[val].find(function(r){return r.d_asenta===sel.value;});}if(!row)return;var form=cp.closest('form');if(!form)return;function setField(name,value){var inp=form.querySelector('[name="'+name+'"]');if(inp&&!inp.dataset.userEdited){inp.value=value;inp.classList.add('cp-autofilled');}}setField('Fiscal_ciudad',row.d_mnpio||'');setField('Fiscal_estado',row.d_estado||'');setField('FiscalPM_ciudad',row.d_mnpio||'');setField('FiscalPM_estado',row.d_estado||'');setField('AvalDom_ciudad',row.d_mnpio||'');setField('AvalDom_estado',row.d_estado||'');buildSummary();}
 
+function setBadgeState(state){
+  var badge=document.getElementById('sumBadge');
+  var txt=document.getElementById('sumBadgeTxt');
+  if(!badge||!txt)return;
+  badge.classList.remove('pending','warn','ok');
+  badge.classList.add(state);
+  var labels={pending:'Pendiente',warn:'Incompleto',ok:'Listo'};
+  txt.textContent=labels[state]||state;
+}
+
 function buildSummary(){
   if(!currentType)return;
   var form=document.getElementById('form'+currentType);
@@ -1408,6 +1452,24 @@ function buildSummary(){
   if(nf&&nf.value.trim())hasData=true;
   if(!hasData){sb.style.display='none';return;}
   sb.style.display='block';
+
+  /* Calcular estado del badge */
+  var reqInputs=form.querySelectorAll('input[required]:not([type=hidden]):not([type=radio]):not([type=checkbox]),select[required],textarea[required]');
+  var totalReq=reqInputs.length+2;
+  var doneReq=0;
+  reqInputs.forEach(function(inp){
+    var parent=inp.closest('[style]');
+    if(parent){var s=parent.getAttribute('style')||'';if(s.indexOf('display:none')>=0||s.indexOf('display: none')>=0)return;}
+    if(inp.value.trim())doneReq++;
+  });
+  if(lf&&lf.value.trim())doneReq++;
+  if(nf&&nf.value.trim())doneReq++;
+  var pctDone=totalReq>0?Math.round((doneReq/totalReq)*100):0;
+  if(pctDone>=100){setBadgeState('ok');}
+  else if(pctDone>0){setBadgeState('warn');}
+  else{setBadgeState('pending');}
+
+  /* Construir grupos */
   var groups=[];
   var g={label:'Información general',icon:'📋',rows:[]};
   form.querySelectorAll('input[type=text]:not([type=hidden]),input[type=email],input[type=number],input[type=date],select,textarea').forEach(function(inp){
@@ -1423,17 +1485,20 @@ function buildSummary(){
   if(lf&&lf.value.trim())g2.rows.push({k:'Lugar y fecha',v:lf.value.trim()});
   if(nf&&nf.value.trim())g2.rows.push({k:'Firmante',v:nf.value.trim()});
   var state=attachState[currentType];
-  if(state.files.length>0){g2.rows.push({k:'Archivos adjuntos',v:state.files.length+' archivo(s)'});}
+  if(state.files.length>0){g2.rows.push({k:'Archivos adjuntos',v:state.files.length+' archivo(s)',chip:'files'});}
   if(g2.rows.length>0)groups.push(g2);
   sc.innerHTML='';
   groups.forEach(function(grp){
     var div=document.createElement('div');
-    div.className='sum-group';
-    div.innerHTML='<div class="sum-group-label"><span class="sum-group-label-icon">'+grp.icon+'</span><span class="sum-group-label-text">'+grp.label+'</span></div>';
+    div.className='sum-grp';
+    div.innerHTML='<div class="sum-grp-lbl"><span class="sum-grp-lbl-ico">'+grp.icon+'</span><span class="sum-grp-lbl-txt">'+grp.label+'</span></div>';
     grp.rows.forEach(function(row){
       var rowDiv=document.createElement('div');
       rowDiv.className='sum-row';
-      rowDiv.innerHTML='<span class="sum-k">'+row.k+'</span><span class="sum-v">'+row.v+'</span>';
+      var valHtml=row.chip
+        ?'<span class="sum-chip '+row.chip+'">'+row.v+'</span>'
+        :'<span class="sum-v">'+row.v+'</span>';
+      rowDiv.innerHTML='<span class="sum-k">'+row.k+'</span>'+valHtml;
       div.appendChild(rowDiv);
     });
     sc.appendChild(div);
@@ -1577,10 +1642,4 @@ document.addEventListener('DOMContentLoaded',function(){initAllLadas();});
     if (!ov || !ov.classList.contains('show')) return;
     var callout = document.getElementById('spotlightCallout');
     var btn = document.getElementById('descargaBtn');
-    if (callout && !callout.contains(e.target) && btn && !btn.contains(e.target)) { closeSpotlight(); }
-  });
-  document.addEventListener('DOMContentLoaded', function() { setTimeout(showWelcomeModal, 650); });
-})();
-</script>
-</body>
-</html>
+    if (
