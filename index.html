@@ -679,10 +679,7 @@ body.dark-mode .motiv-title{color:#e0e8ff;}
           <input class="field-input cp-input" type="text" id="cp1" name="Fiscal_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required>
           <span class="field-hint" id="hint-cp1"></span>
         </div>
-        <div class="field-group" id="colonias-cp1-wrap" style="display:none">
-          <label class="field-label">Asentamiento</label>
-          <select class="field-input" id="colonias-cp1" onchange="onColoniaChange(this,'cp1')"><option value="">-- Selecciona --</option></select>
-        </div>
+
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_ciudad" placeholder="Ciudad" required oninput="updateProgressBar();buildSummary()"></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="Fiscal_estado" placeholder="Estado" required oninput="updateProgressBar();buildSummary()"></div>
       </div>
@@ -927,10 +924,7 @@ body.dark-mode .motiv-title{color:#e0e8ff;}
           <input class="field-input cp-input" type="text" id="cp2" name="FiscalPM_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required>
           <span class="field-hint" id="hint-cp2"></span>
         </div>
-        <div class="field-group" id="colonias-cp2-wrap" style="display:none">
-          <label class="field-label">Asentamiento</label>
-          <select class="field-input" id="colonias-cp2" onchange="onColoniaChange(this,'cp2')"><option value="">-- Selecciona --</option></select>
-        </div>
+
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_ciudad" required oninput="updateProgressBar();buildSummary()"></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="FiscalPM_estado" required oninput="updateProgressBar();buildSummary()"></div>
       </div>
@@ -988,10 +982,7 @@ body.dark-mode .motiv-title{color:#e0e8ff;}
           <input class="field-input cp-input" type="text" id="cp3" name="AvalDom_cp" placeholder="00000" maxlength="5" oninput="handleCPInput(this)" required>
           <span class="field-hint" id="hint-cp3"></span>
         </div>
-        <div class="field-group" id="colonias-cp3-wrap" style="display:none">
-          <label class="field-label">Asentamiento</label>
-          <select class="field-input" id="colonias-cp3" onchange="onColoniaChange(this,'cp3')"><option value="">-- Selecciona --</option></select>
-        </div>
+
         <div class="field-group"><label class="field-label">Ciudad<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_ciudad" required oninput="updateProgressBar();buildSummary()"></div>
         <div class="field-group"><label class="field-label">Estado<span class="req">*</span></label><input class="field-input" type="text" name="AvalDom_estado" required oninput="updateProgressBar();buildSummary()"></div>
       </div>
@@ -1127,7 +1118,7 @@ body.dark-mode .motiv-title{color:#e0e8ff;}
         <div class="success-info-text"><strong>Contacto directo</strong>
           <div class="success-contact-list">
             <div class="success-contact-item">📞 <a href="tel:+525525374608">+(52) 55 2537 4608</a></div>
-            <div class="success-contact-item">✉️ <a href="mailto:info@anpai.com.mx">info@anpai.com.mx</a></div>
+            <div class="success-contact-item">✉️ <a href="/cdn-cgi/l/email-protection#aec7c0c8c1eecfc0decfc780cdc1c380c3d6"><span class="__cf_email__" data-cfemail="751c1b131a35141b05141c5b161a185b180d">[email&#160;protected]</span></a></div>
             <div class="success-contact-item">🌐 <a href="https://www.anpai.com.mx" target="_blank">www.anpai.com.mx</a></div>
           </div>
         </div>
@@ -1138,7 +1129,7 @@ body.dark-mode .motiv-title{color:#e0e8ff;}
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════════════════
 //  CÓDIGO POSTAL — API: mexico-api.devaleff.com
 //  (pública, sin key, CORS abierto)
@@ -1153,10 +1144,29 @@ function handleCPInput(inp) {
   var id = inp.id;
 
   inp.classList.remove('cp-valid', 'cp-error', 'cp-loading', 'cp-autofilled');
-  var wrap = document.getElementById('colonias-' + id + '-wrap');
   var hint = document.getElementById('hint-' + id);
-  if (wrap) wrap.style.display = 'none';
   if (hint) hint.textContent = '';
+
+  // Restaurar el campo Colonia a input de texto vacío si fue convertido a select
+  var coloniaName = _cpColoniaMap[id];
+  var form = inp.closest('form');
+  if (form && coloniaName) {
+    var coloniaEl = form.querySelector('[name="' + coloniaName + '"]');
+    if (coloniaEl && coloniaEl.tagName === 'SELECT') {
+      var newInp = document.createElement('input');
+      newInp.className = coloniaEl.className;
+      newInp.type = 'text';
+      newInp.name = coloniaName;
+      newInp.required = true;
+      newInp.placeholder = 'Colonia';
+      newInp.setAttribute('oninput', 'updateProgressBar();buildSummary()');
+      coloniaEl.parentNode.replaceChild(newInp, coloniaEl);
+    } else if (coloniaEl) {
+      coloniaEl.value = '';
+      coloniaEl.readOnly = false;
+      coloniaEl.classList.remove('cp-autofilled');
+    }
+  }
 
   clearTimeout(_cpTimers[id]);
   if (val.length < 5) return;
@@ -1164,6 +1174,9 @@ function handleCPInput(inp) {
   inp.classList.add('cp-loading');
   _cpTimers[id] = setTimeout(function () { fetchCP(id, inp, val); }, 400);
 }
+
+// Mapeo de id de CP → name del campo Colonia en el formulario
+var _cpColoniaMap = { cp1: 'Fiscal_colonia', cp2: 'FiscalPM_colonia', cp3: 'AvalDom_colonia' };
 
 function fetchCP(fieldId, inp, cp) {
   var hint = document.getElementById('hint-' + fieldId);
@@ -1183,7 +1196,7 @@ function fetchCP(fieldId, inp, cp) {
       }
       inp.classList.add('cp-valid');
 
-      // Autocompletar Estado y Municipio en el formulario padre
+      // Autocompletar Ciudad y Estado
       // CRÍTICO: municipio es D_mnpio (D mayúscula)
       var estado = (rows[0].d_estado || '').trim();
       var mnpio  = (rows[0].D_mnpio  || rows[0].d_ciudad || '').trim();
@@ -1207,21 +1220,48 @@ function fetchCP(fieldId, inp, cp) {
       });
       colonias.sort(function (a, b) { return a.localeCompare(b, 'es'); });
 
-      var wrap = document.getElementById('colonias-' + fieldId + '-wrap');
-      var sel  = document.getElementById('colonias-' + fieldId);
-      if (sel) {
-        // Opción vacía sólo si hay más de una colonia
-        sel.innerHTML = colonias.length > 1 ? '<option value="">-- Selecciona --</option>' : '';
-        colonias.forEach(function (c) {
-          var o = document.createElement('option');
-          o.value = o.textContent = c;
-          sel.appendChild(o);
-        });
-        // Preseleccionar cuando solo hay una colonia
-        if (colonias.length === 1) sel.value = colonias[0];
+      // Operar sobre el campo Colonia existente en el formulario
+      var coloniaName = _cpColoniaMap[fieldId];
+      var coloniaEl = form ? form.querySelector('[name="' + coloniaName + '"]') : null;
+
+      if (coloniaEl) {
+        var parentDiv = coloniaEl.parentNode;
+
+        if (colonias.length === 1) {
+          // Una sola colonia: asegurar que sea input de texto y autorellenar
+          if (coloniaEl.tagName === 'SELECT') {
+            var newInp = document.createElement('input');
+            newInp.className = coloniaEl.className;
+            newInp.type = 'text';
+            newInp.name = coloniaName;
+            newInp.required = true;
+            newInp.setAttribute('oninput', 'updateProgressBar();buildSummary()');
+            parentDiv.replaceChild(newInp, coloniaEl);
+            coloniaEl = newInp;
+          }
+          coloniaEl.value = colonias[0];
+          coloniaEl.classList.add('cp-autofilled');
+          coloniaEl.readOnly = true;
+
+        } else {
+          // Múltiples colonias: convertir a select con opciones
+          var sel = document.createElement('select');
+          sel.className = coloniaEl.className;
+          sel.name = coloniaName;
+          sel.required = true;
+          sel.setAttribute('onchange', 'updateProgressBar();buildSummary()');
+          sel.innerHTML = '<option value="">-- Selecciona colonia --</option>';
+          colonias.forEach(function (c) {
+            var o = document.createElement('option');
+            o.value = o.textContent = c;
+            sel.appendChild(o);
+          });
+          sel.classList.add('cp-autofilled');
+          parentDiv.replaceChild(sel, coloniaEl);
+        }
       }
-      if (wrap) wrap.style.display = '';
-      if (hint) hint.textContent = colonias.length + ' asentamiento(s) encontrado(s)';
+
+      if (hint) hint.textContent = '';
       buildSummary();
     })
     .catch(function (e) {
@@ -1234,11 +1274,6 @@ function fetchCP(fieldId, inp, cp) {
             : 'Sin conexión a internet.');
       if (hint) hint.textContent = msg;
     });
-}
-
-function onColoniaChange(sel, cpId) {
-  // Colonia ya está reflejada en el select; solo actualizamos el resumen
-  buildSummary();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1269,7 +1304,7 @@ function toggleInmueble(toggleId,btn,showId,hideId,showGroup,hideGroup){document
 function selectType(type){currentType=type;motivShown={25:false,50:false,75:false,100:false};lastPct=0;['PF','PM'].forEach(function(t){document.getElementById('btn'+t).classList.toggle('active',t===type);document.getElementById('req'+t).classList.toggle('show',t===type);document.getElementById('form'+t).classList.toggle('show',t===type);});document.getElementById('submitArea').classList.add('show');if(type==='PF'){setIG('propioPF',true);setIG('rentadoPF',false);}setTimeout(function(){document.getElementById('req'+type).scrollIntoView({behavior:'smooth',block:'start'});},100);showProgressBar();buildSummary();}
 function toggleDeclaration(cb){var wrap=document.getElementById('declarationWrap');var btn=document.getElementById('mainSubmitBtn');wrap.classList.toggle('checked',cb.checked);btn.disabled=!cb.checked;document.getElementById('btnText').textContent=cb.checked?'Enviar Solicitud de Arrendamiento →':'Confirma la declaración para enviar';}
 function showSuccessModal(){document.getElementById('successOverlay').classList.add('show');document.body.style.overflow='hidden';}
-function resetForm(type){var form=document.getElementById('form'+type);if(!form)return;form.querySelectorAll('input:not([type=hidden]),select,textarea').forEach(function(el){if(el.type==='checkbox'||el.type==='radio'){el.checked=false;}else if(el.tagName==='SELECT'){el.selectedIndex=0;}else{el.value='';}el.classList.remove('input-error','rfc-valid','rfc-error','cp-valid','cp-error','cp-loading','cp-autofilled');});form.querySelectorAll('.rfc-hint').forEach(function(el){el.textContent='';});form.querySelectorAll('.radio-pill').forEach(function(p){p.classList.remove('selected');});form.querySelectorAll('.check-pill').forEach(function(p){p.classList.remove('selected');});form.querySelectorAll('.error-msg').forEach(function(el){el.classList.remove('show');});form.querySelectorAll('.check-group,.radio-group').forEach(function(el){el.classList.remove('group-error');});form.querySelectorAll('.tel-number').forEach(function(el){el.value='';});form.querySelectorAll('.tel-combo').forEach(function(el){el.classList.remove('input-error');});['tblClientesPF','tblProveedoresPF','tblDirectivosPF','tblEquiposPF','tblClientesPM','tblProveedoresPM','tblDirectivosPM','tblEquiposPM','tblAccionistas'].forEach(function(id){var tb=document.getElementById(id);if(!tb)return;var rows=tb.querySelectorAll('tr');rows.forEach(function(row,i){if(i>=2)row.remove();});tb.querySelectorAll('input').forEach(function(inp){inp.value='';inp.classList.remove('input-error');});});if(type==='PF'){var toggle=document.getElementById('inmuebleFiscalPF');if(toggle){toggle.querySelectorAll('.inmueble-opt').forEach(function(b){b.classList.remove('active');});var first=toggle.querySelector('.inmueble-opt');if(first)first.classList.add('active');}var propioDiv=document.getElementById('fiscalPropioDetails');var rentadoDiv=document.getElementById('fiscalRentadoDetails');if(propioDiv)propioDiv.style.display='';if(rentadoDiv)rentadoDiv.style.display='none';setIG('propioPF',true);setIG('rentadoPF',false);}toggleConyuge(type,false);['cp1','cp2','cp3'].forEach(function(id){clearTimeout(_cpTimers[id]);var wrap=document.getElementById('colonias-'+id+'-wrap');if(wrap)wrap.style.display='none';var hint=document.getElementById('hint-'+id);if(hint)hint.textContent='';});}
+function resetForm(type){var form=document.getElementById('form'+type);if(!form)return;form.querySelectorAll('input:not([type=hidden]),select,textarea').forEach(function(el){if(el.type==='checkbox'||el.type==='radio'){el.checked=false;}else if(el.tagName==='SELECT'){el.selectedIndex=0;}else{el.value='';}el.classList.remove('input-error','rfc-valid','rfc-error','cp-valid','cp-error','cp-loading','cp-autofilled');});form.querySelectorAll('.rfc-hint').forEach(function(el){el.textContent='';});form.querySelectorAll('.radio-pill').forEach(function(p){p.classList.remove('selected');});form.querySelectorAll('.check-pill').forEach(function(p){p.classList.remove('selected');});form.querySelectorAll('.error-msg').forEach(function(el){el.classList.remove('show');});form.querySelectorAll('.check-group,.radio-group').forEach(function(el){el.classList.remove('group-error');});form.querySelectorAll('.tel-number').forEach(function(el){el.value='';});form.querySelectorAll('.tel-combo').forEach(function(el){el.classList.remove('input-error');});['tblClientesPF','tblProveedoresPF','tblDirectivosPF','tblEquiposPF','tblClientesPM','tblProveedoresPM','tblDirectivosPM','tblEquiposPM','tblAccionistas'].forEach(function(id){var tb=document.getElementById(id);if(!tb)return;var rows=tb.querySelectorAll('tr');rows.forEach(function(row,i){if(i>=2)row.remove();});tb.querySelectorAll('input').forEach(function(inp){inp.value='';inp.classList.remove('input-error');});});if(type==='PF'){var toggle=document.getElementById('inmuebleFiscalPF');if(toggle){toggle.querySelectorAll('.inmueble-opt').forEach(function(b){b.classList.remove('active');});var first=toggle.querySelector('.inmueble-opt');if(first)first.classList.add('active');}var propioDiv=document.getElementById('fiscalPropioDetails');var rentadoDiv=document.getElementById('fiscalRentadoDetails');if(propioDiv)propioDiv.style.display='';if(rentadoDiv)rentadoDiv.style.display='none';setIG('propioPF',true);setIG('rentadoPF',false);}toggleConyuge(type,false);['cp1','cp2','cp3'].forEach(function(id){clearTimeout(_cpTimers[id]);var hint=document.getElementById('hint-'+id);if(hint)hint.textContent='';var coloniaName=_cpColoniaMap[id];if(coloniaName){var coloniaEl=form.querySelector('[name="'+coloniaName+'"]');if(coloniaEl&&coloniaEl.tagName==='SELECT'){var newInp=document.createElement('input');newInp.className=coloniaEl.className;newInp.type='text';newInp.name=coloniaName;newInp.required=true;newInp.placeholder='Colonia';newInp.setAttribute('oninput','updateProgressBar();buildSummary()');coloniaEl.parentNode.replaceChild(newInp,coloniaEl);}else if(coloniaEl){coloniaEl.value='';coloniaEl.readOnly=false;coloniaEl.classList.remove('cp-autofilled');}}});}
 function closeSuccessModal(){document.getElementById('successOverlay').classList.remove('show');document.body.style.overflow='';['PF','PM'].forEach(function(t){resetForm(t);attachState[t]={files:[],zipBlob:null,compressing:false,paused:false,startTime:null,elapsed:0};var fl=document.getElementById('fileList'+t);if(fl)fl.innerHTML='';var cp=document.getElementById('compressProgress'+t);if(cp)cp.classList.remove('show');var om=document.getElementById('offlineMsg'+t);if(om)om.classList.remove('show');updateCapacityBar(t);});var lf=document.getElementById('lugar_fecha');if(lf){lf.value='';lf.classList.remove('input-error');}var nf=document.getElementById('nombre_firmante');if(nf){nf.value='';nf.classList.remove('input-error');}var decl=document.getElementById('declarationCheck');if(decl){decl.checked=false;toggleDeclaration(decl);}motivShown={25:false,50:false,75:false,100:false};lastPct=0;updateProgressBar();var sb=document.getElementById('sumBox');if(sb)sb.style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
 document.addEventListener('click',function(e){if(e.target&&e.target.id==='successOverlay')closeSuccessModal();});
 function fmtBytes(b){if(b<1024)return b+'B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(2)+' MB';}
@@ -1326,9 +1361,4 @@ document.addEventListener('DOMContentLoaded',function(){initAllLadas();});
   function showSpotlight(){var ov=document.getElementById('spotlightOverlay');var btn=document.getElementById('descargaBtn');if(!ov||!btn)return;positionSpotlight(btn);requestAnimationFrame(function(){ov.classList.add('show');document.body.style.overflow='hidden';});var resizeHandler=function(){if(!ov.classList.contains('show')){window.removeEventListener('resize',resizeHandler);return;}positionSpotlight(btn);};window.addEventListener('resize',resizeHandler);}
   function positionSpotlight(btn){var rect=btn.getBoundingClientRect();var cx=rect.left+rect.width/2;var cy=rect.top+rect.height/2;var holeSize=Math.max(rect.width,rect.height)+32;var hole=document.getElementById('spotlightHole');if(hole){hole.style.left=cx+'px';hole.style.top=cy+'px';hole.style.width=holeSize+'px';hole.style.height=holeSize+'px';}var callout=document.getElementById('spotlightCallout');var arrowHead=document.getElementById('spotlightArrowHead');if(!callout)return;var cw=280,ch=170,margin=24;var spaceRight=window.innerWidth-(rect.right+margin);var calloutLeft,calloutTop,arrowClass;var trailX1,trailY1,trailX2,trailY2,ahx,ahy;if(spaceRight>=cw+20){calloutLeft=rect.right+margin;calloutTop=cy-ch/2;arrowClass='arrow-left';trailX1=rect.right+4;trailY1=cy;trailX2=rect.right+margin-4;trailY2=cy;ahx=trailX2;ahy=trailY2;}else{calloutLeft=cx-cw/2;calloutTop=rect.bottom+margin;arrowClass='arrow-top';trailX1=cx;trailY1=rect.bottom+4;trailX2=cx;trailY2=rect.bottom+margin-4;ahx=trailX2;ahy=trailY2;}calloutLeft=Math.max(12,Math.min(calloutLeft,window.innerWidth-cw-12));calloutTop=Math.max(12,Math.min(calloutTop,window.innerHeight-ch-12));callout.style.left=calloutLeft+'px';callout.style.top=calloutTop+'px';callout.className='spotlight-callout';callout.classList.add(arrowClass);var svg=document.getElementById('spotlightTrailSVG');var path=document.getElementById('spotlightTrailPath');if(svg&&path){svg.setAttribute('width',window.innerWidth);svg.setAttribute('height',window.innerHeight);path.setAttribute('d','M'+trailX1+','+trailY1+' L'+trailX2+','+trailY2);}if(arrowHead){arrowHead.style.left=(ahx-10)+'px';arrowHead.style.top=(ahy-10)+'px';}}
   window.closeSpotlight=function(){var ov=document.getElementById('spotlightOverlay');if(ov)ov.classList.remove('show');document.body.style.overflow='';};
-  document.addEventListener('click',function(e){var ov=document.getElementById('spotlightOverlay');if(!ov||!ov.classList.contains('show'))return;var callout=document.getElementById('spotlightCallout');var btn=document.getElementById('descargaBtn');var isCallout=callout&&callout.contains(e.target);var isBtn=btn&&btn.contains(e.target);if(!isCallout&&!isBtn){window.closeSpotlight();}});
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(showWelcomeModal,300);});
-})();
-</script>
-</body>
-</html>
+  document.addEventListener('click',function(e){var ov=document.getElementById('spotlightOverlay');if(!ov||!ov.classList.contains('show'))return;var callout=document.getElementById('spotlightCallout');var btn=document.getElementById('descargaBtn');var isCallout=callout&&callo
